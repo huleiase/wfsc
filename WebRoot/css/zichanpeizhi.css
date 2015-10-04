@@ -1,0 +1,50 @@
+@charset "utf-8";
+/* CSS Document */
+.peizhi_c{width:auto; height:auto; overflow:hidden;}
+.peizhi_tit{width:auto; height:auto; overflow:hidden;height:30px}
+.peizhi_tit li{font:700 14px/30px normal;*font:700 14px/32px normal;color:#124A74; padding:0 0 0 24px; background-repeat:no-repeat;background-position:2px 8px}
+.peizhi_zi{ line-height:32px;width:auto; height:auto; overflow:hidden;border-bottom:1px dotted #82A0BE;margin:0 26px; }
+.peizhi_zi li{float:left; text-align:left}
+.peizhi_zi_z{ width:30%;}
+.peizhi_cz{ height:36px;width:auto;overflow:hidden;margin:0 26px;}
+.peizhi_cz li{ line-height:46px; float:left}
+.bn_edit_peizhi{ background:url(../images/zichan2/a-1_r2_c2.jpg) no-repeat;width:86px; height:24px; overflow:hidden;padding:0 0 2px 12px;*padding:2px 0 0 14px}
+.bn_del_peizhi{ background:url(../images/zichan2/a-1_r2_c22.jpg) no-repeat;width:86px; height:24px; overflow:hidden;padding:0 0 2px 12px;*padding:2px 0 0 14px}
+.bn_addzi_peizhi{ background:url(../images/zichan2/ar2_c2.jpg) no-repeat;width:96px; height:24px; overflow:hidden;padding:0 0 2px 16px;*padding:2px 0 0 18px}
+.peizhi_edit{width:auto; height:auto; overflow:hidden; padding:0 24px}
+.peizhi_edit li{ float:left; line-height:26px; height:30px}
+.xztb{ background:url(../images/zichan2/a-1_r4_c6.jpg);width:59px; height:22px; overflow:hidden;}
+
+.tian_mb{ background:url(../images/zichan2/c3.jpg) no-repeat;_background:url(../images/zichan2/c3.jpg) 0 2px no-repeat; width:110px; height:23px;_height:26px; padding:0 0 2px 16px;*padding:2px 0 0 18px;}
+.tian_mb2{ background:url(../images/new_top/baocun.jpg) no-repeat;_background:url(../images/new_top/baocun.jpg) 0 2px no-repeat; width:96px; height:23px;_height:26px; padding:0 0 2px 16px;*padding:2px 0 0 18px;}
+
+.jichengshuxing{ color:#999}
+
+.dtree_left{ padding:20px;width:auto; height:auto; overflow:hidden;}
+
+/*合同和供应商*/
+.hetong_tu{width:200px; height:auto; overflow:hidden; padding:10px 10px 10px 30px; float:left}
+.add_het{width:74%; height:auto; overflow:hidden; padding:10px 10px 0;float:left}
+.add_het ul{ width:42%; height:32px; font:100 14px/32px normal;padding:0 5px; float:left; border-bottom:1px dotted #A2AEC3; margin:4px}
+.add_het ul li{ float:left}
+.hetong_jib{width:auto; height:auto; overflow:hidden;}
+.miaosu{width:74%; height:auto; overflow:hidden; padding:0;float:left;padding:0px 10px 10px;}
+.miaosu ul{width:87%;  font:100 14px/32px normal;padding:0 5px; float:left; border-bottom:1px dotted #A2AEC3; margin:4px}
+.miaosu ul li{float:left}
+.fujian_biao{height:38px;width:auto; overflow:hidden;padding-left:10px}
+.hetongfj_c{width:auto; height:auto; overflow:hidden; padding:10px 30px}
+.hetong_count{ border:#D2E2F0 solid 1px;width:auto; height:auto; overflow:hidden;padding:30px}
+.hetong_count_t{ height:85px;width:auto; line-height:46px; overflow:hidden; border-bottom: 1px dotted #D2E2F0}
+.hetong_count_t ul{ background: url(../images/works/ar6_c4.jpg) repeat-x; height:84px; width:auto; overflow:hidden}
+.ht_c_left{width:auto; height:auto; overflow:hidden; float:left; font:700 14px/84px normal; }
+.ht_c_right{width:auto; height:auto; overflow:hidden; float:right;font:700 14px/84px normal; padding-right:30px}
+
+.add_het2{width:74%; height:auto; overflow:hidden; padding:10px 10px 0;float:left}
+.add_het2 ul{ width:42%; height:40px; font:100 14px/40px normal;padding:0 5px; float:left; border-bottom:1px dotted #A2AEC3; margin:4px}
+.add_het2 ul li{ float:left}
+.miaosu2{width:100%; height:auto; overflow:hidden; padding:0;float:left;padding:0px 10px 10px;}
+.miaosu2 ul{width:95%;padding:0 5px; float:left; border-bottom:0px dotted #A2AEC3; margin:4px;background:url(../images/works/s.jpg); line-height:49px}
+.miaosu2 ul li{float:left}
+.li_bg_ht{ }
+
+

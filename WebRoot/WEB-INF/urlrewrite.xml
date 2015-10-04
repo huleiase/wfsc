@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+  
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"  
+        "http://tuckey.org/res/dtds/urlrewrite3.2.dtd">
+
+<urlrewrite decode-using="UTF-8">
+
+	<!-- 首页html解析 -->
+	<rule>
+		<from>/index.html$</from>
+		<to>/public/index.Q</to>
+	</rule>
+	
+	<!-- END -->
+	
+	<rule>
+		<from>/gologin.html$</from>
+		<to>/public/GoLogin.Q</to>
+	</rule>
+	
+	<rule>
+		<from>/login.html$</from>
+		<to>/public/LoginAction.Q</to>
+	</rule>
+
+	<rule>
+		<from>/prd/([0-9]+)$</from>
+		<to>/public/details.Q?id=$1</to>
+	</rule>
+	<rule>
+		<from>/cat/list/(\d{9})$</from>
+		<to>/public/list.Q?code=$1</to>
+	</rule>
+	<!-- 
+	<rule>
+		<from>/announ/index_([0-9]+)$</from>
+		<to>/sceneryAction_selectAcindex.action?id=$1</to>
+	</rule>
+
+	<rule>
+		<from>/announ/([0-9]+)$</from>
+		<to>/sceneryAction_selectannouncementSeId.action?id=$1</to>
+	</rule>
+	
+	<rule>
+		<note>当clickData为空的情况</note>
+		<from>/map/([A-Za-z0-9]+)-([0-9]+)-([0-9]+).html$</from>
+		<to>/mapAction_gotoMapHome.action?skeyword=$1&amp;biaoshi=$2&amp;level=$3</to>
+	</rule>
+
+	<rule>
+		<from>/map/([A-Za-z0-9]+)/([A-Za-z0-9]+)-([0-9]+)-([0-9]+).html$</from>
+		<to>/mapAction_gotoMapHome.action?a1=$1&amp;skeyword=$2&amp;biaoshi=$3&amp;level=$4</to>
+	</rule>
+	<rule>
+		<from>/map/([A-Za-z0-9]+)_([A-Za-z0-9]+)/([A-Za-z0-9]+)-([0-9]+)-([0-9]+).html$</from>
+		<to>/mapAction_gotoMapHome.action?a1=$1&amp;a2=$2&amp;skeyword=$3&amp;biaoshi=$4&amp;level=$5</to>
+	</rule>
+	<rule>
+		<from>/map/([A-Za-z0-9]+)_([A-Za-z0-9]+)_([A-Za-z0-9]+)/([A-Za-z0-9]+)-([0-9]+)-([0-9]+).html$</from>
+		<to>/mapAction_gotoMapHome.action?a1=$1&amp;a2=$2&amp;a3=$3&amp;skeyword=$4&amp;biaoshi=$5&amp;level=$6</to>
+	</rule>
+	<rule>
+		<from>/map/([A-Za-z0-9]+)_([A-Za-z0-9]+)_([A-Za-z0-9]+)_([A-Za-z0-9]+)/([A-Za-z0-9]+)-([0-9]+)-([0-9]+).html$</from>
+		<to>/mapAction_gotoMapHome.action?a1=$1&amp;a2=$2&amp;a3=$3&amp;a4=$4&amp;skeyword=$5&amp;biaoshi=$6&amp;level=$7</to>
+	</rule>
+
+	<rule>
+		<from>/map1/$</from>
+		<to>/map/mapUp.jsp</to>
+	</rule>
+
+	
+	
+	 -->
+
+
+</urlrewrite>
+

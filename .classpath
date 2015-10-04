@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.j2eedt.core.MYECLIPSE_JAVAEE_5_CONTAINER"/>
+	<classpathentry kind="lib" path="/support/lib/struts2/commons-fileupload-1.2.1.jar"/>
+	<classpathentry kind="lib" path="/support/lib/struts2/commons-io-1.3.2.jar"/>
+	<classpathentry kind="lib" path="/support/lib/struts2/freemarker-2.3.16.jar"/>
+	<classpathentry kind="lib" path="/support/lib/struts2/javassist-3.7.ga.jar"/>
+	<classpathentry kind="lib" path="/support/lib/struts2/ognl-3.0.jar"/>
+	<classpathentry kind="lib" path="/support/lib/struts2/struts2-core-2.2.1.jar" sourcepath="G:/开发工具/frameworks/struts2-2.2.1-all/struts-2.2.1"/>
+	<classpathentry kind="lib" path="/support/lib/struts2/struts2-spring-plugin-2.2.1.jar"/>
+	<classpathentry kind="lib" path="/support/lib/struts2/xwork-core-2.2.1.jar" sourcepath="G:/开发工具/frameworks/struts2-2.2.1-all/struts-2.2.1"/>
+	<classpathentry kind="lib" path="/support/lib/hibernate/hibernate3.2.6.jar" sourcepath="F:/openSource/hibernate-3.2.0.cr5.zip"/>
+	<classpathentry kind="lib" path="/support/lib/log4j/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="/support/lib/log4j/tekviewlogger.jar"/>
+	<classpathentry kind="lib" path="/support/lib/pager/oss-pager-1.0.jar"/>
+	<classpathentry kind="lib" path="/support/lib/quartz/quartz-1.6.0.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/common-net-1.4.0.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/commons-beanutils-1.8.0.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/commons-chain-1.2.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/commons-digester-1.8.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/commons-email-1.0.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/commons-lang.jar" sourcepath="F:/openSource/struts-1.3.10-src.zip"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/commons-pool.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/commons-validator-1.3.1.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/ezmorph-1.0.6.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/json-lib-2.2.3-jdk13.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jakarta-commons/morph-1.0.1.jar"/>
+	<classpathentry kind="lib" path="/support/lib/dwr/dwr-2.0.5.jar" sourcepath="F:/openSource/dwr-2.0.5-src/dwr-2.0.5-src"/>
+	<classpathentry kind="lib" path="/support/lib/jdbc/mysql-connector-java-5.1.5-bin.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jmail/mail.jar"/>
+	<classpathentry kind="lib" path="/support/lib/hibernate/ehcache-1.2.4.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jfreechart/itext-1.3.6.jar" sourcepath="/support/lib/jfreechart/itext-1.3.6.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jfreechart/iTextAsian.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jfreechart/jcommon-1.0.15.jar"/>
+	<classpathentry kind="lib" path="/support/lib/jfreechart/jfreechart-1.0.12.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/org-jboss-ide-eclipse-xdoclet-core.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-apache-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-caucho-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-ejb-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-exolab-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-hibernate-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-java-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-jdo-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-jmx-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-libelis-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-mx4j-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-spring-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-web-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xdoclet-xdoclet-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/xdoclet/xjavadoc-1.5-snapshot050611.jar"/>
+	<classpathentry kind="lib" path="/support/lib/struts2/struts2-dojo-plugin-2.2.1.jar"/>
+	<classpathentry kind="lib" path="/support/lib/htmlparser/filterbuilder.jar" sourcepath="D:/技术资料/sourceCode/HTMLParser-2.0-SNAPSHOT-src.zip"/>
+	<classpathentry kind="lib" path="/support/lib/htmlparser/htmllexer.jar" sourcepath="D:/技术资料/sourceCode/HTMLParser-2.0-SNAPSHOT-src.zip"/>
+	<classpathentry kind="lib" path="/support/lib/htmlparser/htmlparser.jar" sourcepath="D:/技术资料/sourceCode/HTMLParser-2.0-SNAPSHOT-src.zip"/>
+	<classpathentry kind="lib" path="/support/lib/htmlparser/sitecapturer.jar"/>
+	<classpathentry kind="lib" path="/support/lib/htmlparser/thumbelina.jar"/>
+	<classpathentry kind="lib" path="/support/lib/aspectj/aspectjrt.jar"/>
+	<classpathentry kind="lib" path="/support/lib/aspectj/aspectjweaver.jar"/>
+	<classpathentry kind="lib" path="/support/lib/dom4j/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/support/lib/dom4j/jaxen-1.1-beta-7.jar"/>
+	<classpathentry kind="lib" path="/support/lib/taobao/taobao-sdk.jar"/>
+	<classpathentry kind="lib" path="/support/lib/dom4j/jdom.jar"/>
+	<classpathentry kind="lib" path="/support/lib/easy.jar"/>
+	<classpathentry kind="lib" path="/support/lib/httpclient/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="/support/lib/httpclient/fluent-hc-4.2.5.jar"/>
+	<classpathentry kind="lib" path="/support/lib/httpclient/httpclient-4.2.5.jar"/>
+	<classpathentry kind="lib" path="/support/lib/httpclient/httpclient-cache-4.2.5.jar"/>
+	<classpathentry kind="lib" path="/support/lib/httpclient/httpcore-4.2.4.jar"/>
+	<classpathentry kind="lib" path="/support/lib/httpclient/httpmime-4.2.5.jar"/>
+	<classpathentry kind="lib" path="/support/lib/httpclient/json-20090211.jar"/>
+	<classpathentry kind="lib" path="/support/lib/httpclient/jsoup-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.aop-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.asm-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.beans-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.context.support-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.context-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.core-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.expression-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.jdbc-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.jms-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.orm-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.transaction-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.web.servlet-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.web.struts-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/spring/org.springframework.web-3.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/support/lib/junit/cldcunit-2.0.3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/junit/junit-4.1.jar"/>
+	<classpathentry kind="lib" path="/support/lib/cxf/cxf-2.7.0.jar"/>
+	<classpathentry kind="lib" path="/support/lib/cxf/javax.ws.rs-api-2.0-m10.jar"/>
+	<classpathentry kind="lib" path="/support/lib/cxf/javax.ws.rs-api-2.0-m10-sources.jar"/>
+	<classpathentry kind="lib" path="/support/lib/cxf/jettison-1.3.2.jar"/>
+	<classpathentry kind="lib" path="/support/lib/cxf/neethi-3.0.2.jar"/>
+	<classpathentry kind="lib" path="/support/lib/cxf/wsdl4j-1.6.2.jar"/>
+	<classpathentry kind="lib" path="/support/lib/cxf/xmlschema-core-2.0.1.jar"/>
+	<classpathentry kind="lib" path="/support/lib/cglib/cglib-nodep-2.1_3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/aopalliance/aopalliance.jar"/>
+	<classpathentry kind="lib" path="/support/lib/ABC/wfsc-mobile.jar"/>
+	<classpathentry kind="lib" path="/support/lib/httpclient/httpcore-nio-4.2.2.jar"/>
+	<classpathentry kind="lib" path="/support/lib/httpclient/httpasyncclient-4.0-beta3.jar"/>
+	<classpathentry kind="lib" path="/support/lib/struts2/struts2-config-browser-plugin-2.2.1.jar"/>
+	<classpathentry kind="lib" path="/support/lib/urlwriter/urlrewrite-3.2.0.jar"/>
+	<classpathentry kind="lib" path="/support/lib/urlwriter/urlrewritefilter-4.0.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/ueditor/jsp/ueditor.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-excelant-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-schemas-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-scratchpad-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
+</classpath>

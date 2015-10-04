@@ -1,0 +1,6 @@
+.autoComplete {position:relative;float:left;}
+.autoComplete ul{z-index:99;padding:0px;margin:0px;border:1px #333 solid;width:200px;background:white;display:none;position:absolute;left:0;top:28px;}
+.autoComplete li{list-style:none;}
+.autoComplete li a {display:block;color:#000;text-decoration:none;padding:1px 0 1px 5px;}
+.autoComplete li a:hover {color:#000;background:#ccc;border:none;}
+        

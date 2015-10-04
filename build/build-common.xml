@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="WFSC" basedir=".">
+	<import file="../../support/build/properties.xml" />
+	<path id="xdoclet.classpath">
+		<fileset dir="../../support/lib/xdoclet">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="../../support/lib/jakarta-commons">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<path id="libraries">
+		<fileset dir="../../support/lib">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="../classes" />
+	</path>
+
+	<target name="generate_hbm_file" description="生成hibernate映射文件，仅供开发人员使用，版本发布人员请不要运行该task">
+		<taskdef classpathref="xdoclet.classpath" classname="xdoclet.modules.hibernate.HibernateDocletTask" name="hibernatedoclet" />
+		<hibernatedoclet encoding="utf-8" excludedTags="@version,@author,@todo,@see" destDir="../src" addedTags="@xdoclet-generated at ${TODAY},@copyright The XDoclet Team,@author XDoclet,@version ${version}">
+			<fileset dir="../src">
+				<include name="com/wfsc/common/bo/**/*.java" />
+			</fileset>
+			<hibernate version="3.0" destDir="../src" />
+		</hibernatedoclet>
+		<echo message="开始打包${PrjName} Online的hibernate映射文件" />
+		<jar destfile="${SupportLib.home}/ABC/${PrjName}-hbm.jar">
+			<fileset dir="../src">
+				<include name="**/*.hbm.xml" />
+			</fileset>
+		</jar>
+		<delete dir="../src" includes="com/wfsc/common/bo/**/*.hbm.xml" />
+	</target>
+
+	<target name="build-database-mysql" description="一步重建mysql数据库结构与出厂数据">
+		<echo message="开始删除老版本的mysql脚本文件" />
+		<delete verbose="true">
+			<fileset dir="${mysql.dir}">
+				<include name="*.sql" />
+				<include name="*.bat" />
+				<include name="*.ini" />
+				<include name="*.sh" />
+			</fileset>
+		</delete>
+		<echo message="拷贝脚本和bat文件到runtime下的mysql目录。">
+		</echo>
+		<copy todir="${mysql.dir}" encoding="UTF-8">
+			<fileset dir="../../support/mysql" />
+		</copy>
+		<echo message="开始重建数据库，请耐心等待..." />
+		<exec executable="${mysql.dir}/create_db.bat" dir="${mysql.dir}/" />
+	</target>
+
+
+	<target name="Run-MySql" description="运行mysql数据库">
+		<echo message="启动MySQL数据库服务器" />
+		<copy todir="${mysql.dir}" encoding="UTF-8">
+			<fileset dir="../../support/mysql" />
+		</copy>
+		<exec executable="${mysql.dir}/startup.bat" dir="${mysql.dir}" />
+	</target>
+
+	<target name="Shutdown-MySql" description="关闭mysql数据库">
+		<echo message="停止MySQL数据库服务器" />
+		<exec executable="${mysql.dir}/shutdown.bat" dir="${mysql.dir}" />
+	</target>
+
+
+	<target name="I18N-Tool">
+		<echo message="Deleting Old Resource Files....">
+		</echo>
+		<delete failonerror="false" includeemptydirs="true">
+			<fileset dir="../../wfsc/src/res/">
+				<include name="*.properties" />
+			</fileset>
+		</delete>
+		<echo message="Create New Resource Files....">
+		</echo>
+		<native2ascii encoding="UTF-8" src="../../wfsc/src/res/source/" dest="../../wfsc/src/res/" />
+	</target>
+
+	<target name="release" description="打包、部署项目">
+
+		<echo message="开始打包主工程" />
+		<jar destfile="${PrjName}.jar">
+			<fileset dir="../WebRoot/WEB-INF/classes">
+				<include name="**/*.class" />
+			</fileset>
+		</jar>
+
+		<echo message="开始拷贝${PrjName}.jar到support目录" />
+		<copy todir="${supportprj.dir}/lib/ABC" verbose="true">
+			<fileset dir=".">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+		<echo message="删除生成的临时${PrjName}.jar文件" />
+		<delete file="${PrjName}.jar" verbose="true" />
+
+		<echo message="开始删除jboss default/lib下的所有jar包以免存在重复的jar包" />
+		<delete verbose="true">
+			<fileset dir="../../runtime/jboss-4.2.2.GA/server/default/lib">
+				<include name="*.jar" />
+			</fileset>
+		</delete>
+
+		<echo message="开始拷贝正确的jar包到jboss default/lib目录" />
+		<copy todir="../../runtime/jboss-4.2.2.GA" verbose="true">
+			<fileset dir="../../support/jboss-4.2.2.GA">
+			</fileset>
+		</copy>
+
+		<echo message="开始拷贝${PrjName}.jar和hbm jar文件到WEB-INF/lib目录" />
+		<delete file="${war.lib.dir}/${PrjName}.jar" quiet="true" />
+		<copy todir="${war.lib.dir}" file="../../support/lib/ABC/${PrjName}.jar" verbose="true" />
+		<copy todir="${war.lib.dir}" file="../../support/lib/ABC/${PrjName}-hbm.jar" verbose="true" />
+
+		<echo message="开始删除wfsc工程的WEB-INF/lib/下的重复的jar包以避免jar包冲突" />
+		<delete verbose="true">
+			<fileset dir="${war.lib.dir}">
+				<include name="commons*.jar" />
+				<include name="ehcache-1.2.4.jar" />
+				<include name="cglib-nodep-2.1_3.jar" />
+				<include name="dom4j-1.6.1.jar" />
+				<include name="jboss*.jar" />
+				<include name="junit.jar" />
+				<include name="log4j-1.2.14.jar" />
+				<include name="activation.jar" />
+				<include name="javax.servlet.jar" />
+				<include name="javax.servlet.jsp.jar" />
+				<include name="jsse.jar" />
+				<include name="jts.jar" />
+				<include name="mail.jar" />
+				<include name="hibernate3.2.6.jar" />
+				<include name="mysql-connector-java-5.1.5-bin.jar" />
+				<include name="portlet-api-1.0.jar" />
+				<include name="jcommon-1.0.15.jar" />
+			</fileset>
+		</delete>
+
+		<echo message="删除WEB-INF/classes目录下的所有class文件" />
+		<!--测试环境和生产环境下均使用jar包而不直接使用class文件 -->
+		<delete includeemptydirs="true" quiet="true">
+			<fileset dir="${war.class.dir}/com" />
+		</delete>
+
+		<echo message="删除jboss运行时的临时log、tmp和work目录以免将不必要的临时文件打包进最终的压缩包" />
+		<delete includeemptydirs="true" quiet="true">
+			<fileset dir="${jboss.default.dir}/log" />
+			<fileset dir="${jboss.default.dir}/tmp" />
+			<fileset dir="${jboss.default.dir}/work" />
+		</delete>
+	</target>
+
+
+	<path id="yuiClassPath">
+		<fileset dir="../../support/lib/yuicompressor">
+			<include name="yuicompressor-2.4.2.jar" />
+		</fileset>
+	</path>
+
+</project>

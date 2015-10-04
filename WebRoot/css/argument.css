@@ -1,0 +1,154 @@
+@charset "utf-8";
+/* CSS Document */
+.add_s_jiao{text-align:right; width:104px; font-size:12px}
+.jiaosekuai{width:420px; height:auto; overflow:hidden;}
+.jiaok_tit{ height:24px; overflow:hidden;background: url(../images/tongyi/w_r8_c10.jpg) repeat-x;}
+.jiaok_tit h1{ background: url(../images/tongyi/wr8_c8.jpg) no-repeat; height:24px;width:10px; float:left}
+.jiaok_tit h2{ float:left; font:700 12px/24px normal; background:#FFF url(../images/tongyi/t_1.gif) no-repeat 4px 4px; padding:0 4px 0 20px}
+.jiaok_tit h3{ float:left; font:12px/24px normal; background:#FFF; padding:0 4px}
+.jiaok_tit h5{ background: url(../images/tongyi/t_r8_c10.jpg) no-repeat; height:24px;width:10px; float:right}
+.jiao_list{width:auto; height:auto; overflow:hidden;}
+.jiao_list_k{ border:#C1C4D0 1px solid;width:auto; height:auto; overflow:hidden; border-top:none; margin-bottom:8px;_height:10px;overflow: inherit}
+.jiao_list_li{ border:#fff 1px solid;width:auto; height:auto; overflow:hidden; border-top:none; padding:4px 20px 12px; background:url(../images/tongyi/9_r10_c9.jpg) repeat-x bottom;_height:10px;_overflow: inherit}
+.jiao_list_li dl{width:48%; height:auto; overflow:hidden; float:left}
+.jiao_list_li dl dt{ float:left; width:auto; height:30px; overflow:hidden}
+.jiao_list_li dl dt.tz{ float:left; width:auto; margin:2px 0 0;*margin:0;_margin:-4px 0 0;height:28px; overflow:hidden}
+.r_help{ background:url(../images/tongyi/a_r12_c11.jpg); width:16px; height:16px; display:block; margin:8px 0 0;_margin:5px 0 0}
+.tab_ceng_jiao{width:auto; height:auto; overflow:hidden;}
+.tabl_x{ border-bottom:1px dotted #AEB9CD;width:auto; height:0; overflow:hidden;margin:0 20px}
+.tabl_y{ border-bottom:1px dotted #fff;width:auto; height:0; overflow:hidden; margin:0 20px 0 21px}
+
+
+#tab6{height:auto;width:100%;padding:0 0 10px 0;_padding:0 0 6px 0; margin:0 0 0px 0}
+#tab6 ul{display:none;font:100 12px/24px Arial; clear:both}
+#tab6 ul li{padding:0 0 0 0;}
+#tab6 ul.block{display:block;}
+#menu6 {height:42px; width:auto; text-align:center; background:#F2F5FA url(../images/new_top/3_r6_c15.jpg) repeat-x top; overflow:hidden;padding:0 0 0 4px;}
+#menu6 h3{float:left;cursor:pointer; width:auto;padding:10px 0 0 6px; overflow:hidden; height:42px;text-decoration:none; font:100 12px/36px Verdana;}
+.nn_tb{ height:32px; width:auto;_width:122px; background:url(../images/tongyi/eg.jpg) repeat-x; text-align:left;cursor:pointer;}
+  .nn_tb span{ background:url(../images/tongyi/eg_r1_c1.jpg) no-repeat; width:4px; height:32px; display:block; float:left}
+  .nn_tb em{ background:url(../images/tongyi/eg_r1_c2.jpg) no-repeat; width:auto;_width:80px; height:32px; display:block; float:left;padding:0 8px 0 26px; font:700 12px/34px normal}
+  .nn_tb i{ background:url(../images/tongyi/eg_r1_c4.jpg) no-repeat; width:4px; height:32px; display:block; float:left}
+.nn_tb2{height:32px; width:auto;_width:122px; background:url(../images/tongyi/eg2.jpg) repeat-x; text-align:left;cursor:pointer;}
+  .nn_tb2 span{ background:url(../images/tongyi/eg2_r1_c1.jpg) no-repeat; width:4px; height:32px; display:block; float:left}
+  .nn_tb2 em{ background:url(../images/tongyi/eg2_r1_c2.jpg) no-repeat; width:auto;_width:80px; height:32px; display:block; float:left;padding:0 8px 0 26px; font:700 12px/34px normal}
+  .nn_tb2 i{ background:url(../images/tongyi/eg2_r1_c4.jpg) no-repeat; width:4px; height:32px; display:block; float:left}
+.margin20px{ padding:20px}
+.jiaose_gl_list{width:auto; height:auto; overflow:hidden;padding:24px}
+.g_titil{ background:url(../images/tongyi/bt-2.gif) no-repeat 6px 8px; padding:0 0 0 26px;}
+.g_titil2{ background:url(../images/tongyi/bt-3.gif) no-repeat 6px 8px; padding:0 0 0 26px;}
+.g_titil3{ background:url(../images/tongyi/bt-4.gif) no-repeat 6px 8px; padding:0 0 0 26px;}
+.add_jiaose{ background:url(../images/tongyi/d_r5_c10.jpg) no-repeat; width:84px; height:23px; color:#336699;padding:0 0 2px 18px;*padding:2px 0 0 18px}
+.add_jiaose2{ background:url(../images/tongyi/d_r5_c10bock.jpg) no-repeat; width:60px; height:23px; color:#336699;padding:0 0 2px 18px;*padding:2px 0 0 18px}
+.jiaosetop_margin6px{ margin-top:2px;*margin-top:4px}
+.jssd_title{ height:30px; background:url(../images/new_top/tf_r2_c2.jpg) repeat-x bottom; overflow:hidden}
+.jssd_title h1{width:24px; float:left;height:30px; overflow:hidden}
+.jssd_title h2{width:12px; float:left;height:30px; overflow:hidden}
+.jssd_title h3{font:12px/30px normal; float:left;}
+.tianjia_zu{ border:#B99C26 solid 1px;width:auto; height:auto; overflow:hidden;}
+.tianjiao_z_nei{ border:1px solid #fff; background:#FFFFE3;width:auto; height:auto; overflow:hidden;}
+.zu_margin_10px{ margin:10px 10px 10px 0}
+.top_bott_pad12px{ padding-top:12px; padding-bottom:12px}
+.zu_tit_left{ margin-left:-10px; background:url(../images/tongyi/sr7_c2.jpg) no-repeat;height:33px; width:224px;position:absolute; font:700 12px/33px normal; text-indent:8px; color:#000;}
+.zu_tit_left strong{ color:#090}
+.d_coun_c{ padding:48px 0 0 150px;width:auto; height:auto; overflow:hidden;_height:1px;_overflow:inherit}
+.add_zi_bm{ background:url(../images/tongyi/bg_caozuo.gif) no-repeat 0 2px; width:88px; height:20px; overflow:hidden; padding:0 0 2px 18px;*padding:2px 0 0 18px; text-align:left;float:left}
+.edit_bm{ background:url(../images/tongyi/bg_caozuo.gif) no-repeat 0 -58px; width:58px; height:20px; overflow:hidden; padding:0 0 2px 18px;*padding:2px 0 0 18px;text-align:left; float:left}
+.del_bm{ background:url(../images/tongyi/bg_caozuo.gif) no-repeat 0 -118px; width:58px; height:20px; overflow:hidden; padding:0 0 2px 18px;*padding:2px 0 0 18px;text-align:left; float:left}
+.edit_info{ background:url(../images/tongyi/bt-5.gif) no-repeat 0 4px; width:48px; height:22px; padding:0 0 2px 20px;*padding:2px 0 0 20px; text-align:left}
+.tit_biao_bg{ background:url(../images/tongyi/f_r2_c2.jpg) no-repeat center;width:200px}
+.tit_biao_bg2{ background:url(../images/tongyi/s_r4_c2.jpg) no-repeat center;width:200px}
+.tit_biao_bg3{ background:url(../images/tongyi/d_c2.jpg) no-repeat center;width:200px}
+.margin30px{ margin:30px}
+.info_ceng{ font:14px/32px normal; height:auto; overflow:hidden;_height:1px;_overflow:inherit; width:100%;_width:80%}
+.info_ceng strong{font:700 14px/32px normal; width:80px; float:left; text-align:right}
+.info_ceng em{font:100 14px/32px normal; width:auto; float:left; text-align:left}
+.uy_add{width:auto; height:auto; overflow:hidden;padding:14px 0 0 24px;*padding:14px 0 0 14px;_padding:14px 0 0 0}
+.jiao_list_li dl dt.tz4{ float:left; width:auto; margin:3px 0 0;*margin:5px 0 0;height:28px; overflow:hidden}
+.r_help2{ background:url(../images/tongyi/a_r12_c11.jpg); width:16px; height:16px; display:block; margin:4px 0 0;}
+
+
+/*中原证券--项目样式*/
+
+.add_bc_c{ text-align:right; width:132px; font-size:14px}
+.workbox_1{ float:left; background:#FF0; border:#FC0 1px solid; height:16px; width:28px; margin:8px 0 0}
+.yanse_c{ float:left; margin:9px 0 0 2px;*margin:1px 0 0 2px;_margin:9px 0 0 2px;}
+.renshu_s{ padding:12px;width:auto; height:auto; overflow:hidden;}
+#tab10{background:#fff;height:auto;width:auto; text-align:left; padding:0 0 0 0;*padding:6px 0 0 0}
+#tab10 ol{display:none;font:100 12px/27px Arial; width:auto}
+#tab10 ol li{}
+#tab10 ol.block{display:block; width:100%}
+#menu10 {height:38px; width:auto; text-align:center;font:100 12px/31px Arial; background:url(../images/zhongyuan/rt_c4.jpg) repeat-x bottom}
+#menu10 h2{float:left;width:8px; height:38px;}
+#menu10 h3{float:left;cursor:pointer;font:100 12px/30px Arial; background:url(../images/zhongyuan/yt_r2_c6.jpg) repeat-x; overflow:hidden; height:37px;width:165px;}
+#menu10 h3 a{width:125px; overflow:hidden; height:37px; font:100 13px/38px Arial;text-decoration:none; color:#4F4F4F;float:left;overflow:hidden;padding-right:0px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis; background:url(../images/zhongyuan/rt-2.gif) no-repeat 5px 10px; padding:0 0 0 28px; text-align:left}
+#menu10 h3:after{content:""!important;padding-right:6px}
+#menu10 h3.hover{height:37px;font:100 12px/38px arial;float:left;background:url(../images/zhongyuan/err2_c4.jpg) repeat-x;}
+#menu10 h3.hover a{float:left;width:125px;font:100 14px/38px Arial;color:#113C55;text-decoration:none; background:url(../images/zhongyuan/rt-1.gif) no-repeat 5px 10px; padding:0 6px 0 28px; text-align:left}
+#menu10 h3.hover:after{content:""!important;}
+
+#menu10 h3.hover div.tab_q{float:left;width:2px; height:38px; background:url(../images/new_top/41_r2_c22.jpg) no-repeat;}
+#menu10 h3.hover div.tab_h{ float:right;width:2px; height:38px; background:url(../images/new_top/t1_r2_c32.jpg) no-repeat;}
+.tab_q{ float:left;width:2px; height:38px; background:url(../images/new_top/41_r2_c2.jpg) no-repeat}
+.tab_h{ float:right;width:2px; height:38px; background:url(../images/new_top/t1_r2_c3.jpg) no-repeat}
+#menu10 h4{ float:left; background:url(../images/zhongyuan/rr_r2_c2.jpg); width:10px; height:38px;}
+#menu10 h5{ float:right; background:url(../images/zhongyuan/rer2_c10.jpg) right no-repeat; width:auto; height:38px;}
+.tab_right{margin:6px 8px 0;_margin:10px 8px 0;width:auto; height:auto; overflow:hidden;}
+.cadd_zhibanren{ background:url(../images/zhongyuan/ttr3_c10.jpg);width:95px; height:23px; overflow:hidden; text-align:left;padding:0 0 2px 22px;*padding:2px 0 0 24px}
+.cdel_zhibanren{background:url(../images/zhongyuan/s3_c12.jpg);width:59px; height:23px; overflow:hidden; text-align:left;padding:0 0 2px 22px;*padding:2px 0 0 24px}
+.z_shang{ background:url(../images/zhongyuan/r-4.gif) no-repeat; width:23px; height:22px; overflow:hidden}
+.shang{ background:url(../images/zhongyuan/r-4.gif) no-repeat 0 -60px; width:22px; height:22px; overflow:hidden}
+.xia{ background:url(../images/zhongyuan/r-4.gif) no-repeat 0 -120px; width:22px; height:22px; overflow:hidden}
+.z_xia{ background:url(../images/zhongyuan/r-4.gif) no-repeat 0 -180px; width:23px; height:22px; overflow:hidden}
+.zhiban_space{ clear:both; height:0;width:auto;overflow:hidden; border-top:1px solid #BCC8D4}
+
+.ban_sd_bn_zy{ background:url(../images/zhongyuan/pb2_r2_c4.jpg) bottom no-repeat;width:102px;height:32px;_height:34px; padding:0 0 0 28px; font:100 13px/32px normal;text-indent:0;}
+.zz_sd_bn_zy{ background:url(../images/zhongyuan/a3_r3_c4.jpg) bottom no-repeat;width:90px; height:32px;_height:34px; padding:0 0 0 30px; font:100 13px/32px normal;text-indent:0;}
+.zz_sd_bn2_zy{ background:url(../images/zhongyuan/a3_r3_c42.jpg) bottom no-repeat;width:90px; height:32px;_height:34px; padding:0 0 0 30px; font:100 13px/32px normal;text-indent:0;}
+.paiban_bn_zy{ background:url(../images/new_top/b3_r3_c4.jpg) bottom no-repeat;width:75px; height:32px;_height:34px; padding:0 0 0 26px; font:100 13px/32px normal;text-indent:0;}
+
+
+.qd_butt{ background:url(../images/zhongyuan/qd.jpg) no-repeat; width:103px; height:32px; padding:0 0 2px 0;*padding:2px 0 0px 0; font-size:14px; text-align:center}
+.qd_butt2{ background:url(../images/zhongyuan/qd2.jpg) no-repeat; width:70px; height:32px; padding:0 0 2px 0;*padding:2px 0 0px 0; font-size:14px; text-align:center}
+
+.banci_gianli {float: right; margin-top: 8px;padding: 0 6px;text-indent: 0;}
+.addbn_zy{ background:url(../images/zhongyuan/h_r2_c2.jpg) bottom no-repeat;width:102px;height:32px;_height:34px; padding:0 0 0 28px; font:100 13px/32px normal;text-indent:0;}
+
+
+.zy_zb{ width:auto; text-align:center}
+.zy_zb_li{width:auto; height:26px; overflow:hidden; border-bottom:1px dotted #CFD5DC; width:100%; font:100 14px/26px normal; text-align:center}
+.zy_zb_li span{width:auto; height:25px; overflow:hidden;  text-align:left;line-height:25px;}
+.bianji_zy{width:16px; height:16px; overflow:hidden;line-height:25px; background:url(../images/zhongyuan/edit_user.jpg) 0 0 no-repeat;}
+.bianji_del{width:16px; height:16px; overflow:hidden;line-height:25px; background:url(../images/zhongyuan/ss-2.gif) 0 2px no-repeat;}
+.zy_zb_li_add{width:auto; height:22px; overflow:hidden; line-height:22px; text-align:right;}
+
+.nb_20{ float:left;background:url(../images/tongyi/tb-1.gif) no-repeat 0 4px; text-indent:20px; border:none; text-align:left; width:100px; height:24px; cursor:pointer; font-size:12px}
+.nb_21{ float:left;background:url(../images/tongyi/tb-1.gif) no-repeat 0 -56px; text-indent:20px; border:none; text-align:left; width:74px; height:24px; cursor:pointer; font-size:12px}
+.nb_22{ float:left;background:url(../images/tongyi/tb-1.gif) no-repeat 0 -116px; text-indent:20px; border:none; text-align:left; width:74px; height:24px; cursor:pointer; font-size:12px}
+.nb_23{ float:left;background:url(../images/tongyi/tb-1.gif) no-repeat 0 -176px; text-indent:20px; border:none; text-align:left; width:74px; height:24px; cursor:pointer; font-size:12px}
+.nb_24{ float:left;background:url(../images/tongyi/tb-1.gif) no-repeat 0 -236px; text-indent:20px; border:none; text-align:left; width:74px; height:24px; cursor:pointer; font-size:12px}
+.nb_25{ float:left;background:url(../images/tongyi/tb-1.gif) no-repeat 0 -296px; text-indent:20px; border:none; text-align:left; width:94px; height:24px; cursor:pointer; font-size:12px}
+.nb_26{ float:left;background:url(../images/tongyi/tb-1.gif) no-repeat 0 -356px; text-indent:20px; border:none; text-align:left; width:74px; height:24px; cursor:pointer; font-size:12px}
+
+.butt_email{width:91px; height:32px; cursor:pointer; border:none; font:14px/32px arial; color:#254672; margin:0 4px}
+.on_ceshi{background:url(../images/tongyi/e_r1_c1.jpg) no-repeat; text-indent:8px}
+.on_queren{background:url(../images/tongyi/e_r1_c3.jpg) no-repeat; text-indent:8px}
+.on_quxiao{background:url(../images/tongyi/e_r1_c5.jpg) no-repeat; }
+.user_info_tit{width:auto; height:43px; overflow:hidden; margin:10px 20px}
+.user_info_tit h1{margin:0 20px; background:url(../images/tongyi/s_r2_c2.jpg) no-repeat; width:144px; height:38px;font:700 14px/38px normal; padding-left:58px}
+.user_info_tit h2{ height:5px; overflow:hidden;background:url(../images/tongyi/sswe.jpg) repeat-x;}
+.user_info_tx{width:220px;margin:20px 40px;height:auto; overflow:hidden;}
+.user_info_tx2{width:220px;margin:20px 40px;height:auto; overflow:hidden; text-align:center}
+.user_info_tx2 ul{ background: url(../images/tongyi/s_r7_c2.jpg) no-repeat center bottom; width:200px; height:40px; line-height:40px}
+.user_info_tx2 ul li{ float:left; height:36px; margin:0 12px}
+
+.user_info_cz1{ background:url(../images/tongyi/czbg-1.gif) no-repeat 0 12px; padding-left:24px}
+.user_info_cz2{ background:url(../images/tongyi/czbg-1.gif) no-repeat 0 -48px; padding-left:24px}
+.user_info_cz3{ background:url(../images/tongyi/czbg-1.gif) no-repeat 0 -110px; padding-left:24px}
+.user_info_cz4{ background:url(../images/tongyi/czbg-1.gif) no-repeat 0 -170px; padding-left:24px}
+.add_userinfo{width:90%;height:auto; overflow:hidden; padding:10px 10px 0;}
+.add_userinfo ul{ height:32px; font:100 14px/32px normal;padding:0 5px; float:left; border-bottom:1px dotted #C4CCD9; margin:4px}
+.add_userinfo ul li{ float:left}
+
+/*2011-11-05 调班管理的按钮*/
+.tiaobban{background:url(../images/rili/control_repeat_blue.png) no-repeat;width:15px; height:15px; margin-left:4px; cursor:pointer; border:none}

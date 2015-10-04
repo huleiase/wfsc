@@ -1,0 +1,268 @@
+﻿
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title>vForum2014 - 邀请函</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script type="text/javascript" src="js/zepto.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/jQuery1.4.2.js"></script>
+    <script type="text/javascript">
+    	function ani(){
+    		$("#s1").fadeOut(30, function(){
+    			$("#s2").fadeIn("slow",function(){
+    				$("#s2").animate({ width: "190%",height: "190%", left: "50%",position:"absolute", top:"50%", margin: -250}, 2000, "", function(){
+   						$("#secEVT").unbind("click");
+   						
+					$("#s2").fadeOut("fast", function(){
+						$("#s4").fadeIn(2000, function(){
+							setTimeout("nextPage()", 2000 );
+						});
+		    		});
+
+    				});
+    			});
+    		});
+    	}
+    	
+    	function t(){
+    		//图片4出现
+    		$("#s2").fadeOut("fast", function(){
+				$("#s4").fadeIn(2000, function(){
+					setTimeout("nextPage()", 2000 );
+				});
+    		});
+    	}
+    	
+    	function loadEvent(){
+    		$("#secEVT").bind("click", function(){
+    			ani();
+    		});
+    	}
+    	
+    </script>
+  </head>
+  <body onload="loadEvent()">
+    <div id="scene" class="wrap">
+      <div class="sec" id="secEVT">
+        <div class="line"></div>
+        
+        <section class="sec01">
+            <img src="images/s1.jpg" id="s1">
+            <img src="images/s2.jpg" id="s2">
+            <!-- 
+            <img src="images/s3.jpg" id="s3">
+             -->
+            <img src="images/s4.jpg" id="s4">
+        </section>
+        
+        <section class="sec02">
+          <div class="wraper">
+            <h1 class="MDCC">纵横无限<br>洞悉未来</h1>
+            <H3>vForum2014 云计算年度盛会</H3>
+            <h2>中国 · 北京</h2>
+            <!--<div class="time-addr"></div>-->
+          </div>
+          <div class="start"><b></b></div>
+        </section>
+        
+        <section class="sec03">
+          <div class="wraper">
+            <div class="circle">
+              <h3>激发</h3>
+              <h1>无限</h1>
+              <h3>可能</h3>
+            </div><span>软件定义</span><span>终端用户计算</span><span>混合云</span><span>顶尖对话</span><span>前沿趋势</span><span>体验互动</span>
+          </div>
+          <div class="start"><b></b></div>
+        </section>
+        
+        <section class="sec04">
+          <div class="wraper">
+            <div class="circle">
+              <h2>精英纵横<br>共建未来</h2>
+            </div>
+            <article>
+              <dl>
+                <dt>新 IT 模式</dt>
+                <dd>● 移动-云时代驱动力</dd>
+                <dd>● 软件定义实现业务优势</dd>
+                <dd>● VMware 加速 IT 转型</dd>
+              </dl>
+            </article>
+            <article>
+              <dl>
+                <dt>大势所趋</dt>
+                <dd>● 新一代关键业务云平台</dd>
+                <dd>● 解决三大业务痛点</dd>
+                <dd>● 新业务驱动及新技术采用</dd>
+              </dl>
+            </article>
+            <article>
+              <dl>
+                <dt>最佳选择</dt>
+                <dd>● 虚拟化必经之路</dd>
+                <dd>● 云计算管理最佳方案</dd>
+                <dd>● 混合云企业的不二之选</dd>
+              </dl>
+            </article>
+            <article>
+              <dl>
+                <dt>移动企业</dt>
+                <dd>● 释放终端用户自由</dd>
+                <dd>● 确保企业管理与合规</dd>
+                <dd>● 加速企业迈向移动化</dd>
+              </dl>
+            </article>
+            <article>
+              <dl>
+                <dt>创新战略</dt>
+                <dd>● 软件定义的企业模式</dd>
+                <dd>● 数据中心颠覆性技术</dd>
+                <dd>● VMware全新解决方案</dd>
+              </dl>
+            </article>
+            <article>
+              <dl>
+                <dt>精英汇聚</dt>
+                <dd>● 重量级嘉宾悉数到场</dd>
+                <dd>● 各大 IT 厂商鼎力助阵</dd>
+                <dd>● 分享创新的技术加速业务增长</dd>
+              </dl>
+            </article>
+          </div>
+          <div class="start"><b></b></div>
+        </section>
+        
+        <section class="sec05">
+          <div class="wraper">
+            <dl class="circle circle_1">
+              <dt>10000+</dt>
+              <dd>用户</dd>
+            </dl>
+            <dl class="circle circle_2">
+              <dt>3000+</dt>
+              <dd>合作伙伴</dd>
+            </dl>
+            <div class="title">
+              <p>年度最受关注的</p>
+              <p><b>云计算盛会</b></p>
+            </div>
+            <ul>
+              <li>● 国内外重量级嘉宾</li>
+              <li>● 行业客户代表</li>
+              <li>● IT 管理人士</li>
+              <li>● IT 专业人员</li>
+              <li>● 战略合作伙伴</li>
+              <li>● 技术合作伙伴</li>
+              <li>● 顶尖媒体与分析师</li>
+            </ul>
+          </div>
+          <div class="start"><b></b></div>
+        </section>
+        
+        <section class="sec06">
+          <div class="wraper">
+            <h2>重量级人物齐聚</h2>
+            <div style="background-image:url(images/image-03.png)" class="img img0"></div>
+            <dl class="dl0">
+              <dt>Raghu Raghuram</dt>
+              <dd>VMware 软件定义数据</dd>
+              <dd>中心部执行副总裁</dd>
+            </dl>
+            <div style="background-image:url(images/image-00.png)" class="img img1"></div>
+            <dl class="dl1">
+               <dt>宋家瑜</dt>
+              <dd>VMware 全球副总裁</dd>
+              <dd>大中华区总裁</dd>
+            </dl>
+            <div style="background-image:url(images/image-01.png)" class="img img2"></div>
+            <dl class="dl2">
+              <dt>Pat Gelsinger</dt>
+              <dd>VMware 首席执行官</dd>
+            </dl>
+            <div style="background-image:url(images/image-02.png)" class="img img3"></div>
+            <dl class="dl3">
+              <dt>任道远</dt>
+              <dd>VMware 中国研发</dd>
+              <dd>中心总经理</dd>
+            </dl>
+            <div style="background-image:url(images/image-04.png)" class="img img4"></div>
+            <dl class="dl4">
+              <dt>Sumit Dhawan</dt>
+              <dd>VMware 全球副总裁</dd>
+              <dd>兼终端用户计算部门</dd>
+              <dd>桌面产品总经理</dd>
+            </dl>
+            <div style="background-image:url(images/image-05.png)" class="img img5"></div>
+            <dl class="dl5">
+              <dt>Martin Casado</dt>
+              <dd>VMware网络与安全部</dd>
+              <dd>高级副总裁兼总经理</dd>
+            </dl>
+             <div style="background-image:url(images/image-06.png)" class="img img6"></div>
+            <dl class="dl6">
+              <dt>武连峰</dt>
+              <dd>IDC 中国助理副总裁</dd>
+            </dl>
+            <h3>更多嘉宾等您亲自来发现</h3>
+          </div>
+          <div class="start"><b></b></div>
+        </section>
+        
+        <section class="sec07">
+          <div class="wraper">
+            <div class="logo">vForum2014 邀您共聚<br>云计算年度盛会</div>
+            <h2>10月29日 – 10月30日<br>纵横无限，精彩即将开启</h2>
+            <div class="link_list"><a href="http://115.29.230.87/vforum2014/" class="link0">
+                <span>></span>
+                <h3>现场盛会</h3>
+                <p>北京国际饭店会议中心</p></a><a href="http://115.29.230.87/vforum2014/" class="link1">
+                <span>></span>
+                <h3>虚拟大会</h3>
+                <p>vForum 虚拟大会平台</p></a>
+            </div>
+          </div>
+        </section>
+        
+      </div>
+    </div>
+    <script>
+      var config = {
+          appid:'',
+          img_url: 'http://115.29.230.87/vforum2014/images/weixin.jpg',
+          link: 'http://115.29.230.87/vforum2014/',
+          desc: 'vForum2014 邀您共聚云计算年度盛会！',
+          title: 'vForum2014 - 邀请函'
+      };
+
+      // 当微信内置浏览器完成内部初始化后会触发WeixinJSBridgeReady事件。
+      document.addEventListener('WeixinJSBridgeReady', function() {
+          var WJ = WeixinJSBridge;
+          // 发送给好友
+          WJ.on('menu:share:appmessage', function() {
+              WJ.invoke('sendAppMessage', config, function(res) {
+                  // _report('sendAppMessage', res.err_msg);
+              });
+          });
+          // 发送到朋友圈
+          WJ.on('menu:share:timeline', function() {
+              WJ.invoke('shareTimeline', config, function(res) {
+                  // _report('shareTimeline', res.err_msg);
+              });
+          });
+
+          // 发送到微博
+          WJ.on('menu:share:weibo', function() {
+              WJ.invoke('shareWeibo', config, function(res) {
+                  // _report('shareWeibo', res.err_msg);
+              });
+          });
+      });
+
+    </script>
+  </body>
+</html>

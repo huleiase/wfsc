@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="admin" namespace="/admin" extends="struts-default">
+		<interceptors>
+			<interceptor name="adminAuth" class="com.wfsc.interceptors.AdminSessionInterceptor">
+				<param name="excludeMethods">login</param>
+			</interceptor>
+			
+			<interceptor-stack name="adminStack">
+				<interceptor-ref name="adminAuth" />
+				<interceptor-ref name="defaultStack" />
+				<!-- 异常堆栈日志记录，便于开发时使用，后期需要对异常统一处理 -->
+				<interceptor-ref name="exception">
+                  <param name="logEnabled">true</param>
+                  <param name="logLevel">info</param>             
+              	</interceptor-ref>
+				<interceptor-ref name="fileUpload">
+					<param name="allowedTypes">image/bmp,image/jpg,image/png,image/gif,image/jpeg,image/JPG,image/JPEG,image/pjpeg,application/vnd.ms-excel</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="adminStack" />
+		<global-results>
+			<result name="info">/WEB-INF/jsps/info.jsp</result>
+			<result name="login">/mm/login.jsp</result>
+			<result name="runtimeException">/WEB-INF/jsps/admin/error.jsp</result>
+			<result name="adminException">/WEB-INF/jsps/admin/error500.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping result="runtimeException" exception="com.base.exception.CupidRuntimeException">
+			</exception-mapping>
+			<exception-mapping result="adminException" exception="java.lang.Exception">
+			</exception-mapping>
+		</global-exception-mappings>
+		
+		<!-- 后台管理功能的通用action -->
+		<action name="admin_*" class="AdminAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<!-- 后台首页 -->
+			<result name="success">/WEB-INF/jsps/admin/adminIndex.jsp</result>
+			<result name="login">/mm/login.jsp</result>
+			<result name="adminManager">/WEB-INF/jsps/admin/adminManager.jsp</result>
+			<result name="adminList">/WEB-INF/jsps/admin/adminList.jsp</result>
+			<result name="input">/WEB-INF/jsps/admin/adminInput.jsp</result>
+			<result name="modifyPwd">/WEB-INF/jsps/admin/modifyPwd.jsp</result>
+			<result name="ok" type="redirectAction">admin_manager.Q</result>
+		</action>
+		
+		<action name="chart_*" class="ChartAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="ok">/WEB-INF/jsps/admin/chart/{1}.jsp</result>
+		</action>
+		
+		<action name="sec_*" class="SecurityAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="ok" type="redirectAction">sec_roleManager</result>
+			<result name="roleManager">/WEB-INF/jsps/admin/security/roleManager.jsp</result>
+			<result name="addRole">/WEB-INF/jsps/admin/security/addRole.jsp</result>
+			<result name="backUp">/WEB-INF/jsps/admin/backUp.jsp</result>
+		</action>
+		
+		
+		<!-- 系统日志 -->
+		<action name="syslog_*" class="SystemLogAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="index">/WEB-INF/jsps/admin/system/syslogIndex.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/system/syslogList.jsp</result>
+		</action>
+		
+			<!--供应商管理-->
+		<action name="supplier_*" class="SupplierAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/supplier/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/supplier/list.jsp</result>
+			<result name="detail">/WEB-INF/jsps/admin/supplier/input.jsp</result>
+			<result name="input">/WEB-INF/jsps/admin/supplier/input.jsp</result>
+			<result name="toImport">/WEB-INF/jsps/admin/supplier/import.jsp</result>
+			<result name="ok" type="redirectAction">supplier_manager.Q</result>
+		</action>	
+			<!--客户管理-->
+		<action name="customer_*" class="CustomerAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/customer/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/customer/list.jsp</result>
+			<result name="detail">/WEB-INF/jsps/admin/customer/input.jsp</result>
+			<result name="input">/WEB-INF/jsps/admin/customer/input.jsp</result>
+			<result name="toImport">/WEB-INF/jsps/admin/customer/import.jsp</result>
+			<result name="ok" type="redirectAction">customer_manager.Q</result>
+		</action>	
+			<!--设计公司管理-->
+		<action name="designCompany_*" class="DesignCompanyAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/designCompany/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/designCompany/list.jsp</result>
+			<result name="detail">/WEB-INF/jsps/admin/designCompany/input.jsp</result>
+			<result name="input">/WEB-INF/jsps/admin/designCompany/input.jsp</result>
+			<result name="toImport">/WEB-INF/jsps/admin/designCompany/import.jsp</result>
+			<result name="ok" type="redirectAction">designCompany_manager.Q</result>
+		</action>	
+			<!--货币管理-->
+		<action name="currencyConversion_*" class="CurrencyConversionAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/currencyConversion/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/currencyConversion/list.jsp</result>
+			<result name="detail">/WEB-INF/jsps/admin/currencyConversion/input.jsp</result>
+			<result name="input">/WEB-INF/jsps/admin/currencyConversion/input.jsp</result>
+			<result name="toImport">/WEB-INF/jsps/admin/currencyConversion/import.jsp</result>
+			<result name="ok" type="redirectAction">currencyConversion_manager.Q</result>
+		</action>	
+		<!--设计师管理-->
+		<action name="designer_*" class="DesignerAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/designer/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/designer/list.jsp</result>
+			<result name="detail">/WEB-INF/jsps/admin/designer/input.jsp</result>
+			<result name="input">/WEB-INF/jsps/admin/designer/input.jsp</result>
+			<result name="toImport">/WEB-INF/jsps/admin/designer/import.jsp</result>
+			<result name="ok" type="redirectAction">designer_manager.Q</result>
+		</action>	
+		<!--布料管理-->
+		<action name="fabric_*" class="FabricAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/fabric/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/fabric/list.jsp</result>
+			<result name="detail">/WEB-INF/jsps/admin/fabric/input.jsp</result>
+			<result name="input">/WEB-INF/jsps/admin/fabric/input.jsp</result>
+			<result name="toImport">/WEB-INF/jsps/admin/fabric/import.jsp</result>
+			<result name="toImportDHJ">/WEB-INF/jsps/admin/fabric/importDHJ.jsp</result>
+			<result name="ok" type="redirectAction">fabric_manager.Q</result>
+			<result name="managerHT">/WEB-INF/jsps/admin/fabric/managerHT.jsp</result>
+			<result name="listHT">/WEB-INF/jsps/admin/fabric/listHT.jsp</result>
+			<result name="detailHT">/WEB-INF/jsps/admin/fabric/inputHT.jsp</result>
+			<result name="inputHT">/WEB-INF/jsps/admin/fabric/inputHT.jsp</result>
+			<result name="toImportHT">/WEB-INF/jsps/admin/fabric/importHT.jsp</result>
+			<result name="fabricForQuote">/WEB-INF/jsps/admin/fabric/fabricForQuote.jsp</result>
+			<result name="listForQuote">/WEB-INF/jsps/admin/fabric/listForQuote.jsp</result>
+			<result name="okHT" type="redirectAction">fabric_managerHT.Q</result>
+		</action>
+		<!--报价单管理-->
+		<action name="quote_*" class="QuoteAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/quote/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/quote/list.jsp</result>
+			<result name="detail">/WEB-INF/jsps/admin/quote/detail.jsp</result>
+			<result name="input">/WEB-INF/jsps/admin/quote/input.jsp</result>
+			<result name="toImport">/WEB-INF/jsps/admin/quote/import.jsp</result>
+			<result name="appendquoteFabric">/WEB-INF/jsps/admin/quote/appendquoteFabric.jsp</result>
+			<result name="ok" type="redirectAction">quote_manager.Q</result>
+			<result name="print">/WEB-INF/jsps/admin/quote/printQuote.jsp</result>
+			<result name="printHK">/WEB-INF/jsps/admin/quote/printQuoteHK.jsp</result>
+			<result name="designQuote">/WEB-INF/jsps/admin/quote/designQuote.jsp</result>
+			<result name="selPriceByModel">/WEB-INF/jsps/admin/quote/selPriceByModel.jsp</result>
+			<result name="selPriceByModelList">/WEB-INF/jsps/admin/quote/selPriceByModelList.jsp</result>
+		</action>
+		
+		<!--采购单管理-->
+		<action name="purchase_*" class="PurchaseAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/purchase/manager.jsp</result>
+			<result name="managerToPur">/WEB-INF/jsps/admin/purchase/managerToPur.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/purchase/list.jsp</result>
+			<result name="listToPur">/WEB-INF/jsps/admin/purchase/listToPur.jsp</result>
+			<result name="input">/WEB-INF/jsps/admin/purchase/input.jsp</result>
+			<result name="inputToPur">/WEB-INF/jsps/admin/purchase/inputToPur.jsp</result>
+			<result name="toImport">/WEB-INF/jsps/admin/purchase/import.jsp</result>
+			<result name="printPurchase">/WEB-INF/jsps/admin/purchase/printPurchase.jsp</result>
+			<result name="printPurchaseToPur">/WEB-INF/jsps/admin/purchase/printPurchaseToPur.jsp</result>
+			<result name="ok" type="redirectAction">purchase_manager.Q</result>
+			<result name="okToPur" type="redirectAction">purchase_managerToPur.Q</result>
+		</action>		
+		
+		<!--订单管理-->
+		<action name="order_*" class="OrderAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/order/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/order/list.jsp</result>
+			<result name="detail">/WEB-INF/jsps/admin/order/input.jsp</result>
+			<result name="input">/WEB-INF/jsps/admin/order/input.jsp</result>
+			<result name="design">/WEB-INF/jsps/admin/order/designOrder.jsp</result>
+			<result name="print">/WEB-INF/jsps/admin/order/print.jsp</result>
+			<result name="printHK">/WEB-INF/jsps/admin/order/printHK.jsp</result>
+			<result name="toImport">/WEB-INF/jsps/admin/order/import.jsp</result>
+			<result name="ok" type="redirectAction">order_manager.Q</result>
+		</action>		
+		
+		<!--库存管理-->
+		<action name="store_*" class="StoreAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/store/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/store/list.jsp</result>
+			<result name="detail">/WEB-INF/jsps/admin/store/input.jsp</result>
+			<result name="input">/WEB-INF/jsps/admin/store/input.jsp</result>
+			<result name="toImport">/WEB-INF/jsps/admin/store/import.jsp</result>
+			<result name="ok" type="redirectAction">store_manager.Q</result>
+		</action>	
+		
+		<!--库存产品管理-->
+		<action name="storeFabric_*" class="StoreFabricAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/storeFabric/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/storeFabric/list.jsp</result>
+			<result name="lesslist">/WEB-INF/jsps/admin/storeFabric/lesslist.jsp</result>
+			<result name="detail">/WEB-INF/jsps/admin/storeFabric/input.jsp</result>
+			<result name="input">/WEB-INF/jsps/admin/storeFabric/input.jsp</result>
+			<result name="toImport">/WEB-INF/jsps/admin/storeFabric/import.jsp</result>
+			<result name="ok" type="redirectAction">storeFabric_manager.Q?storeId=${#request.storeId}</result>
+			<result name="recordManager">/WEB-INF/jsps/admin/storeFabric/recordManager.jsp</result>
+			<result name="recordList">/WEB-INF/jsps/admin/storeFabric/recordList.jsp</result>
+			<result name="transfer">/WEB-INF/jsps/admin/storeFabric/transfer.jsp</result>
+			<result name="shipments">/WEB-INF/jsps/admin/storeFabric/shipments.jsp</result>
+		</action>			
+	</package>
+	
+</struts>

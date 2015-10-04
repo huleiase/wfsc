@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+		<property name="hibernate.connection.datasource">java:DefaultDS</property>
+		<!-- 
+		<property name="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
+		<property name="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
+		<property name="jta.UserTransaction">UserTransaction</property>
+		<property name="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+		 -->
+		
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.generate_statistics">false</property>
+		<property name="hibernate.jdbc.batch_size">30</property>
+		<property name="hibernate.jdbc.fetch_size">20</property>
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+		<property name="hibernate.cache.use_query_cache">true</property>
+		<mapping jar="../server/default/deploy/wfsc.war/WEB-INF/lib/wfsc-hbm.jar"/>
+	</session-factory>
+</hibernate-configuration>
