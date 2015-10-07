@@ -12,19 +12,17 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
-import com.base.log.LogUtil;
 import com.base.util.Page;
 import com.constants.CupidStrutsConstants;
+import com.constants.LogModule;
 import com.exttool.MarkConfig;
 import com.exttool.MarkTool;
 import com.wfsc.actions.vo.SearchParam;
-import com.wfsc.common.bo.system.SystemLog;
 import com.wfsc.common.bo.user.Admin;
 import com.wfsc.common.bo.user.Role;
 import com.wfsc.common.bo.user.User;
@@ -94,7 +92,6 @@ public class AdminAction extends DispatchPagerAction {
 	}
 	
 	public String login(){
-		log.info("开始登陆");
 		String CODE_IMAGE = this.session.get(CupidStrutsConstants.CODE_IMAGE_ADMIN)==null?"":this.session.get(CupidStrutsConstants.CODE_IMAGE_ADMIN).toString();
 		String verifyCode = this.request.getParameter("verifyCode");
 		if(StringUtils.isNotBlank(CODE_IMAGE)&&!CODE_IMAGE.equalsIgnoreCase(verifyCode)){
@@ -118,7 +115,7 @@ public class AdminAction extends DispatchPagerAction {
 				user.setLastLoginDate(new Date());
 				user.setLogCount(user.getLogCount()+1);
 				securityService.updateAdminUser(user); 
-				log.info("登陆用户=="+admin.getUsername()+"=======>"+DateUtil.getLongCurrentDate());
+				saveSystemLog(LogModule.systemLog, admin.getUsername()+"登录系统");
 				return SUCCESS;
 			}else{
 				request.setAttribute("errorMsg", "密码错误");

@@ -96,6 +96,10 @@ public class FabricServiceImpl implements IFabricService {
 		return fabricDao.getUniqueEntityByPropNames(new String[]{"vcFactoryCode","vcBefModel","isHtCode"}, new Object[]{vcFactoryCode,vcBefModel,"0"});
 	}
 	@Override
+	public Fabric getHTFabricByCode(String vcFactoryCode, String vcBefModel,String htCode) {
+		return fabricDao.getUniqueEntityByPropNames(new String[]{"vcFactoryCode","vcBefModel","htCode"}, new Object[]{vcFactoryCode,vcBefModel,htCode});
+	}
+	@Override
 	public List<Fabric> getHTFabricByRefid(Long refId) {
 		return fabricDao.getEntitiesByOneProperty("refid", refId);
 	}

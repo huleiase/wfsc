@@ -47,4 +47,6 @@ public interface IFabricService {
 	public List<Fabric> getFabricByHql(String hql);
 	
 	public void deleteFabrics(Collection<Fabric> fs);
+	
+	public Fabric getHTFabricByCode(String vcFactoryCode, String vcBefModel,String htCode);
 }
