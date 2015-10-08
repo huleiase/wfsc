@@ -355,8 +355,9 @@ public class FabricAction extends DispatchPagerAction {
 			for(Fabric s : oldrecord){
 				map.put(s.getVcFactoryCode()+"_"+s.getVcBefModel(), s);
 			}
-			
+			oldrecord.clear();
 		}
+		
 		Map<String,Fabric> excelMap = new HashMap<String,Fabric>();
 	//	List<Fabric> ss = new ArrayList<Fabric>();
 		// 开始校验每一行数据
@@ -371,6 +372,7 @@ public class FabricAction extends DispatchPagerAction {
 			row = sheet.getRow(i);
 			String vcFactoryCode = ExcelUtil.getCellValueAsString(row.getCell(0),"string");
 			String vcBefModel = ExcelUtil.getCellValueAsString(row.getCell(2),"string");
+			log.info(vcFactoryCode+"-->"+vcBefModel+"-->"+importFactory);
 			boolean isNew = true;
 			boolean isDHJOnly = false;
 			Fabric s = new Fabric();
@@ -381,10 +383,11 @@ public class FabricAction extends DispatchPagerAction {
 					isDHJOnly = true;
 				}
 			}
+			
 			if(StringUtils.isNotBlank(importFactory)){
 				s.setImportFactory(importFactory);
 			}
-			
+			s.setCreateDate(new Date());
 			s.setIsHtCode("0");
 			for (int j = 0; j < colNums; j++) {
 				Cell cell = row.getCell(j);
@@ -715,12 +718,14 @@ public class FabricAction extends DispatchPagerAction {
 			//ss.add(s);
 			excelMap.put(vcFactoryCode+vcBefModel, s);
 		}
+		map.clear();
 		try {
 			//仅在校验无误的情况下保存
 			if(CollectionUtils.isEmpty(errorList)){
 				Collection<Fabric> ssList = excelMap.values();
 				fabricService.saveOrUpdateAll(ssList);
 				request.setAttribute("successMsg", "数据导入成功!");
+				excelMap.clear();
 			}
 			
 		} catch (RuntimeException e) {
@@ -790,6 +795,7 @@ public class FabricAction extends DispatchPagerAction {
 			for(Fabric s : refFabrics){
 				refmap.put(s.getVcFactoryCode()+"_"+s.getVcBefModel(), s);
 			}
+			refFabrics.clear();
 			
 		}
 		List<Fabric> oldrecord = fabricService.getAllHTFabric();
@@ -798,7 +804,7 @@ public class FabricAction extends DispatchPagerAction {
 			for(Fabric s : oldrecord){
 				map.put(s.getVcFactoryCode()+"_"+s.getVcBefModel()+"_"+s.getHtCode(), s);
 			}
-			
+			oldrecord.clear();
 		}
 	//	List<Fabric> ss = new ArrayList<Fabric>();
 		Map<String,Fabric> excelMap = new HashMap<String,Fabric>();
@@ -815,6 +821,7 @@ public class FabricAction extends DispatchPagerAction {
 			String vcFactoryCode = ExcelUtil.getCellValueAsString(row.getCell(0),"string");
 			String vcBefModel = ExcelUtil.getCellValueAsString(row.getCell(1),"string");
 			String htCode = ExcelUtil.getCellValueAsString(row.getCell(3),"string");
+			log.info(vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
 			Fabric s = new Fabric();
 			if(map.get(vcFactoryCode+"_"+vcBefModel+"_"+htCode)!=null){
 				s = map.get(vcFactoryCode+"_"+vcBefModel+"_"+htCode);
@@ -827,6 +834,7 @@ public class FabricAction extends DispatchPagerAction {
 				}
 				s.setRefid(f.getId());
 			}
+			s.setCreateDate(new Date());
 			s.setIsHtCode("1");
 			for (int j = 0; j < colNums; j++) {
 				Cell cell = row.getCell(j);
@@ -960,12 +968,15 @@ public class FabricAction extends DispatchPagerAction {
 		//	ss.add(s);
 			excelMap.put(vcFactoryCode+"_"+vcBefModel+"_"+htCode, s);
 		}
+		refmap.clear();
+		map.clear();
 		try {
 			//仅在校验无误的情况下保存
 			if(CollectionUtils.isEmpty(errorList)){
 				Collection<Fabric> ss = excelMap.values();
 				fabricService.saveOrUpdateAll(ss);
 				request.setAttribute("successMsg", "数据导入成功!");
+				excelMap.clear();
 			}
 			
 		} catch (RuntimeException e) {
