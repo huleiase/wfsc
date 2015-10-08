@@ -22,7 +22,6 @@ import com.constants.CupidStrutsConstants;
 import com.constants.LogModule;
 import com.exttool.MarkConfig;
 import com.exttool.MarkTool;
-import com.wfsc.actions.vo.SearchParam;
 import com.wfsc.common.bo.user.Admin;
 import com.wfsc.common.bo.user.Role;
 import com.wfsc.common.bo.user.User;
@@ -64,8 +63,6 @@ public class AdminAction extends DispatchPagerAction {
 
 	private User user;
 	
-	/** 搜索会员的参数对象 */
-	private SearchParam param;
 	
 	private String[] roleIds;
 	private String[] groupIds;
@@ -427,13 +424,6 @@ public class AdminAction extends DispatchPagerAction {
 		return myFileFileName;
 	}
 
-	public SearchParam getParam() {
-		return param;
-	}
-
-	public void setParam(SearchParam param) {
-		this.param = param;
-	}
 
 	public User getUser() {
 		return user;

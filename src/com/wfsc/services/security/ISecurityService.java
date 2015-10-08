@@ -55,7 +55,6 @@ public interface ISecurityService {
 	/** 根据角色id查找角色对象 */
 	public Role getRoleByRoleId(String rid);
 
-	public User getUserByName(String userName);
 	
 	public Admin getUserWithPermissionByName(String userName);
 	
@@ -87,20 +86,7 @@ public interface ISecurityService {
 	public Role getRoleByName(String roleName);
 	public boolean isExitRole(String roleName);
 	public void delSelectAdmin(String[] adminIds);
-	/**
-	 *  按邮箱查询用户
-	 * @param account
-	 * @return
-	 */
-	public User getUserByMail(String account);
-	/**
-	 *  按手机号码查询用户
-	 * @param account
-	 * @return
-	 */
-	public User getUserByTelephone(String account);
 
-	public void reg4Mob(User user);
 	
 	/** 获取所有用户组 */
 	public List<UserGroup> getAllGroups();

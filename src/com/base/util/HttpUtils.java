@@ -22,7 +22,6 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import com.openapi.model.LoginResult;
 
 /****************************************************************************************************************************
  * File Name : HttpUtils.java
@@ -64,14 +63,6 @@ public class HttpUtils {
 				String responseText = EntityUtils.toString(response.getEntity(), "UTF-8");
 				// logger.info(responseText);
 				EntityUtils.consume(resEntity);
-				LoginResult loginResult = (LoginResult) JSONObject.toBean(JSONObject.fromObject(responseText),
-						LoginResult.class);
-				if (loginResult != null && loginResult.isSuccess()) {
-					logger.info("当前登录用户:" + loginResult.getRealName() + " 令牌:" + loginResult.getAccess_token());
-					return loginResult.getAccess_token(); // 访问令牌
-				} else {
-					logger.info(loginResult.getMsg());
-				}
 			}
 		} catch (Exception ioe) {
 			ioe.printStackTrace();

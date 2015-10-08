@@ -50,7 +50,6 @@ import org.hibernate.Hibernate;
 import com.base.exception.CupidRuntimeException;
 import com.base.log.LogUtil;
 import com.exttool.ScaleImage;
-import com.wfsc.actions.vo.PicRecObj;
 
 /**
  * 系统通用类,比如os,当前机器的ip,mac,base64编码
@@ -1722,57 +1721,6 @@ public class SysUtil {
 	 * @param dst
 	 * @param recobj - 裁减区域坐标信息
 	 */
-	public static void copy(File src, File dst, PicRecObj recobj) {
-		try {
-			// InputStream in = null;
-			// OutputStream out = null;
-			int x1 = recobj.getX1();
-			int y1 = recobj.getY1();
-			int w = recobj.getW();
-			int h = recobj.getH();
-			// 本地图片选中后，等比缩放的宽度，用来后面计算尺寸放大系数
-			float recw = recobj.getRecw() == 0 ? 1 : recobj.getRecw();
-			// 本地图片选中后，等比缩放的高度，用来后面计算尺寸放大系数
-			float rech = recobj.getRech() == 0 ? 0 : recobj.getRech();
-			logger.info("recw=" + recw + " | rech=" + rech);
-			ImageFilter cropFilter = null;
-			Image img;
-			try {
-				BufferedImage bi = ImageIO.read(src);
-				int srcWidth = bi.getWidth();
-				int srcHeight = bi.getHeight();
-				// 横向放大系数
-				double xrate = srcWidth / recw;
-				// 纵向放大系数
-				double yrate = srcHeight / rech;
-				w = (int) (w * xrate > srcWidth ? srcWidth : w * xrate);
-				h = (int) (h * yrate > srcHeight ? srcHeight : h * yrate);
-				Image image = bi.getScaledInstance(srcWidth, srcHeight, Image.SCALE_DEFAULT);
-				cropFilter = new CropImageFilter((int) (x1 * xrate), (int) (y1 * yrate), w, h);
-				img = Toolkit.getDefaultToolkit().createImage(new FilteredImageSource(image.getSource(), cropFilter));
-				BufferedImage tag = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-				Graphics g = tag.getGraphics();
-				g.drawImage(img, 0, 0, null);
-				g.dispose();
-				ImageIO.write(tag, "PNG", dst);
-				// in = new BufferedInputStream(new FileInputStream(src), BUFFER_SIZE);
-				// out = new BufferedOutputStream(new FileOutputStream(dst), BUFFER_SIZE);
-				// byte[] buffer = new byte[BUFFER_SIZE];
-				// while (in.read(buffer) > 0) {
-				// out.write(buffer);
-				// }
-			} finally {
-				// if (null != in) {
-				// in.close();
-				// }
-				// if (null != out) {
-				// out.close();
-				// }
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	public static String getExtention(String fileName) {
 		int pos = fileName.lastIndexOf(".");

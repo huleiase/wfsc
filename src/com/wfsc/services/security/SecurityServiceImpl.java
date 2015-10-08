@@ -19,7 +19,6 @@ import com.wfsc.daos.AdminDao;
 import com.wfsc.daos.GroupDao;
 import com.wfsc.daos.PermissionDao;
 import com.wfsc.daos.RoleDao;
-import com.wfsc.daos.user.UserDao;
 
 @Service("securityService")
 public class SecurityServiceImpl implements ISecurityService {
@@ -33,8 +32,6 @@ public class SecurityServiceImpl implements ISecurityService {
 	@Autowired
 	private PermissionDao permissionDao;
 	
-	@Autowired
-	private UserDao userDao;
 	
 	@Autowired
 	private GroupDao groupDao;
@@ -125,10 +122,6 @@ public class SecurityServiceImpl implements ISecurityService {
 		return roleDao.getEntityById(Long.valueOf(rid));
 	}
 
-	@Override
-	public User getUserByName(String userName) {
-		return userDao.getUserByNickName(userName);
-	}
 	@Override
 	public Admin getUserWithPermissionByName(String userName){
 		return adminDao.getUserWithPermissionByName(userName);
@@ -266,14 +259,6 @@ public class SecurityServiceImpl implements ISecurityService {
 	public void setRoleDao(RoleDao roleDao) {
 		this.roleDao = roleDao;
 	}
-
-	public UserDao getUserDao() {
-		return userDao;
-	}
-
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}
 	
 	public PermissionDao getPermissionDao() {
 		return permissionDao;
@@ -284,20 +269,6 @@ public class SecurityServiceImpl implements ISecurityService {
 		this.permissionDao = permissionDao;
 	}
 
-	@Override
-	public User getUserByMail(String account) {
-		return userDao.getUniqueEntityByOneProperty("email", account);
-	}
-
-	@Override
-	public User getUserByTelephone(String account) {
-		return userDao.getUniqueEntityByOneProperty("telphone", account);
-	}
-
-	@Override
-	public void reg4Mob(User user) {
-		userDao.saveEntity(user);
-	}
 
 	@Override
 	public void addGroup(UserGroup group) {

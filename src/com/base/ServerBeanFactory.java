@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 
 import com.base.log.LogUtil;
-import com.base.mail.EmailDispatcher;
 
 /**
  * 服务端的显式对spring bean管理工厂
@@ -39,25 +38,6 @@ public class ServerBeanFactory {
 		return ctx.getBean(beanName);
 	}
 	
-	/**
-	 * 分别初始化各个模块，如果有单个模块初始化失败则不影响系统其它模块
-	 */
-	public static void initModules() {
-		activateEmailDispatcher();
-		addShutdownHook();
-	}
-	
-	private static void activateEmailDispatcher() {
-		try {
-			EmailDispatcher dispatcher = (EmailDispatcher) getAppContext().getBean("mailDispather");
-			dispatcher.initMailSetting();
-			dispatcher.start();
-			logger.info("Start module: EmailDispatcher");
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Start module: EmailDispatcher failed");
-		}
-	}
 	
 	public static void addShutdownHook() {
 		try {

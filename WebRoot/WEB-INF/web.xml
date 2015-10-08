@@ -8,14 +8,9 @@
 		<param-value>
 		/WEB-INF/conf/spring/dataAccessContext_mysql.xml, 
 		/WEB-INF/conf/spring/*-service.xml,
-		/WEB-INF/conf/spring/*-beans.xml
 		</param-value>
 	</context-param>
 
-	<!-- session监听器 -->
-	<listener>
-		<listener-class>com.wfsc.listener.CupidSessionListener</listener-class>
-	</listener>
 	<!-- Spring 刷新Introspector防止内存泄露 -->
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
@@ -25,9 +20,6 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<listener>
-		<listener-class>com.base.CupidStartupListener</listener-class>
-	</listener>
 	<filter>
 		<filter-name>redisp</filter-name>
 		<filter-class>com.base.filters.ReDispatcherFilter</filter-class>
@@ -100,13 +92,6 @@
 		<servlet-class>com.base.tools.CodeImageServlet</servlet-class>
 	</servlet>
 
-	<servlet>
-		<servlet-name>CXFServlet</servlet-name>
-		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-
-
 	<!-- add by wjdeng reportIMG URL -->
 	<servlet>
 		<servlet-name>DisplayChart</servlet-name>
@@ -122,12 +107,6 @@
 		<servlet-name>codeImage</servlet-name>
 		<url-pattern>/getCodeImage</url-pattern>
 	</servlet-mapping>
-	<!-- CXF过滤的webservice接口URL -->
-	<servlet-mapping>
-		<servlet-name>CXFServlet</servlet-name>
-		<url-pattern>/ws/*</url-pattern>
-	</servlet-mapping>
-
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>

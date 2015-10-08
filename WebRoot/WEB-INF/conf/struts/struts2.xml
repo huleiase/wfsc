@@ -17,13 +17,6 @@
 	<!-- 最大5M -->
 	<constant name="struts.multipart.maxSize" value="5000000"></constant>
 	<include file ="struts-default.xml" />
-	<include file="../conf/struts/public.xml" />
-	<!-- 需要权限的action 	-->
-	<include file="../conf/struts/private.xml" />
-	<!-- 需要权限的action 	-->
 	<include file="../conf/struts/admin.xml" />
-	<!-- 与微信对接的action 	
-	<include file="../conf/struts/weixin.xml" />
-	-->
 
 </struts>
