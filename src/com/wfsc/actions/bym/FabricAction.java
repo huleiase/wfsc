@@ -130,6 +130,11 @@ public class FabricAction extends DispatchPagerAction {
 		}else{
 			fabric = new Fabric();
 		}
+		String factoryCode = fabric.getVcFactoryCode();
+		Supplier s = this.supplierService.getSupplierByCode(factoryCode);
+		if(s!=null){
+			fabric.setFactoryName(s.getVcFactoryName());
+		}
 		request.setAttribute("isView", false);
 		return "input";
 	}
@@ -140,6 +145,11 @@ public class FabricAction extends DispatchPagerAction {
 			fabric = fabricService.getFabricById(Long.valueOf(id));
 		}else{
 			fabric = new Fabric();
+		}
+		String factoryCode = fabric.getVcFactoryCode();
+		Supplier s = this.supplierService.getSupplierByCode(factoryCode);
+		if(s!=null){
+			fabric.setFactoryName(s.getVcFactoryName());
 		}
 		request.setAttribute("isView", false);
 		return "inputHT";
