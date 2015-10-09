@@ -636,7 +636,7 @@ public class QuoteAction extends DispatchPagerAction {
 		List<QuoteFabric> qfList = new ArrayList<QuoteFabric>();
 		for (Fabric f : fbList) {
 			QuoteFabric qf = new QuoteFabric();
-			
+			qf.setVcDis(f.getVcDis());
 			String isHtCode = f.getIsHtCode();
 			String htCode = f.getHtCode();
 			qf.setIsHtCode(isHtCode);
@@ -1036,7 +1036,7 @@ public class QuoteAction extends DispatchPagerAction {
         		
         	}
         }
-        List<QuoteFabric> qfList = QuoteFabricUtil.sort(entity.getQuoteFabric(), "getVcIndex", "asc");
+        List<QuoteFabric> qfList = QuoteFabricUtil.sort(entity.getQuoteFabric(), "getOrderId", "asc");
         int rows = qfList.size();
         int shifStartRow = 17;
         if("2".equals(quoteFormateFlag)) {

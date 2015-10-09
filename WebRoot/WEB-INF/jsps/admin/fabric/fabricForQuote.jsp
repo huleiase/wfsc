@@ -39,25 +39,20 @@
 		}
 		$("#isHtCode").val(isHtCode);
 	}
-	$(function(){
-		// var isHtCode = "${isHtCode}";
-		// changeCode(isHtCode);
-		   
-	})
 	
 	function addFabric(){
 		var $options = $("#allFabric option:selected");
-		var vcDis = [];
-		$options.each(function(){
-		  var fbcode = $(this).text();
-		  if(fbcode.indexOf("停用")>0){
-		  	vcDis.push(fbcode);
-		  }
-		});
-		if(vcDis.length>0){
-			art.dialog({title:"温馨提示",content:vcDis.join(",")+"已停用，请重新选择",ok:true});
-			return;
-		}
+	//	var vcDis = [];
+	//	$options.each(function(){
+	//	  var fbcode = $(this).text();
+	//	  if(fbcode.indexOf("停用")>0){
+	//	  	vcDis.push(fbcode);
+	//	  }
+	//	});
+	//	if(vcDis.length>0){
+	//		art.dialog({title:"温馨提示",content:vcDis.join(",")+"已停用，请重新选择",ok:true});
+	//		return;
+	//	}
 		var selectedFbId = $("#selectedFabricHidden").val();
 		var selectedFb = [];
 		$options.each(function(){

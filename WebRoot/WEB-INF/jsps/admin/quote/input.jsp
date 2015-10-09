@@ -14,7 +14,22 @@
 <script type="text/javascript">
 	var basePath = "<%=basePath%>";
 	function checkForm(){
+		var vcDisArray = [];
+		$(document).find("[id^='vcDis']").each(function(i){
+			var vcDis = $(this).val();
+			if(vcDis == "停用"){
+				vcDisArray.push(vcDis);
+			}
+		})
+		if(vcDisArray.length>0){
+			art.dialog({title:"温馨提示",content:"你选择了已停用的产品，请重新选择",ok:true});
+			return;
+		}
 		var projectNum = $("#projectNum").val();
+		if(!projectNum){
+			art.dialog({title:"温馨提示",content:"报价单号必填",ok:true});
+			return;
+		}
 		var quoteId = $("#quoteId").val();
 		if(!quoteId){
 			$.ajax({

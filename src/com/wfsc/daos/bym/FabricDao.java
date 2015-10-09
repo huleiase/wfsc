@@ -1,6 +1,7 @@
 package com.wfsc.daos.bym;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -195,5 +196,16 @@ public class FabricDao extends EnhancedHibernateDaoSupport<Fabric> {
 		hql.append(" order by obj.id desc ");
 		List<Fabric> list = this.findListWithParama(hql.toString(), dataMap);
 		return list;
+	}
+	
+	public Map<String, Long> getRefMap(){
+		Map<String,Long> map = new HashMap<String,Long>();
+		String hql = "select f.id,f.vcFactoryCode,f.vcBefModel from Fabric f where f.isHtCode = '0'";
+		Iterator it = getHibernateTemplate().find(hql).iterator();
+		while(it.hasNext()){
+			Object[] row = (Object[])it.next();
+			map.put(row[1]+"_"+row[2], (Long)row[0]);
+		}
+		return map;
 	}
 }

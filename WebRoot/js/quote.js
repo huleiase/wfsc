@@ -665,7 +665,11 @@ function setUrgentCost(){
 		
 		//复制报价中的布匹
 		function copyFabric2(index){
-		
+			var vcDis = $("vcDis"+index).val();
+			if(vcDis="停用"){
+				art.dialog.tips('该型号已被停用，不允许被复制');
+				return;
+			}
 			art.dialog.confirm('你确定要复制该型号吗？', function () {
 				 //获取最后一行的行号
 				 var lastIndex = $("table#quoteFabricTable tr").last().attr("id").substr(2);

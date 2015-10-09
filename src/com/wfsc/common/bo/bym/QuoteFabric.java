@@ -322,6 +322,8 @@ public class QuoteFabric implements java.io.Serializable{
 	private String isCgbj = "1";
 	private String filePath;
 	
+	private String vcDis;
+	
 	/**
 	  * hibernate中的主键
 	  * 
@@ -1158,6 +1160,14 @@ public class QuoteFabric implements java.io.Serializable{
 
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+
+	public String getVcDis() {
+		return vcDis;
+	}
+
+	public void setVcDis(String vcDis) {
+		this.vcDis = vcDis;
 	}
 	
 }

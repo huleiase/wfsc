@@ -11,11 +11,10 @@
 
 <script type="text/javascript">
 	function checkForm(){
-		// $("#saveButton").attr("disabled", "disabled");
 		$("#inputForm").submit();
 	}
 	function toBack(){
-		window.location.href = "<%=basePath %>/admin/fabric_manager.Q";
+		window.location.href = "<%=basePath%>/admin/fabric_manager.Q";
 	}
 </script>
 

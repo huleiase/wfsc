@@ -140,7 +140,7 @@ public class OrderAction extends DispatchPagerAction {
 					sigMoney = (float) (Math.round((sigMoney) * 10)) / 10;
 					qf.setSigMoney(sigMoney);
 					float vcQuoteNum = qf.getVcQuoteNum() == 0 ? qf.getOrderQuantity() : qf.getVcQuoteNum();
-					Float shijia = qf.getShijia() == 0 ? qf.getSigMoney() : qf.getShijia();
+					float shijia = qf.getShijia() == 0 ? qf.getSigMoney() : qf.getShijia();
 					qf.setVcQuoteNum(vcQuoteNum);
 					qf.setShijia(shijia);
 					float amountrmb = qf.getAmountrmb() == 0 ? PriceUtil.getTwoDecimalFloat(vcQuoteNum * shijia * qf.getExchangeRate()) : qf.getAmountrmb();
@@ -151,6 +151,7 @@ public class OrderAction extends DispatchPagerAction {
 					quoteFabricList.add(qf);//不是被替代的产品才在采购单中显示
 				}
 			}
+			quoteFabricList = QuoteFabricUtil.sort(quoteFabricList, "getOrderId", "asc");
 		}
 		if(order.getSumMoney()>0){
 			sumMoney = order.getSumMoney();
@@ -525,6 +526,7 @@ public class OrderAction extends DispatchPagerAction {
 					qfList.add(qf);
 				}
 			}
+			qfList = QuoteFabricUtil.sort(qfList, "getOrderId", "asc");
 			int rows = qfList.size();
 			int shifStartRow = 22;
 			sheet.shiftRows(shifStartRow, sheet.getLastRowNum(), rows, true, false);
@@ -791,6 +793,7 @@ public class OrderAction extends DispatchPagerAction {
 					qfList.add(qf);
 				}
 			}
+			qfList = QuoteFabricUtil.sort(qfList, "getOrderId", "asc");
 			int rows = qfList.size();
 			int shifStartRow = 22;
 			sheet.shiftRows(shifStartRow, sheet.getLastRowNum(), rows, true, false);

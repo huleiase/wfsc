@@ -15,7 +15,7 @@
 	<constant name="struts.action.extension" value="Q"></constant>
 	<constant name="struts.multipart.saveDir" value="/tmp"></constant>
 	<!-- 最大5M -->
-	<constant name="struts.multipart.maxSize" value="5000000"></constant>
+	<constant name="struts.multipart.maxSize" value="10000000"></constant>
 	<include file ="struts-default.xml" />
 	<include file="../conf/struts/admin.xml" />
 

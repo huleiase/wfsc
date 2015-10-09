@@ -297,10 +297,17 @@ public class FabricAction extends DispatchPagerAction {
 	
 	public String importData(){
 		String importFactory = request.getParameter("importFactory");
+		request.setAttribute("importFactory", importFactory);
 		InputStream is = null;
 		Workbook workbook = null;
 		List<String> errorList = new ArrayList<String>();
 		try {
+			long size = getAttachment().length();
+			if(size>=1024*1024*5){
+				errorList.add("文件不能大于5M，请拆分！");
+				request.setAttribute("errorMsg", errorList);
+				return "toImport";
+			}
 			is = new FileInputStream(getAttachment());
 			workbook = WorkbookFactory.create(is);
 		} catch (FileNotFoundException e1) {
@@ -359,7 +366,6 @@ public class FabricAction extends DispatchPagerAction {
 		}
 		
 		Map<String,Fabric> excelMap = new HashMap<String,Fabric>();
-	//	List<Fabric> ss = new ArrayList<Fabric>();
 		// 开始校验每一行数据
 		String title = null;
 		String value = null;
@@ -715,7 +721,6 @@ public class FabricAction extends DispatchPagerAction {
 					continue;
 				}
 			}
-			//ss.add(s);
 			excelMap.put(vcFactoryCode+vcBefModel, s);
 		}
 		map.clear();
@@ -740,6 +745,12 @@ public class FabricAction extends DispatchPagerAction {
 		Workbook workbook = null;
 		List<String> errorList = new ArrayList<String>();
 		try {
+			long size = getAttachment().length();
+			if(size>=1024*1024*7){
+				errorList.add("文件不能大于7M，请拆分！");
+				request.setAttribute("errorMsg", errorList);
+				return "toImportHT";
+			}
 			is = new FileInputStream(getAttachment());
 			workbook = WorkbookFactory.create(is);
 		} catch (FileNotFoundException e1) {
@@ -765,7 +776,7 @@ public class FabricAction extends DispatchPagerAction {
 		}
 		if(CollectionUtils.isNotEmpty(errorList)){
 			request.setAttribute("errorMsg", errorList);
-			return "toHTImport";
+			return "toImportHT";
 		}
 		// 必填项
 		List<String> mustTitles = new ArrayList<String>();
@@ -787,9 +798,9 @@ public class FabricAction extends DispatchPagerAction {
 		}
 		if(errorList.size()>0){
 			request.setAttribute("errorMsg", errorList);
-			return "toHTImport";
+			return "toImportHT";
 		}
-		List<Fabric> refFabrics = fabricService.getAllFabric();
+	/*	List<Fabric> refFabrics = fabricService.getAllFabric();
 		Map<String,Fabric> refmap = new HashMap<String,Fabric>();
 		if(refFabrics!=null){
 			for(Fabric s : refFabrics){
@@ -797,7 +808,8 @@ public class FabricAction extends DispatchPagerAction {
 			}
 			refFabrics.clear();
 			
-		}
+		}*/
+		Map<String,Long> refmap = fabricService.getRefMap();
 		List<Fabric> oldrecord = fabricService.getAllHTFabric();
 		Map<String,Fabric> map = new HashMap<String,Fabric>();
 		if(oldrecord!=null){
@@ -806,7 +818,6 @@ public class FabricAction extends DispatchPagerAction {
 			}
 			oldrecord.clear();
 		}
-	//	List<Fabric> ss = new ArrayList<Fabric>();
 		Map<String,Fabric> excelMap = new HashMap<String,Fabric>();
 		// 开始校验每一行数据
 		String title = null;
@@ -826,13 +837,12 @@ public class FabricAction extends DispatchPagerAction {
 			if(map.get(vcFactoryCode+"_"+vcBefModel+"_"+htCode)!=null){
 				s = map.get(vcFactoryCode+"_"+vcBefModel+"_"+htCode);
 			}
-			if(refmap.get(vcFactoryCode+"_"+vcBefModel)!=null){
-				Fabric f = refmap.get(vcFactoryCode+"_"+vcBefModel);
-				if(f==null){
-					errorList.add("第" + (i + 1) + "行" + "没有找到对应的原厂型号");
-					continue;
-				}
-				s.setRefid(f.getId());
+			Long refId = refmap.get(vcFactoryCode+"_"+vcBefModel);
+			if(refId==null){
+				errorList.add("第" + (i + 1) + "行" + "没有找到对应的原厂型号");
+				continue;
+			}else{
+				s.setRefid(refId);
 			}
 			s.setCreateDate(new Date());
 			s.setIsHtCode("1");
@@ -965,7 +975,6 @@ public class FabricAction extends DispatchPagerAction {
 					continue;
 				}
 			}
-		//	ss.add(s);
 			excelMap.put(vcFactoryCode+"_"+vcBefModel+"_"+htCode, s);
 		}
 		refmap.clear();

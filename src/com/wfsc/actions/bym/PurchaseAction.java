@@ -502,7 +502,6 @@ public class PurchaseAction extends DispatchPagerAction {
 			}
 		}
 		Map<String,QuoteFabric> map = new HashMap<String,QuoteFabric>();
-		//Set<QuoteFabric> qfSet  = purchase.getQuote().getQuoteFabric();
 		for(QuoteFabric qf : qfSet){
 			ssMap2.put(qf.getVcFactoryNum(), qf.getVcFactoryCode());
 			Order order = orderMap.get(qf.getVcFactoryNum());
@@ -542,6 +541,22 @@ public class PurchaseAction extends DispatchPagerAction {
 			order.setOrderStatus(0);
 			order.setVcfrom(formUser);
 			order.setHbUnit(map.get(fnum).getPriceCur());
+			float sumMoney = 0f;
+			for(QuoteFabric qf : qfSet){
+				if(!"1".equals(qf.getIsReplaced()) && qf.getVcFactoryNum().equals(order.getFactoryNum())){
+					float sigMoney = qf.getSinglePrice() * qf.getVcPurDis();
+					sigMoney = (float) (Math.round((sigMoney) * 10)) / 10;
+					qf.setSigMoney(sigMoney);
+					float vcQuoteNum = qf.getVcQuoteNum() == 0 ? qf.getOrderQuantity() : qf.getVcQuoteNum();
+					float shijia = qf.getShijia() == 0 ? qf.getSigMoney() : qf.getShijia();
+					sumMoney += (vcQuoteNum * shijia);
+				}
+			}
+			if(order.getSumMoney()>0){
+				sumMoney = order.getSumMoney();
+			}
+			sumMoney = (float) (Math.round((sumMoney) * 10)) / 10;
+			order.setSumMoney(sumMoney);
 			this.orderService.saveOrUpdateEntity(order);
 		}
 		

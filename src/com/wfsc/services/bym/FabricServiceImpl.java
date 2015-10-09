@@ -123,5 +123,10 @@ public class FabricServiceImpl implements IFabricService {
 	public void deleteFabrics(Collection<Fabric> fs) {
 		fabricDao.deleteAllEntities(fs);
 	}
+	@Override
+	public Map<String, Long> getRefMap() {
+		
+		return fabricDao.getRefMap();
+	}
 
 }
