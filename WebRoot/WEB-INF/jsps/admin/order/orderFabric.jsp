@@ -111,7 +111,7 @@
 						<div style="width: 100px;">
 							<s:property value="orderQuantity" />
 							&nbsp;&nbsp;
-							<s:property value="priceCur" />
+							<s:property value="vcOldPriceUnit" />
 						</div>
 					</td>
 					<td>
@@ -121,7 +121,7 @@
 								value="<s:property value="vcQuoteNum" />"
 								onkeyup="setOrderAmount(${ vcCount})" class="widthShort" />
 								&nbsp;&nbsp;
-							<s:property value="priceCur" />
+							<s:property value="vcOldPriceUnit" />
 						</div>
 					</td>
 					<td>

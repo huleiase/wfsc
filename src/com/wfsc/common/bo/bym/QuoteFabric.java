@@ -1161,7 +1161,9 @@ public class QuoteFabric implements java.io.Serializable{
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
-
+	/**
+	 * @hibernate.property type="string"
+	 */
 	public String getVcDis() {
 		return vcDis;
 	}

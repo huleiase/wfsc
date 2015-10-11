@@ -122,7 +122,7 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 				}
 				if("saleName".equals(key)){
 					hql.append(" and sellname = '").append(paramap.get("saleName")).append("' ");
-					countSql.append(" and quote.sellname = '").append(paramap.get(key)).append("' ");
+					countSql.append(" and salesman.salesname = '").append(paramap.get(key)).append("' ");
 					continue;
 				}
 			}

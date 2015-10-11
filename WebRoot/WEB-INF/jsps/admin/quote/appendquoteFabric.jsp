@@ -8,7 +8,6 @@
                  <c:set value='${obj.vcIndex+1 }' var="vcCount"/>
                   <tr id="tr${vcCount }">
                  <td>
-                 	<input type="hidden" value="<s:property value="vcDis"/>" id="vcDis${vcCount }" />
                  	<input type="hidden" value="<s:property value="id"/>" id="quoteFabricId${vcCount }" name="quoteFabricList[${vcIndex }].id"/>
                  	<input type="hidden" value="<s:property value="dhjVcOldPrice"/>" id="dhjVcOldPrice${vcCount }" />
 	                 <input type="hidden" value="<s:property value="dhjVcHKPrice"/>" id="dhjVcHKPrice${vcCount }" />
@@ -45,6 +44,7 @@
                  <td><input type="text" value="${vcCount }" id="orderId${vcCount }" name="quoteFabricList[${vcIndex }].orderId" class="widthShort"/></td>
 			     <td><input type="text" value="<s:property value="vcProject"/>" id="vcProject${vcCount }" name="quoteFabricList[${vcIndex }].vcProject"/></td>
 			     <td><input type="text" value="<s:property value="vcDes"/>" id="vcDes${vcCount }" name="quoteFabricList[${vcIndex }].vcDes" /></td>
+			     <td><input type="text" value="<s:property value="vcDis"/>" id="vcDis${vcCount }" name="quoteFabricList[${vcIndex }].vcDis"  class="widthShort"/></td>
 			     <td><input type="text" value="<s:property value="vcModelNumDisplay"/>" id="vcModelNumDisplay${vcCount }" name="quoteFabricList[${vcIndex }].vcModelNumDisplay" readonly="readonly" /></td>
 			     <td><input type="text" value="<s:property value="vcColorNum"/>" id="vcColorNum${vcCount }" name="quoteFabricList[${vcIndex }].vcColorNum"  class="widthShort"/></td>
                  <td>

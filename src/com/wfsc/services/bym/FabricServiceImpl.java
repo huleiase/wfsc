@@ -93,11 +93,13 @@ public class FabricServiceImpl implements IFabricService {
 	}
 	@Override
 	public Fabric getFabricByCode(String vcFactoryCode, String vcBefModel) {
-		return fabricDao.getUniqueEntityByPropNames(new String[]{"vcFactoryCode","vcBefModel","isHtCode"}, new Object[]{vcFactoryCode,vcBefModel,"0"});
+		//return fabricDao.getUniqueEntityByPropNames(new String[]{"vcFactoryCode","vcBefModel","isHtCode"}, new Object[]{vcFactoryCode,vcBefModel,"0"});
+		return fabricDao.getFabricByCode(vcFactoryCode, vcBefModel);
 	}
 	@Override
 	public Fabric getHTFabricByCode(String vcFactoryCode, String vcBefModel,String htCode) {
-		return fabricDao.getUniqueEntityByPropNames(new String[]{"vcFactoryCode","vcBefModel","htCode"}, new Object[]{vcFactoryCode,vcBefModel,htCode});
+		//return fabricDao.getUniqueEntityByPropNames(new String[]{"vcFactoryCode","vcBefModel","htCode"}, new Object[]{vcFactoryCode,vcBefModel,htCode});
+		return fabricDao.getHtFabricByCode(vcFactoryCode, vcBefModel, htCode);
 	}
 	@Override
 	public List<Fabric> getHTFabricByRefid(Long refId) {
@@ -127,6 +129,10 @@ public class FabricServiceImpl implements IFabricService {
 	public Map<String, Long> getRefMap() {
 		
 		return fabricDao.getRefMap();
+	}
+	@Override
+	public Long getRefIdByCode(String vcFactoryCode, String vcBefModel) {
+		return fabricDao.getRefIdByCode(vcFactoryCode, vcBefModel);
 	}
 
 }

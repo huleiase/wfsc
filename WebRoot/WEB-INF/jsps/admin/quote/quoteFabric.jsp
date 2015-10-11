@@ -9,6 +9,7 @@
                   <th>序号</th>
                   <th>项目</th>
                   <th>描述</th>
+                   <th>启/停</th>
                   <th>型号</th>
                    <th>色号</th>
                   <th>幅宽</th>
@@ -90,6 +91,7 @@
                  <td><input type="text" value="<s:property value="orderId"/>" id="orderId${vcCount }" name="quoteFabricList[${vcIndex }].orderId" class="widthShort"/></td>
 			     <td><input type="text" value="<s:property value="vcProject"/>" id="vcProject${vcCount }" name="quoteFabricList[${vcIndex }].vcProject"/></td>
 			     <td><input type="text" value="<s:property value="vcDes"/>" id="vcDes${vcCount }" name="quoteFabricList[${vcIndex }].vcDes" /></td>
+			     <td><input type="text" value="<s:property value="vcDis"/>" id="vcDis${vcCount }" name="quoteFabricList[${vcIndex }].vcDis"  class="widthShort"/></td>
 			     <td><input type="text" value="<s:property value="vcModelNumDisplay"/>" id="vcModelNumDisplay${vcCount }" name="quoteFabricList[${vcIndex }].vcModelNumDisplay" readonly="readonly" /></td>
 			     <td><input type="text" value="<s:property value="vcColorNum"/>" id="vcColorNum${vcCount }" name="quoteFabricList[${vcIndex }].vcColorNum"  class="widthShort"/></td>
                  <td>

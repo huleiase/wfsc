@@ -16,7 +16,7 @@
 		$("#vcProject").val("");
 		$("#vcModelNum").val("");
 		$("#orderNo").val("");
-		$("#qsurplus").val("");
+		$("#surplus").val("");
 	}
 	function addOrUpdate(id){
 		var url = "<%=basePath%>admin/storeFabric_input.Q";
@@ -116,10 +116,10 @@
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">订单号</label>
 	            <input name="orderNo" id="orderNo" type="text" class="span2"  value="${orderNo }">
 	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">剩余数量</label>
-	            <select name="qsurplus" id="qsurplus" style="width:170px;float:left;">
+	            <select name="surplus" id="surplus" style="width:170px;float:left;">
 	            	<option value="">请选择</option>
-                  	<option value="0" <s:if test="#request.qsurplus==0">selected</s:if> >为零</option>
-                  	<option value="1" <s:if test="#request.qsurplus==1">selected</s:if> >不为零</option>
+                  	<option value="0" <s:if test="#request.surplus==0">selected</s:if> >为零</option>
+                  	<option value="1" <s:if test="#request.surplus==1">selected</s:if> >不为零</option>
 	             </select>
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">入库日期</label>
 	             <input type="text" id="startTime" name="startTime"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${startTime}" class="span2" />

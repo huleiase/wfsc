@@ -59,12 +59,12 @@ public class PermissionTag extends TagSupport{
 			//modify by wjdeng at 2010/06/30 增加多个权限并集处理
 			//(用法,如:PemissionFilter(pemissionIds=PermissionId.DELETE_INC_ISSUE+"||"+PermissionId.DELETE_PRO_ISSUE))
 			//如要求有其它表达式运算 再写方法完善
-			String[] pas = StringUtils.split(getPermissionId(),"||");
-			boolean tf = false;
+			//String[] pas = StringUtils.split(getPermissionId(),"||");
+			/*boolean tf = false;
 			for(String pemt :pas){
 				tf= tf || admin.hasPermission(pemt);
-			}
-			return tf;
+			}*/
+			return admin.hasPermission(permissionId);
 		} else {
 			return false;
 		}

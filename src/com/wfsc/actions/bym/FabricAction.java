@@ -124,6 +124,11 @@ public class FabricAction extends DispatchPagerAction {
 	}
 	
 	public String input() {
+		Admin admin = this.getCurrentAdminUser();
+		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
+		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
+		request.setAttribute("isAdmin", isAdmin);
+		request.setAttribute("isPurManager", isPurManager);
 		String id = request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
 			fabric = fabricService.getFabricById(Long.valueOf(id));
@@ -140,6 +145,11 @@ public class FabricAction extends DispatchPagerAction {
 	}
 	
 	public String inputHT() {
+		Admin admin = this.getCurrentAdminUser();
+		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
+		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
+		request.setAttribute("isAdmin", isAdmin);
+		request.setAttribute("isPurManager", isPurManager);
 		String id = request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
 			fabric = fabricService.getFabricById(Long.valueOf(id));
@@ -256,18 +266,6 @@ public class FabricAction extends DispatchPagerAction {
 	
 	public String save(){
 		fabric.setIsHtCode("0");
-		/*fabric.setDhjCost(0F);
-		fabric.setDhjHKRate(0F);
-		fabric.setDhjHKTransCost(0F);
-		fabric.setDhjInlandRate(0F);
-		fabric.setDhjInlandTransCost(0F);
-		fabric.setDhjWidth(0F);
-		fabric.setInlandDownRate(0F);
-		fabric.setInlandRaiseRate(0F);
-		fabric.setInlandRefitRate(0F);
-		fabric.setHkDownRate(0F);
-		fabric.setHkRaiseRate(0F);
-		fabric.setHkRefitRate(0F);*/
 		fabricService.saveOrUpdateEntity(fabric);
 		return "ok";
 	}
@@ -356,15 +354,6 @@ public class FabricAction extends DispatchPagerAction {
 			request.setAttribute("errorMsg", errorList);
 			return "toImport";
 		}
-		List<Fabric> oldrecord = fabricService.getAllFabric();
-		Map<String,Fabric> map = new HashMap<String,Fabric>();
-		if(oldrecord!=null){
-			for(Fabric s : oldrecord){
-				map.put(s.getVcFactoryCode()+"_"+s.getVcBefModel(), s);
-			}
-			oldrecord.clear();
-		}
-		
 		Map<String,Fabric> excelMap = new HashMap<String,Fabric>();
 		// 开始校验每一行数据
 		String title = null;
@@ -378,18 +367,20 @@ public class FabricAction extends DispatchPagerAction {
 			row = sheet.getRow(i);
 			String vcFactoryCode = ExcelUtil.getCellValueAsString(row.getCell(0),"string");
 			String vcBefModel = ExcelUtil.getCellValueAsString(row.getCell(2),"string");
-			log.info(vcFactoryCode+"-->"+vcBefModel+"-->"+importFactory);
 			boolean isNew = true;
 			boolean isDHJOnly = false;
-			Fabric s = new Fabric();
-			if(map.get(vcFactoryCode+"_"+vcBefModel)!=null){
-				s = map.get(vcFactoryCode+"_"+vcBefModel);
+			Fabric s = fabricService.getFabricByCode(vcFactoryCode, vcBefModel);
+			String addOrUpdate = "更新";
+			if(s!=null){
 				isNew = false;
 				if(s.getDhjCost()>0&&s.getVcOldPrice()<1){
 					isDHJOnly = true;
 				}
+			}else{
+				addOrUpdate = "新增";
+				s = new Fabric();
 			}
-			
+			log.info(i+"-->"+addOrUpdate+"-->"+vcFactoryCode+"-->"+vcBefModel);
 			if(StringUtils.isNotBlank(importFactory)){
 				s.setImportFactory(importFactory);
 			}
@@ -399,19 +390,19 @@ public class FabricAction extends DispatchPagerAction {
 				Cell cell = row.getCell(j);
 				title = titles.get(j);
 				prefix = "第" + (i + 1) + "行,第" + (j + 1) + "列 " + title;
-				if (StringUtils.equals(title, "工厂代号")) {
-					value = ExcelUtil.getCellValueAsString(cell,"string");
-					s.setVcFactoryCode(value);
-					continue;
-				}
-				
-				if (StringUtils.equals(title, "原厂型号")) {
-					value = ExcelUtil.getCellValueAsString(cell,"string");
-					s.setVcBefModel(value);
-					continue;
+				if (s.getId()==null) {
+					if (StringUtils.equals(title, "工厂代号")) {
+						value = ExcelUtil.getCellValueAsString(cell, "string");
+						s.setVcFactoryCode(value);
+						continue;
+					}
+					if (StringUtils.equals(title, "原厂型号")) {
+						value = ExcelUtil.getCellValueAsString(cell, "string");
+						s.setVcBefModel(value);
+						continue;
+					}
 				}
 				//1、常规导入都要执行，2、只有大货价也要执行,3、第一次导入
-				
 				if(StringUtils.isNotBlank(importFactory)||isDHJOnly||isNew){
 					if (StringUtils.equals(title, "类型")) {
 						value = ExcelUtil.getCellValueAsString(cell,"string");
@@ -723,7 +714,7 @@ public class FabricAction extends DispatchPagerAction {
 			}
 			excelMap.put(vcFactoryCode+vcBefModel, s);
 		}
-		map.clear();
+		//map.clear();
 		try {
 			//仅在校验无误的情况下保存
 			if(CollectionUtils.isEmpty(errorList)){
@@ -746,8 +737,8 @@ public class FabricAction extends DispatchPagerAction {
 		List<String> errorList = new ArrayList<String>();
 		try {
 			long size = getAttachment().length();
-			if(size>=1024*1024*7){
-				errorList.add("文件不能大于7M，请拆分！");
+			if(size>=1024*1024*5){
+				errorList.add("文件不能大于3M，请拆分！");
 				request.setAttribute("errorMsg", errorList);
 				return "toImportHT";
 			}
@@ -800,24 +791,6 @@ public class FabricAction extends DispatchPagerAction {
 			request.setAttribute("errorMsg", errorList);
 			return "toImportHT";
 		}
-	/*	List<Fabric> refFabrics = fabricService.getAllFabric();
-		Map<String,Fabric> refmap = new HashMap<String,Fabric>();
-		if(refFabrics!=null){
-			for(Fabric s : refFabrics){
-				refmap.put(s.getVcFactoryCode()+"_"+s.getVcBefModel(), s);
-			}
-			refFabrics.clear();
-			
-		}*/
-		Map<String,Long> refmap = fabricService.getRefMap();
-		List<Fabric> oldrecord = fabricService.getAllHTFabric();
-		Map<String,Fabric> map = new HashMap<String,Fabric>();
-		if(oldrecord!=null){
-			for(Fabric s : oldrecord){
-				map.put(s.getVcFactoryCode()+"_"+s.getVcBefModel()+"_"+s.getHtCode(), s);
-			}
-			oldrecord.clear();
-		}
 		Map<String,Fabric> excelMap = new HashMap<String,Fabric>();
 		// 开始校验每一行数据
 		String title = null;
@@ -832,45 +805,49 @@ public class FabricAction extends DispatchPagerAction {
 			String vcFactoryCode = ExcelUtil.getCellValueAsString(row.getCell(0),"string");
 			String vcBefModel = ExcelUtil.getCellValueAsString(row.getCell(1),"string");
 			String htCode = ExcelUtil.getCellValueAsString(row.getCell(3),"string");
-			log.info(vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
-			Fabric s = new Fabric();
-			if(map.get(vcFactoryCode+"_"+vcBefModel+"_"+htCode)!=null){
-				s = map.get(vcFactoryCode+"_"+vcBefModel+"_"+htCode);
-			}
-			Long refId = refmap.get(vcFactoryCode+"_"+vcBefModel);
-			if(refId==null){
-				errorList.add("第" + (i + 1) + "行" + "没有找到对应的原厂型号");
-				continue;
-			}else{
+			String addOrUpdate = "更新";
+			Fabric s = fabricService.getHTFabricByCode(vcFactoryCode, vcBefModel, htCode);
+			if(s==null){
+				addOrUpdate = "新增";
+				s = new Fabric();
+				Long refId = fabricService.getRefIdByCode(vcFactoryCode, vcBefModel);
+				if(refId == null){
+					errorList.add("第" + (i + 1) + "行" + "没有找到对应的原厂型号");
+					continue;
+				}
 				s.setRefid(refId);
 			}
+			log.info(i+"-->"+addOrUpdate+"-->"+vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
 			s.setCreateDate(new Date());
 			s.setIsHtCode("1");
 			for (int j = 0; j < colNums; j++) {
 				Cell cell = row.getCell(j);
 				title = titles.get(j);
 				prefix = "第" + (i + 1) + "行,第" + (j + 1) + "列 " + title;
-				if (StringUtils.equals(title, "工厂代号")) {
-					value = ExcelUtil.getCellValueAsString(cell,"string");
-					s.setVcFactoryCode(value);
-					continue;
+				//只有新增的时候才设置这几个，因为这几个不会变，而且加了索引，更新的话会影响效率
+				if (s.getId()==null) {
+					if (StringUtils.equals(title, "工厂代号")) {
+						value = ExcelUtil.getCellValueAsString(cell, "string");
+						s.setVcFactoryCode(value);
+						continue;
+					}
+					if (StringUtils.equals(title, "原厂型号")) {
+						value = ExcelUtil.getCellValueAsString(cell, "string");
+						s.setVcBefModel(value);
+						continue;
+					}
+					if (StringUtils.equals(title, "HT型号")) {
+						value = ExcelUtil.getCellValueAsString(cell, "string");
+						s.setHtCode(value);
+						continue;
+					}
 				}
-				if (StringUtils.equals(title, "原厂型号")) {
-					value = ExcelUtil.getCellValueAsString(cell,"string");
-					s.setVcBefModel(value);
-					continue;
-				}
-				
 				if (StringUtils.equals(title, "色号")) {
 					value = ExcelUtil.getCellValueAsString(cell,"string");
 					s.setColorCode(value);
 					continue;
 				}
-				if (StringUtils.equals(title, "HT型号")) {
-					value = ExcelUtil.getCellValueAsString(cell,"string");
-					s.setHtCode(value);
-					continue;
-				}
+				
 				if (StringUtils.equals(title, "停用")) {
 					value = ExcelUtil.getCellValueAsString(cell,"string");
 					if("1".equals(value)){
@@ -977,8 +954,6 @@ public class FabricAction extends DispatchPagerAction {
 			}
 			excelMap.put(vcFactoryCode+"_"+vcBefModel+"_"+htCode, s);
 		}
-		refmap.clear();
-		map.clear();
 		try {
 			//仅在校验无误的情况下保存
 			if(CollectionUtils.isEmpty(errorList)){

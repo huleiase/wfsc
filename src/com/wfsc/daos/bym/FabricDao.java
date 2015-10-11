@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
 import com.base.EnhancedHibernateDaoSupport;
@@ -207,5 +208,34 @@ public class FabricDao extends EnhancedHibernateDaoSupport<Fabric> {
 			map.put(row[1]+"_"+row[2], (Long)row[0]);
 		}
 		return map;
+	}
+	public Fabric getFabricByCode(String vcFactoryCode,String vcBefModel){
+		String hql = "from Fabric where vcFactoryCode=? and vcBefModel=? and isHtCode='0'";
+		List<Fabric> list = this.getHibernateTemplate().find(hql, vcFactoryCode,vcBefModel);
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}else{
+			return list.get(0);
+		}
+	}
+	
+	public Fabric getHtFabricByCode(String vcFactoryCode,String vcBefModel,String htCode){
+		String hql = "from Fabric where vcFactoryCode=? and vcBefModel=? and htCode=?";
+		List<Fabric> list = this.getHibernateTemplate().find(hql, vcFactoryCode,vcBefModel,htCode);
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}else{
+			return list.get(0);
+		}
+	}
+	
+	public Long getRefIdByCode(String vcFactoryCode,String vcBefmodle){
+		String hql = "select f.id from Fabric f where f.vcFactoryCode=? and f.vcBefModel=? and f.isHtCode = '0'";
+		List list = getHibernateTemplate().find(hql, vcFactoryCode,vcBefmodle);
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}else{
+			return (Long)list.get(0);
+		}
 	}
 }

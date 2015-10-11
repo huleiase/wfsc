@@ -51,4 +51,6 @@ public interface IFabricService {
 	public Fabric getHTFabricByCode(String vcFactoryCode, String vcBefModel,String htCode);
 	
 	public Map<String,Long> getRefMap();
+	
+	public Long getRefIdByCode(String vcFactoryCode, String vcBefModel);
 }

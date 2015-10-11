@@ -246,7 +246,7 @@ public class StoreFabricAction extends DispatchPagerAction {
 		
 		String vcModelNum = request.getParameter("vcModelNum");
 		String orderNo = request.getParameter("orderNo");
-		String qsurplus = request.getParameter("qsurplus");
+		String surplus = request.getParameter("surplus");
 		
 		String storeId = request.getParameter("storeId");
 		
@@ -270,9 +270,9 @@ public class StoreFabricAction extends DispatchPagerAction {
 			paramap.put("orderNo", orderNo);
 			request.setAttribute("orderNo", orderNo);
 		}
-		if(StringUtils.isNotEmpty(qsurplus)){
-			paramap.put("qsurplus", qsurplus);
-			request.setAttribute("qsurplus", qsurplus);
+		if(StringUtils.isNotEmpty(surplus)){
+			paramap.put("surplus", surplus);
+			request.setAttribute("surplus", surplus);
 		}
 		
 		if(StringUtils.isNotEmpty(storeId)){
