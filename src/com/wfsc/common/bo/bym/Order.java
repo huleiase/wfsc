@@ -651,8 +651,8 @@ public class Order implements java.io.Serializable {
 		return areaZh;
 	}
 
-	public void setAreaZh(String area_zh) {
-		this.areaZh = area_zh;
+	public void setAreaZh(String areaZh) {
+		this.areaZh = areaZh;
 	}
 	/**
 	 * @hibernate.property type="string"

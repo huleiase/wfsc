@@ -293,6 +293,7 @@ public class PurchaseAction extends DispatchPagerAction {
         		qfList.add(qf);
         	}
         }
+		qfList = QuoteFabricUtil.sort(qfList, "getOrderId", "asc");
         int rows = qfList.size();
         int shifStartRow = 13;
         sheet.shiftRows(shifStartRow,  sheet.getLastRowNum(), rows, true, false);
@@ -448,17 +449,19 @@ public class PurchaseAction extends DispatchPagerAction {
 		purchaseService.saveOrUpdateEntity(purchase);
 		Set<QuoteFabric> qfSet  = new HashSet<QuoteFabric>();
 		for(QuoteFabric qf:quoteFabricList){
-			QuoteFabric qfdb = this.quoteFabricService.getQuoteFabricById(qf.getId());
-			qfdb.setVcSubLay(qf.getVcSubLay());
-			qfdb.setVcRealityAog(qf.getVcRealityAog());
-			qfdb.setVcShipmentNum(qf.getVcShipmentNum());
-			qfdb.setVcType(qf.getVcType());
-			qfdb.setVcPurchaseRmk(qf.getVcPurchaseRmk());
-			qfdb.setVcAssignAutor(qf.getVcAssignAutor());
-			if("3".equals(purchase.getOrderStatus())){
-				qfSet.add(qfdb);
-			}else{
-				quoteFabricService.saveOrUpdateEntity(qfdb);
+			if(!"1".equals(qf.getIsReplaced())){
+				QuoteFabric qfdb = this.quoteFabricService.getQuoteFabricById(qf.getId());
+				qfdb.setVcSubLay(qf.getVcSubLay());
+				qfdb.setVcRealityAog(qf.getVcRealityAog());
+				qfdb.setVcShipmentNum(qf.getVcShipmentNum());
+				qfdb.setVcType(qf.getVcType());
+				qfdb.setVcPurchaseRmk(qf.getVcPurchaseRmk());
+				qfdb.setVcAssignAutor(qf.getVcAssignAutor());
+				if("3".equals(purchase.getOrderStatus())){
+					qfSet.add(qfdb);
+				}else{
+					quoteFabricService.saveOrUpdateEntity(qfdb);
+				}
 			}
 			
 		}
@@ -503,15 +506,16 @@ public class PurchaseAction extends DispatchPagerAction {
 		}
 		Map<String,QuoteFabric> map = new HashMap<String,QuoteFabric>();
 		for(QuoteFabric qf : qfSet){
-			ssMap2.put(qf.getVcFactoryNum(), qf.getVcFactoryCode());
-			Order order = orderMap.get(qf.getVcFactoryNum());
-			if(order==null){
-				qf.setOrderNo(orderNo);
-			}else{
-				qf.setOrderNo(order.getOrderNo());
-			}
-			map.put(qf.getVcFactoryNum(),qf);
-			quoteFabricService.saveOrUpdateEntity(qf);
+				ssMap2.put(qf.getVcFactoryNum(), qf.getVcFactoryCode());
+				Order order = orderMap.get(qf.getVcFactoryNum());
+				if(order==null){
+					qf.setOrderNo(orderNo);
+				}else{
+					qf.setOrderNo(order.getOrderNo());
+				}
+				map.put(qf.getVcFactoryNum(),qf);
+				quoteFabricService.saveOrUpdateEntity(qf);
+			
 		}
 		for(String fnum : map.keySet()){
 			Order order = orderMap.get(fnum);

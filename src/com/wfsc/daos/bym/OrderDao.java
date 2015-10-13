@@ -32,11 +32,11 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 	public Page<Order> findForPage(Page<Order> page, Map<String,Object> paramap){
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		Session s = null;
-		StringBuffer hql = new StringBuffer("select distinct obj from Order as obj left join obj.purchase.quote.quoteFabric as qf LEFT  join obj.purchase.quote.salesman as sellname where qf.isReplaced != 1 ");
+		StringBuffer hql = new StringBuffer("select distinct obj from Order as obj left join obj.purchase.quote as quote left join obj.purchase.quote.quoteFabric as qf LEFT  join obj.purchase.quote.salesman as sellname where obj.factoryNum=qf.vcFactoryNum and qf.isReplaced != 1 ");
 		StringBuffer countSql = new StringBuffer("SELECT count(DISTINCT(ordera.id)) AS countId");
-		countSql.append(" FROM bym_order ordera LEFT OUTER JOIN bym_quote quote on ordera.quoteId=quote.id left join bym_quote_fabric qf ON ordera.id=qf.orderId");
+		countSql.append(" FROM bym_order ordera LEFT OUTER JOIN bym_quote quote on ordera.quoteId=quote.id left join bym_quote_fabric qf ON quote.id=qf.quoteId");
 		countSql.append(" LEFT OUTER JOIN bym_quote_salesman salesman ON quote.id=salesman.quoteId");
-		countSql.append(" WHERE 1=1 ");
+		countSql.append(" WHERE ordera.factoryNum=qf.vcFactoryNum and  qf.isReplaced != 1 ");
 		try {
 			Date sdate1 = null;
 			Date edate1 = null;
@@ -91,9 +91,12 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 					countSql.append(" and ordera.orderNo like '%").append(paramap.get(key).toString()+"%'");
 				}
 				if("expressNumber".equalsIgnoreCase(key)){
-					hql.append(" and obj.expressNumber like :expressNumber ");
-					dataMap.put(key, paramap.get(key).toString());
-					countSql.append(" and ordera.expressNumber like '%").append(paramap.get(key).toString()+"%'");
+					hql.append(" and (obj.expressNumber1 like :expressNumber1 or obj.expressNumber2 like :expressNumber2 or obj.expressNumber3 like :expressNumber3 ) ");
+					dataMap.put("expressNumber1", paramap.get(key).toString());
+					dataMap.put("expressNumber2", paramap.get(key).toString());
+					dataMap.put("expressNumber3", paramap.get(key).toString());
+					String en = paramap.get(key).toString();
+					countSql.append(" and (ordera.expressNumber1 like '%"+en+"%'").append(" or ordera.expressNumber2 like '%"+en+"%'").append(" or ordera.expressNumber3 like '%"+en+"%')");
 				}
 				if ("isOrderConfirm".equals(key)) {
 					hql.append(" and obj.isOrderConfirm = '"+paramap.get(key)+"'");
@@ -111,8 +114,8 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 					continue;
 				}
 				if ("area_zh".equals(key)) {
-					hql.append(" and obj.area_zh = '"+paramap.get(key)+"'");
-					countSql.append(" and ordera.area_zh = '").append(paramap.get(key).toString()+"'");
+					hql.append(" and obj.areaZh = '"+paramap.get(key)+"'");
+					countSql.append(" and ordera.areaZh = '").append(paramap.get(key).toString()+"'");
 					continue;
 				}
 				if("vcModelNum".equalsIgnoreCase(key)){
@@ -126,7 +129,7 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 					continue;
 				}
 			}
-			System.out.println("查订单的sql==="+countSql.toString());
+			System.out.println("查订单数量的sql==="+countSql.toString());
 		//	int totalCount = this.countByHqlWithParama(hql.toString(),dataMap);
 		//	page.setTotalCount(totalCount);
 			List<Order> list = this.findList4PageWithParama(hql.toString(), page
@@ -210,7 +213,7 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 					continue;
 				}
 				if ("area_zh".equals(key)) {
-					hql.append(" and obj.area_zh = '"+paramap.get(key)+"'");
+					hql.append(" and obj.areaZh = '"+paramap.get(key)+"'");
 					continue;
 				}
 			}

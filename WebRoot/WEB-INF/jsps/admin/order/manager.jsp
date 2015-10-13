@@ -24,6 +24,8 @@ var basePath = "<%=basePath%>";
 		$("#vcModelNum").val("");
 		$("#area_zh").val("");
 		$("#orderNo").val("");
+		$("#orderStatus").val("");
+		
 		
 	}
 	function operOrder(id,oper){
@@ -159,8 +161,9 @@ var basePath = "<%=basePath%>";
 	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">订单状态</label>
 	            <select name="orderStatus" id="orderStatus" style="width:170px;float:left;">
 	            	<option value="">请选择</option>
-                  	<option value="0" <s:if test="#request.orderStatus==0">selected</s:if> >未审核</option>
-                  	<option value="1" <s:if test="#request.orderStatus==1">selected</s:if> >已审核</option>
+	            	<option value="0" <s:if test="#request.orderStatus==0">selected</s:if> >未提交</option>
+                  	<option value="1" <s:if test="#request.orderStatus==1">selected</s:if> >已提交</option>
+                  	<option value="3" <s:if test="#request.orderStatus==3">selected</s:if> >已审核</option>
 	             </select>
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">创建日期</label>
 	             <input type="text" id="startTime1" name="startTime1"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${startTime1}" class="span2" />

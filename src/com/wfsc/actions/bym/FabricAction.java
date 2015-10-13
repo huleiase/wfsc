@@ -381,6 +381,10 @@ public class FabricAction extends DispatchPagerAction {
 				s = new Fabric();
 			}
 			log.info(i+"-->"+addOrUpdate+"-->"+vcFactoryCode+"-->"+vcBefModel);
+			if(excelMap.containsKey(vcFactoryCode+vcBefModel)){
+				log.info(i+"-->"+"有重复-->"+vcFactoryCode+"-->"+vcBefModel);
+				excelMap.remove(vcFactoryCode+vcBefModel);
+			}
 			if(StringUtils.isNotBlank(importFactory)){
 				s.setImportFactory(importFactory);
 			}
@@ -714,12 +718,14 @@ public class FabricAction extends DispatchPagerAction {
 			}
 			excelMap.put(vcFactoryCode+vcBefModel, s);
 		}
-		//map.clear();
 		try {
 			//仅在校验无误的情况下保存
 			if(CollectionUtils.isEmpty(errorList)){
-				Collection<Fabric> ssList = excelMap.values();
-				fabricService.saveOrUpdateAll(ssList);
+				//Collection<Fabric> ssList = excelMap.values();
+				for(String key : excelMap.keySet()){
+					fabricService.saveOrUpdateEntity(excelMap.get(key));
+				}
+				//fabricService.saveOrUpdateAll(ssList);
 				request.setAttribute("successMsg", "数据导入成功!");
 				excelMap.clear();
 			}
@@ -818,6 +824,10 @@ public class FabricAction extends DispatchPagerAction {
 				s.setRefid(refId);
 			}
 			log.info(i+"-->"+addOrUpdate+"-->"+vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
+			if(excelMap.containsKey(vcFactoryCode+vcBefModel+htCode)){
+				log.info(i+"-->"+"有重复-->"+vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
+				excelMap.remove(vcFactoryCode+vcBefModel+htCode);
+			}
 			s.setCreateDate(new Date());
 			s.setIsHtCode("1");
 			for (int j = 0; j < colNums; j++) {
@@ -952,13 +962,16 @@ public class FabricAction extends DispatchPagerAction {
 					continue;
 				}
 			}
-			excelMap.put(vcFactoryCode+"_"+vcBefModel+"_"+htCode, s);
+			excelMap.put(vcFactoryCode+vcBefModel+htCode, s);
 		}
 		try {
 			//仅在校验无误的情况下保存
 			if(CollectionUtils.isEmpty(errorList)){
-				Collection<Fabric> ss = excelMap.values();
-				fabricService.saveOrUpdateAll(ss);
+				//Collection<Fabric> ss = excelMap.values();
+				//fabricService.saveOrUpdateAll(ss);
+				for(String key : excelMap.keySet()){
+					fabricService.saveOrUpdateEntity(excelMap.get(key));
+				}
 				request.setAttribute("successMsg", "数据导入成功!");
 				excelMap.clear();
 			}

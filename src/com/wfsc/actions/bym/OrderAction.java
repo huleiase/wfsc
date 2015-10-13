@@ -510,13 +510,13 @@ public class OrderAction extends DispatchPagerAction {
 			if (row11 != null) {
 				HSSFCell cell4 = row19.getCell(1);// 收货人
 				if (cell4 != null) {
-					String name = order.getVcfrom();
-					Admin user = this.securityService.getUserWithPermissionByName(name);
-					if (user != null) {
-						cell4.setCellValue(user.getZhname() + " " + user.getPhone());
-					} else {
-						cell4.setCellValue("没找到对应的信息");
-					}
+					//String name = order.getVcfrom();
+					//Admin user = this.securityService.getUserWithPermissionByName(name);
+					//if (user != null) {
+						cell4.setCellValue(order.getConsignee()==null?"":order.getConsignee());
+					//} else {
+					//	cell4.setCellValue("没找到对应的信息");
+					//}
 				}
 			}
 
@@ -789,7 +789,7 @@ public class OrderAction extends DispatchPagerAction {
 
 			List<QuoteFabric> qfList = new ArrayList<QuoteFabric>();
 			for (QuoteFabric qf : order.getPurchase().getQuote().getQuoteFabric()) {
-				if (!"1".equals(qf.getIsReplaced()) && order.getFactoryCode().equals(qf.getVcFactoryCode())) {
+				if (!"1".equals(qf.getIsReplaced()) && order.getFactoryNum().equals(qf.getVcFactoryNum())) {
 					qfList.add(qf);
 				}
 			}
