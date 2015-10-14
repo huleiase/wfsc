@@ -29,6 +29,7 @@ import com.base.util.Page;
 import com.wfsc.common.bo.bym.Attachment;
 import com.wfsc.common.bo.bym.CurrencyConversion;
 import com.wfsc.common.bo.bym.DesignerOrder;
+import com.wfsc.common.bo.bym.Email;
 import com.wfsc.common.bo.bym.Order;
 import com.wfsc.common.bo.bym.Purchase;
 import com.wfsc.common.bo.bym.Quote;
@@ -39,6 +40,7 @@ import com.wfsc.common.bo.bym.Supplier;
 import com.wfsc.common.bo.user.Admin;
 import com.wfsc.services.bym.service.ICurrencyConversionService;
 import com.wfsc.services.bym.service.IDesignerOrderService;
+import com.wfsc.services.bym.service.IEmailService;
 import com.wfsc.services.bym.service.IFabricService;
 import com.wfsc.services.bym.service.IOrderService;
 import com.wfsc.services.bym.service.IPurchaseService;
@@ -78,6 +80,8 @@ public class OrderAction extends DispatchPagerAction {
 	private IStoreService storeService;
 	@Resource(name = "storeFabricService")
 	private IStoreFabricService storeFabricService;
+	@Resource(name = "emailService")
+	private IEmailService emailService;
 	
 	private Order order;
 	private DesignerOrder designerOrder;
@@ -211,7 +215,10 @@ public class OrderAction extends DispatchPagerAction {
 	}
 	
 	public String save(){
+		Admin curAdmin = this.getCurrentAdminUser();
 		Order odb = this.orderService.getOrderById(order.getId());
+		Purchase pdb = odb.getPurchase();
+		Quote q = pdb.getQuote();
 		order.setOrderNo(odb.getOrderNo());
 		order.setOrderDate(odb.getOrderDate());
 		order.setTbYearMonth(odb.getTbYearMonth());
@@ -240,7 +247,138 @@ public class OrderAction extends DispatchPagerAction {
 			quoteFabricService.saveOrUpdateEntity(qfdb);
 			qfdbList.add(qfdb);
 		}
+		if(1==order.getOrderStatus()){
+			List<Admin> saleManegers = this.securityService.getUserListByRoleName("采购经理");
+			if(CollectionUtils.isNotEmpty(saleManegers)){
+				for(Admin admin : saleManegers){
+					Email e = new Email();
+					e.setAction("order");
+					e.setDetail("关于【" + q.getProjectName() + "】的订单已经提交！订单号为" + odb.getOrderNo());
+					e.setQuoteId(q.getId());
+					e.setQuoteNo(q.getVcQuoteNum());
+					e.setPurchaseId(pdb.getId());
+					e.setPurchaseNo(pdb.getContractNo());
+					e.setOrderId(odb.getId());
+					e.setOrderNo(odb.getOrderNo());
+					e.setSender(curAdmin.getUsername());
+					e.setSendTime(new Date());
+					e.setState("1");
+					e.setUsername(admin.getUsername());
+					this.emailService.saveOrUpdateEntity(e);
+				}
+			}
+			Email e = new Email();
+			e.setAction("order");
+			e.setDetail("关于【" + q.getProjectName() + "】的订单已经提交！订单号为" + odb.getOrderNo() + "，请审核");
+			e.setQuoteId(q.getId());
+			e.setQuoteNo(q.getVcQuoteNum());
+			e.setPurchaseId(pdb.getId());
+			e.setPurchaseNo(pdb.getContractNo());
+			e.setOrderId(odb.getId());
+			e.setOrderNo(odb.getOrderNo());
+			e.setSender(curAdmin.getUsername());
+			e.setSendTime(new Date());
+			e.setState("1");
+			e.setUsername(curAdmin.getUsername());
+			this.emailService.saveOrUpdateEntity(e);
+		}
 		if(3==order.getOrderStatus()){
+			List<Admin> purManegers = this.securityService.getUserListByRoleName("采购经理");
+			if(CollectionUtils.isNotEmpty(purManegers)){
+				for(Admin admin : purManegers){
+					Email e = new Email();
+					e.setAction("order");
+					e.setDetail("关于【" + q.getProjectName() + "】的订单已经审核！订单号为" + odb.getOrderNo());
+					e.setQuoteId(q.getId());
+					e.setQuoteNo(q.getVcQuoteNum());
+					e.setPurchaseId(pdb.getId());
+					e.setPurchaseNo(pdb.getContractNo());
+					e.setOrderId(odb.getId());
+					e.setOrderNo(odb.getOrderNo());
+					e.setSender(curAdmin.getUsername());
+					e.setSendTime(new Date());
+					e.setState("1");
+					e.setUsername(admin.getUsername());
+					this.emailService.saveOrUpdateEntity(e);
+				}
+			}
+			List<Admin> caiwuManegers = this.securityService.getUserListByRoleName("财务经理");
+			if(CollectionUtils.isNotEmpty(caiwuManegers)){
+				for(Admin admin : caiwuManegers){
+					Email e = new Email();
+					e.setAction("order");
+					e.setDetail("关于【" + q.getProjectName() + "】的订单已经审核！订单号为" + odb.getOrderNo() + "，请设计订单，填写相关信息");
+					e.setQuoteId(q.getId());
+					e.setQuoteNo(q.getVcQuoteNum());
+					e.setPurchaseId(pdb.getId());
+					e.setPurchaseNo(pdb.getContractNo());
+					e.setOrderId(odb.getId());
+					e.setOrderNo(odb.getOrderNo());
+					e.setSender(curAdmin.getUsername());
+					e.setSendTime(new Date());
+					e.setState("1");
+					e.setUsername(admin.getUsername());
+					this.emailService.saveOrUpdateEntity(e);
+				}
+			}
+			List<Admin> storeManegers = this.securityService.getUserListByRoleName("仓库管理员");
+			if(CollectionUtils.isNotEmpty(storeManegers)){
+				for(Admin admin : storeManegers){
+					Email e = new Email();
+					e.setAction("order");
+					e.setDetail("关于【" + q.getProjectName() + "】的订单已经审核入库至" + odb.getArea() + "仓库！订单号为" + odb.getOrderNo());
+					e.setQuoteId(q.getId());
+					e.setQuoteNo(q.getVcQuoteNum());
+					e.setPurchaseId(pdb.getId());
+					e.setPurchaseNo(pdb.getContractNo());
+					e.setOrderId(odb.getId());
+					e.setOrderNo(odb.getOrderNo());
+					e.setSender(curAdmin.getUsername());
+					e.setSendTime(new Date());
+					e.setState("1");
+					e.setUsername(admin.getUsername());
+					this.emailService.saveOrUpdateEntity(e);
+				}
+			}
+			 List<Admin> saleManegers = this.securityService.getUsersByRoleAndArea("销售经理", curAdmin.getArea());
+				if(CollectionUtils.isNotEmpty(saleManegers)){
+					for(Admin admin : saleManegers){
+						Email e = new Email();
+						e.setAction("order");
+						e.setDetail("关于【" + q.getProjectName() + "】的订单已经审核入库至" + odb.getArea() + "仓库！订单号为" + odb.getOrderNo());
+						e.setQuoteId(q.getId());
+						e.setQuoteNo(q.getVcQuoteNum());
+						e.setPurchaseId(pdb.getId());
+						e.setPurchaseNo(pdb.getContractNo());
+						e.setOrderId(odb.getId());
+						e.setOrderNo(odb.getOrderNo());
+						e.setSender(curAdmin.getUsername());
+						e.setSendTime(new Date());
+						e.setState("1");
+						e.setUsername(admin.getUsername());
+						this.emailService.saveOrUpdateEntity(e);
+					}
+				}
+				Set<String> salenames = q.getSalesman();
+				if(CollectionUtils.isNotEmpty(salenames)){
+					for(String name : salenames){
+						Email e = new Email();
+						e.setAction("order");
+						e.setDetail("关于【" + q.getProjectName() + "】的订单已经审核入库至" + odb.getArea() + "仓库！订单号为" + odb.getOrderNo());
+						e.setQuoteId(q.getId());
+						e.setQuoteNo(q.getVcQuoteNum());
+						e.setPurchaseId(pdb.getId());
+						e.setPurchaseNo(pdb.getContractNo());
+						e.setOrderId(odb.getId());
+						e.setOrderNo(odb.getOrderNo());
+						e.setSender(curAdmin.getUsername());
+						e.setSendTime(new Date());
+						e.setState("1");
+						e.setUsername(name);
+						this.emailService.saveOrUpdateEntity(e);
+					}
+				}
+			
 			this.saveProStroage(order, qfdbList);
 		}
 		

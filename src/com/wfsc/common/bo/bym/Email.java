@@ -12,8 +12,10 @@ public class Email implements java.io.Serializable {
 	
 	private Long id;
 	//报价单id
-	private Long qid;
-	//状态
+	private Long quoteId;
+	
+	private String quoteNo;
+	//状态1未读，2已读
 	private String state;
 	//发送的人
 	private String sender;
@@ -23,8 +25,16 @@ public class Email implements java.io.Serializable {
 	private String detail;
 	//要发送的人
 	private String username;
-	
+	//值只有quote,toPurchase,purchase,order
 	private String action;
+	
+	private Long purchaseId;
+	
+	private String purchaseNo;
+	
+	private Long orderId;
+	
+	private String orderNo;
 	
 	
 	/**
@@ -38,16 +48,6 @@ public class Email implements java.io.Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	/**
-	 * @hibernate.property type="long"
-	 */
-	public Long getQid() {
-		return qid;
-	}
-	public void setQid(Long qid) {
-		this.qid = qid;
-	}
-	
 	
 	/**
 	 * @hibernate.property type="string"
@@ -105,6 +105,60 @@ public class Email implements java.io.Serializable {
 	}
 	public void setAction(String action) {
 		this.action = action;
+	}
+	/**
+	 * @hibernate.property type="long"
+	 */
+	public Long getQuoteId() {
+		return quoteId;
+	}
+	public void setQuoteId(Long quoteId) {
+		this.quoteId = quoteId;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getQuoteNo() {
+		return quoteNo;
+	}
+	public void setQuoteNo(String quoteNo) {
+		this.quoteNo = quoteNo;
+	}
+	/**
+	 * @hibernate.property type="long"
+	 */
+	public Long getPurchaseId() {
+		return purchaseId;
+	}
+	public void setPurchaseId(Long purchaseId) {
+		this.purchaseId = purchaseId;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getPurchaseNo() {
+		return purchaseNo;
+	}
+	public void setPurchaseNo(String purchaseNo) {
+		this.purchaseNo = purchaseNo;
+	}
+	/**
+	 * @hibernate.property type="long"
+	 */
+	public Long getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
 	}
 	
 	

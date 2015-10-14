@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.wfsc.common.bo.bym.QuoteFabricReport;
+import com.wfsc.common.bo.bym.Email;
 
 public class CreateTableTool {
 	/**   
@@ -88,7 +88,7 @@ public class CreateTableTool {
     	//不需要存储的字段，默认已排除使用 final 和 static修饰的 字段
     	List<String> noCol = new ArrayList<String>();
     	//需要为该实体对象生成建表语句
-    	QuoteFabricReport obj = new QuoteFabricReport();
+    	Email obj = new Email();
     	
     	//表名默认为wf_类名的小写
     	String className = obj.getClass().getName().toLowerCase();

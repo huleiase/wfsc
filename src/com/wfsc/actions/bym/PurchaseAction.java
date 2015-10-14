@@ -30,17 +30,17 @@ import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
+import com.wfsc.common.bo.bym.Email;
 import com.wfsc.common.bo.bym.Order;
 import com.wfsc.common.bo.bym.Purchase;
+import com.wfsc.common.bo.bym.Quote;
 import com.wfsc.common.bo.bym.QuoteFabric;
 import com.wfsc.common.bo.bym.Supplier;
 import com.wfsc.common.bo.user.Admin;
-import com.wfsc.services.bym.service.ICurrencyConversionService;
-import com.wfsc.services.bym.service.IFabricService;
+import com.wfsc.services.bym.service.IEmailService;
 import com.wfsc.services.bym.service.IOrderService;
 import com.wfsc.services.bym.service.IPurchaseService;
 import com.wfsc.services.bym.service.IQuoteFabricService;
-import com.wfsc.services.bym.service.IQuoteService;
 import com.wfsc.services.bym.service.IStoreFabricService;
 import com.wfsc.services.bym.service.ISupplierService;
 import com.wfsc.services.security.ISecurityService;
@@ -71,6 +71,8 @@ public class PurchaseAction extends DispatchPagerAction {
 	private IOrderService orderService;
 	@Resource(name = "storeFabricService")
 	private IStoreFabricService storeFabricService;
+	@Resource(name = "emailService")
+	private IEmailService emailService;
 	private Purchase purchase;
 	private List<QuoteFabric> quoteFabricList = new ArrayList<QuoteFabric>();
 
@@ -427,7 +429,8 @@ public class PurchaseAction extends DispatchPagerAction {
 	
 	public String save(){
 		Purchase pdb = this.purchaseService.getPurchaseById(purchase.getId());
-		
+		Quote q = pdb.getQuote();
+		Admin curAdmin = this.getCurrentAdminUser();
 		purchase.setCustomer(pdb.getCustomer());
 		purchase.setPurchaseType(pdb.getPurchaseType());
 		purchase.setContractDate(pdb.getContractDate());
@@ -435,16 +438,98 @@ public class PurchaseAction extends DispatchPagerAction {
 		purchase.setTbYearMonth(pdb.getTbYearMonth());
 		purchase.setQuote(pdb.getQuote());
 		purchase.setArea(pdb.getArea());
+		if("1".equals(purchase.getOrderStatus())){
+			List<Admin> saleManegers = this.securityService.getUserListByRoleName("财务经理");
+			if(CollectionUtils.isNotEmpty(saleManegers)){
+				for(Admin admin : saleManegers){
+					Email e = new Email();
+					e.setAction("toPurchase");
+					e.setDetail("关于【" + q.getProjectName() + "】的待采购单已经提交！合同编号为"+pdb.getContractNo()+"，请审核");
+					e.setQuoteId(q.getId());
+					e.setQuoteNo(q.getVcQuoteNum());
+					e.setPurchaseId(pdb.getId());
+					e.setPurchaseNo(pdb.getContractNo());
+					e.setSender(curAdmin.getUsername());
+					e.setSendTime(new Date());
+					e.setState("1");
+					e.setUsername(admin.getUsername());
+					this.emailService.saveOrUpdateEntity(e);
+				}
+			}
+			Set<String> salenames = q.getSalesman();
+			if(CollectionUtils.isNotEmpty(salenames)){
+				for(String name : salenames){
+					Email e = new Email();
+					e.setAction("toPurchase");
+					e.setDetail("关于【" + q.getProjectName() + "】的待采购单已经提交！报价单号为"+q.getVcQuoteNum()+"，合同编号为"+pdb.getContractNo());
+					e.setQuoteId(q.getId());
+					e.setQuoteNo(q.getVcQuoteNum());
+					e.setPurchaseId(pdb.getId());
+					e.setPurchaseNo(pdb.getContractNo());
+					e.setSender(curAdmin.getUsername());
+					e.setSendTime(new Date());
+					e.setState("1");
+					e.setUsername(name);
+					this.emailService.saveOrUpdateEntity(e);
+				}
+			}
+		}
 		if("2".equals(purchase.getOrderStatus())){
 			purchase.setOrderDate(new Date());// 审核时间
 			purchase.setAuditor(super.getCurrentAdminUser().getUsername());// 待采购单的审核人
 			purchase.setPurchaseType("2");
+			List<Admin> saleManegers = this.securityService.getUserListByRoleName("采购经理");
+			if(CollectionUtils.isNotEmpty(saleManegers)){
+				for(Admin admin : saleManegers){
+					Email e = new Email();
+					e.setAction("toPurchase");
+					e.setDetail("关于【" + q.getProjectName() + "】的待采购单已经审核！合同编号为"+pdb.getContractNo()+"，请审核采购单");
+					e.setQuoteId(q.getId());
+					e.setQuoteNo(q.getVcQuoteNum());
+					e.setPurchaseId(pdb.getId());
+					e.setPurchaseNo(pdb.getContractNo());
+					e.setSender(curAdmin.getUsername());
+					e.setSendTime(new Date());
+					e.setState("1");
+					e.setUsername(admin.getUsername());
+					this.emailService.saveOrUpdateEntity(e);
+				}
+			}
+			Email e = new Email();
+			e.setAction("toPurchase");
+			e.setDetail("关于【" + q.getProjectName() + "】的待采购单已经审核！合同编号为"+pdb.getContractNo());
+			e.setQuoteId(q.getId());
+			e.setQuoteNo(q.getVcQuoteNum());
+			e.setPurchaseId(pdb.getId());
+			e.setPurchaseNo(pdb.getContractNo());
+			e.setSender(curAdmin.getUsername());
+			e.setSendTime(new Date());
+			e.setState("1");
+			e.setUsername(q.getModifyUser());
+			this.emailService.saveOrUpdateEntity(e);
 		}
 		if("3".equals(purchase.getOrderStatus())){
 			purchase.setOrderDate(pdb.getOrderDate());
 			purchase.setAuditor(pdb.getAuditor());
 			purchase.setPurchaseType(pdb.getPurchaseType());
 			purchase.setApprover(super.getCurrentAdminUser().getUsername());// 采购单的审核人
+			List<Admin> saleManegers = this.securityService.getUserListByRoleName("财务经理");
+			if(CollectionUtils.isNotEmpty(saleManegers)){
+				for(Admin admin : saleManegers){
+					Email e = new Email();
+					e.setAction("purchase");
+					e.setDetail("关于【" + q.getProjectName() + "】的采购单已经审核！合同编号为"+pdb.getContractNo());
+					e.setQuoteId(q.getId());
+					e.setQuoteNo(q.getVcQuoteNum());
+					e.setPurchaseId(pdb.getId());
+					e.setPurchaseNo(pdb.getContractNo());
+					e.setSender(curAdmin.getUsername());
+					e.setSendTime(new Date());
+					e.setState("1");
+					e.setUsername(admin.getUsername());
+					this.emailService.saveOrUpdateEntity(e);
+				}
+			}
 		}
 		purchaseService.saveOrUpdateEntity(purchase);
 		Set<QuoteFabric> qfSet  = new HashSet<QuoteFabric>();

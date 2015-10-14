@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,7 +40,7 @@ import com.wfsc.common.bo.bym.Attachment;
 import com.wfsc.common.bo.bym.Customer;
 import com.wfsc.common.bo.bym.Designer;
 import com.wfsc.common.bo.bym.DesignerExpense;
-import com.wfsc.common.bo.bym.DesignerOrder;
+import com.wfsc.common.bo.bym.Email;
 import com.wfsc.common.bo.bym.Fabric;
 import com.wfsc.common.bo.bym.Order;
 import com.wfsc.common.bo.bym.Purchase;
@@ -57,6 +56,7 @@ import com.wfsc.services.bym.service.ICustomerService;
 import com.wfsc.services.bym.service.IDesignerExpenseService;
 import com.wfsc.services.bym.service.IDesignerOrderService;
 import com.wfsc.services.bym.service.IDesignerService;
+import com.wfsc.services.bym.service.IEmailService;
 import com.wfsc.services.bym.service.IFabricService;
 import com.wfsc.services.bym.service.IOrderService;
 import com.wfsc.services.bym.service.IPurchaseService;
@@ -111,6 +111,8 @@ public class QuoteAction extends DispatchPagerAction {
 	private IDesignerService designerService;
 	@Resource(name = "customerService")
 	private ICustomerService customerService;
+	@Resource(name = "emailService")
+	private IEmailService emailService;
 	
 	private Quote quote;
 	private List<QuoteFabric> quoteFabricList = new ArrayList<QuoteFabric>();
@@ -325,11 +327,12 @@ public class QuoteAction extends DispatchPagerAction {
 	}
 	
 	public String save(){
-		String addOrUpdate = "add";
+		Admin curAdmin = this.getCurrentAdminUser();
+		String addOrUpdate = "提交";
 		float freight = 0F;//运费
 		Set<QuoteFabric> qfset = new HashSet<QuoteFabric>(quoteFabricList);
 		if(quote.getId()!=null){
-			addOrUpdate = "update";
+			addOrUpdate = "修改";
 			List<Long> delQfIds = new ArrayList<Long>();
 			Quote oldQuote = this.quoteService.getQuoteById(quote.getId());
 			Set<QuoteFabric> oldQfSet = oldQuote.getQuoteFabric();
@@ -383,6 +386,8 @@ public class QuoteAction extends DispatchPagerAction {
 				}
 			}
 			this.quoteFabricService.deleteByIds(delQfIds);
+		}else{
+			quote.setCurUserName(curAdmin.getUsername());
 		}
 		//将所有与报价单关联的销售统一放到sales里面保存起来，方便以后查询
 		Set<String> sales = new HashSet<String>();
@@ -414,7 +419,7 @@ public class QuoteAction extends DispatchPagerAction {
 			}
 		}
 		quote.setSalesman(sales);
-		quote.setModifyUser(this.getCurrentAdminUser().getUsername());
+		quote.setModifyUser(curAdmin.getUsername());
 		quote.setVcFormDate(new Date());
 		quote.setVcYearMonth(DateUtil.getYear(new Date())+""+String.format("%02d", DateUtil.getMonth(new Date())));
 		quote.setVcAudit("0");
@@ -464,6 +469,36 @@ public class QuoteAction extends DispatchPagerAction {
 			qfrs.add(qfr);
 		}
 		this.commonService.saveOrUpdateAllQFR(qfrs);
+		List<Admin> saleManegers = this.securityService.getUsersByRoleAndArea("销售经理", curAdmin.getArea());
+		if(CollectionUtils.isNotEmpty(saleManegers)){
+			for(Admin admin : saleManegers){
+				Email e = new Email();
+				e.setAction("quote");
+				e.setDetail("关于【" + quote.getProjectName() + "】的报价已经"+addOrUpdate+"！报价单号为"+quote.getVcQuoteNum()+"，请审核");
+				e.setQuoteId(quote.getId());
+				e.setQuoteNo(quote.getVcQuoteNum());
+				e.setSender(curAdmin.getUsername());
+				e.setSendTime(new Date());
+				e.setState("1");
+				e.setUsername(admin.getUsername());
+				this.emailService.saveOrUpdateEntity(e);
+			}
+		}
+		Set<String> salenames = quote.getSalesman();
+		if(CollectionUtils.isNotEmpty(salenames)){
+			for(String name : salenames){
+				Email e = new Email();
+				e.setAction("quote");
+				e.setDetail("关于【" + quote.getProjectName() + "】的报价已经"+addOrUpdate+"！报价单号为"+quote.getVcQuoteNum());
+				e.setQuoteId(quote.getId());
+				e.setQuoteNo(quote.getVcQuoteNum());
+				e.setSender(curAdmin.getUsername());
+				e.setSendTime(new Date());
+				e.setState("1");
+				e.setUsername(name);
+				this.emailService.saveOrUpdateEntity(e);
+			}
+		}
 		return "ok";
 	}
 	
@@ -1478,6 +1513,7 @@ public class QuoteAction extends DispatchPagerAction {
 	 }*/
 	 
 	 public String auditOrWritPerm(){
+		 Admin curAdmin = this.getCurrentAdminUser();
 		 String oper = request.getParameter("oper");
 		 String quoteId = request.getParameter("quoteId");
 		 Quote q = this.quoteService.getQuoteById(Long.valueOf(quoteId));
@@ -1486,6 +1522,47 @@ public class QuoteAction extends DispatchPagerAction {
 			 q.setAuditPerson(this.getCurrentAdminUser().getUsername());
 			 q.setVcAudit("1");
 			 this.quoteService.saveOrUpdateEntity(q);
+			 List<Admin> saleManegers = this.securityService.getUsersByRoleAndArea("销售经理", curAdmin.getArea());
+				if(CollectionUtils.isNotEmpty(saleManegers)){
+					for(Admin admin : saleManegers){
+						Email e = new Email();
+						e.setAction("quote");
+						e.setDetail("关于【" + q.getProjectName() + "】的报价已经审核！报价单号为"+q.getVcQuoteNum()+"，请签单");
+						e.setQuoteId(q.getId());
+						e.setQuoteNo(q.getVcQuoteNum());
+						e.setSender(curAdmin.getUsername());
+						e.setSendTime(new Date());
+						e.setState("1");
+						e.setUsername(admin.getUsername());
+						this.emailService.saveOrUpdateEntity(e);
+					}
+				}
+				Set<String> salenames = q.getSalesman();
+				if(CollectionUtils.isNotEmpty(salenames)){
+					for(String name : salenames){
+						Email e = new Email();
+						e.setAction("quote");
+						e.setDetail("关于【" + q.getProjectName() + "】的报价已经审核！报价单号为"+q.getVcQuoteNum()+"，已可以打印该报价单");
+						e.setQuoteId(q.getId());
+						e.setQuoteNo(q.getVcQuoteNum());
+						e.setSender(curAdmin.getUsername());
+						e.setSendTime(new Date());
+						e.setState("1");
+						e.setUsername(name);
+						this.emailService.saveOrUpdateEntity(e);
+					}
+				}
+				Email e = new Email();
+				e.setAction("quote");
+				e.setDetail("关于【" + q.getProjectName() + "】的报价已经审核！报价单号为"+q.getVcQuoteNum());
+				e.setQuoteId(q.getId());
+				e.setQuoteNo(q.getVcQuoteNum());
+				e.setSender(curAdmin.getUsername());
+				e.setSendTime(new Date());
+				e.setState("1");
+				e.setUsername(q.getModifyUser());
+				this.emailService.saveOrUpdateEntity(e);
+				
 		 }else if("writPerm".equals(oper)){
 			 q.setIsWritPerm("1");
 			 q.setContractDate(new Date());
@@ -1497,6 +1574,31 @@ public class QuoteAction extends DispatchPagerAction {
 			 q.setAuditPerson(this.getCurrentAdminUser().getUsername());
 			 this.quoteService.saveOrUpdateEntity(q);
 			 savePurchase(q);
+			 Set<String> salenames = q.getSalesman();
+				if(CollectionUtils.isNotEmpty(salenames)){
+					for(String name : salenames){
+						Email e = new Email();
+						e.setAction("quote");
+						e.setDetail("关于【" + q.getProjectName() + "】的报价已经签单！报价单号为"+q.getVcQuoteNum());
+						e.setQuoteId(q.getId());
+						e.setQuoteNo(q.getVcQuoteNum());
+						e.setSender(curAdmin.getUsername());
+						e.setSendTime(new Date());
+						e.setState("1");
+						e.setUsername(name);
+						this.emailService.saveOrUpdateEntity(e);
+					}
+				}
+				Email e = new Email();
+				e.setAction("quote");
+				e.setDetail("关于【" + q.getProjectName() + "】的报价已经签单！报价单号为"+q.getVcQuoteNum()+"，请提交待采购单【"+q.getContractNo()+"】");
+				e.setQuoteId(q.getId());
+				e.setQuoteNo(q.getVcQuoteNum());
+				e.setSender(curAdmin.getUsername());
+				e.setSendTime(new Date());
+				e.setState("1");
+				e.setUsername(q.getModifyUser());
+				this.emailService.saveOrUpdateEntity(e);
 		 }
 		 return "ok";
 	 }
