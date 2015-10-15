@@ -35,6 +35,8 @@ public class Email implements java.io.Serializable {
 	private Long orderId;
 	
 	private String orderNo;
+	//报价单（1去审核2去签单，3去打印，4去设计），待采购单（1去提交，2去审核），采购单（3去审核），订单（1去提交，2去审核，3去设计）
+	private String status;
 	
 	
 	/**
@@ -159,6 +161,15 @@ public class Email implements java.io.Serializable {
 	}
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	

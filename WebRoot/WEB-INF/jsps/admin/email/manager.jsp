@@ -13,9 +13,91 @@
 	function resetForm(){
 		$("#state").val("");
 	}
-	function detail(id){
-		var url = "<%=basePath%>admin/email_detail.Q?id="+id;
-		window.open(url);
+	function handle(id,status,action,quoteId,purchaseId,orderId){
+		var getStatusUrl = "<%=basePath%>admin/quote_getQuoteStatus.Q?emailId="+id+"&status="+status+"&quoteId="+quoteId;
+		if("toPurchase"==action){
+			getStatusUrl = "<%=basePath%>admin/purchase_getPurchaseStatus.Q?emailId="+id+"&status="+status+"&purchaseId="+purchaseId;
+		}else if("purchase"==action){
+			getStatusUrl = "<%=basePath%>admin/purchase_getPurchaseStatus.Q?emailId="+id+"&status="+status+"&purchaseId="+purchaseId;
+		}else if("order"==action){
+			getStatusUrl = "<%=basePath%>admin/order_getOrderStatusForEmail.Q?emailId="+id+"&status="+status+"&orderId="+purchaseId;
+		}
+		$.ajax({
+			url:getStatusUrl,
+			dataType:'text',
+			success:function(data){
+				if("1"==data){
+					var handleUrl ="#";
+					if("quote"==action){
+						if(1==status){
+							handleUrl = "<%=basePath%>admin/quote_detail.Q?operate=audit&id="+quoteId;
+							window.location.href=handleUrl;
+						}else if(2==status){
+							handleUrl = "<%=basePath%>admin/quote_detail.Q?operate=writPerm&id="+quoteId;
+							window.location.href=handleUrl;
+						}else if(3==status){
+							art.dialog({
+							    id: 'printQuote',
+							    content: '请选择你要打印的模板!',
+							    button: [
+							        {
+							            name: '内地模板',
+							            callback: function () {
+							            	var url = "<%=basePath%>admin/quote_printQuote.Q?id="+id;
+							            	window.open(url);
+							                return true;
+							            },
+							            focus: true
+							        },
+							        {
+							            name: '香港模板',
+							            callback: function () {
+							            	var url = "<%=basePath%>admin/quote_printQuote.Q?id="+id+"&local=hk";
+							            	window.open(url);
+							                return true;
+							            }
+							        },
+							        {
+							            name: '关闭'
+							        }
+							    ]
+							});
+						}else if(4==status){
+						//去设计报价单
+							//handleUrl = "<%=basePath%>admin/quote_designQuote.Q?id="+quoteId;
+							//window.location.href=handleUrl;
+						}
+					}
+					if("toPurchase"==action){
+						handleUrl = "<%=basePath%>admin/purchase_input.Q?id="+purchaseId+"&oper=1";
+						window.location.href=handleUrl;
+					}else if("purchase"==action){
+						handleUrl = "<%=basePath%>admin/purchase_input.Q?id="+purchaseId+"&oper=2";
+						window.location.href=handleUrl;
+					}else if("order"==action){
+						if(1==status){
+							handleUrl = "<%=basePath%>admin/order_input.Q?id="+orderId+"&oper=1";
+							window.location.href=handleUrl;
+						}else if(2==status){
+							handleUrl = "<%=basePath%>admin/order_input.Q?id="+orderId+"&oper=3";
+							window.location.href=handleUrl;
+						}else if(3==status){
+							//去设计订单
+						}
+						
+					}
+					
+				}else{
+					art.dialog({
+						content: '已被处理！',
+						okVal:"确认",
+						ok:function(){
+							window.location.reload();
+						}
+					});
+				}
+			}
+		})
 	}
 	function deleteByIds(){
 		var selectCheckbox=$("input[type=checkbox][name=ids]:checked");
@@ -63,13 +145,7 @@
 </script>
 </head>
 <body>
-<%@include file="/WEB-INF/jsps/admin/common/adminTop.jsp"%>
-<%@include file="/WEB-INF/jsps/admin/common/adminleft.jsp"%>
-<input type="hidden" id="tab" value="m7,msub71"/>
-<div id="content">
-<div id="content-header">
-    <div id="breadcrumb"> <a href="admin/admin_index.Q" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
-</div>
+<%@include file="/WEB-INF/jsps/admin/common/adminTopAndLeft.jsp"%>
 <div class="container-fluid">
       <div class="widget-box">
         <div class="widget-content">

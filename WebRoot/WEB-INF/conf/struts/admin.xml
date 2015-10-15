@@ -214,6 +214,13 @@
 			<result name="transfer">/WEB-INF/jsps/admin/storeFabric/transfer.jsp</result>
 			<result name="shipments">/WEB-INF/jsps/admin/storeFabric/shipments.jsp</result>
 		</action>			
+		
+		<action name="email_*" class="EmailAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/email/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/email/list.jsp</result>
+			<result name="ok" type="redirectAction">email_manager.Q</result>
+		</action>	
 	</package>
 	
 </struts>

@@ -18,8 +18,8 @@
                  <tr>
                   <td><input type="checkbox" name="ids" value='<s:property value="id"/>'/></td>
                   <td><s:property value="detail"/></td>
-                  <td> 
-                  <button class="label label-info btn btn-primary btn-mini" onclick="detail('<s:property value="id"/>');">详情</button>
+                  <td>
+                  <button class="label label-info btn btn-primary btn-mini" onclick="handle('<s:property value="id"/>','<s:property value="status"/>','<s:property value="action"/>','<s:property value="quoteId"/>','<s:property value="purchaseId"/>','<s:property value="orderId"/>');">去处理</button>
                   </td>
                 </tr>
                </s:iterator>

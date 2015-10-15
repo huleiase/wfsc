@@ -236,9 +236,6 @@ public class QuoteAction extends DispatchPagerAction {
 		request.setAttribute("sellmanList", sellmanList);
 		if (quote.getQuoteFabric() != null) {
 			Set<QuoteFabric> qfSet = quote.getQuoteFabric();
-			//List<QuoteFabric> listQF = QuoteFabricUtil.sort(qfSet,
-			//		"getVcIndex", "asc");
-			//request.setAttribute("listQF", listQF);
 			quoteFabricList = QuoteFabricUtil.sort(qfSet,"getVcIndex", "asc");
 		}
 		request.setAttribute("oper", oper);
@@ -1758,6 +1755,36 @@ public class QuoteAction extends DispatchPagerAction {
 				e.printStackTrace();
 			}
 			return null;
+	}
+	
+	public String getQuoteStatus(){
+		String emailId = request.getParameter("emailId");
+		if(StringUtils.isNotBlank(emailId)){
+			Email e = this.emailService.getEmailById(Long.valueOf(emailId));
+			e.setState("2");
+			this.emailService.saveOrUpdateEntity(e);
+		}
+		String status = request.getParameter("status");
+		String quoteId = request.getParameter("quoteId");
+		Quote q = this.quoteService.getQuoteById(Long.valueOf(quoteId));
+		String canDo = "1";
+		if("1".equals(status)){//已经提交，要去审核
+			String isAudit = q.getVcAudit();
+			if("1".equals(isAudit)){
+				canDo = "0";
+			}
+		}else if("2".equals(status)){//已经审核，要去签单
+			String isWritePerm = q.getIsWritPerm();
+			if("1".equals(isWritePerm)){
+				canDo = "0";
+			}
+		}
+		try {
+			response.getWriter().write(canDo);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public Quote getQuote() {

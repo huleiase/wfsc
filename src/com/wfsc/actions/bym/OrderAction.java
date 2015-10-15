@@ -1,6 +1,7 @@
 package com.wfsc.actions.bym;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1140,6 +1141,35 @@ public class OrderAction extends DispatchPagerAction {
 			Float sumMoney = order.getPurchase().getQuote().getSumMoney();
 			request.setAttribute("sumMoney", sumMoney);
 			return "design";
+		}
+		
+		public String getOrderStatusForEmail(){
+			String emailId = request.getParameter("emailId");
+			if(StringUtils.isNotBlank(emailId)){
+				Email e = this.emailService.getEmailById(Long.valueOf(emailId));
+				e.setState("2");
+				this.emailService.saveOrUpdateEntity(e);
+			}
+			String status = request.getParameter("status");
+			String orderId = request.getParameter("orderId");
+			Order o = this.orderService.getOrderById(Long.valueOf(orderId));
+			int orderStatus = o.getOrderStatus();
+			String canDo = "1";
+			if("1".equals(status)){//订单未提交，要去提交
+				if(orderStatus>0){
+					canDo = "0";
+				}
+			}else if("2".equals(status)){//待采购单已经提交，要去审核
+				if(orderStatus>2){
+					canDo = "0";
+				}
+			}
+			try {
+				response.getWriter().write(canDo);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
 		}
 		/**
 		 * 获取其它货币对RMB或HKD的汇率
