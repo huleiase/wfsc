@@ -220,7 +220,7 @@ public class AdminDao extends EnhancedHibernateDaoSupport<Admin> {
 		StringBuffer hql = new StringBuffer("select distinct a from Admin as a left join a.roles as r where 1=1 ");
 		for(String key : paramap.keySet()){
 			if("username".equals(key)){
-				hql.append(" and a.username like '%"+paramap.get(key)+"%'");
+				hql.append(" and a.username like '"+paramap.get(key)+"%'");
 				continue;
 			}
 			if("area".equals(key)){
@@ -228,7 +228,7 @@ public class AdminDao extends EnhancedHibernateDaoSupport<Admin> {
 				continue;
 			}
 			if("rolename".equals(key)){
-				hql.append(" and r.roleName like '%"+paramap.get(key)+"%'");
+				hql.append(" and r.roleName like '"+paramap.get(key)+"%'");
 				continue;
 			}
 		}

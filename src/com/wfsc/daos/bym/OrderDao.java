@@ -78,17 +78,17 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 				if("supplier".equalsIgnoreCase(key)){
 					hql.append(" and obj.supplier like :supplier ");
 					dataMap.put(key, paramap.get(key).toString());
-					countSql.append(" and ordera.supplier like '%").append(paramap.get(key).toString()+"%'");
+					countSql.append(" and ordera.supplier like '").append(paramap.get(key).toString()+"%'");
 				}
 				if("vcfrom".equalsIgnoreCase(key)){
 					hql.append(" and obj.vcfrom like :vcfrom ");
 					dataMap.put(key, paramap.get(key).toString());
-					countSql.append(" and ordera.vcfrom like '%").append(paramap.get(key).toString()+"%'");
+					countSql.append(" and ordera.vcfrom like '").append(paramap.get(key).toString()+"%'");
 				}
 				if("orderNo".equalsIgnoreCase(key)){
 					hql.append(" and obj.orderNo like :orderNo ");
 					dataMap.put(key, paramap.get(key).toString());
-					countSql.append(" and ordera.orderNo like '%").append(paramap.get(key).toString()+"%'");
+					countSql.append(" and ordera.orderNo like '").append(paramap.get(key).toString()+"%'");
 				}
 				if("expressNumber".equalsIgnoreCase(key)){
 					hql.append(" and (obj.expressNumber1 like :expressNumber1 or obj.expressNumber2 like :expressNumber2 or obj.expressNumber3 like :expressNumber3 ) ");
@@ -96,7 +96,7 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 					dataMap.put("expressNumber2", paramap.get(key).toString());
 					dataMap.put("expressNumber3", paramap.get(key).toString());
 					String en = paramap.get(key).toString();
-					countSql.append(" and (ordera.expressNumber1 like '%"+en+"%'").append(" or ordera.expressNumber2 like '%"+en+"%'").append(" or ordera.expressNumber3 like '%"+en+"%')");
+					countSql.append(" and (ordera.expressNumber1 like '"+en+"%'").append(" or ordera.expressNumber2 like '"+en+"%'").append(" or ordera.expressNumber3 like '"+en+"%')");
 				}
 				if ("isOrderConfirm".equals(key)) {
 					hql.append(" and obj.isOrderConfirm = '"+paramap.get(key)+"'");
@@ -121,7 +121,7 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 				if("vcModelNum".equalsIgnoreCase(key)){
 					hql.append(" and qf.vcModelNum like :vcModelNum ");
 					dataMap.put(key, paramap.get(key).toString());
-					countSql.append(" and qf.vcModelNum like '%").append(paramap.get(key).toString()+"%'");
+					countSql.append(" and qf.vcModelNum like '").append(paramap.get(key).toString()+"%'");
 				}
 				if("saleName".equals(key)){
 					hql.append(" and sellname = '").append(paramap.get("saleName")).append("' ");
@@ -134,7 +134,7 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 					continue;
 				}
 			}
-			System.out.println("查订单数量的sql==="+countSql.toString());
+			//System.out.println("查订单数量的sql==="+countSql.toString());
 		//	int totalCount = this.countByHqlWithParama(hql.toString(),dataMap);
 		//	page.setTotalCount(totalCount);
 			List<Order> list = this.findList4PageWithParama(hql.toString(), page
