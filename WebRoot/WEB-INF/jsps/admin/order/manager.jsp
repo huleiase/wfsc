@@ -145,12 +145,7 @@ var basePath = "<%=basePath%>";
 </script>
 </head>
 <body>
-<%@include file="/WEB-INF/jsps/admin/common/adminTop.jsp"%>
-<%@include file="/WEB-INF/jsps/admin/common/adminleft.jsp"%>
-<div id="content">
-<div id="content-header">
-    <div id="breadcrumb"> <a href="admin/admin_index.Q" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
-</div>
+<%@include file="/WEB-INF/jsps/admin/common/adminTopAndLeft.jsp"%>
 <div class="container-fluid">
       <div class="widget-box">
         <div class="widget-content">

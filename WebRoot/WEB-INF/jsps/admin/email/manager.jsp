@@ -64,8 +64,8 @@
 							});
 						}else if(4==status){
 						//去设计报价单
-							//handleUrl = "<%=basePath%>admin/quote_designQuote.Q?id="+quoteId;
-							//window.location.href=handleUrl;
+							handleUrl = "<%=basePath%>admin/quote_designQuote.Q?id="+quoteId;
+							window.location.href=handleUrl;
 						}
 					}
 					if("toPurchase"==action){

@@ -53,16 +53,7 @@
 </script>
 </head>
 <body >
-<%@include file="/WEB-INF/jsps/admin/common/adminTop.jsp"%>
-<%@include file="/WEB-INF/jsps/admin/common/adminleft.jsp"%>
-<!--main-container-part-->
-<div id="content">
-	<!--content-header-->
-  <div id="content-header">
-    <div id="breadcrumb"> <a href="/wfsc/admin/admin_index.Q" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
-  </div>
-	<!--End-content-header-->
-
+<%@include file="/WEB-INF/jsps/admin/common/adminTopAndLeft.jsp"%>
 	<!--container-fluid-->   
   <div class="container-fluid"> 
   <div class="row-fluid">
