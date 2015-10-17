@@ -198,7 +198,7 @@ var basePath = "<%=basePath%>";
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">原厂型号</label>
 	            <input name="vcModelNum" id="vcModelNum" type="text" class="span2"  value="${vcModelNum }">
 	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;float:left;">下单地区</label>
-	            <select name="area_zh" id="area_zh" style="width:170px;">
+	            <select name="area_zh" id="area_zh" style="width:170px;;float:left;">
 	            	<option value="">请选择</option>
                   	<option value="广州" <c:if test="${area_zh=='广州'}">selected</c:if> >广州</option>
                   	<option value="香港" <c:if test="${area_zh=='香港'}">selected</c:if> >香港</option>
@@ -207,6 +207,12 @@ var basePath = "<%=basePath%>";
                   	<option value="深圳" <c:if test="${area_zh=='深圳'}">selected</c:if> >深圳</option>
                   	<option value="广州分销" <c:if test="${area_zh=='广州分销'}">selected</c:if> >广州分销</option>
                   	<option value="北京分销" <c:if test="${area_zh=='北京分销'}">selected</c:if> >北京分销</option>
+	             </select>
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">是否完结</label>
+	            <select name="isOver" id="isOver" style="width:170px;float:left;">
+	            	<option value="">请选择</option>
+                  	<option value="0" <s:if test="#request.isOver==0">selected</s:if> >未完结</option>
+                  	<option value="1" <s:if test="#request.isOver==1">selected</s:if> >已完结</option>
 	             </select>
 	         </div>
 	         <div class="clear"></div>

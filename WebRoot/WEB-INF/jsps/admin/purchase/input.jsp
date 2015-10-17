@@ -220,8 +220,12 @@ table#quoteFabricTable .label, .badge {
             <div class="form-actions">
              <s:if test="#request.isView==0">
              <button type="button" class="btn btn-success" onclick="checkForm(3)" id="saveButton">审核</button>&nbsp;&nbsp;
+             <button type="button" class="btn btn-success" onclick="toBack();">返回</button>
              </s:if>
-            <button type="button" class="btn btn-success" onclick="toBack();">返回</button>
+             <s:else>
+              <button type="button" class="btn btn-success" onclick="window.close();">关闭</button>
+             </s:else>
+           
             </div>
           </form>
         </div>

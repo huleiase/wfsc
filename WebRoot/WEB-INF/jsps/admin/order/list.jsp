@@ -9,8 +9,10 @@
                 <tr>
                   <th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox" /></th>
                   <th>订单号</th>
+                  <c:if test="${!isLess}">
                   <th>供应商</th>
                   <th>联系人</th>
+                  </c:if>
                   <th>经手人</th>
                    <th>订货日期</th>
                   <th>报价单号</th>
@@ -18,7 +20,9 @@
                   <th>订单确认</th>
                    <th>是否发货</th>
                   <th>订单状态</th>
+                   <c:if test="${!isLess}">
                   <th>总金额</th>
+                  </c:if>
                   <th>基本操作</th>
                 </tr>
               </thead>

@@ -76,6 +76,7 @@ table#quoteFabricTable .label, .badge {
           <form action="admin/quote_auditOrWritPerm.Q" method="post" class="form-horizontal" id="inputForm">
           	<input type="hidden" name="quoteId" id="quoteId" value="${quote.id }">
           	<input type="hidden" name="oper" id="oper" value="${oper }">
+          	<input type="hidden" id="vcattncompany" value='${vcattncompany }' >
 	         <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">询价公司</label>
 	            <input disabled="disabled" autocomplete="off" name="quote.vcAttn" id="vcAttn" type="text" class="span3"  value="${ quote.vcAttn}">

@@ -142,6 +142,15 @@ public class FabricDao extends EnhancedHibernateDaoSupport<Fabric> {
 					dataMap.put("brand", paramap.get("brand"));
 					continue;
 				}
+				if ("refid".equals(key)) {
+					if("0".equals(paramap.get(key))){
+						hql.append(" and obj.refid IS NULL");
+					}else if("1".equals(paramap.get(key))){
+						hql.append(" and obj.refid IS NOT NULL");
+					}
+					
+					continue;
+				}
 			}
 			hql.append(" order by obj.id desc ");
 			int totalCount = this.countByHqlWithParama(hql.toString(),dataMap);
@@ -191,6 +200,15 @@ public class FabricDao extends EnhancedHibernateDaoSupport<Fabric> {
 			if ("brand".equals(key)) {
 				hql.append(" and obj.brand like :brand");
 				dataMap.put("brand", paramap.get("brand"));
+				continue;
+			}
+			if ("refid".equals(key)) {
+				if("0".equals(paramap.get(key))){
+					hql.append(" and obj.refid IS NULL");
+				}else if("1".equals(paramap.get(key))){
+					hql.append(" and obj.refid IS NOT NULL");
+				}
+				
 				continue;
 			}
 		}

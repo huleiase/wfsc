@@ -103,6 +103,7 @@ div.dataTables_wrapper .ui-widget-header {
         </div>
         <div class="widget-content nopadding">
           <form action="admin/quote_save.Q" method="post" class="form-horizontal" id="inputForm">
+          <input type="hidden" id="vcattncompany" value='${vcattncompany }' >
           	<input type="hidden" name="quote.id" id="quoteId" value="${quote.id }">
           	<input type="hidden" name="quote.curUserName" id="curUserName" value="${quote.curUserName }">
           	<input type="hidden" id="rmb2hkd" value="${rmb2hkd }" />

@@ -41,6 +41,7 @@
 			<th>
 				单价
 			</th>
+			<c:if test="${!isLess}">
 			<th>
 				实价
 			</th>
@@ -50,6 +51,7 @@
 			<th>
 				折算RMB
 			</th>
+			</c:if>
 		</tr>
 	</thead>
 	<tbody>
@@ -131,6 +133,7 @@
 							<s:property value="priceCur" />
 						</div>
 					</td>
+					<c:if test="${!isLess}">
 					<td>
 						<div style="width: 120px;">
 							<input id="shijia${vcCount }" class="widthShort"
@@ -149,6 +152,7 @@
 						<input type="text" name="quoteFabricList[${vcIndex }].amountrmb"
 							id="amountrmb${vcCount }" value="<s:property value="amountrmb"/>" />
 					</td>
+					</c:if>
 				</tr>
 			</s:iterator>
 		</s:if>

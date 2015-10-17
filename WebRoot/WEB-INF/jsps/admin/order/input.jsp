@@ -98,6 +98,7 @@ table#quoteFabricTable .label, .badge {
           <form action="admin/order_save.Q" method="post" class="form-horizontal" id="inputForm">
           	<input type="hidden" name="order.id" id="orderId" value="${order.id }">
           	<input type="hidden" name="order.orderStatus" id="orderStatus" value="${order.orderStatus }">
+          	 <c:if test="${!isLess}">
 	         <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">供应商</label>
 	             <input name="order.supplier" id="supplier" type="text" class="span3"  value="${ order.supplier}">
@@ -112,6 +113,7 @@ table#quoteFabricTable .label, .badge {
 	            <input name="order.vcfrom" id="vcfrom" type="text" class="span3"  value="${ order.vcfrom}">
 	         </div>
 	         <div class="clear"></div>
+	         
 	         <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">电话</label>
 	             <input name="order.attenTel" id="attenTel" type="text" class="span3"  value="${ order.attenTel}">
@@ -126,6 +128,7 @@ table#quoteFabricTable .label, .badge {
 	            <input name="order.vcfromFax" id="vcfromFax" type="text" class="span3"  value="${ order.vcfromFax}">
 	         </div>
 	         <div class="clear"></div>
+	         </c:if>
 	          <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">报价单号</label>
 	             <input name="order.quantation" id="quantation" type="text" class="span3"  value="${ order.quantation}" readonly="readonly">
@@ -376,8 +379,12 @@ table#quoteFabricTable .label, .badge {
             <s:else>
             <button type="button" class="btn btn-success" onclick="checkForm(3)" id="saveButton">审核</button>&nbsp;&nbsp;
             </s:else>
-            </s:if>
             <button type="button" class="btn btn-success" onclick="toBack();">返回</button>
+            </s:if>
+            <s:else>
+            <button type="button" class="btn btn-success" onclick="window.close();">关闭</button>
+            </s:else>
+            
             </div>
           </form>
         </div>

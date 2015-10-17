@@ -26,7 +26,7 @@
                </s:if>
                 <s:else>
 					<tr>
-						<td colspan="2">
+						<td colspan="3">
 							 <div class="alert alert-block"> 
 				               <h4 align="center" class="alert-heading">暂时没有符合条件的记录！</h4>
 				             </div>

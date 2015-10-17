@@ -189,8 +189,12 @@ table#quoteFabricTable .label, .badge {
              <s:elseif test="#request.purchase.orderStatus==1">
              <button type="button" class="btn btn-success" onclick="checkForm(2)" id="saveButton">审核</button>&nbsp;&nbsp;
              </s:elseif>
+              <button type="button" class="btn btn-success" onclick="toBack();">返回</button>
              </s:if>
-            <button type="button" class="btn btn-success" onclick="toBack();">返回</button>
+             <s:else>
+             <button type="button" class="btn btn-success" onclick="window.close();">关闭</button>
+             </s:else>
+            
             </div>
           </form>
         </div>

@@ -478,6 +478,7 @@ public class QuoteAction extends DispatchPagerAction {
 				e.setSendTime(new Date());
 				e.setState("1");
 				e.setUsername(admin.getUsername());
+				e.setStatus("1");
 				this.emailService.saveOrUpdateEntity(e);
 			}
 		}
@@ -492,6 +493,7 @@ public class QuoteAction extends DispatchPagerAction {
 				e.setSender(curAdmin.getUsername());
 				e.setSendTime(new Date());
 				e.setState("1");
+				e.setStatus("0");
 				e.setUsername(name);
 				this.emailService.saveOrUpdateEntity(e);
 			}
@@ -688,12 +690,12 @@ public class QuoteAction extends DispatchPagerAction {
 			//香港加工系数
 			float hkRefitRate = f.getHkRefitRate();
 			qf.setVcColorNum(f.getColorCode());// 色号
-			
 			if (f.getIsHtCode().equals("1")) {
 				f = fabricService.getFabricByCode(f.getVcFactoryCode(), f.getVcBefModel());
 				if (f == null)
 					continue;
 			}
+			
 			qf.setVcIndex(trNumber++);
 			// 工厂编号
 			qf.setVcFactoryCode(f.getVcFactoryCode());
@@ -1531,6 +1533,7 @@ public class QuoteAction extends DispatchPagerAction {
 						e.setSendTime(new Date());
 						e.setState("1");
 						e.setUsername(admin.getUsername());
+						e.setStatus("2");
 						this.emailService.saveOrUpdateEntity(e);
 					}
 				}
@@ -1546,6 +1549,7 @@ public class QuoteAction extends DispatchPagerAction {
 						e.setSendTime(new Date());
 						e.setState("1");
 						e.setUsername(name);
+						e.setStatus("3");
 						this.emailService.saveOrUpdateEntity(e);
 					}
 				}
@@ -1558,6 +1562,7 @@ public class QuoteAction extends DispatchPagerAction {
 				e.setSendTime(new Date());
 				e.setState("1");
 				e.setUsername(q.getModifyUser());
+				e.setStatus("0");
 				this.emailService.saveOrUpdateEntity(e);
 				
 		 }else if("writPerm".equals(oper)){
@@ -1583,6 +1588,7 @@ public class QuoteAction extends DispatchPagerAction {
 						e.setSendTime(new Date());
 						e.setState("1");
 						e.setUsername(name);
+						e.setStatus("0");
 						this.emailService.saveOrUpdateEntity(e);
 					}
 				}
@@ -1595,6 +1601,7 @@ public class QuoteAction extends DispatchPagerAction {
 				e.setSendTime(new Date());
 				e.setState("1");
 				e.setUsername(q.getModifyUser());
+				e.setStatus("1");
 				this.emailService.saveOrUpdateEntity(e);
 		 }
 		 return "ok";

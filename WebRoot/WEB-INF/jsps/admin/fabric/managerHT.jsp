@@ -218,6 +218,15 @@
 	            <input name="brand" id="brand" type="text" class="span2"  value="${brand }">
 	         </div>
 	         <div class="clear"></div>
+	         <div class="controls">
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:65px;">是否有原厂型号</label>
+	            <select name="refid" id="refid" style="width:170px">
+	            	<option value="">所有</option>
+	             	<option value="0" <s:if test="#request.refid==0">selected</s:if> >没有对应的原厂型号</option>
+                  	<option value="1" <s:if test="#request.refid==1">selected</s:if> >有对应的原厂型号</option>
+	             </select>
+	         </div>
+	         <div class="clear"></div>
 	          <div class="controls">
 	            <button type="submit" class="btn btn-success" style="margin-left:355px;">查询</button>&nbsp;&nbsp;&nbsp;
 	             <button type="button" class="btn btn-primary" onclick="resetForm();">重置</button>

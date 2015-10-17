@@ -101,6 +101,12 @@ public class OrderAction extends DispatchPagerAction {
 		boolean isPurMan = securityService.isAbleRole(admin.getUsername(), "采购员");
 		boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
 		boolean isSaleManager = securityService.isAbleRole(admin.getUsername(), "销售经理");
+		boolean isQuoter = securityService.isAbleRole(admin.getUsername(), "报价员");
+		boolean isLess = false;
+		if(isSale||isSaleManager||isQuoter){
+			isLess = true;
+		}
+		request.setAttribute("isLess", isLess);
 	//	request.setAttribute("isAdmin", isAdmin);
 	//	request.setAttribute("purManager", purManager);
 	//	request.setAttribute("purMan", purMan);
@@ -126,6 +132,15 @@ public class OrderAction extends DispatchPagerAction {
 		return "list";
 	}
 	public String input() {
+		Admin admin = this.getCurrentAdminUser();
+		boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
+		boolean isSaleManager = securityService.isAbleRole(admin.getUsername(), "销售经理");
+		boolean isQuoter = securityService.isAbleRole(admin.getUsername(), "报价员");
+		boolean isLess = false;
+		if(isSale||isSaleManager||isQuoter){
+			isLess = true;
+		}
+		request.setAttribute("isLess", isLess);
 		String id = request.getParameter("id");
 		String isView = request.getParameter("isView");
 		request.setAttribute("isView", StringUtils.isBlank(isView)?"0":"1");
@@ -152,7 +167,14 @@ public class OrderAction extends DispatchPagerAction {
 					qf.setAmountrmb(amountrmb);
 					qf.setRealMonny(qf.getRealMonny() == 0 ? PriceUtil.getTwoDecimalFloat(vcQuoteNum * shijia) : qf.getRealMonny());
 					sumMoney += (vcQuoteNum * shijia);
-					qf.setVcModelNumDisplay(qf.getVcModelNum());
+					//qf.setVcModelNumDisplay(qf.getVcModelNum());
+					if(isLess){
+						if("1".equals(qf.getIsHtCode())){
+							qf.setVcColorNum("");
+						}
+					}else{
+						qf.setVcModelNumDisplay(qf.getVcModelNum());
+					}
 					quoteFabricList.add(qf);//不是被替代的产品才在采购单中显示
 				}
 			}
@@ -265,6 +287,7 @@ public class OrderAction extends DispatchPagerAction {
 					e.setSendTime(new Date());
 					e.setState("1");
 					e.setUsername(admin.getUsername());
+					e.setStatus("0");
 					this.emailService.saveOrUpdateEntity(e);
 				}
 			}
@@ -281,6 +304,7 @@ public class OrderAction extends DispatchPagerAction {
 			e.setSendTime(new Date());
 			e.setState("1");
 			e.setUsername(curAdmin.getUsername());
+			e.setStatus("2");
 			this.emailService.saveOrUpdateEntity(e);
 		}
 		if(3==order.getOrderStatus()){
@@ -319,6 +343,7 @@ public class OrderAction extends DispatchPagerAction {
 					e.setSendTime(new Date());
 					e.setState("1");
 					e.setUsername(admin.getUsername());
+					e.setStatus("3");
 					this.emailService.saveOrUpdateEntity(e);
 				}
 			}
@@ -338,6 +363,7 @@ public class OrderAction extends DispatchPagerAction {
 					e.setSendTime(new Date());
 					e.setState("1");
 					e.setUsername(admin.getUsername());
+					e.setStatus("0");
 					this.emailService.saveOrUpdateEntity(e);
 				}
 			}
@@ -357,6 +383,7 @@ public class OrderAction extends DispatchPagerAction {
 						e.setSendTime(new Date());
 						e.setState("1");
 						e.setUsername(admin.getUsername());
+						e.setStatus("0");
 						this.emailService.saveOrUpdateEntity(e);
 					}
 				}
@@ -376,6 +403,7 @@ public class OrderAction extends DispatchPagerAction {
 						e.setSendTime(new Date());
 						e.setState("1");
 						e.setUsername(name);
+						e.setStatus("0");
 						this.emailService.saveOrUpdateEntity(e);
 					}
 				}
@@ -413,6 +441,7 @@ public class OrderAction extends DispatchPagerAction {
 		String isShipments = request.getParameter("isShipments");
 		String orderStatus = request.getParameter("orderStatus");
 		String area_zh = request.getParameter("area_zh");
+		String isOver = request.getParameter("isOver");
 		if(StringUtils.isNotEmpty(startTime1)){
 			paramap.put("startTime1", startTime1);
 			request.setAttribute("startTime1", startTime1);
@@ -466,6 +495,10 @@ public class OrderAction extends DispatchPagerAction {
 			paramap.put("vcModelNum", vcModelNum);
 			request.setAttribute("vcModelNum", vcModelNum);
 		}
+		if(StringUtils.isNotEmpty(isOver)){
+			paramap.put("isOver", isOver);
+			request.setAttribute("isOver", isOver);
+		}
 		return paramap;
 	}
 	
@@ -482,6 +515,15 @@ public class OrderAction extends DispatchPagerAction {
 	 }
 	 
 	 public void downOrder() throws Exception {
+		 Admin admin = this.getCurrentAdminUser();
+			boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
+			boolean isSaleManager = securityService.isAbleRole(admin.getUsername(), "销售经理");
+			boolean isQuoter = securityService.isAbleRole(admin.getUsername(), "报价员");
+			boolean isLess = false;
+			if(isSale||isSaleManager||isQuoter){
+				isLess = true;
+			}
+			request.setAttribute("isLess", isLess);
 		 Long id = Long.valueOf(request.getParameter("id"));
 			order = this.orderService.getOrderById(id);
 			String fileUrl = "/model/order.xls";
@@ -718,9 +760,16 @@ public class OrderAction extends DispatchPagerAction {
 				HSSFCell c1 = r.createCell(0);// 序号
 				c1.setCellStyle(style);
 				c1.setCellValue(qfList.get(i).getOrderId());
+				if(isLess){
+					if("1".equals(qfList.get(i).getIsHtCode())){
+						qfList.get(i).setVcColorNum("");
+					}
+				}else{
+					qfList.get(i).setVcModelNumDisplay(qfList.get(i).getVcModelNum());
+				}
 				HSSFCell c2 = r.createCell(1);// 型号
 				c2.setCellStyle(style);
-				String cv = qfList.get(i).getVcModelNum();
+				String cv = qfList.get(i).getVcModelNumDisplay();
 				if (StringUtils.isNotEmpty(qfList.get(i).getVcColorNum())) {
 					cv += "-" + qfList.get(i).getVcColorNum();
 				}
@@ -764,6 +813,15 @@ public class OrderAction extends DispatchPagerAction {
 
 
 		public void downOrder2() throws Exception {
+			 Admin admin = this.getCurrentAdminUser();
+				boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
+				boolean isSaleManager = securityService.isAbleRole(admin.getUsername(), "销售经理");
+				boolean isQuoter = securityService.isAbleRole(admin.getUsername(), "报价员");
+				boolean isLess = false;
+				if(isSale||isSaleManager||isQuoter){
+					isLess = true;
+				}
+				request.setAttribute("isLess", isLess);
 			Long id = Long.valueOf(request.getParameter("id"));
 			order = this.orderService.getOrderById(id);
 			String fileUrl = "/model/order2.xls";
@@ -980,7 +1038,14 @@ public class OrderAction extends DispatchPagerAction {
 				c1.setCellValue(qfList.get(i).getOrderId());
 				HSSFCell c2 = r.createCell(1);// 型号
 				c2.setCellStyle(style);
-				String cv = qfList.get(i).getVcModelNum();
+				if(isLess){
+					if("1".equals(qfList.get(i).getIsHtCode())){
+						qfList.get(i).setVcColorNum("");
+					}
+				}else{
+					qfList.get(i).setVcModelNumDisplay(qfList.get(i).getVcModelNum());
+				}
+				String cv = qfList.get(i).getVcModelNumDisplay();
 				if (StringUtils.isNotEmpty(qfList.get(i).getVcColorNum())) {
 					cv += "-" + qfList.get(i).getVcColorNum();
 				}

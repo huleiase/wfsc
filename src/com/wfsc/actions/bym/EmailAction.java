@@ -35,7 +35,7 @@ public class EmailAction extends DispatchPagerAction {
 	private Email email;
 
 	public String manager(){
-		this.setTopMenu();
+	//	this.setTopMenu();
 		list();
 		return "manager";
 	}
@@ -68,7 +68,8 @@ public class EmailAction extends DispatchPagerAction {
 		String username = this.getCurrentAdminUser().getUsername();
 		int count = emailService.getUnreadCount(username);
 		try {
-			response.getWriter().write(count);
+			System.out.println("username===="+username+"-->"+count);
+			response.getWriter().write(count+"");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

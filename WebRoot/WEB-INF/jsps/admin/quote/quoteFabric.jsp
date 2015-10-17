@@ -93,7 +93,15 @@
 			     <td><input type="text" value="<s:property value="vcDes"/>" id="vcDes${vcCount }" name="quoteFabricList[${vcIndex }].vcDes" /></td>
 			     <td><input type="text" value="<s:property value="vcDis"/>" id="vcDis${vcCount }" name="quoteFabricList[${vcIndex }].vcDis"  class="widthShort"/></td>
 			     <td><input type="text" value="<s:property value="vcModelNumDisplay"/>" id="vcModelNumDisplay${vcCount }" name="quoteFabricList[${vcIndex }].vcModelNumDisplay" readonly="readonly" /></td>
-			     <td><input type="text" value="<s:property value="vcColorNum"/>" id="vcColorNum${vcCount }" name="quoteFabricList[${vcIndex }].vcColorNum"  class="widthShort"/></td>
+			     <td>
+			     <c:if test="${obj.isHtCode==1}">
+			     <input type="text" id="vcNoDisplayColorNum${vcCount }"  class="widthShort" readonly="readonly"/>
+			     <input type="hidden" value="<s:property value="vcColorNum"/>" id="vcColorNum${vcCount }" name="quoteFabricList[${vcIndex }].vcColorNum"/>
+			     </c:if>
+			     <c:if test="${obj.isHtCode==0}">
+			     <input type="text" value="<s:property value="vcColorNum"/>" id="vcColorNum${vcCount }" name="quoteFabricList[${vcIndex }].vcColorNum"  class="widthShort"/>
+			     </c:if>
+			     </td>
                  <td>
                  <div style="width:150px;">
                  	<input type="text" value="<s:property value="vcWidth"/>" id="vcWidth${vcCount }" name="quoteFabricList[${vcIndex }].vcWidth"  class="widthShort"/>

@@ -817,10 +817,10 @@ public class FabricAction extends DispatchPagerAction {
 				addOrUpdate = "新增";
 				s = new Fabric();
 				Long refId = fabricService.getRefIdByCode(vcFactoryCode, vcBefModel);
-				if(refId == null){
+				/*if(refId == null){
 					errorList.add("第" + (i + 1) + "行" + "没有找到对应的原厂型号");
 					continue;
-				}
+				}*/
 				s.setRefid(refId);
 			}
 			log.info(i+"-->"+addOrUpdate+"-->"+vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
@@ -997,6 +997,7 @@ public class FabricAction extends DispatchPagerAction {
 		String vcWidth = request.getParameter("vcWidth");
 		String bookNo = request.getParameter("bookNo");
 		String brand = request.getParameter("brand");
+		String refid = request.getParameter("refid");
 		if(StringUtils.isNotEmpty(vcFactoryCode)){
 			paramap.put("vcFactoryCode", vcFactoryCode);
 			request.setAttribute("vcFactoryCode", vcFactoryCode);
@@ -1028,6 +1029,10 @@ public class FabricAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(brand)){
 			paramap.put("brand", brand);
 			request.setAttribute("brand", brand);
+		}
+		if(StringUtils.isNotEmpty(refid)){
+			paramap.put("refid", refid);
+			request.setAttribute("refid", refid);
 		}
 		return paramap;
 	}
@@ -1210,10 +1215,10 @@ public class FabricAction extends DispatchPagerAction {
 			Long fcode = f.getRefid();
 			if(fcode==null||fcode==0){
 				logger.info("没有找到refid的Ht型号===="+f.getVcFactoryCode()+"--"+f.getVcBefModel()+"--"+f.getHtCode());
-				logger.info("fcode==null||fcode==0");
-				continue;
+			}else{
+				refidList.add(fcode);
 			}
-			refidList.add(fcode);
+			
 		}
 		logger.info("refidList.size()======="+refidList.size());
 		String testhql = "from Fabric WHERE isHtCode ='0' and id in (";
@@ -1232,47 +1237,49 @@ public class FabricAction extends DispatchPagerAction {
 		logger.info("根据refid找到的远厂型号——fbs.size()======="+fbs.size());
 		for(int i=0;i<htfbs.size();i++){
 			Fabric fb = htfbs.get(i);
+			Long refId = fb.getRefid();
+			if(refId==null){
+				refId = 0L;
+			}
 			if(fb==null){
 				logger.info("fb========null---"+i);
 				continue;
 			}
-			Fabric f = map.get(fb.getRefid());
+			Fabric f = map.get(refId);
 			if(f==null){
 				logger.info("f========null---"+i);
-				continue;
+			}else{
+				fb.setDhjCost(f.getDhjCost());
+				fb.setDhjHKRate(f.getDhjHKRate());
+				fb.setDhjHKTransCost(f.getDhjHKTransCost());
+				fb.setDhjInlandRate(f.getDhjInlandRate());
+				fb.setDhjInlandTransCost(f.getDhjInlandTransCost());
+				fb.setDhjWidth(f.getDhjWidth());
+				fb.setVcWidth(f.getVcWidth());
+				fb.setVcOldPrice(f.getVcOldPrice());
+				fb.setVcMeasure(f.getVcMeasure());
+				fb.setVcPriceCur(f.getVcPriceCur());
+				fb.setVcProFre(f.getVcProFre());
+				fb.setVcRetFre(f.getVcRetFre());
+				fb.setVcPurDis(f.getVcPurDis());
+				fb.setVcComposition(f.getVcComposition());
+				fb.setVcRemark1(f.getVcRemark1());
+				fb.setFactoryName(f.getFactoryName());
+				String innKey = f.getVcPriceCur().toUpperCase()+"_RMB";
+				float innerPrice = getPrice(f,"1",conMap.get(innKey),conMap.get(innKey));
+				String hkKey = f.getVcPriceCur().toUpperCase()+"_HKD";
+				float hkPrice = getPrice(f,"2",conMap.get(hkKey),conMap.get(innKey));
+				float innerSecondPrice = innerPrice;
+				float hkSecondPrice = hkPrice;
+				if(StringUtils.isNotBlank(fb.getBrand())){
+					innerSecondPrice = PriceUtil.getSecondInlandFacePrice(innerPrice, fb.getBrand(), fb.getInlandRaiseRate(), fb.getInlandDownRate(), fb.getInlandRefitRate());
+					hkSecondPrice = PriceUtil.getSecondHKFacePrice(hkPrice, fb.getBrand(), fb.getHkRaiseRate(), fb.getHkDownRate(), fb.getHkRefitRate());
+				}
+				fb.setInnerPrice(innerPrice+" RMB");
+				fb.setHkPrice(hkPrice+" HKD");
+				fb.setInnerSecPrice(innerSecondPrice+" RMB");
+				fb.setHkSecPrice(hkSecondPrice+" HKD");
 			}
-			fb.setDhjCost(f.getDhjCost());
-			fb.setDhjHKRate(f.getDhjHKRate());
-			fb.setDhjHKTransCost(f.getDhjHKTransCost());
-			fb.setDhjInlandRate(f.getDhjInlandRate());
-			fb.setDhjInlandTransCost(f.getDhjInlandTransCost());
-			fb.setDhjWidth(f.getDhjWidth());
-			fb.setVcWidth(f.getVcWidth());
-			fb.setVcOldPrice(f.getVcOldPrice());
-			fb.setVcMeasure(f.getVcMeasure());
-			fb.setVcPriceCur(f.getVcPriceCur());
-			fb.setVcProFre(f.getVcProFre());
-			fb.setVcRetFre(f.getVcRetFre());
-			fb.setVcPurDis(f.getVcPurDis());
-			fb.setVcComposition(f.getVcComposition());
-			fb.setVcRemark1(f.getVcRemark1());
-			fb.setFactoryName(f.getFactoryName());
-			String innKey = f.getVcPriceCur().toUpperCase()+"_RMB";
-			float innerPrice = getPrice(f,"1",conMap.get(innKey),conMap.get(innKey));
-			String hkKey = f.getVcPriceCur().toUpperCase()+"_HKD";
-			float hkPrice = getPrice(f,"2",conMap.get(hkKey),conMap.get(innKey));
-			float innerSecondPrice = innerPrice;
-			float hkSecondPrice = hkPrice;
-			if(StringUtils.isNotBlank(fb.getBrand())){
-				innerSecondPrice = PriceUtil.getSecondInlandFacePrice(innerPrice, fb.getBrand(), fb.getInlandRaiseRate(), fb.getInlandDownRate(), fb.getInlandRefitRate());
-				hkSecondPrice = PriceUtil.getSecondHKFacePrice(hkPrice, fb.getBrand(), fb.getHkRaiseRate(), fb.getHkDownRate(), fb.getHkRefitRate());
-			}
-			fb.setInnerPrice(innerPrice+" RMB");
-			fb.setHkPrice(hkPrice+" HKD");
-			fb.setInnerSecPrice(innerSecondPrice+" RMB");
-			fb.setHkSecPrice(hkSecondPrice+" HKD");
-			
-			
 		}
 		return htfbs;
 	}

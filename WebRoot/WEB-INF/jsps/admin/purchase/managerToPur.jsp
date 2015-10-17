@@ -18,7 +18,7 @@ var basePath = "<%=basePath%>";
 		
 	}
 	function operPurchase(id,oper){
-		var url = basePath+"admin/purchase_input.Q?id="+id+"&oper="+oper;
+		var url = basePath+"admin/purchase_input.Q?isToPur=1&id="+id+"&oper="+oper;
 		if(oper==3 || oper==4){
 			window.open(url,"打印"); 
 		}else{

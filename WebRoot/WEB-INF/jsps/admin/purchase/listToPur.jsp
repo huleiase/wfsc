@@ -24,7 +24,7 @@
                 <s:iterator value="#request.page.data" var="obj">
                  <tr>
                   <td><input type="checkbox" name="ids" value='<s:property value="id"/>'/></td>
-                   <td><a class="tip-bottom" title="点击查看详细信息" href='<%=request.getContextPath()%>/admin/purchase_input.Q?isView=1&oper=1&id=<s:property value="id"/>' target="_blank"><s:property value="contractNo"/></a></td>
+                   <td><a class="tip-bottom" title="点击查看详细信息" href='<%=request.getContextPath()%>/admin/purchase_input.Q?isView=1&isToPur=1&oper=1&id=<s:property value="id"/>' target="_blank"><s:property value="contractNo"/></a></td>
                   <td><s:property value="deliveryRequirements"/></td>
                    <td> <s:date name="contractDate" format="yyyy-MM-dd" /></td>
                   <td><s:property value="orderNo"/></td>

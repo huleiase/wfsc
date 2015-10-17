@@ -91,7 +91,7 @@ public class StoreFabricAction extends DispatchPagerAction {
 			}
 		}
 		String permission = request.getParameter("permission");
-		if(isSale||isquoteer){
+		if(isSale||isquoteer||isSaleManager){
 			permission = "0";
 		}
 		request.setAttribute("permission", permission);

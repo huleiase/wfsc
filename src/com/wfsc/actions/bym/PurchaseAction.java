@@ -173,6 +173,7 @@ public class PurchaseAction extends DispatchPagerAction {
 		return prop;
 	}
 	public String input() {
+		String isToPur = request.getParameter("isToPur");
 		String id = request.getParameter("id");
 		String isView = request.getParameter("isView");
 		request.setAttribute("isView", StringUtils.isBlank(isView)?"0":"1");
@@ -183,7 +184,14 @@ public class PurchaseAction extends DispatchPagerAction {
 			List<QuoteFabric> qfList =  QuoteFabricUtil.sort(qfSet, "getVcIndex", "asc");
 			for(QuoteFabric qf : qfList){
 				if(!"1".equals(qf.getIsReplaced())){//不是被替代的产品才在采购单中显示
-					qf.setVcModelNumDisplay(qf.getVcModelNum());
+					if(StringUtils.isBlank(isToPur)){
+						qf.setVcModelNumDisplay(qf.getVcFactoryCode()+" "+qf.getVcModelNum());
+					}else{
+						if("1".equals(qf.getIsHtCode())){
+							qf.setVcColorNum("");
+						}
+					}
+				//	qf.setVcModelNumDisplay(qf.getVcModelNum());
 					quoteFabricList.add(qf);
 				}
 			}
@@ -453,6 +461,7 @@ public class PurchaseAction extends DispatchPagerAction {
 					e.setSendTime(new Date());
 					e.setState("1");
 					e.setUsername(admin.getUsername());
+					e.setStatus("2");
 					this.emailService.saveOrUpdateEntity(e);
 				}
 			}
@@ -470,6 +479,7 @@ public class PurchaseAction extends DispatchPagerAction {
 					e.setSendTime(new Date());
 					e.setState("1");
 					e.setUsername(name);
+					e.setStatus("0");
 					this.emailService.saveOrUpdateEntity(e);
 				}
 			}
@@ -492,6 +502,7 @@ public class PurchaseAction extends DispatchPagerAction {
 					e.setSendTime(new Date());
 					e.setState("1");
 					e.setUsername(admin.getUsername());
+					e.setStatus("3");
 					this.emailService.saveOrUpdateEntity(e);
 				}
 			}
@@ -506,6 +517,7 @@ public class PurchaseAction extends DispatchPagerAction {
 			e.setSendTime(new Date());
 			e.setState("1");
 			e.setUsername(q.getModifyUser());
+			e.setStatus("0");
 			this.emailService.saveOrUpdateEntity(e);
 		}
 		if("3".equals(purchase.getOrderStatus())){
@@ -527,6 +539,7 @@ public class PurchaseAction extends DispatchPagerAction {
 					e.setSendTime(new Date());
 					e.setState("1");
 					e.setUsername(admin.getUsername());
+					e.setStatus("0");
 					this.emailService.saveOrUpdateEntity(e);
 				}
 			}

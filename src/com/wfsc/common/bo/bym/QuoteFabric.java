@@ -36,7 +36,7 @@ public class QuoteFabric implements java.io.Serializable{
 	 * 色号
 	 */
 	private String vcColorNum;
-
+	
 	/**
 	 * 幅宽
 	 */
@@ -586,7 +586,7 @@ public class QuoteFabric implements java.io.Serializable{
 	public void setVcColorNum(String vcColorNum) {
 		this.vcColorNum = vcColorNum;
 	}
-
+	
 	/**
 	 * @hibernate.property type="string"
 	 */
