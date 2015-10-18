@@ -175,9 +175,9 @@ public class AdminAction extends DispatchPagerAction {
 		System.out.println("管理员退出....");
 		Object uObj = session.get(CupidStrutsConstants.SESSION_ADMIN);
 		if (uObj != null) {
-			Admin user = (Admin)uObj;
-			user.setOnline(false);
-			securityService.updateAdminUser(user); 
+		//	Admin user = (Admin)uObj;
+		//	user.setOnline(false);
+		//	securityService.updateAdminUser(user); 
 		//	session.remove(CupidStrutsConstants.SESSION_ADMIN);
 		//	session.remove(CupidStrutsConstants.SESSION_ADMIN_ROLE);
 		//	session.remove(CupidStrutsConstants.SESSION_SUPER_ADMIN);

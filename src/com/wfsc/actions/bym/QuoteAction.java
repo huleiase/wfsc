@@ -482,6 +482,22 @@ public class QuoteAction extends DispatchPagerAction {
 				this.emailService.saveOrUpdateEntity(e);
 			}
 		}
+		List<Admin> quoteer = this.securityService.getUsersByRoleAndArea("报价审核员", curAdmin.getArea());
+		if(CollectionUtils.isNotEmpty(quoteer)){
+			for(Admin admin : quoteer){
+				Email e = new Email();
+				e.setAction("quote");
+				e.setDetail("关于【" + quote.getProjectName() + "】的报价已经"+addOrUpdate+"！报价单号为"+quote.getVcQuoteNum()+"，请审核");
+				e.setQuoteId(quote.getId());
+				e.setQuoteNo(quote.getVcQuoteNum());
+				e.setSender(curAdmin.getUsername());
+				e.setSendTime(new Date());
+				e.setState("1");
+				e.setUsername(admin.getUsername());
+				e.setStatus("1");
+				this.emailService.saveOrUpdateEntity(e);
+			}
+		}
 		Set<String> salenames = quote.getSalesman();
 		if(CollectionUtils.isNotEmpty(salenames)){
 			for(String name : salenames){
@@ -1575,7 +1591,6 @@ public class QuoteAction extends DispatchPagerAction {
 				// 签单人
 			 q.setAuditPerson(this.getCurrentAdminUser().getUsername());
 			 this.quoteService.saveOrUpdateEntity(q);
-			 savePurchase(q);
 			 Set<String> salenames = q.getSalesman();
 				if(CollectionUtils.isNotEmpty(salenames)){
 					for(String name : salenames){
@@ -1592,22 +1607,15 @@ public class QuoteAction extends DispatchPagerAction {
 						this.emailService.saveOrUpdateEntity(e);
 					}
 				}
-				Email e = new Email();
-				e.setAction("quote");
-				e.setDetail("关于【" + q.getProjectName() + "】的报价已经签单！报价单号为"+q.getVcQuoteNum()+"，请提交待采购单【"+q.getContractNo()+"】");
-				e.setQuoteId(q.getId());
-				e.setQuoteNo(q.getVcQuoteNum());
-				e.setSender(curAdmin.getUsername());
-				e.setSendTime(new Date());
-				e.setState("1");
-				e.setUsername(q.getModifyUser());
-				e.setStatus("1");
-				this.emailService.saveOrUpdateEntity(e);
+			 savePurchase(q);
+			 
+				
 		 }
 		 return "ok";
 	 }
 	 
 	 private void savePurchase(Quote q){
+		 Admin curAdmin = this.getCurrentAdminUser();
 		 /** 1.插入purchase * */
 			Purchase purchase = this.purchaseService.getUniqPurchaseByQuoteId(q.getId());
 			if(purchase == null){
@@ -1627,6 +1635,19 @@ public class QuoteAction extends DispatchPagerAction {
 			// 成为代采购单
 			purchase.setPurchaseType(Purchase.STATUS_D);
 			purchaseService.saveOrUpdateEntity(purchase);
+			Email e = new Email();
+			e.setAction("toPurchase");
+			e.setDetail("关于【" + q.getProjectName() + "】的报价已经签单！报价单号为"+q.getVcQuoteNum()+"，请提交待采购单【"+q.getContractNo()+"】");
+			e.setQuoteId(q.getId());
+			e.setQuoteNo(q.getVcQuoteNum());
+			e.setSender(curAdmin.getUsername());
+			e.setSendTime(new Date());
+			e.setState("1");
+			e.setUsername(q.getCurUserName());
+			e.setStatus("1");
+			e.setPurchaseId(purchase.getId());
+			e.setPurchaseNo(purchase.getContractNo());
+			this.emailService.saveOrUpdateEntity(e);
 	 }
 	 
 	 public String saveDE(){

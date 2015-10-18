@@ -11,6 +11,7 @@
   <ul class="nav">
     <li class=""><a title="" href="<%=request.getContextPath() %>/admin/admin_modifyPwd.Q"><i class="icon icon-cog"></i> <span class="text">修改密码</span></a></li>
     <li class=""><a title="" href="<%=request.getContextPath() %>/admin/admin_logout.Q"><i class="icon icon-share-alt"></i> <span class="text">安全退出</span></a></li>
+    <li class=""><a title="" href="javascript:void(0);"><i class="icon icon-share-alt"></i> <span class="text">欢迎你 ${SESSION_ADMIN.username }</span></a></li>
   </ul>
 </div>
 <!--close-top-Header-menu-->

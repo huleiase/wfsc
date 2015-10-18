@@ -1221,19 +1221,27 @@ public class FabricAction extends DispatchPagerAction {
 			
 		}
 		logger.info("refidList.size()======="+refidList.size());
-		String testhql = "from Fabric WHERE isHtCode ='0' and id in (";
-		String refdis = "";
-		for(Long id : refidList){
-			refdis += id.longValue()+",";
-		}
-		refdis = refdis.substring(0, refdis.length()-1);
-		testhql += refdis+")";
-		logger.info(testhql);
-		List<Fabric> fbs = fabricService.getFabricByHql(testhql);
+		List<Fabric> fbs = new ArrayList<Fabric>();
 		Map<Long,Fabric> map = new HashMap<Long,Fabric>();
-		for(Fabric f : fbs){
-			map.put(f.getId(), f);
+		if(refidList.size()>0){
+			String testhql = "from Fabric WHERE isHtCode ='0' and id in (";
+			String refdis = "";
+			for(Long id : refidList){
+				refdis += id.longValue()+",";
+			}
+			refdis = refdis.substring(0, refdis.length()-1);
+			testhql += refdis+")";
+			logger.info(testhql);
+			fbs = fabricService.getFabricByHql(testhql);
+			map = new HashMap<Long,Fabric>();
+			if(fbs!=null){
+				for(Fabric f : fbs){
+					map.put(f.getId(), f);
+				}
+			}
+			
 		}
+		
 		logger.info("根据refid找到的远厂型号——fbs.size()======="+fbs.size());
 		for(int i=0;i<htfbs.size();i++){
 			Fabric fb = htfbs.get(i);

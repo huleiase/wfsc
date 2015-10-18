@@ -492,7 +492,7 @@ public class PurchaseAction extends DispatchPagerAction {
 			if(CollectionUtils.isNotEmpty(saleManegers)){
 				for(Admin admin : saleManegers){
 					Email e = new Email();
-					e.setAction("toPurchase");
+					e.setAction("purchase");
 					e.setDetail("关于【" + q.getProjectName() + "】的待采购单已经审核！合同编号为"+pdb.getContractNo()+"，请审核采购单");
 					e.setQuoteId(q.getId());
 					e.setQuoteNo(q.getVcQuoteNum());
@@ -529,7 +529,7 @@ public class PurchaseAction extends DispatchPagerAction {
 			if(CollectionUtils.isNotEmpty(saleManegers)){
 				for(Admin admin : saleManegers){
 					Email e = new Email();
-					e.setAction("purchase");
+					e.setAction("puchase");
 					e.setDetail("关于【" + q.getProjectName() + "】的采购单已经审核！合同编号为"+pdb.getContractNo());
 					e.setQuoteId(q.getId());
 					e.setQuoteNo(q.getVcQuoteNum());
@@ -571,6 +571,13 @@ public class PurchaseAction extends DispatchPagerAction {
 	}
 	
 	private void saveOrder(Purchase purchase,Set<QuoteFabric> qfSet){
+		Admin curAdmin = this.getCurrentAdminUser();
+		/*List<String> caigouyuan = new ArrayList<String>();
+		for(QuoteFabric qf : qfSet){
+			if(StringUtils.isNotBlank(qf.getVcAssignAutor())){
+				caigouyuan.add(qf.getVcAssignAutor());
+			}
+		}*/
 		List<Supplier> ss = this.supplierService.getAll();
 		Map<String,String> ssMap = new HashMap<String,String>();
 		Map<String,String> ssMap2 = new HashMap<String,String>();
@@ -660,6 +667,21 @@ public class PurchaseAction extends DispatchPagerAction {
 			sumMoney = (float) (Math.round((sumMoney) * 10)) / 10;
 			order.setSumMoney(sumMoney);
 			this.orderService.saveOrUpdateEntity(order);
+				Email e = new Email();
+				e.setAction("order");
+				e.setDetail("关于【" + purchase.getQuote().getProjectName() + "】的采购单已经审核！订单号为"+order.getOrderNo()+",请去提交");
+				e.setQuoteId(purchase.getQuote().getId());
+				e.setQuoteNo(purchase.getQuote().getVcQuoteNum());
+				e.setPurchaseId(purchase.getId());
+				e.setPurchaseNo(purchase.getContractNo());
+				e.setSender(curAdmin.getUsername());
+				e.setSendTime(new Date());
+				e.setState("1");
+				e.setUsername(formUser);
+				e.setStatus("1");
+				e.setOrderId(order.getId());
+				e.setOrderNo(order.getOrderNo());
+				this.emailService.saveOrUpdateEntity(e);
 		}
 		
 	}

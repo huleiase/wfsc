@@ -153,6 +153,7 @@ public class FabricDao extends EnhancedHibernateDaoSupport<Fabric> {
 				}
 			}
 			hql.append(" order by obj.id desc ");
+			System.out.println(hql.toString());
 			int totalCount = this.countByHqlWithParama(hql.toString(),dataMap);
 			page.setTotalCount(totalCount);
 			List<Fabric> list = this.findList4PageWithParama(hql.toString(), page

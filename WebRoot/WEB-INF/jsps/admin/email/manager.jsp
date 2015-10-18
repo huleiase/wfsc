@@ -13,6 +13,26 @@
 	function resetForm(){
 		$("#state").val("");
 	}
+	
+	function updateStatus(id){
+		var url = "<%=basePath%>admin/email_updateStatus.Q?id="+id;
+		$.ajax({
+			url:url,
+			dataType:'text',
+			success:function(data){
+				if("1"==data){
+					art.dialog({
+						content: '已标记为已读！',
+						okVal:"确认",
+						ok:function(){
+							window.location.reload();
+						}
+					});
+				}else{
+				}
+			}
+		})
+	}
 	function handle(id,status,action,quoteId,purchaseId,orderId){
 		var getStatusUrl = "<%=basePath%>admin/quote_getQuoteStatus.Q?emailId="+id+"&status="+status+"&quoteId="+quoteId;
 		if("toPurchase"==action){
@@ -20,7 +40,7 @@
 		}else if("purchase"==action){
 			getStatusUrl = "<%=basePath%>admin/purchase_getPurchaseStatus.Q?emailId="+id+"&status="+status+"&purchaseId="+purchaseId;
 		}else if("order"==action){
-			getStatusUrl = "<%=basePath%>admin/order_getOrderStatusForEmail.Q?emailId="+id+"&status="+status+"&orderId="+purchaseId;
+			getStatusUrl = "<%=basePath%>admin/order_getOrderStatusForEmail.Q?emailId="+id+"&status="+status+"&orderId="+orderId;
 		}
 		$.ajax({
 			url:getStatusUrl,

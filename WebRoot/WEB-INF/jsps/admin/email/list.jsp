@@ -19,7 +19,13 @@
                   <td><input type="checkbox" name="ids" value='<s:property value="id"/>'/></td>
                   <td><s:property value="detail"/></td>
                   <td>
-                  <button class="label label-info btn btn-primary btn-mini" onclick="handle('<s:property value="id"/>','<s:property value="status"/>','<s:property value="action"/>','<s:property value="quoteId"/>','<s:property value="purchaseId"/>','<s:property value="orderId"/>');">去处理</button>
+                  <s:if test="#obj.status==0">
+                   <button class="label label-info btn btn-primary btn-mini" onclick="updateStatus('<s:property value="id"/>');">标为已读</button>
+                  </s:if>
+                  <s:else>
+                   <button class="label label-info btn btn-primary btn-mini" onclick="handle('<s:property value="id"/>','<s:property value="status"/>','<s:property value="action"/>','<s:property value="quoteId"/>','<s:property value="purchaseId"/>','<s:property value="orderId"/>');">去处理</button>
+                  </s:else>
+                 
                   </td>
                 </tr>
                </s:iterator>

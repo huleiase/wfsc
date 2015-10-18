@@ -76,7 +76,21 @@ public class EmailAction extends DispatchPagerAction {
 		
 		return null;
 	}
-	
+	public String updateStatus(){
+		String id = request.getParameter("id");
+		String result = "1";
+		try {
+			Email e = emailService.getEmailById(Long.valueOf(id));
+			e.setState("2");
+			emailService.saveOrUpdateEntity(e);
+			response.getWriter().write(result);
+		} catch (IOException e) {
+			result = "0";
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 	
 	public String deleteByIds(){
 		String ids = request.getParameter("ids");
