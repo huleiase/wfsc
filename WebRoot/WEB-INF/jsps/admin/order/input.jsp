@@ -365,12 +365,13 @@ table#quoteFabricTable .label, .badge {
             	<%@include file="orderFabric.jsp"%>
       		</div>
       		 <div class="clear"></div>
+      		 <c:if test="${!isLess}">
       		<div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">总金额</label>
 	             <input name="order.sumMoney" id="sumMoney" type="text" class="span3"  value="${ order.sumMoney}">
 	        </div>
-      		
       		 <div class="clear"></div>
+      		 </c:if>
             <div class="form-actions">
             <s:if test="#request.isView==0">
             <s:if test="#request.order.orderStatus!=3">

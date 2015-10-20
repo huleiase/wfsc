@@ -59,25 +59,25 @@ public class QuoteDao extends EnhancedHibernateDaoSupport<Quote> {
 				if ("projectName".equals(key)) {
 					hql.append(" and obj.projectName like :projectName");
 					dataMap.put("projectName", paramap.get("projectName"));
-					countSql.append(" and quote.projectName like '").append(paramap.get(key).toString()+"%'");
+					countSql.append(" and quote.projectName like '%").append(paramap.get(key).toString()+"%'");
 					continue;
 				}
 				if ("vcSalesman".equals(key)) {
 					hql.append(" and obj.vcSalesman like :vcSalesman");
 					dataMap.put("vcSalesman", paramap.get("vcSalesman"));
-					countSql.append(" and quote.vcSalesman like '").append(paramap.get(key).toString()+"%'");
+					countSql.append(" and quote.vcSalesman like '%").append(paramap.get(key).toString()+"%'");
 					continue;
 				}
 				if ("projectNum".equals(key)) {
 					hql.append(" and obj.projectNum like :projectNum");
 					dataMap.put("projectNum", paramap.get("projectNum"));
-					countSql.append(" and quote.projectNum like '").append(paramap.get(key).toString()+"%'");
+					countSql.append(" and quote.projectNum like '%").append(paramap.get(key).toString()+"%'");
 					continue;
 				}
 				if ("vcAttn".equals(key)) {
 					hql.append(" and obj.vcAttn like :vcAttn");
 					dataMap.put("vcAttn", paramap.get("vcAttn"));
-					countSql.append(" and quote.vcAttn like '").append(paramap.get(key).toString()+"%'");
+					countSql.append(" and quote.vcAttn like '%").append(paramap.get(key).toString()+"%'");
 					continue;
 				}
 				if ("quoteFormate".equals(key)) {
@@ -88,13 +88,13 @@ public class QuoteDao extends EnhancedHibernateDaoSupport<Quote> {
 				if ("projectDesignComp".equals(key)) {
 					hql.append(" and obj.projectDesignComp like :projectDesignComp");
 					dataMap.put("projectDesignComp", paramap.get("projectDesignComp"));
-					countSql.append(" and quote.projectDesignComp like '").append(paramap.get(key).toString()+"%'");
+					countSql.append(" and quote.projectDesignComp like '%").append(paramap.get(key).toString()+"%'");
 					continue;
 				}
 				if ("curUserName".equals(key)) {
 					hql.append(" and obj.curUserName like :curUserName");
 					dataMap.put("curUserName", paramap.get("curUserName"));
-					countSql.append(" and quote.curUserName like '").append(paramap.get(key).toString()+"%'");
+					countSql.append(" and quote.curUserName like '%").append(paramap.get(key).toString()+"%'");
 					continue;
 				}
 				if("vcQuoteLocal".equals(key)){
@@ -108,9 +108,9 @@ public class QuoteDao extends EnhancedHibernateDaoSupport<Quote> {
 					continue;
 				}
 				if ("vcBefModel".equals(key)) {
-					hql.append(" and ((qf.vcModelNum like '"+paramap.get("vcBefModel")).append("%' and qf.isHtCode='0') ")
-					.append("or (qf.htCode like '"+paramap.get("vcBefModel")+"%'))");
-					countSql.append(" and quote.curUserName like '").append(paramap.get(key).toString()+"%'");
+					hql.append(" and ((qf.vcModelNum like '%"+paramap.get("vcBefModel")).append("%' and qf.isHtCode='0') ")
+					.append("or (qf.htCode like '%"+paramap.get("vcBefModel")+"%'))");
+					countSql.append(" and quote.curUserName like '%").append(paramap.get(key).toString()+"%'");
 					continue;
 				}
 				

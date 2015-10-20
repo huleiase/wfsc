@@ -274,7 +274,9 @@ public class FabricAction extends DispatchPagerAction {
 		String vcFactoryCode = fabric.getVcFactoryCode();
 		String vcBefModel = fabric.getVcBefModel();
 		Fabric f = fabricService.getFabricByCode(vcFactoryCode, vcBefModel);
-		fabric.setRefid(f.getId());
+		if(f!=null){
+			fabric.setRefid(f.getId());
+		}
 		fabric.setIsHtCode("1");
 		fabricService.saveOrUpdateEntity(fabric);
 		return "okHT";
@@ -1086,9 +1088,15 @@ public class FabricAction extends DispatchPagerAction {
 				String factoryName = supplier.getVcFactoryName();
 				float homeLowTransportCost = supplier.getHomeLowTransportCost();
 				float hkLowTransportCost = supplier.getHkLowTransportCost();
-				String homePrice = PriceUtil.getCommonFacePrice(fabric.getVcOldPrice(), fabric.getVcPurDis(), getExchangeRate("1",fabric.getVcPriceCur()), fabric.getVcProRatio())+" RMB";
-				String hkPrice  = PriceUtil.getCommonFacePrice(fabric.getVcOldPrice(), fabric.getVcPurDis(), getExchangeRate("2",fabric.getVcPriceCur()), fabric.getVcRetailRatio())+" HKD";
-				String lsPrice = PriceUtil.getRetailFacePrice(fabric.getVcOldPrice(), fabric.getVcPurDis(), getExchangeRate("5",fabric.getVcPriceCur()), fabric.getVcProFre(), supplier.getRetailCoefficient())+" RMB";
+				float homePriceWithNoUnit = PriceUtil.getCommonFacePrice(fabric.getVcOldPrice(), fabric.getVcPurDis(), getExchangeRate("1",fabric.getVcPriceCur()), fabric.getVcProRatio());
+				String homePrice = homePriceWithNoUnit+" RMB";
+				float hkPriceWithNoUnit = PriceUtil.getCommonFacePrice(fabric.getVcOldPrice(), fabric.getVcPurDis(), getExchangeRate("2",fabric.getVcPriceCur()), fabric.getVcRetailRatio());
+				String hkPrice  = hkPriceWithNoUnit+" HKD";
+				//香港报价国产厂
+				if("0".equals(fabric.getIsHtCode())&&"0".equals(fabric.getImportFactory())){
+					hkPrice = PriceUtil.getHKDomesticFacePrice(fabric.getVcOldPrice(), fabric.getVcPurDis(), getExchangeRate("2",fabric.getVcPriceCur()), getExchangeRate("2",fabric.getVcPriceCur()))+" HKD";
+				}
+				String lsPrice = PriceUtil.getRetailFacePrice(fabric.getVcOldPrice(), fabric.getVcPurDis(), getExchangeRate("5",fabric.getVcPriceCur()), fabric.getVcProRatio(), supplier.getRetailCoefficient())+" RMB";
 				HSSFRow cRow = sheet.createRow(i);
 				Object values[] = {fabric.getVcFactoryCode(),factoryName,fabric.getVcType(), fabric.getVcBefModel(),
 						fabric.getVcWidth(),  fabric.getVcPieceLength(),fabric.getVcMinNum(),fabric.getVcMinLattice(),

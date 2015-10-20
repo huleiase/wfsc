@@ -32,8 +32,10 @@
                  <tr>
                   <td><input type="checkbox" name="ids" value='<s:property value="id"/>'/></td>
                   <td><a class="tip-bottom" title="点击查看详细信息" href='<%=request.getContextPath()%>/admin/order_input.Q?isView=1&id=<s:property value="id"/>' target="_blank"><s:property value="orderNo"/></a></td>
+                   <c:if test="${!isLess}">
                   <td><s:property value="supplier"/></td>
                    <td><s:property value="atten"/></td>
+                   </c:if>
                   <td><s:property value="vcfrom"/></td>
                    <td> <s:date name="orderDate" format="yyyy-MM-dd" /></td>
                   <td><s:property value="quantation"/></td>
@@ -52,7 +54,9 @@
                   	<s:elseif test="#obj.orderStatus==2">已注销</s:elseif>
                   	<s:elseif test="#obj.orderStatus==3">已审核</s:elseif>
                   </td>
+                   <c:if test="${!isLess}">
                    <td><s:property value="sumMoney"/> <s:property value="hbUnit"/></td>
+                   </c:if>
                   <td>
                   <w:permission permissionId="<%=PermissionId.PROCESS_ORDER_MGT_UPDATE%>">
                   <s:if test="#obj.orderStatus!=3||#request.isAdmin||#request.isPurManager">

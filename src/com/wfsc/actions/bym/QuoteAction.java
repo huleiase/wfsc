@@ -817,7 +817,7 @@ public class QuoteAction extends DispatchPagerAction {
 			} else if ("2".equals(quoteFormate)) {//香港报价
 				oldPrice = PriceUtil.getCommonFacePrice(f.getVcOldPrice(), f.getVcPurDis(), vcExchangeRate, f.getVcRetailRatio());
 				//香港报价国产厂
-				if("0".equals(isHtCode)&&"0".equals(f.getImportFactory())){
+				if("0".equals(f.getImportFactory())){
 					oldPrice = PriceUtil.getHKDomesticFacePrice(f.getVcOldPrice(), f.getVcPurDis(), other2rmb, vcExchangeRate);
 				}
 				//HT型号品牌不为空的话需要在原有价格上算二次面价
@@ -849,7 +849,7 @@ public class QuoteAction extends DispatchPagerAction {
 				qf.setIsCgbj("0");
 				qf.setVcMoney("HKD");
 			} else if ("5".equals(quoteFormate)) {// 零售报价
-				oldPrice = PriceUtil.getRetailFacePrice(f.getVcOldPrice(), f.getVcPurDis(), vcExchangeRate, f.getVcProFre(), s.getRetailCoefficient());
+				oldPrice = PriceUtil.getRetailFacePrice(f.getVcOldPrice(), f.getVcPurDis(), vcExchangeRate, f.getVcProRatio(), s.getRetailCoefficient());
 				if ("yd".equalsIgnoreCase(measure.trim())) {
 					vcPrice = PriceUtil.getYDProjectFinalPrice(oldPrice, 1, f.getVcProFre(), 0, ctax, isFreight);
 				}else{

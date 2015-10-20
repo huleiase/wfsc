@@ -85,6 +85,14 @@ public class SupplierAction extends DispatchPagerAction {
 	}
 	
 	public String input() {
+		Admin admin = this.getCurrentAdminUser();
+		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
+		boolean purManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
+		String flag = "0";
+		if(isAdmin||purManager){
+			flag = "1";
+		}
+		request.setAttribute("flag", flag);
 		String id = request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
 			supplier = supplierService.getSupplierById(Long.valueOf(id));

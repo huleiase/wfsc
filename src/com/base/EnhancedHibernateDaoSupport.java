@@ -875,7 +875,7 @@ public abstract class EnhancedHibernateDaoSupport<T> extends HibernateDaoSupport
 					if(obj instanceof java.util.Date) {
 						q.setDate(key, (java.util.Date)obj);
 					}else if(obj instanceof java.lang.String){
-						q.setString(key, (java.lang.String)obj+"%");
+						q.setString(key, "%"+(java.lang.String)obj+"%");
 					}else if(obj instanceof java.lang.Integer){
 						q.setInteger(key, (java.lang.Integer)obj);
 					}else if(obj instanceof java.lang.Long){
@@ -905,7 +905,7 @@ public abstract class EnhancedHibernateDaoSupport<T> extends HibernateDaoSupport
 					if(obj instanceof java.util.Date) {
 						q.setDate(key, (java.util.Date)obj);
 					}else if(obj instanceof java.lang.String){
-						q.setString(key, (java.lang.String)obj+"%");
+						q.setString(key, "%"+(java.lang.String)obj+"%");
 					}else if(obj instanceof java.lang.Integer){
 						q.setInteger(key, (java.lang.Integer)obj);
 					}else if(obj instanceof java.lang.Long){
@@ -937,7 +937,7 @@ public abstract class EnhancedHibernateDaoSupport<T> extends HibernateDaoSupport
 					if(obj instanceof java.util.Date) {
 						q.setDate(key, (java.util.Date)obj);
 					}else if(obj instanceof java.lang.String){
-						q.setString(key, (java.lang.String)obj+"%");
+						q.setString(key, "%"+(java.lang.String)obj+"%");
 					}else if(obj instanceof java.lang.Integer){
 						q.setInteger(key, (java.lang.Integer)obj);
 					}else if(obj instanceof java.lang.Long){

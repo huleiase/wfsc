@@ -38,10 +38,10 @@
 			<th>
 				实订量
 			</th>
+			<c:if test="${!isLess}">
 			<th>
 				单价
 			</th>
-			<c:if test="${!isLess}">
 			<th>
 				实价
 			</th>
@@ -126,6 +126,7 @@
 							<s:property value="vcOldPriceUnit" />
 						</div>
 					</td>
+					<c:if test="${!isLess}">
 					<td>
 						<div style="width: 90px;">
 							<s:property value="sigMoney" />
@@ -133,7 +134,6 @@
 							<s:property value="priceCur" />
 						</div>
 					</td>
-					<c:if test="${!isLess}">
 					<td>
 						<div style="width: 120px;">
 							<input id="shijia${vcCount }" class="widthShort"
