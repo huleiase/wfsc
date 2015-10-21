@@ -58,10 +58,12 @@
                   <button class="label label-info btn btn-primary btn-mini" onclick="writPerm('<s:property value="id"/>','<s:property value="quoteFormate"/>');">签单</button>
                    </s:if>
                    </w:permission>
-                   <s:if test="#obj.vcAudit==1">
+                   <s:if test="#obj.canPrint==true">
                    <w:permission permissionId="<%=PermissionId.QUOTE_MGT_PRINT%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="printQuote('<s:property value="id"/>');">打印</button>
                   </w:permission>
+                  </s:if>
+                  <s:if test="#obj.vcAudit==1">
                   <w:permission permissionId="<%=PermissionId.QUOTE_MGT_DESIGN%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="designQuote('<s:property value="id"/>');">设计</button>
                  </w:permission>

@@ -115,7 +115,7 @@ public class PurchaseAction extends DispatchPagerAction {
 		int money = new Integer(map.get("money"));
 		String manager = map.get("manager");
 	//	String assistantManager = map.get("assistantManager");
-		if((money>100000&&!manager.equalsIgnoreCase(admin.getUsername()))||(!isAdmin)){
+		if((money>100000&&!manager.contains(admin.getUsername()))||(!isAdmin)){
 			isPermissionAudit = false;
 		}
 		request.setAttribute("isPermissionAudit", isPermissionAudit);

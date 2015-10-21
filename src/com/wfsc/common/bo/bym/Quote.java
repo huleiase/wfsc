@@ -329,6 +329,9 @@ public class Quote implements java.io.Serializable {
 	
 	private Long groupId;
 	
+	private boolean canPrint;//临时字段，没审核的报价单销售不能打印，其他角色都可以打印
+	
+	
 	/**
 	 * 关联的报价布匹
 	 */
@@ -1155,6 +1158,14 @@ public class Quote implements java.io.Serializable {
 
 	public void setGroupId(Long groupId) {
 		this.groupId = groupId;
+	}
+
+	public boolean isCanPrint() {
+		return canPrint;
+	}
+
+	public void setCanPrint(boolean canPrint) {
+		this.canPrint = canPrint;
 	}
 	
 	

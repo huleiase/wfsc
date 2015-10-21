@@ -86,7 +86,10 @@
 	                 <input type="hidden" value="<s:property value="vcType"/>" id="vcType${vcCount }" name="quoteFabricList[${vcIndex }].vcType" />
 	                 <input type="hidden" value="<s:property value="vcPurchaseRmk"/>" id="vcPurchaseRmk${vcCount }" name="quoteFabricList[${vcIndex }].vcPurchaseRmk" />
 	                 <input type="hidden" value="<s:property value="vcAssignAutor"/>" id="vcAssignAutor${vcCount }" name="quoteFabricList[${vcIndex }].vcAssignAutor" />
+	                 <div style="width:85px;">
 	                 <span class="label label-info btn btn-primary btn-mini" id="copy${vcCount }" onclick="copyFabric2(${vcCount });">复制</span>
+	                 <span class="label label-info btn btn-primary btn-mini" id="remove${vcCount }" onclick="delFabric2(${vcCount });">删除</span>
+                	</div>
                  </td>
                  <td><input type="text" value="<s:property value="orderId"/>" id="orderId${vcCount }" name="quoteFabricList[${vcIndex }].orderId" class="widthShort"/></td>
 			     <td><input type="text" value="<s:property value="vcProject"/>" id="vcProject${vcCount }" name="quoteFabricList[${vcIndex }].vcProject"/></td>
@@ -182,8 +185,7 @@
 			     <td><input type="text" value="<s:property value="quoteRemark"/>" id="quoteRemark${vcCount }" name="quoteFabricList[${vcIndex }].quoteRemark" /></td>
 			     <td><input type="text" readonly="readOnly" value="<s:property value="replaceRemark"/>" id="replaceRemark${vcCount }" name="quoteFabricList[${vcIndex }].replaceRemark"/></td>
 			     <td>
-				     <div style="width:405px;">
-				     	<span class="label label-info btn btn-primary btn-mini" id="remove${vcCount }" onclick="delFabric2(${vcCount });">删除</span>
+				     <div style="width:355px;">
 				     	<span class="label label-info btn btn-primary btn-mini" id="uploadFabric${vcCount }" onclick="uploadIMGt(${vcCount });">上传图片</span>
 				     	<a target="_blank" title="点击查看图片" href='<s:property value="filePath"/>' rel="attachment" class="tip-bottom" style="display: inline-block; width: 60px;">
 				     		<img width="30" height="20" alt="暂无图片" src='<s:property value="filePath"/>' /> 
