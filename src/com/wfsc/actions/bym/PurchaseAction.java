@@ -30,6 +30,7 @@ import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
+import com.constants.LogModule;
 import com.wfsc.common.bo.bym.Email;
 import com.wfsc.common.bo.bym.Order;
 import com.wfsc.common.bo.bym.Purchase;
@@ -114,10 +115,16 @@ public class PurchaseAction extends DispatchPagerAction {
 		Map<String,String> map = this.getPropertiesMap();
 		int money = new Integer(map.get("money"));
 		String manager = map.get("manager");
-	//	String assistantManager = map.get("assistantManager");
-		if((money>100000&&!manager.contains(admin.getUsername()))||(!isAdmin)){
-			isPermissionAudit = false;
+		boolean canAudit = false;
+		if(page.getData()!=null){
+			for(Purchase p : page.getData()){
+				if(p.getQuote().getSumMoney()<money||manager.contains(admin.getUsername())||isAdmin){
+					canAudit = true;
+				}
+				p.setCanAudit(canAudit);
+			}
 		}
+		
 		request.setAttribute("isPermissionAudit", isPermissionAudit);
 		return "list";
 	}
@@ -400,6 +407,8 @@ public class PurchaseAction extends DispatchPagerAction {
         	}
         }
         }
+        String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.purchaseLog, curAdminName+"下载了采购单"+entity.getContractNo());
             String excelName = "purchase" ;
             excelName = URLEncoder.encode(excelName, "gbk");
             response.setContentType("application/x-msdownload");
@@ -425,13 +434,23 @@ public class PurchaseAction extends DispatchPagerAction {
 		String idStr = request.getParameter("ids");
 		String[] idArray = idStr.split(",");
 		List<Long> ids = new ArrayList<Long>();
+		StringBuffer sb = new StringBuffer("");
+		String title = "待采购单";
+		String modul = LogModule.toPurchaseLog;
 		for(String id:idArray){
 			Purchase p = this.purchaseService.getPurchaseById(Long.valueOf(id));
+			if(Integer.valueOf(p.getOrderStatus()).intValue()>2){
+				title = "采购单";
+				modul = LogModule.purchaseLog;
+			}
+			sb.append(p.getContractNo());
 			storeFabricService.deleteByProperty("quoteId", p.getQuote().getId());
 			orderService.deleteByProperty("quoteId", p.getQuote().getId());
 			ids.add(Long.valueOf(id));
 		}
 		this.purchaseService.deleteByIds(ids);
+		 String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(modul, curAdminName+"删除了"+title+sb.toString());
 		return "ok";
 	}
 	
@@ -483,6 +502,8 @@ public class PurchaseAction extends DispatchPagerAction {
 					this.emailService.saveOrUpdateEntity(e);
 				}
 			}
+			String curAdminName = this.getCurrentAdminUser().getUsername();
+			saveSystemLog(LogModule.toPurchaseLog, curAdminName+"提交了待采购单"+pdb.getContractNo());
 		}
 		if("2".equals(purchase.getOrderStatus())){
 			purchase.setOrderDate(new Date());// 审核时间
@@ -490,10 +511,19 @@ public class PurchaseAction extends DispatchPagerAction {
 			purchase.setPurchaseType("2");
 			List<Admin> saleManegers = this.securityService.getUserListByRoleName("采购经理");
 			if(CollectionUtils.isNotEmpty(saleManegers)){
+				Map<String,String> map = this.getPropertiesMap();
+				int money = new Integer(map.get("money"));
+				String manager = map.get("manager");
 				for(Admin admin : saleManegers){
 					Email e = new Email();
 					e.setAction("purchase");
-					e.setDetail("关于【" + q.getProjectName() + "】的待采购单已经审核！合同编号为"+pdb.getContractNo()+"，请审核采购单");
+					if(q.getSumMoney()<money||manager.contains(admin.getUsername())){
+						e.setDetail("关于【" + q.getProjectName() + "】的待采购单已经审核！合同编号为"+pdb.getContractNo()+"，请审核采购单");
+						e.setStatus("3");
+					}else{
+						e.setDetail("关于【" + q.getProjectName() + "】的待采购单已经审核！合同编号为"+pdb.getContractNo());
+						e.setStatus("0");
+					}
 					e.setQuoteId(q.getId());
 					e.setQuoteNo(q.getVcQuoteNum());
 					e.setPurchaseId(pdb.getId());
@@ -502,7 +532,7 @@ public class PurchaseAction extends DispatchPagerAction {
 					e.setSendTime(new Date());
 					e.setState("1");
 					e.setUsername(admin.getUsername());
-					e.setStatus("3");
+					
 					this.emailService.saveOrUpdateEntity(e);
 				}
 			}
@@ -519,6 +549,8 @@ public class PurchaseAction extends DispatchPagerAction {
 			e.setUsername(q.getModifyUser());
 			e.setStatus("0");
 			this.emailService.saveOrUpdateEntity(e);
+			String curAdminName = this.getCurrentAdminUser().getUsername();
+			saveSystemLog(LogModule.toPurchaseLog, curAdminName+"审核了待采购单"+pdb.getContractNo());
 		}
 		if("3".equals(purchase.getOrderStatus())){
 			purchase.setOrderDate(pdb.getOrderDate());
@@ -543,6 +575,8 @@ public class PurchaseAction extends DispatchPagerAction {
 					this.emailService.saveOrUpdateEntity(e);
 				}
 			}
+			String curAdminName = this.getCurrentAdminUser().getUsername();
+			saveSystemLog(LogModule.purchaseLog, curAdminName+"审核了采购单"+pdb.getContractNo());
 		}
 		purchaseService.saveOrUpdateEntity(purchase);
 		Set<QuoteFabric> qfSet  = new HashSet<QuoteFabric>();

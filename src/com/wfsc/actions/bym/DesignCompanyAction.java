@@ -31,6 +31,7 @@ import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
+import com.constants.LogModule;
 import com.wfsc.common.bo.bym.DesignCompany;
 import com.wfsc.common.bo.system.SystemLog;
 import com.wfsc.common.bo.user.Admin;
@@ -110,6 +111,8 @@ public class DesignCompanyAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.designCompanyLog, curAdminName+"删除了设计公司信息");
 		return null;
 	}
 	
@@ -122,6 +125,8 @@ public class DesignCompanyAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.designCompanyLog, curAdminName+"禁用了设计公司信息");
 		return null;
 	}
 	public String enableByIds(){
@@ -133,11 +138,15 @@ public class DesignCompanyAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.designCompanyLog, curAdminName+"启用了设计公司信息");
 		return null;
 	}
 	
 	public String save(){
 		designCompanyService.saveOrUpdateEntity(designCompany);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.designCompanyLog, curAdminName+"新增或修改了设计公司信息");
 		return "ok";
 	}
 	
@@ -293,6 +302,8 @@ public class DesignCompanyAction extends DispatchPagerAction {
 			errorList.add("导入失败！");
 		}
 		request.setAttribute("errorMsg",errorList);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.designCompanyLog, curAdminName+"导入了设计公司信息");
 		return "toImport";
 	}
 	/**
@@ -374,7 +385,8 @@ public class DesignCompanyAction extends DispatchPagerAction {
 				}
 			}
 		}
-		
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.designCompanyLog, curAdminName+"导出了设计公司信息");
 		return null;
 	}
 	

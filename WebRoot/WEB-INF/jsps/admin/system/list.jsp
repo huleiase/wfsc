@@ -5,9 +5,9 @@
             <table class="table table-bordered table-striped with-check">
               <thead>
                 <tr>
-                  <th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox" /></th>
+                  <th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox" /></th><!--
                   <th>模块</th>
-                  <th>操作人</th>
+                  --><th>操作人</th>
                   <th>操作内容</th>
                   <th>操作时间</th>
                 </tr>
@@ -17,11 +17,11 @@
                 <s:iterator value="#request.sysloglist" var="syslog">
                  <tr>
                   <td><input type="checkbox" name="ids" value='<s:property value="id"/>'/></td>
-                  <td><s:property value="module"/></td>
-                   <td><s:property value="operater"/>  </td>
-                   <td><s:property value="opdesc"/>
+                  <!--<td><s:property value="module"/></td>
+                   --><td><s:property value="vcLogUser"/>  </td>
+                   <td><s:property value="vcContent"/>
                   </td>
-                  <td><s:date name="opDate" format="yyyy-MM-dd HH:mm:ss" /></td>
+                  <td><s:date name="operatTime" format="yyyy-MM-dd HH:mm:ss" /></td>
                 </tr>
                </s:iterator>
                </s:if>

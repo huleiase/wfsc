@@ -22,18 +22,19 @@ public class SystemLogDao extends EnhancedHibernateDaoSupport<SystemLog>  {
 	public Page<SystemLog> getSystemLogForPage(Page<SystemLog> page, Map<String, Object> params){
 		String hql = "from SystemLog where 1=1";
 		if(MapUtils.isNotEmpty(params)){
-			if(params.get("tiLevel") != null){
+			/*if(params.get("tiLevel") != null){
 				hql += " and tiLevel = '" + params.get("tiLevel").toString() + "'";
-			}
+			}*/
 			if(params.get("vcLogUser") != null){
 				hql += " and vcLogUser = '" + params.get("vcLogUser").toString() + "'";
 			}
 			if(params.get("startTime") != null && params.get("endTime") != null){
-				hql += " and (operatTime > '" + params.get("startTime").toString() + "' and operatTime <= '" + params.get("endTime").toString() + "')";
+				hql += " and (operatTime >= '" + params.get("startTime").toString() + "' and operatTime <= '" + params.get("endTime").toString() + "')";
 			}
 		}
 		int totalCount = this.countByHql(hql.toString());
 		page.setTotalCount(totalCount);
+		hql+=" order by operatTime desc";
 		List<SystemLog> list = this.findList4Page(hql.toString(), page.getFirst() - 1, page.getPageSize());
 		page.setData(list);
 		return page;

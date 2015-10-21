@@ -145,6 +145,24 @@
 		}
 		
 	}
+	
+	if(document.addEventListener){//如果是Firefox   
+		document.addEventListener("keypress",fireFoxHandler, true);   
+	}else{
+		document.attachEvent("onkeypress",ieHandler);  
+	}
+	
+	function fireFoxHandler(evt){ 
+		if(evt.keyCode==13){ 
+			ajaxPage(1);
+		}  
+	} 
+
+	function ieHandler(evt){
+		if(evt.keyCode==13){
+			ajaxPage(1);
+		} 
+	}
 </script>
 </head>
 <body>

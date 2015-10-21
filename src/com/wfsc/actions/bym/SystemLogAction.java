@@ -1,4 +1,4 @@
-package com.wfsc.actions.system;
+package com.wfsc.actions.bym;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,28 +23,29 @@ public class SystemLogAction extends DispatchPagerAction {
 	@Autowired
 	private ISystemLogService systemLogService;
 	
-	public String index(){
+	public String manager(){
+		this.setTopMenu();
 		list();
-		return "index";
+		return "manager";
 	}
 	
 	public String list(){
-		String module = request.getParameter("module");
-		String operater = request.getParameter("operater");
+		//String module = request.getParameter("module");
+		String vcLogUser = request.getParameter("vcLogUser");
 		String startTime = request.getParameter("startTime");
 		String endTime = request.getParameter("endTime");
-		request.setAttribute("module", module);
-		request.setAttribute("operater", operater);
+	//	request.setAttribute("module", module);
+		request.setAttribute("vcLogUser", vcLogUser);
 		request.setAttribute("startTime", startTime);
 		request.setAttribute("endTime", endTime);
 		
 		Page<SystemLog> page = new Page<SystemLog>();
 		Map<String,Object> params = new HashMap<String,Object>();
-		if(StringUtils.isNotBlank(module)){
+		/*if(StringUtils.isNotBlank(module)){
 			params.put("module", module);
-		}
-		if(StringUtils.isNotBlank(operater)){
-			params.put("operater", operater);
+		}*/
+		if(StringUtils.isNotBlank(vcLogUser)){
+			params.put("vcLogUser", vcLogUser);
 		}
 		
 		if(StringUtils.isNotBlank(startTime) && StringUtils.isNotEmpty(endTime)){

@@ -36,11 +36,11 @@
                   </td>
                    <td><s:property value="approver"/></td>
                   <td>
+                   <s:if test="#obj.orderStatus==2&& #obj.canAudit==true">
                   <w:permission permissionId="<%=PermissionId.PROCESS_PURCHASE_MGT_AUDIT%>">
-                  <s:if test="#obj.orderStatus==2&& #request.isPermissionAudit==true">
                   <button class="label label-info btn btn-primary btn-mini" onclick="operPurchase('<s:property value="id"/>',2);">审核</button>
-                  </s:if>
                   </w:permission>
+                   </s:if>
                   <s:if test="#obj.orderStatus==3">
                    <w:permission permissionId="<%=PermissionId.PROCESS_PURCHASE_MGT_PRINT%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="operPurchase('<s:property value="id"/>',4);">打印</button>

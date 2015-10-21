@@ -36,6 +36,7 @@ import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
+import com.constants.LogModule;
 import com.wfsc.common.bo.bym.Attachment;
 import com.wfsc.common.bo.bym.Customer;
 import com.wfsc.common.bo.bym.Designer;
@@ -150,8 +151,8 @@ public class QuoteAction extends DispatchPagerAction {
 		for(Quote q:quoteList){
 			if((!"1".equals(q.getVcAudit()))&&(isSale&&!isSaleManager)){
 				canPrint = false;
-				q.setCanPrint(canPrint);
 			}
+			q.setCanPrint(canPrint);
 		}
 		List<Integer> li = page.getPageNos();
 		String listUrl = "/wfsc/admin/quote_list.Q";
@@ -259,6 +260,7 @@ public class QuoteAction extends DispatchPagerAction {
 		String ids = request.getParameter("ids");
 		String[] idArray = ids.split(",");
 		List<Long> idsList = new ArrayList<Long>();
+		StringBuffer sb = new StringBuffer("");
 		try {
 			for(String idstr : idArray){
 				if(StringUtils.isEmpty(idstr)){
@@ -267,6 +269,7 @@ public class QuoteAction extends DispatchPagerAction {
 				 Long quoteId = new Long(idstr);
 				 idsList.add(quoteId);
 				 Quote q = this.quoteService.getQuoteById(quoteId);
+				 sb.append(q.getVcQuoteNum()).append(",");
 				 //如果签单了，生成的采购单订单库存等都要删除
 				 if("1".equals(q.getIsWritPerm())){
 					 List<StoreFabric> sfs = storeFabricService.getStoreFabricByQuoteId(quoteId);
@@ -320,6 +323,8 @@ public class QuoteAction extends DispatchPagerAction {
 							}
 					}
 				 }
+			String curAdminName = this.getCurrentAdminUser().getUsername();
+			saveSystemLog(LogModule.quoteLog, curAdminName+"删除了报价单"+sb.toString());
 			quoteService.deleteByIds(idsList);
 			response.getWriter().write("ok");
 		} catch (IOException e) {
@@ -522,6 +527,8 @@ public class QuoteAction extends DispatchPagerAction {
 				this.emailService.saveOrUpdateEntity(e);
 			}
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.quoteLog, curAdminName+addOrUpdate+"了报价单"+quote.getVcQuoteNum());
 		return "ok";
 	}
 	
@@ -1401,6 +1408,8 @@ public class QuoteAction extends DispatchPagerAction {
         		cell2.setCellValue(entity.getDeputyName());
         	}
         }
+        String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.quoteLog, curAdminName+"下载了报价单"+entity.getVcQuoteNum());
             String excelName = "quote" ;
             excelName = URLEncoder.encode(excelName, "gbk");
             response.setContentType("application/x-msdownload");
@@ -1588,6 +1597,8 @@ public class QuoteAction extends DispatchPagerAction {
 				e.setUsername(q.getModifyUser());
 				e.setStatus("0");
 				this.emailService.saveOrUpdateEntity(e);
+				String curAdminName = this.getCurrentAdminUser().getUsername();
+				saveSystemLog(LogModule.quoteLog, curAdminName+"审核了报价单"+q.getVcQuoteNum());
 				
 		 }else if("writPerm".equals(oper)){
 			 q.setIsWritPerm("1");
@@ -1616,7 +1627,8 @@ public class QuoteAction extends DispatchPagerAction {
 					}
 				}
 			 savePurchase(q);
-			 
+			 String curAdminName = this.getCurrentAdminUser().getUsername();
+			saveSystemLog(LogModule.quoteLog, curAdminName+"签单了报价单"+q.getVcQuoteNum());
 				
 		 }
 		 return "ok";
@@ -1682,6 +1694,8 @@ public class QuoteAction extends DispatchPagerAction {
 		 designerExpense.setVcOther(de.getVcOther());
 		 designerExpense.setDesignTotelMoney(designerExpense.getDesignMony1()+designerExpense.getDesignMony2()+designerExpense.getDesignMony3());
 		 designerExpenseService.saveOrUpdateEntity(designerExpense);
+		 String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.quoteLog, curAdminName+"设计了报价单"+q.getVcQuoteNum());
 		 return "ok";
 	 }
 	 public String getCounselorRate(){
@@ -1736,6 +1750,8 @@ public class QuoteAction extends DispatchPagerAction {
 		if("hk".equals(local)){
 			return "printHK";
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.quoteLog, curAdminName+"打印了报价单"+quote.getVcQuoteNum());
 		return "print";
 	}
 	public String selPriceByModel(){

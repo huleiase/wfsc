@@ -35,6 +35,7 @@ import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
+import com.constants.LogModule;
 import com.wfsc.common.bo.bym.Attachment;
 import com.wfsc.common.bo.bym.Customer;
 import com.wfsc.common.bo.system.SystemLog;
@@ -117,6 +118,8 @@ public class CustomerAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.customLog, curAdminName+"删除了客户信息");
 		return null;
 	}
 	
@@ -129,6 +132,8 @@ public class CustomerAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.customLog, curAdminName+"禁用了客户信息");
 		return null;
 	}
 	public String enableByIds(){
@@ -140,11 +145,15 @@ public class CustomerAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.customLog, curAdminName+"启用了客户信息");
 		return null;
 	}
 	
 	public String save(){
 		customerService.saveOrUpdateEntity(customer);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.customLog, curAdminName+"新增或修改了客户信息");
 		return "ok";
 	}
 	
@@ -300,6 +309,8 @@ public class CustomerAction extends DispatchPagerAction {
 			errorList.add("导入失败！");
 		}
 		request.setAttribute("errorMsg",errorList);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.customLog, curAdminName+"导入了客户信息");
 		return "toImport";
 	}
 	/**
@@ -381,7 +392,8 @@ public class CustomerAction extends DispatchPagerAction {
 				}
 			}
 		}
-		
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.customLog, curAdminName+"导出了客户信息");
 		return null;
 	}
 	

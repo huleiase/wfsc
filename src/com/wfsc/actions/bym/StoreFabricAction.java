@@ -22,12 +22,12 @@ import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
+import com.constants.LogModule;
 import com.wfsc.common.bo.bym.Attachment;
 import com.wfsc.common.bo.bym.Store;
 import com.wfsc.common.bo.bym.StoreFabric;
 import com.wfsc.common.bo.system.SystemLog;
 import com.wfsc.common.bo.user.Admin;
-import com.wfsc.services.bym.service.IOrderService;
 import com.wfsc.services.bym.service.IStoreFabricService;
 import com.wfsc.services.bym.service.IStoreService;
 import com.wfsc.services.security.ISecurityService;
@@ -52,8 +52,6 @@ public class StoreFabricAction extends DispatchPagerAction {
 	private IStoreService storeService;
 	@Resource(name = "securityService")
 	private ISecurityService securityService;
-	@Resource(name = "orderService")
-	private IOrderService orderService;
 	@Resource(name = "storeFabricService")
 	private IStoreFabricService storeFabricService;
 	
@@ -151,6 +149,8 @@ public class StoreFabricAction extends DispatchPagerAction {
 		sfdb.setSurplus(storeFabric.getSurplus());
 		storeFabricService.saveOrUpdateEntity(sfdb);
 		request.setAttribute("storeId", sfdb.getStoreId());
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.storeFabricLog, curAdminName+"修改了库存信息"+sfdb.getVcFactoryCode()+" "+sfdb.getVcModelNum());
 		return "ok";
 	}
 	public String toImport(){
@@ -231,7 +231,8 @@ public class StoreFabricAction extends DispatchPagerAction {
 				}
 			}
 		}
-		
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.storeFabricLog, curAdminName+"导出了库存信息");
 		return null;
 	}
 	/**

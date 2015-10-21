@@ -33,6 +33,7 @@ import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
+import com.constants.LogModule;
 import com.wfsc.common.bo.bym.Fabric;
 import com.wfsc.common.bo.bym.Supplier;
 import com.wfsc.common.bo.system.SystemLog;
@@ -132,6 +133,8 @@ public class SupplierAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.supplierLog, curAdminName+"删除了供应商信息");
 		return null;
 	}
 	
@@ -144,6 +147,8 @@ public class SupplierAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.supplierLog, curAdminName+"禁用了供应商信息");
 		return null;
 	}
 	public String enableByIds(){
@@ -155,12 +160,16 @@ public class SupplierAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.supplierLog, curAdminName+"启用了供应商信息");
 		return null;
 	}
 	
 	public String save(){
 		supplier.setCreateDate(new Date());
 		supplierService.saveOrUpdateEntity(supplier);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.supplierLog, curAdminName+"新增或修改了供应商信息");
 		return "ok";
 	}
 	
@@ -514,6 +523,8 @@ public class SupplierAction extends DispatchPagerAction {
 			errorList.add("导入失败！");
 		}
 		request.setAttribute("errorMsg",errorList);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.supplierLog, curAdminName+"导入了供应商信息");
 		return "toImport";
 	}
 	/**
@@ -623,7 +634,8 @@ public class SupplierAction extends DispatchPagerAction {
 				}
 			}
 		}
-		
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.supplierLog, curAdminName+"导出了供应商信息");
 		return null;
 	}
 	public String deleteByQuery(){
@@ -635,6 +647,8 @@ public class SupplierAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.supplierLog, curAdminName+"删除了供应商信息");
 		return null;
 	}
 	

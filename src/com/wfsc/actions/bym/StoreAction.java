@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
+import com.constants.LogModule;
 import com.wfsc.common.bo.bym.Store;
 import com.wfsc.common.bo.bym.StoreFabric;
 import com.wfsc.common.bo.user.Admin;
@@ -121,11 +122,15 @@ public class StoreAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.storeLog, curAdminName+"删除了id为"+ids+"的仓库");
 		return null;
 	}
 	
 	public String save(){
 		storeService.saveOrUpdateEntity(store);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.storeLog, curAdminName+"新增或修改了仓库");
 		return "ok";
 	}
 	
@@ -322,6 +327,8 @@ public class StoreAction extends DispatchPagerAction {
 			e.printStackTrace();
 			errorList.add("导入失败！");
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.storeLog, curAdminName+"导入了库存到id为"+storeId+"的仓库");
 		request.setAttribute("errorMsg",errorList);
 		return "toImport";
 	}

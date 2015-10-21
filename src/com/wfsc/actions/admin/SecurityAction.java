@@ -9,20 +9,18 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
+import com.constants.LogModule;
 import com.wfsc.common.bo.system.BackUpPlan;
-import com.wfsc.common.bo.system.SystemLog;
 import com.wfsc.common.bo.user.Admin;
 import com.wfsc.common.bo.user.Permission;
 import com.wfsc.common.bo.user.Role;
 import com.wfsc.common.bo.user.User;
 import com.wfsc.services.security.ISecurityService;
 import com.wfsc.services.system.IBackUpPlanService;
-import com.wfsc.services.system.ISystemLogService;
 import com.wfsc.util.CipherUtil;
 
 /**
@@ -43,9 +41,6 @@ public class SecurityAction extends DispatchPagerAction {
 	
 	@Resource(name = "backUpPlanService")
 	private IBackUpPlanService backUpPlanService;
-	
-	@Autowired
-	private ISystemLogService systemLogService;
 	
 	private BackUpPlan backUpPlan;
 
@@ -158,43 +153,6 @@ public class SecurityAction extends DispatchPagerAction {
 		request.setAttribute("CHECKED_ROLE_LIST", list);
 		return "ok";
 	}
-	/**
-	 * 团队管理：保存管理员
-	 * 
-	 * @return
-	 */
-	/*public String saveAdmin() {
-		try{
-			Long adminId = admin.getId();
-			if(adminId != null){//说明是修改
-				Admin adminInfo = securityService.getAdminInfo(adminId);
-//				BeanUtils.copyProperties(adminInfo, admin);
-				adminInfo.setUsername(admin.getUsername());
-				
-				Set<Role> roles = new HashSet<Role>();
-				for (String rid : roleIds) {
-					Role role = securityService.getRoleByRoleId(rid);
-					roles.add(role);
-				}
-				admin.setRoles(null);
-				admin.setId(null);
-				adminInfo.setRoles(roles);
-				adminInfo.setStatus(1);
-				securityService.updateAdminUser(adminInfo);
-			}else{//说明是新增
-				admin.setStatus(1);//管理员状态：0 - 禁用， 1 - 可用
-				String defaultPassword = "11111111";//默认密码
-				String password = CipherUtil.generatePassword(defaultPassword);
-				admin.setPassword(password);
-				securityService.addAdminUser(admin);
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-			request.setAttribute("msg", e.getMessage());
-			return "info";
-		}
-		return "adminList";
-	}*/
 	
 	/**
 	 * 修改密码 
@@ -246,6 +204,8 @@ public class SecurityAction extends DispatchPagerAction {
 		}
 		//保存角色到数据库
 		securityService.addRole(role);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.systemLog, curAdminName+"新增或修改了角色");
 		//转到角色列表
 		return "ok";
 	}
@@ -267,6 +227,8 @@ public class SecurityAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.systemLog, curAdminName+"删除了角色");
 		return null;
 	}
 	public String checkRoleUser(){

@@ -229,7 +229,17 @@ public class Purchase implements java.io.Serializable {
 	
 	private String otheraddress;
 	
+	private boolean canAudit;
 	
+	
+	public boolean isCanAudit() {
+		return canAudit;
+	}
+
+	public void setCanAudit(boolean canAudit) {
+		this.canAudit = canAudit;
+	}
+
 	/**
 	  * hibernate中的主键
 	  * 

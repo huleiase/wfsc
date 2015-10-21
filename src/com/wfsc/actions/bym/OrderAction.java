@@ -27,6 +27,7 @@ import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
+import com.constants.LogModule;
 import com.wfsc.common.bo.bym.Attachment;
 import com.wfsc.common.bo.bym.CurrencyConversion;
 import com.wfsc.common.bo.bym.DesignerOrder;
@@ -225,8 +226,10 @@ public class OrderAction extends DispatchPagerAction {
 		String idStr = request.getParameter("ids");
 		String[] idArray = idStr.split(",");
 		List<Long> ids = new ArrayList<Long>();
+		StringBuffer sb = new StringBuffer("");
 		for(String id:idArray){
 			Order o = this.orderService.getOrderById(Long.valueOf(id));
+			sb.append(o.getOrderNo()).append(",");
 			List<StoreFabric> sfdbList = storeFabricService.getStoreFabricByOrderId(o.getId());
 			if(CollectionUtils.isNotEmpty(sfdbList)){
 				storeFabricService.deleteAll(sfdbList);
@@ -234,6 +237,8 @@ public class OrderAction extends DispatchPagerAction {
 			ids.add(Long.valueOf(id));
 		}
 		this.orderService.deleteByIds(ids);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.orderLog, curAdminName+"删除了订单"+sb.toString());
 		return "ok";
 	}
 	
@@ -306,6 +311,8 @@ public class OrderAction extends DispatchPagerAction {
 			e.setUsername(curAdmin.getUsername());
 			e.setStatus("2");
 			this.emailService.saveOrUpdateEntity(e);
+			String curAdminName = this.getCurrentAdminUser().getUsername();
+			saveSystemLog(LogModule.orderLog, curAdminName+"提交了订单"+order.getOrderNo());
 		}
 		if(3==order.getOrderStatus()){
 			List<Admin> purManegers = this.securityService.getUserListByRoleName("采购经理");
@@ -407,10 +414,10 @@ public class OrderAction extends DispatchPagerAction {
 						this.emailService.saveOrUpdateEntity(e);
 					}
 				}
-			
+			String curAdminName = this.getCurrentAdminUser().getUsername();
+			saveSystemLog(LogModule.orderLog, curAdminName+"审核了订单"+order.getOrderNo());
 			this.saveProStroage(order, qfdbList);
 		}
-		
 		return "ok";
 	}
 	
@@ -804,6 +811,8 @@ public class OrderAction extends DispatchPagerAction {
 						7 // last column (0-based)
 						));
 			}
+			String curAdminName = this.getCurrentAdminUser().getUsername();
+			saveSystemLog(LogModule.orderLog, curAdminName+"下载了订单"+order.getOrderNo());
 			String excelName = "order";
 			// excelName = URLEncoder.encode(excelName, "gbk");
 			response.setContentType("application/x-msdownload");
@@ -1078,6 +1087,8 @@ public class OrderAction extends DispatchPagerAction {
 						6 // last column (0-based)
 						));
 			}
+			String curAdminName = this.getCurrentAdminUser().getUsername();
+			saveSystemLog(LogModule.orderLog, curAdminName+"下载了订单"+order.getOrderNo());
 			String excelName = "order2";
 			// excelName = URLEncoder.encode(excelName, "gbk");
 			response.setContentType("application/x-msdownload");
@@ -1140,7 +1151,8 @@ public class OrderAction extends DispatchPagerAction {
 				 
 				designerOrderService.saveOrUpdateEntity(donew);
 			}
-			
+			String curAdminName = this.getCurrentAdminUser().getUsername();
+			saveSystemLog(LogModule.orderLog, curAdminName+"设计了订单"+o.getOrderNo());
 			return "ok";
 		}
 

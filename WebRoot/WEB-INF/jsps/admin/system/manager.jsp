@@ -15,26 +15,19 @@
 		$("#startTime").val("");
 		$("#endTime").val("");
 		$("#operater").val("");
-		$("#module").val("");
 	}
 </script>
 </head>
 <body>
-<%@include file="/WEB-INF/jsps/admin/common/adminTop.jsp"%>
-<%@include file="/WEB-INF/jsps/admin/common/adminleft.jsp"%>
-<input type="hidden" id="tab" value="m9,msub94"/>
-<div id="content">
-<div id="content-header">
-    <div id="breadcrumb"> <a href="/wfsc/admin/admin_index.Q" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
-</div>
+<%@include file="/WEB-INF/jsps/admin/common/adminTopAndLeft.jsp"%>
 <div class="container-fluid">
       <div class="widget-box">
         <div class="widget-content">
-          <form action="<%=request.getContextPath() %>/admin/syslog_index.Q" method="post" id="syslogForm">
+          <form action="<%=request.getContextPath() %>/admin/syslog_manager.Q" method="post" id="syslogForm">
             <div class="controls controls-row">
              <label class="span1" for="inputSuccess" style="margin-top:5px">操作人:</label>
-	            <input name="operater" id="operater" type="text" class="span2" style="margin-left:5px;margin-right:25px" value="${ operater}">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px">模块:</label>
+	            <input name="vcLogUser" id="vcLogUser" type="text" class="span2" style="margin-left:5px;margin-right:25px" value="${ vcLogUser}">
+	            <!--<label class="span1" for="inputSuccess" style="margin-top:5px">模块:</label>
 	            <select name="module" id="module" class="span2" style="margin-left:5px;margin-right:35px;width:96px">
 	            	 <option value="">请选择</option>
 	             	<option value="商品管理" <s:if test="#request.module=='商品管理'">selected</s:if> >商品管理</option>
@@ -49,7 +42,7 @@
                   	<option value="后台登录" <s:if test="#request.module=='后台登录'">selected</s:if>>后台登录</option>
                   	<option value="系统管理" <s:if test="#request.module=='系统管理'">selected</s:if>>系统管理</option>
 	             </select>
-	            <label class="span1" for="inputSuccess" style="margin-top:5px">操作时间:</label>
+	            --><label class="span1" for="inputSuccess" style="margin-top:5px">操作时间:</label>
 	            
 	            <input type="text" id="startTime" name="startTime"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="${startTime}" class="wdateinput" readonly />
 		                  	&nbsp;至&nbsp;
@@ -66,7 +59,7 @@
             <h5>系统日志列表</h5>
          </div>
          <div class="widget-content nopadding" id="syslogTableId">
-            <%@include file="syslogList.jsp"%>
+            <%@include file="list.jsp"%>
       </div>
 </div>
 </div>

@@ -12,7 +12,6 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -27,8 +26,6 @@ import com.wfsc.common.bo.user.Role;
 import com.wfsc.common.bo.user.User;
 import com.wfsc.common.bo.user.UserGroup;
 import com.wfsc.services.security.ISecurityService;
-import com.wfsc.services.system.ISystemLogService;
-import com.wfsc.util.DateUtil;
 
 /**
  * 后台管理,维护会员信息,系统信息
@@ -46,12 +43,7 @@ public class AdminAction extends DispatchPagerAction {
 	@Resource(name = "securityService")
 	private ISecurityService securityService;
 	
-	@Autowired
-	private ISystemLogService systemLogService;
-
 	private File[] myFile;
-
-	private static final int BUFFER_SIZE = 16 * 1024;
 
 	private String[] myFileContentType;
 
@@ -175,12 +167,13 @@ public class AdminAction extends DispatchPagerAction {
 		System.out.println("管理员退出....");
 		Object uObj = session.get(CupidStrutsConstants.SESSION_ADMIN);
 		if (uObj != null) {
-		//	Admin user = (Admin)uObj;
+			Admin user = (Admin)uObj;
 		//	user.setOnline(false);
 		//	securityService.updateAdminUser(user); 
 		//	session.remove(CupidStrutsConstants.SESSION_ADMIN);
 		//	session.remove(CupidStrutsConstants.SESSION_ADMIN_ROLE);
 		//	session.remove(CupidStrutsConstants.SESSION_SUPER_ADMIN);
+			saveSystemLog(LogModule.systemLog, user.getUsername()+"退出系统");
 			session.clear();
 			
 		}
@@ -254,7 +247,8 @@ public class AdminAction extends DispatchPagerAction {
 			a.setPassword(admin.getPassword());
 			securityService.updateAdminUser(a);
 		}
-		
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.systemLog, curAdminName+"新增或修改了用户信息");
 		return "ok";
 	}
 	public String isExitAdmin(){
@@ -285,6 +279,8 @@ public class AdminAction extends DispatchPagerAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.systemLog, curAdminName+"删除了用户信息");
 		return null;
 	}
 	
@@ -299,6 +295,8 @@ public class AdminAction extends DispatchPagerAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.systemLog, curAdminName+"启用了用户信息");
 		return null;
 	}
 	public String disableAccount(){
@@ -312,6 +310,8 @@ public class AdminAction extends DispatchPagerAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.systemLog, curAdminName+"禁用了用户信息");
 		return null;
 	}
 	
@@ -338,6 +338,8 @@ public class AdminAction extends DispatchPagerAction {
 	//	adminInfo.setPassword(SysUtil.encodeBase64(newPwd));
 		adminInfo.setPassword(newPwd);
 		securityService.updateAdminUser(adminInfo);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.systemLog, curAdminName+"修改了密码");
 		return SUCCESS;
 	}
 

@@ -68,8 +68,8 @@
 		<!-- 系统日志 -->
 		<action name="syslog_*" class="SystemLogAction" method="{1}">
 			<interceptor-ref name="adminStack"></interceptor-ref>
-			<result name="index">/WEB-INF/jsps/admin/system/syslogIndex.jsp</result>
-			<result name="list">/WEB-INF/jsps/admin/system/syslogList.jsp</result>
+			<result name="manager">/WEB-INF/jsps/admin/system/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/system/list.jsp</result>
 		</action>
 		
 			<!--供应商管理-->

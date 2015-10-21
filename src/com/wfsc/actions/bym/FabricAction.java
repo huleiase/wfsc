@@ -36,6 +36,7 @@ import org.springframework.stereotype.Controller;
 import com.base.action.DispatchPagerAction;
 import com.base.log.LogUtil;
 import com.base.util.Page;
+import com.constants.LogModule;
 import com.wfsc.common.bo.bym.CurrencyConversion;
 import com.wfsc.common.bo.bym.Fabric;
 import com.wfsc.common.bo.bym.Supplier;
@@ -220,6 +221,8 @@ public class FabricAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.fabricLog, curAdminName+"删除了产品信息");
 		return null;
 	}
 	public String deleteByQuery(){
@@ -237,6 +240,8 @@ public class FabricAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.fabricLog, curAdminName+"删除了产品信息");
 		return null;
 	}
 	
@@ -250,6 +255,8 @@ public class FabricAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.fabricLog, curAdminName+"禁用了产品信息");
 		return null;
 	}
 	public String enableByIds(){
@@ -261,12 +268,16 @@ public class FabricAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.fabricLog, curAdminName+"启用了产品信息");
 		return null;
 	}
 	
 	public String save(){
 		fabric.setIsHtCode("0");
 		fabricService.saveOrUpdateEntity(fabric);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.fabricLog, curAdminName+"新增或修改了产品信息");
 		return "ok";
 	}
 	
@@ -279,6 +290,8 @@ public class FabricAction extends DispatchPagerAction {
 		}
 		fabric.setIsHtCode("1");
 		fabricService.saveOrUpdateEntity(fabric);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.fabricLog, curAdminName+"新增或修改了产对照码信息");
 		return "okHT";
 	}
 	
@@ -737,6 +750,8 @@ public class FabricAction extends DispatchPagerAction {
 			errorList.add("导入失败！");
 		}
 		request.setAttribute("errorMsg",errorList);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.fabricLog, curAdminName+"导入了产品信息");
 		return "toImport";
 	}
 	public String importHTData(){
@@ -983,6 +998,8 @@ public class FabricAction extends DispatchPagerAction {
 			errorList.add("导入失败！");
 		}
 		request.setAttribute("errorMsg",errorList);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.fabricLog, curAdminName+"删除了对照码信息");
 		return "toImportHT";
 	}
 	/**
@@ -1133,7 +1150,8 @@ public class FabricAction extends DispatchPagerAction {
 				}
 			}
 		}
-		
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.fabricLog, curAdminName+"导出了产品信息");
 		return null;
 	}
 	
@@ -1206,7 +1224,8 @@ public class FabricAction extends DispatchPagerAction {
 				}
 			}
 		}
-		
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.fabricLog, curAdminName+"导出了对照码信息");
 		return null;
 	}
 	private List<Fabric> HtTofabrics(List<Fabric> htfbs){

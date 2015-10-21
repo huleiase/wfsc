@@ -31,6 +31,7 @@ import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
+import com.constants.LogModule;
 import com.wfsc.common.bo.bym.CurrencyConversion;
 import com.wfsc.common.bo.system.SystemLog;
 import com.wfsc.common.bo.user.Admin;
@@ -110,11 +111,15 @@ public class CurrencyConversionAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.currencyConversionLog, curAdminName+"删除了货币信息");
 		return null;
 	}
 	
 	public String save(){
 		currencyConversionService.saveOrUpdateEntity(currencyConversion);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.currencyConversionLog, curAdminName+"新增或修改了货币信息");
 		return "ok";
 	}
 	
@@ -244,6 +249,8 @@ public class CurrencyConversionAction extends DispatchPagerAction {
 			errorList.add("导入失败！");
 		}
 		request.setAttribute("errorMsg",errorList);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.currencyConversionLog, curAdminName+"导入了货币信息");
 		return "toImport";
 	}
 	/**
@@ -319,7 +326,8 @@ public class CurrencyConversionAction extends DispatchPagerAction {
 				}
 			}
 		}
-		
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.currencyConversionLog, curAdminName+"导出了货币信息");
 		return null;
 	}
 	

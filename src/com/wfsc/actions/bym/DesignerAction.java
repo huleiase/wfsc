@@ -31,6 +31,7 @@ import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
+import com.constants.LogModule;
 import com.wfsc.common.bo.bym.Designer;
 import com.wfsc.common.bo.system.SystemLog;
 import com.wfsc.common.bo.user.Admin;
@@ -110,11 +111,15 @@ public class DesignerAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.designerLog, curAdminName+"删除了设计师信息");
 		return null;
 	}
 	
 	public String save(){
 		designerService.saveOrUpdateEntity(designer);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.designerLog, curAdminName+"新增或修改了设计师信息");
 		return "ok";
 	}
 	
@@ -233,6 +238,8 @@ public class DesignerAction extends DispatchPagerAction {
 			errorList.add("导入失败！");
 		}
 		request.setAttribute("errorMsg",errorList);
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.designerLog, curAdminName+"导入了设计师信息");
 		return "toImport";
 	}
 	/**
@@ -308,7 +315,8 @@ public class DesignerAction extends DispatchPagerAction {
 				}
 			}
 		}
-		
+		String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.designerLog, curAdminName+"导出了设计师信息");
 		return null;
 	}
 	
