@@ -221,6 +221,13 @@
 			<result name="list">/WEB-INF/jsps/admin/email/list.jsp</result>
 			<result name="ok" type="redirectAction">email_manager.Q</result>
 		</action>	
+		<action name="note_*" class="NoteAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="manager">/WEB-INF/jsps/admin/note/manager.jsp</result>
+			<result name="list">/WEB-INF/jsps/admin/note/list.jsp</result>
+			<result name="ok" type="redirectAction">note_manager.Q</result>
+			<result name="input">/WEB-INF/jsps/admin/note/input.jsp</result>
+		</action>	
 	</package>
 	
 </struts>

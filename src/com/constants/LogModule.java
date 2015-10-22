@@ -15,5 +15,6 @@ public class LogModule {
 	public static String currencyConversionLog = "currencyConversionLog"; 
 	public static String customLog = "customLog"; 
 	public static String designCompanyLog = "designCompanyLog";
+	public static String noteLog = "noteLog";
 
 }
