@@ -116,17 +116,17 @@ input.blankInput {
      float: left;
     margin-left: 9px;
     margin-right: 15px;
-    width: 85px;
+    width: 75px;
 }
 input.span11 {
-    width: 840px;
+    width: 820px;
 }
 input.span6 {
-    width: 514px;
+    width: 504px;
 }
 .quoteItem {
     height: 160px;
-    width: 840px;
+    width: 823px;
 }
 .selectQuoteFabric {
     float: left;
@@ -135,10 +135,6 @@ input.span6 {
     margin-right: 15px;
     margin-top: 5px;
     width: 166px;
-}
-.form-horizontal .controls {
-    margin-left: 50px;
-    padding: 10px 0;
 }
 .alert {
    margin-bottom: 0px;
@@ -353,7 +349,7 @@ table#quoteFabricTable .label, .badge {
 	         </div>
 	         <div class="clear"></div>
 	         <br>
-	          <div class="widget-title"> 
+	          <div class="widget-title" style="width:960px;"> 
 	            <select disabled="disabled" name="quote.fabricTitle" class="selectQuoteFabric">
 		            <option value="0" <c:if test="${quote.fabricTitle=='0' }">selected=selected</c:if>>Quotation 报价表</option>
 		            <option value="1" <c:if test="${quote.fabricTitle=='1' }">selected=selected</c:if>>Confirmation 合 同</option>
@@ -361,7 +357,7 @@ table#quoteFabricTable .label, .badge {
 		        </select>
 	             <span class="label label-info btn btn-primary btn-mini" style="float:left">产品选择</span>
 	          </div>
-	         <div class="widget-content nopadding" id="quoteFabricDiv" style="overflow-x:auto;width:1105px;">
+	         <div class="widget-content nopadding" id="quoteFabricDiv" style="overflow-x:auto;width:960px;">
             	<%@include file="detailQuoteFabric.jsp"%>
       		</div>
       		 <div class="clear"></div>

@@ -88,7 +88,7 @@
          <li id="msub42"><a href="<%=request.getContextPath()%>/admin/sec_roleManager.Q?topmenu=systemUL&submenu=msub42"><i class="icon icon-pencil"></i> <span>角色管理</span></a></li>
         </w:permission>
         <w:permission permissionId="<%=PermissionId.SYSTEM_NOTICE_MGT%>">
-         <li id="msub43"><a href="<%=request.getContextPath()%>/admin/admin_manager.Q?topmenu=systemUL&submenu=msub43"><i class="icon icon-pencil"></i> <span>公告管理</span></a></li>
+         <li id="msub43"><a href="<%=request.getContextPath()%>/admin/note_manager.Q?topmenu=systemUL&submenu=msub43"><i class="icon icon-pencil"></i> <span>公告管理</span></a></li>
         </w:permission>
         <w:permission permissionId="<%=PermissionId.SYSTEM_LOG_MGT%>">
          <li id="msub44"><a href="<%=request.getContextPath()%>/admin/syslog_manager.Q?topmenu=systemUL&submenu=msub44"><i class="icon icon-pencil"></i> <span>日志管理</span></a></li>

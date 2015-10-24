@@ -76,7 +76,7 @@
                </s:if>
                 <s:else>
 					<tr>
-						<td colspan="15">
+						<td colspan="25">
 							 <div class="alert alert-block"> 
 				               <h4 align="center" class="alert-heading">暂时没有符合条件的记录！</h4>
 				             </div>

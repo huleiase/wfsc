@@ -269,7 +269,7 @@ public class QuoteAction extends DispatchPagerAction {
 				 Long quoteId = new Long(idstr);
 				 idsList.add(quoteId);
 				 Quote q = this.quoteService.getQuoteById(quoteId);
-				 sb.append(q.getVcQuoteNum()).append(",");
+				 sb.append(q.getProjectNum()).append(",");
 				 //如果签单了，生成的采购单订单库存等都要删除
 				 if("1".equals(q.getIsWritPerm())){
 					 List<StoreFabric> sfs = storeFabricService.getStoreFabricByQuoteId(quoteId);
@@ -528,7 +528,7 @@ public class QuoteAction extends DispatchPagerAction {
 			}
 		}
 		String curAdminName = this.getCurrentAdminUser().getUsername();
-		saveSystemLog(LogModule.quoteLog, curAdminName+addOrUpdate+"了报价单"+quote.getVcQuoteNum());
+		saveSystemLog(LogModule.quoteLog, curAdminName+addOrUpdate+"了报价单"+quote.getProjectNum());
 		return "ok";
 	}
 	
@@ -1409,7 +1409,7 @@ public class QuoteAction extends DispatchPagerAction {
         	}
         }
         String curAdminName = this.getCurrentAdminUser().getUsername();
-		saveSystemLog(LogModule.quoteLog, curAdminName+"下载了报价单"+entity.getVcQuoteNum());
+		saveSystemLog(LogModule.quoteLog, curAdminName+"下载了报价单"+entity.getProjectNum());
             String excelName = "quote" ;
             excelName = URLEncoder.encode(excelName, "gbk");
             response.setContentType("application/x-msdownload");
@@ -1598,7 +1598,7 @@ public class QuoteAction extends DispatchPagerAction {
 				e.setStatus("0");
 				this.emailService.saveOrUpdateEntity(e);
 				String curAdminName = this.getCurrentAdminUser().getUsername();
-				saveSystemLog(LogModule.quoteLog, curAdminName+"审核了报价单"+q.getVcQuoteNum());
+				saveSystemLog(LogModule.quoteLog, curAdminName+"审核了报价单"+q.getProjectNum());
 				
 		 }else if("writPerm".equals(oper)){
 			 q.setIsWritPerm("1");
@@ -1628,7 +1628,7 @@ public class QuoteAction extends DispatchPagerAction {
 				}
 			 savePurchase(q);
 			 String curAdminName = this.getCurrentAdminUser().getUsername();
-			saveSystemLog(LogModule.quoteLog, curAdminName+"签单了报价单"+q.getVcQuoteNum());
+			saveSystemLog(LogModule.quoteLog, curAdminName+"签单了报价单"+q.getProjectNum());
 				
 		 }
 		 return "ok";
@@ -1695,7 +1695,7 @@ public class QuoteAction extends DispatchPagerAction {
 		 designerExpense.setDesignTotelMoney(designerExpense.getDesignMony1()+designerExpense.getDesignMony2()+designerExpense.getDesignMony3());
 		 designerExpenseService.saveOrUpdateEntity(designerExpense);
 		 String curAdminName = this.getCurrentAdminUser().getUsername();
-		saveSystemLog(LogModule.quoteLog, curAdminName+"设计了报价单"+q.getVcQuoteNum());
+		saveSystemLog(LogModule.quoteLog, curAdminName+"设计了报价单"+q.getProjectNum());
 		 return "ok";
 	 }
 	 public String getCounselorRate(){
@@ -1751,7 +1751,7 @@ public class QuoteAction extends DispatchPagerAction {
 			return "printHK";
 		}
 		String curAdminName = this.getCurrentAdminUser().getUsername();
-		saveSystemLog(LogModule.quoteLog, curAdminName+"打印了报价单"+quote.getVcQuoteNum());
+		saveSystemLog(LogModule.quoteLog, curAdminName+"打印了报价单"+quote.getProjectNum());
 		return "print";
 	}
 	public String selPriceByModel(){

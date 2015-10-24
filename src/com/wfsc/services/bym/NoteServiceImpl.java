@@ -51,7 +51,7 @@ public class NoteServiceImpl implements INoteService {
 
 	@Override
 	public void saveOrUpdateEntity(Note entity) {
-		noteDao.saveEntity(entity);
+		noteDao.saveOrUpdateEntity(entity);
 	}
 
 }

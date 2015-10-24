@@ -68,7 +68,6 @@ public class EmailAction extends DispatchPagerAction {
 		String username = this.getCurrentAdminUser().getUsername();
 		int count = emailService.getUnreadCount(username);
 		try {
-			System.out.println("username===="+username+"-->"+count);
 			response.getWriter().write(count+"");
 		} catch (IOException e) {
 			e.printStackTrace();

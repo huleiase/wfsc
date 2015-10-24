@@ -52,17 +52,17 @@ input.blankInput {
      float: left;
     margin-left: 9px;
     margin-right: 15px;
-    width: 85px;
+    width: 75px;
 }
 input.span11 {
-    width: 887px;
+    width: 870px;
 }
 input.span6 {
-    width: 546px;
+    width: 538px;
 }
 .quoteItem {
     height: 160px;
-    width: 888px;
+    width: 876px;
 }
 .selectQuoteFabric {
     float: left;
@@ -72,10 +72,7 @@ input.span6 {
     margin-top: 5px;
     width: 166px;
 }
-.form-horizontal .controls {
-    margin-left: 50px;
-    padding: 10px 0;
-}
+
 .alert {
    margin-bottom: 0px;
 }
@@ -89,14 +86,11 @@ table#quoteFabricTable .label, .badge {
     line-height: 20px;
     margin-right: 5px;
 }
-div.dataTables_wrapper .ui-widget-header {
-    width: 1124px;
-}
 </style>
 </head>
 <body>
 <%@include file="/WEB-INF/jsps/admin/common/adminTopAndLeft.jsp"%>
-<div class="container-fluid">
+<div class="container-fluid" >
       <div class="widget-box">
         <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
           <h5>基本信息</h5>
@@ -294,7 +288,7 @@ div.dataTables_wrapper .ui-widget-header {
 	         </div>
 	         <div class="clear"></div>
 	         <br>
-	          <div class="widget-title" style="width: 1124px;"> 
+	          <div class="widget-title" style="width:1008px;"> 
 	            <select name="quote.fabricTitle" class="selectQuoteFabric">
 		            <option value="0" <c:if test="${quote.fabricTitle=='0' }">selected=selected</c:if>>Quotation 报价表</option>
 		            <option value="1" <c:if test="${quote.fabricTitle=='1' }">selected=selected</c:if>>Confirmation 合 同</option>
@@ -302,7 +296,7 @@ div.dataTables_wrapper .ui-widget-header {
 		        </select>
 	             <span class="label label-info btn btn-primary btn-mini" onclick="selFabric();" style="float:left">产品选择</span>
 	          </div>
-	         <div class="widget-content nopadding" id="quoteFabricDiv" style="overflow-x:auto;width:1124px;">
+	         <div class="widget-content nopadding" id="quoteFabricDiv" style="overflow-x:auto;width:1008px;">
             	<%@include file="quoteFabric.jsp"%>
       		</div>
       		 <div class="clear"></div>

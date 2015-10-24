@@ -26,8 +26,33 @@
 <script src="mm/js/matrix.form_common.js"></script> 
 <script src="js/common/commonUse.js"></script> 
 <style type="text/css">
+
+body {
+overflow: scroll;
+overflow-x: hidden;
+overflow-x: scroll !important;
+}
+#content {
+    margin-left: 180px;
+}
+#sidebar > ul {
+    width: 180px;
+}
+
+#header h1 {
+    background: transparent url("../img/logo.png") no-repeat scroll 0 0;
+    width: 156px;
+}
+.form-horizontal .controls {
+    margin-left: 10px;
+    padding: 10px 0;
+}
+
 .clear{
 clear:both;
+}
+[class*="span"] {
+    margin-left: 20px;
 }
 </style>
 

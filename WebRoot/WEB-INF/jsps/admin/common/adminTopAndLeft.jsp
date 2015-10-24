@@ -9,13 +9,34 @@
     <img id="emailicon" src="<%=basePath%>images/email.png" width="30" />
     <font id="email">收件箱(0)</font>
     </a>
+    <marquee style="width:820px;" scrollamount="3">
+		<a style="color: red;" id="notes" href="#"></a>
+	</marquee>
     </div>
 </div>
 <script type="text/javascript">
-$(function(){init();})
+$(function(){
+	initEmail();
+	getNotes();
+})
+
+function getNotes(){
+	$.ajax({
+	 	           		url : '<%=basePath%>admin/note_getNotes.Q',
+	 	           		type : 'GET',
+	 	           		dataType:'text',
+	 	           		success : function(rs) {
+	 	           			if(rs) {
+		 	           			$("#notes").html(rs);
+	 	           			} else {
+		 	           			
+	 	           			}
+	 	           		}
+	 	        });
+}
   function init() {
- 	        	initMsg();
- 	        	setInterval('initMsg()', 60000);
+ 	        	//initMsg();
+ 	        	//setInterval('initMsg()', 60000);
  	        }
  function initMsg() {
  	        	initEmail();

@@ -23,7 +23,7 @@
                   <td><s:property value="vcUser"/></td>
                   <td><s:property value="vcName"/></td>
                   <td><s:property value="vcMemo"/></td>
-                  <td><s:data value="dtsTime" format="yyyy-MM-dd"/>--<s:data value="dteTime" format="yyyy-MM-dd"/></td>
+                  <td><s:date name="dtsTime" format="yyyy-MM-dd HH:mm:ss"/>----<s:date name="dteTime" format="yyyy-MM-dd HH:mm:ss"/></td>
                   <td> 
                   <w:permission permissionId="<%=PermissionId.SYSTEM_LOG_MGT_UPDATE%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="addOrUpdate('<s:property value="id"/>');">修改</button>

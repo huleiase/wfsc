@@ -82,9 +82,7 @@ table#quoteFabricTable .label, .badge {
     line-height: 20px;
     margin-right: 5px;
 }
-[class*="span"] {
-    margin-left: 100px;
-}
+
 </style>
 </head>
 <body>
@@ -359,9 +357,9 @@ table#quoteFabricTable .label, .badge {
 	             </select>
 	            </div>
 	          <div class="clear"></div>
-	          <div class="widget-title"> 
+	          <div class="widget-title" style="width:996px;"> 
 	          </div>
-	         <div class="widget-content nopadding" id="orderFabricDiv" style="overflow-x:auto;width:1124px;">
+	         <div class="widget-content nopadding" id="orderFabricDiv" style="overflow-x:auto;width:996px;">
             	<%@include file="orderFabric.jsp"%>
       		</div>
       		 <div class="clear"></div>

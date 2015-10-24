@@ -211,9 +211,9 @@ table#quoteFabricTable .label, .badge {
 	             <input name="purchase.otheraddress" id="otheraddress" type="text" class="span3"  value="${purchase.otheraddress }">
 	         </div>
 	         <div class="clear"></div>
-	          <div class="widget-title"> 
+	          <div class="widget-title" style="width:996px;"> 
 	          </div>
-	         <div class="widget-content nopadding" id="purchaseFabricDiv" style="overflow-x:auto;width:1124px;">
+	         <div class="widget-content nopadding" id="purchaseFabricDiv" style="overflow-x:auto;width:996px;">
             	<%@include file="purchaseFabric.jsp"%>
       		</div>
       		 <div class="clear"></div>

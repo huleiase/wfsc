@@ -127,6 +127,25 @@ table#quoteFabricTable .label, .badge {
 	         </div>
 	         <div class="clear"></div>
 	         <div class="controls">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">发货方式</label>
+	            <select name="purchase.paymentType" id="paymentType" style="width:202px;float: left;" class="span3">
+                	<option value="到付" <c:if test="${ purchase.paymentType=='到付'}">selected</c:if> >到付</option>
+                	<option value="寄付" <c:if test="${ purchase.paymentType=='寄付'}">selected</c:if> >寄付</option>
+	             </select>
+	              <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">订金确认</label>
+	            <input name="purchase.depositConfirmation" id="depositConfirmation" type="text" class="span3"  value="${ purchase.depositConfirmation}">
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">定金确认人</label>
+	            <input name="purchase.dcPerson" id="dcPerson" type="text" class="span3"  value="${ purchase.dcPerson}">
+	          </div>
+	          <div class="clear"></div>
+	          <div class="controls">
+	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">余额确认</label>
+	            <input name="purchase.balanceConfirmation" id="balanceConfirmation" type="text" class="span3"  value="${ purchase.balanceConfirmation}">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">余额确认人</label>
+	            <input name="purchase.bcPerson" id="bcPerson" type="text" class="span3"  value="${ purchase.bcPerson}">
+	          </div>
+	          <div class="clear"></div>
+	         <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">Expected Arrival Date</label>
 	            <input name="purchase.remarks" id="remarks" type="text" class="span3"  value="${ purchase.remarks}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">Shippment Address</label>
@@ -145,16 +164,7 @@ table#quoteFabricTable .label, .badge {
 	          <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">项目</label>
 	            <input id="projectName" type="text" class="span3"  value="${ purchase.quote.projectName}" readonly="readonly">
-	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">发货方式</label>
-	            <select name="purchase.paymentType" id="paymentType" style="width:202px;float: left;" class="span3">
-                	<option value="到付" <c:if test="${ purchase.paymentType=='到付'}">selected</c:if> >到付</option>
-                	<option value="寄付" <c:if test="${ purchase.paymentType=='寄付'}">selected</c:if> >寄付</option>
-	             </select>
-	           
-	         </div>
-	         <div class="clear"></div>
-	          <div class="controls">
-	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">付款方式</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">付款方式</label>
 	            <select name="purchase.expressCom" id="expressCom" style="width:202px;float: left;" class="span3" onchange="setExpressCom(this.value);">
                 	<option value="顺丰" <c:if test="${ purchase.expressCom=='顺丰'}">selected</c:if> >顺丰</option>
                 	<option value="德邦" <c:if test="${ purchase.expressCom=='德邦'}">selected</c:if> >德邦</option>
@@ -162,11 +172,13 @@ table#quoteFabricTable .label, .badge {
                 	<option value="其他" <c:if test="${ purchase.expressCom=='其他'}">selected</c:if> >其他</option>
 	             </select>
 	             <input name="purchase.otherExpressCom" id="otherExpressCom" type="text" class="span3"  value="${purchase.otherExpressCom }">
+	           
+	         </div>
+	         <div class="clear"></div>
+	          
+	          <div class="widget-title" style="width:996px;"> 
 	          </div>
-	          <div class="clear"></div>
-	          <div class="widget-title"> 
-	          </div>
-	         <div class="widget-content nopadding" id="purchaseFabricDiv" style="overflow-x:auto;width:1105px;">
+	         <div class="widget-content nopadding" id="purchaseFabricDiv" style="overflow-x:auto;width:996px;">
             	<%@include file="purchaseFabric.jsp"%>
       		</div>
       		 <div class="clear"></div>

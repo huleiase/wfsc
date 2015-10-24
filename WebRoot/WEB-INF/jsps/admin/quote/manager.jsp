@@ -262,31 +262,31 @@ var basePath = "<%=basePath%>";
           <form action="admin/quote_manager.Q" method="post" id="queryForm">
           <input type="hidden" value="${isLocalManager }" id="isLocalManager">
             <div class="controls">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">项目名称</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">项目名称</label>
 	            <input name="projectName" id="projectName" type="text" class="span2"  value="${ projectName}">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">销售姓名</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">销售姓名</label>
 	            <input name="vcSalesman" id="vcSalesman" type="text" class="span2"  value="${vcSalesman }">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">创建日期</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">创建日期</label>
 	             <input type="text" id="startTime" name="startTime"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${startTime}" class="span2" />
 		                  	&nbsp;&nbsp;<span class="span1" style="width: 20px;margin-left: 10px;">至</span>&nbsp;&nbsp;
 		         <input type="text" id="endTime" name="endTime"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\')}'})" value="${endTime}" class="span2" />
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">报价单号</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">报价单号</label>
 	            <input name="projectNum" id="projectNum" type="text" class="span2"  value="${ projectNum}">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">询价方</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">询价方</label>
 	            <input name="vcAttn" id="vcAttn" type="text" class="span2"  value="${vcAttn }">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">设计方</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">设计方</label>
 	            <input name="designerName" id="designerName" type="text" class="span2"  value="${designerName }">
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">型号</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">型号</label>
 	            <input name="vcBefModel" id="vcBefModel" type="text" class="span2"  value="${vcBefModel }">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">创建人</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">创建人</label>
 	            <input name="curUserName" id="curUserName" type="text" class="span2"  value="${curUserName }">
-	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">报价方式</label>
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">报价方式</label>
 	            <select name="quoteFormate" id="quoteFormate" style="width:170px;">
 	            	<option value="">请选择</option>
 	             	<option value="1" <s:if test="#request.quoteFormate==1">selected</s:if> >内地报价</option>

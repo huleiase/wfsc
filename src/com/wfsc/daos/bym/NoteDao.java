@@ -51,7 +51,7 @@ public class NoteDao extends EnhancedHibernateDaoSupport<Note> {
 		return page;
 	}
 	public List<Note> getNotes(){
-		StringBuffer hql = new StringBuffer("select distinct obj from Note as obj where current_date() betwwen obj.dtsTime and obj.dteTime ");
+		StringBuffer hql = new StringBuffer("select distinct obj from Note as obj where current_date() between obj.dtsTime and obj.dteTime ");
 		List<Note> list = this.getEntityByHql(hql.toString());
 		return list;
 	}
