@@ -1,11 +1,17 @@
 package com.wfsc.daos.bym;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.stereotype.Repository;
 
 import com.base.EnhancedHibernateDaoSupport;
@@ -256,5 +262,99 @@ public class FabricDao extends EnhancedHibernateDaoSupport<Fabric> {
 		}else{
 			return (Long)list.get(0);
 		}
+	}
+	public Page<Fabric> findForQuotePage(Page<Fabric> page,
+			String vcFactoryCode ,String vcBefModel) {
+		Session s = null;
+		String sql = "select id,vcFactoryCode,vcBefModel,vcDis from bym_fabric where isHtCode='0' ";
+		String countSql = "select count(id) from bym_fabric where isHtCode='0'  ";
+		if(StringUtils.isNotBlank(vcFactoryCode)){
+			sql += " and vcFactoryCode like '%"+vcFactoryCode+"%'";
+			countSql += " and vcFactoryCode like '%"+vcFactoryCode+"%'";
+		}
+		if(StringUtils.isNotBlank(vcBefModel)){
+			sql += " and vcBefModel like '%"+vcBefModel+"%'";
+			countSql += " and vcBefModel like '%"+vcBefModel+"%'";
+		}
+		System.out.println("报价查询原厂型号sql==="+sql);
+		try {
+			s = this.getSession();
+			List<Object[]> list = s.createSQLQuery(sql).addScalar("id", Hibernate.LONG).addScalar("vcFactoryCode", Hibernate.STRING).addScalar("vcBefModel", Hibernate.STRING).addScalar("vcDis", Hibernate.STRING).setFirstResult(page.getFirst()-1).setMaxResults(page.getPageSize()).list();
+			List<Fabric> fs = new ArrayList<Fabric>();
+			if(CollectionUtils.isNotEmpty(list)){
+				for(Object[] obj : list){
+					if(obj!=null&&obj.length==4){
+						Fabric f = new Fabric();
+						f.setId((Long)obj[0]);
+						f.setVcFactoryCode(obj[1].toString());
+						f.setVcBefModel(obj[2].toString());
+						f.setVcDis(obj[3].toString());
+						f.setIsHtCode("0");
+						fs.add(f);
+					}
+				}
+				
+			}
+			String totalCount = s.createSQLQuery(countSql.toString()).list().get(0).toString();
+			page.setTotalCount(Integer.valueOf(totalCount));
+			page.setData(fs);
+		} catch (DataAccessResourceFailureException e) {
+			e.printStackTrace();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}finally{
+			if(s!=null){
+				s.close();
+			}
+		}
+		
+		return page;
+	}
+	public Page<Fabric> findHTForQuotePage(Page<Fabric> page,
+			String htCode) {
+		Session s = null;
+		String sql = "select id,vcFactoryCode,vcBefModel,htCode,vcDis from bym_fabric where isHtCode='1' ";
+		String countSql = "select count(id) from bym_fabric where isHtCode='1' ";
+		if(StringUtils.isNotBlank(htCode)){
+			sql += " and htCode like '%"+htCode+"%'";
+			countSql += " and htCode like '%"+htCode+"%'";
+		}
+		System.out.println("报价查询HT型号sql==="+sql);
+		try {
+			s = this.getSession();
+			List<Object[]> list = s.createSQLQuery(sql).addScalar("id", Hibernate.LONG).addScalar("vcFactoryCode", Hibernate.STRING).addScalar("vcBefModel", Hibernate.STRING).addScalar("htCode", Hibernate.STRING).addScalar("vcDis", Hibernate.STRING).setFirstResult(page.getFirst()-1).setMaxResults(page.getPageSize()).list();
+			List<Fabric> fs = new ArrayList<Fabric>();
+			if(CollectionUtils.isNotEmpty(list)){
+				for(Object[] obj : list){
+					if(obj!=null&&obj.length==5){
+						Fabric f = new Fabric();
+						f.setId((Long)obj[0]);
+						f.setVcFactoryCode(obj[1].toString());
+						f.setVcBefModel(obj[2].toString());
+						f.setHtCode(obj[3].toString());
+						f.setVcDis(obj[4].toString());
+						f.setIsHtCode("1");
+						fs.add(f);
+					}
+				}
+			}
+			page.setData(fs);
+			String totalCount = s.createSQLQuery(countSql.toString()).list().get(0).toString();
+			page.setTotalCount(Integer.valueOf(totalCount));
+		} catch (DataAccessResourceFailureException e) {
+			e.printStackTrace();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}finally{
+			if(s!=null){
+				s.close();
+			}
+		}
+		
+		return page;
 	}
 }

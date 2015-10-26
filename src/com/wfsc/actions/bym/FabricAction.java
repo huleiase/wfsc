@@ -1369,12 +1369,16 @@ public class FabricAction extends DispatchPagerAction {
 		Page<Fabric> page = new Page<Fabric>();
 		this.setPageParams(page);
 		page.setPaginationSize(7);
-		Map<String,Object> paramap = handleRequestParameter();
-		//paramap.put("vcDis", "启用");
+		String vcFactoryCode = request.getParameter("vcFactoryCode");
+		String vcBefModel = request.getParameter("vcBefModel");
+		String htCode = request.getParameter("htCode");
+		request.setAttribute("vcFactoryCode", vcFactoryCode);
+		request.setAttribute("vcBefModel", vcBefModel);
+		request.setAttribute("htCode", htCode);
 		if("1".equals(isHtCode)){
-			page = fabricService.findHTForPage(page, paramap);
+			page = fabricService.findHTForQuotePage(page, htCode);
 		}else{
-			page = fabricService.findForPage(page, paramap);
+			page = fabricService.findForQuotePage(page,vcFactoryCode,vcBefModel);
 		}
 		List<Integer> li = page.getPageNos();
 		String listUrl = "/wfsc/admin/fabric_listForQuote.Q?";

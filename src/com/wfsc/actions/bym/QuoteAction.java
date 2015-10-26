@@ -129,6 +129,7 @@ public class QuoteAction extends DispatchPagerAction {
 	public String list(){
 		Admin admin = this.getCurrentAdminUser();
 		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
+		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
 		boolean isLocalManager = securityService.isAbleRole(admin.getUsername(), "区域经理");
 		boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
 		boolean isSaleManager = securityService.isAbleRole(admin.getUsername(), "销售经理");
@@ -140,7 +141,7 @@ public class QuoteAction extends DispatchPagerAction {
 		this.setPageParams(page);
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
-		if(!isAdmin){
+		if(!isAdmin&&!isSysAdmin){
 			paramap.put("vcQuoteLocal", admin.getArea());
 		}
 		if(isSale&&!isSaleManager){
@@ -484,9 +485,9 @@ public class QuoteAction extends DispatchPagerAction {
 			for(Admin admin : saleManegers){
 				Email e = new Email();
 				e.setAction("quote");
-				e.setDetail("关于【" + quote.getProjectName() + "】的报价已经"+addOrUpdate+"！报价单号为"+quote.getVcQuoteNum()+"，请审核");
+				e.setDetail("关于【" + quote.getProjectName() + "】的报价已经"+addOrUpdate+"！报价单号为"+quote.getProjectNum()+"，请审核");
 				e.setQuoteId(quote.getId());
-				e.setQuoteNo(quote.getVcQuoteNum());
+				e.setQuoteNo(quote.getProjectNum());
 				e.setSender(curAdmin.getUsername());
 				e.setSendTime(new Date());
 				e.setState("1");
@@ -500,9 +501,9 @@ public class QuoteAction extends DispatchPagerAction {
 			for(Admin admin : quoteer){
 				Email e = new Email();
 				e.setAction("quote");
-				e.setDetail("关于【" + quote.getProjectName() + "】的报价已经"+addOrUpdate+"！报价单号为"+quote.getVcQuoteNum()+"，请审核");
+				e.setDetail("关于【" + quote.getProjectName() + "】的报价已经"+addOrUpdate+"！报价单号为"+quote.getProjectNum()+"，请审核");
 				e.setQuoteId(quote.getId());
-				e.setQuoteNo(quote.getVcQuoteNum());
+				e.setQuoteNo(quote.getProjectNum());
 				e.setSender(curAdmin.getUsername());
 				e.setSendTime(new Date());
 				e.setState("1");
@@ -516,9 +517,9 @@ public class QuoteAction extends DispatchPagerAction {
 			for(String name : salenames){
 				Email e = new Email();
 				e.setAction("quote");
-				e.setDetail("关于【" + quote.getProjectName() + "】的报价已经"+addOrUpdate+"！报价单号为"+quote.getVcQuoteNum());
+				e.setDetail("关于【" + quote.getProjectName() + "】的报价已经"+addOrUpdate+"！报价单号为"+quote.getProjectNum());
 				e.setQuoteId(quote.getId());
-				e.setQuoteNo(quote.getVcQuoteNum());
+				e.setQuoteNo(quote.getProjectNum());
 				e.setSender(curAdmin.getUsername());
 				e.setSendTime(new Date());
 				e.setState("1");
@@ -1559,9 +1560,9 @@ public class QuoteAction extends DispatchPagerAction {
 					for(Admin admin : saleManegers){
 						Email e = new Email();
 						e.setAction("quote");
-						e.setDetail("关于【" + q.getProjectName() + "】的报价已经审核！报价单号为"+q.getVcQuoteNum()+"，请签单");
+						e.setDetail("关于【" + q.getProjectName() + "】的报价已经审核！报价单号为"+q.getProjectNum()+"，请签单");
 						e.setQuoteId(q.getId());
-						e.setQuoteNo(q.getVcQuoteNum());
+						e.setQuoteNo(q.getProjectNum());
 						e.setSender(curAdmin.getUsername());
 						e.setSendTime(new Date());
 						e.setState("1");
@@ -1575,9 +1576,9 @@ public class QuoteAction extends DispatchPagerAction {
 					for(String name : salenames){
 						Email e = new Email();
 						e.setAction("quote");
-						e.setDetail("关于【" + q.getProjectName() + "】的报价已经审核！报价单号为"+q.getVcQuoteNum()+"，已可以打印该报价单");
+						e.setDetail("关于【" + q.getProjectName() + "】的报价已经审核！报价单号为"+q.getProjectNum()+"，已可以打印该报价单");
 						e.setQuoteId(q.getId());
-						e.setQuoteNo(q.getVcQuoteNum());
+						e.setQuoteNo(q.getProjectNum());
 						e.setSender(curAdmin.getUsername());
 						e.setSendTime(new Date());
 						e.setState("1");
@@ -1588,9 +1589,9 @@ public class QuoteAction extends DispatchPagerAction {
 				}
 				Email e = new Email();
 				e.setAction("quote");
-				e.setDetail("关于【" + q.getProjectName() + "】的报价已经审核！报价单号为"+q.getVcQuoteNum());
+				e.setDetail("关于【" + q.getProjectName() + "】的报价已经审核！报价单号为"+q.getProjectNum());
 				e.setQuoteId(q.getId());
-				e.setQuoteNo(q.getVcQuoteNum());
+				e.setQuoteNo(q.getProjectNum());
 				e.setSender(curAdmin.getUsername());
 				e.setSendTime(new Date());
 				e.setState("1");
@@ -1615,9 +1616,9 @@ public class QuoteAction extends DispatchPagerAction {
 					for(String name : salenames){
 						Email e = new Email();
 						e.setAction("quote");
-						e.setDetail("关于【" + q.getProjectName() + "】的报价已经签单！报价单号为"+q.getVcQuoteNum());
+						e.setDetail("关于【" + q.getProjectName() + "】的报价已经签单！报价单号为"+q.getProjectNum());
 						e.setQuoteId(q.getId());
-						e.setQuoteNo(q.getVcQuoteNum());
+						e.setQuoteNo(q.getProjectNum());
 						e.setSender(curAdmin.getUsername());
 						e.setSendTime(new Date());
 						e.setState("1");
@@ -1657,9 +1658,9 @@ public class QuoteAction extends DispatchPagerAction {
 			purchaseService.saveOrUpdateEntity(purchase);
 			Email e = new Email();
 			e.setAction("toPurchase");
-			e.setDetail("关于【" + q.getProjectName() + "】的报价已经签单！报价单号为"+q.getVcQuoteNum()+"，请提交待采购单【"+q.getContractNo()+"】");
+			e.setDetail("关于【" + q.getProjectName() + "】的报价已经签单！报价单号为"+q.getProjectNum()+"，请提交待采购单【"+q.getContractNo()+"】");
 			e.setQuoteId(q.getId());
-			e.setQuoteNo(q.getVcQuoteNum());
+			e.setQuoteNo(q.getProjectNum());
 			e.setSender(curAdmin.getUsername());
 			e.setSendTime(new Date());
 			e.setState("1");

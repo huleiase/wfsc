@@ -92,6 +92,7 @@ public class PurchaseAction extends DispatchPagerAction {
 	public String list(){
 		Admin admin = this.getCurrentAdminUser();
 		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
+		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
 		boolean purManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
 		boolean purMan = securityService.isAbleRole(admin.getUsername(), "采购员");
 	//	request.setAttribute("isAdmin", isAdmin);
@@ -102,7 +103,7 @@ public class PurchaseAction extends DispatchPagerAction {
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
 		paramap.put("purchaseType", "2");
-		if(!isAdmin&&!purManager&&!purMan){
+		if(!isAdmin&&!purManager&&!purMan&&!isSysAdmin){
 			paramap.put("area", admin.getArea());
 		}
 		page = purchaseService.findForPage(page, paramap);
@@ -131,6 +132,7 @@ public class PurchaseAction extends DispatchPagerAction {
 	public String listToPur(){
 		Admin admin = this.getCurrentAdminUser();
 		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
+		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
 		boolean purManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
 		boolean purMan = securityService.isAbleRole(admin.getUsername(), "采购员");
 	//	request.setAttribute("isAdmin", isAdmin);
@@ -141,7 +143,7 @@ public class PurchaseAction extends DispatchPagerAction {
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
 		paramap.put("purchaseType", "1");
-		if(!isAdmin&&!purManager&&!purMan){
+		if(!isAdmin&&!purManager&&!purMan&&!isSysAdmin){
 			paramap.put("area", admin.getArea());
 		}
 		page = purchaseService.findForPage(page, paramap);
@@ -473,7 +475,7 @@ public class PurchaseAction extends DispatchPagerAction {
 					e.setAction("toPurchase");
 					e.setDetail("关于【" + q.getProjectName() + "】的待采购单已经提交！合同编号为"+pdb.getContractNo()+"，请审核");
 					e.setQuoteId(q.getId());
-					e.setQuoteNo(q.getVcQuoteNum());
+					e.setQuoteNo(q.getProjectNum());
 					e.setPurchaseId(pdb.getId());
 					e.setPurchaseNo(pdb.getContractNo());
 					e.setSender(curAdmin.getUsername());
@@ -489,9 +491,9 @@ public class PurchaseAction extends DispatchPagerAction {
 				for(String name : salenames){
 					Email e = new Email();
 					e.setAction("toPurchase");
-					e.setDetail("关于【" + q.getProjectName() + "】的待采购单已经提交！报价单号为"+q.getVcQuoteNum()+"，合同编号为"+pdb.getContractNo());
+					e.setDetail("关于【" + q.getProjectName() + "】的待采购单已经提交！报价单号为"+q.getProjectNum()+"，合同编号为"+pdb.getContractNo());
 					e.setQuoteId(q.getId());
-					e.setQuoteNo(q.getVcQuoteNum());
+					e.setQuoteNo(q.getProjectNum());
 					e.setPurchaseId(pdb.getId());
 					e.setPurchaseNo(pdb.getContractNo());
 					e.setSender(curAdmin.getUsername());
@@ -525,7 +527,7 @@ public class PurchaseAction extends DispatchPagerAction {
 						e.setStatus("0");
 					}
 					e.setQuoteId(q.getId());
-					e.setQuoteNo(q.getVcQuoteNum());
+					e.setQuoteNo(q.getProjectNum());
 					e.setPurchaseId(pdb.getId());
 					e.setPurchaseNo(pdb.getContractNo());
 					e.setSender(curAdmin.getUsername());
@@ -540,7 +542,7 @@ public class PurchaseAction extends DispatchPagerAction {
 			e.setAction("toPurchase");
 			e.setDetail("关于【" + q.getProjectName() + "】的待采购单已经审核！合同编号为"+pdb.getContractNo());
 			e.setQuoteId(q.getId());
-			e.setQuoteNo(q.getVcQuoteNum());
+			e.setQuoteNo(q.getProjectNum());
 			e.setPurchaseId(pdb.getId());
 			e.setPurchaseNo(pdb.getContractNo());
 			e.setSender(curAdmin.getUsername());
@@ -564,7 +566,7 @@ public class PurchaseAction extends DispatchPagerAction {
 					e.setAction("puchase");
 					e.setDetail("关于【" + q.getProjectName() + "】的采购单已经审核！合同编号为"+pdb.getContractNo());
 					e.setQuoteId(q.getId());
-					e.setQuoteNo(q.getVcQuoteNum());
+					e.setQuoteNo(q.getProjectNum());
 					e.setPurchaseId(pdb.getId());
 					e.setPurchaseNo(pdb.getContractNo());
 					e.setSender(curAdmin.getUsername());
@@ -705,7 +707,7 @@ public class PurchaseAction extends DispatchPagerAction {
 				e.setAction("order");
 				e.setDetail("关于【" + purchase.getQuote().getProjectName() + "】的采购单已经审核！订单号为"+order.getOrderNo()+",请去提交");
 				e.setQuoteId(purchase.getQuote().getId());
-				e.setQuoteNo(purchase.getQuote().getVcQuoteNum());
+				e.setQuoteNo(purchase.getQuote().getProjectNum());
 				e.setPurchaseId(purchase.getId());
 				e.setPurchaseNo(purchase.getContractNo());
 				e.setSender(curAdmin.getUsername());

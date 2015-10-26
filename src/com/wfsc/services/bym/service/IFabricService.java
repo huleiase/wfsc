@@ -53,4 +53,8 @@ public interface IFabricService {
 	public Map<String,Long> getRefMap();
 	
 	public Long getRefIdByCode(String vcFactoryCode, String vcBefModel);
+	
+	public Page<Fabric> findForQuotePage(Page<Fabric> page, String vcFactoryCode ,String vcBefModel);
+	
+	public Page<Fabric> findHTForQuotePage(Page<Fabric> page, String htCode);
 }

@@ -78,10 +78,11 @@ public class StoreAction extends DispatchPagerAction {
 		arerMap.put("HK", "香港仓库");
 		Admin user = this.getCurrentAdminUser();
 		boolean isAdmin = securityService.isAbleRole(user.getUsername(), "超级管理员");
+		boolean isSysAdmin = securityService.isAbleRole(user.getUsername(), "系统管理员");
 		boolean isStorer = securityService.isAbleRole(user.getUsername(), "仓库管理员");
 		boolean isPurManager = securityService.isAbleRole(user.getUsername(), "采购经理");
 		Map<String,Object> paramap = new HashMap<String,Object>();
-		if(!isAdmin&&!isStorer&&!isPurManager){
+		if(!isAdmin&&!isStorer&&!isPurManager&&!isSysAdmin){
 			paramap.put("storeName", arerMap.get(user.getArea()));
 			paramap.put("userName", user.getUsername());
 		}

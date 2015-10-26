@@ -98,6 +98,7 @@ public class OrderAction extends DispatchPagerAction {
 	public String list(){
 		Admin admin = this.getCurrentAdminUser();
 		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
+		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
 		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
 		boolean isPurMan = securityService.isAbleRole(admin.getUsername(), "采购员");
 		boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
@@ -115,7 +116,7 @@ public class OrderAction extends DispatchPagerAction {
 		this.setPageParams(page);
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
-		if(!isAdmin&&!isPurManager&&!isPurMan){
+		if(!isAdmin&&!isPurManager&&!isPurMan&&!isSysAdmin){
 			paramap.put("area", admin.getArea());
 			if(isSale&&!isSaleManager){
 				paramap.put("saleName", admin.getUsername());
@@ -283,7 +284,7 @@ public class OrderAction extends DispatchPagerAction {
 					e.setAction("order");
 					e.setDetail("关于【" + q.getProjectName() + "】的订单已经提交！订单号为" + odb.getOrderNo());
 					e.setQuoteId(q.getId());
-					e.setQuoteNo(q.getVcQuoteNum());
+					e.setQuoteNo(q.getProjectNum());
 					e.setPurchaseId(pdb.getId());
 					e.setPurchaseNo(pdb.getContractNo());
 					e.setOrderId(odb.getId());
@@ -300,7 +301,7 @@ public class OrderAction extends DispatchPagerAction {
 			e.setAction("order");
 			e.setDetail("关于【" + q.getProjectName() + "】的订单已经提交！订单号为" + odb.getOrderNo() + "，请审核");
 			e.setQuoteId(q.getId());
-			e.setQuoteNo(q.getVcQuoteNum());
+			e.setQuoteNo(q.getProjectNum());
 			e.setPurchaseId(pdb.getId());
 			e.setPurchaseNo(pdb.getContractNo());
 			e.setOrderId(odb.getId());
@@ -322,7 +323,7 @@ public class OrderAction extends DispatchPagerAction {
 					e.setAction("order");
 					e.setDetail("关于【" + q.getProjectName() + "】的订单已经审核！订单号为" + odb.getOrderNo());
 					e.setQuoteId(q.getId());
-					e.setQuoteNo(q.getVcQuoteNum());
+					e.setQuoteNo(q.getProjectNum());
 					e.setPurchaseId(pdb.getId());
 					e.setPurchaseNo(pdb.getContractNo());
 					e.setOrderId(odb.getId());
@@ -341,7 +342,7 @@ public class OrderAction extends DispatchPagerAction {
 					e.setAction("order");
 					e.setDetail("关于【" + q.getProjectName() + "】的订单已经审核！订单号为" + odb.getOrderNo() + "，请设计订单，填写相关信息");
 					e.setQuoteId(q.getId());
-					e.setQuoteNo(q.getVcQuoteNum());
+					e.setQuoteNo(q.getProjectNum());
 					e.setPurchaseId(pdb.getId());
 					e.setPurchaseNo(pdb.getContractNo());
 					e.setOrderId(odb.getId());
@@ -361,7 +362,7 @@ public class OrderAction extends DispatchPagerAction {
 					e.setAction("order");
 					e.setDetail("关于【" + q.getProjectName() + "】的订单已经审核入库至" + odb.getArea() + "仓库！订单号为" + odb.getOrderNo());
 					e.setQuoteId(q.getId());
-					e.setQuoteNo(q.getVcQuoteNum());
+					e.setQuoteNo(q.getProjectNum());
 					e.setPurchaseId(pdb.getId());
 					e.setPurchaseNo(pdb.getContractNo());
 					e.setOrderId(odb.getId());
@@ -381,7 +382,7 @@ public class OrderAction extends DispatchPagerAction {
 						e.setAction("order");
 						e.setDetail("关于【" + q.getProjectName() + "】的订单已经审核入库至" + odb.getArea() + "仓库！订单号为" + odb.getOrderNo());
 						e.setQuoteId(q.getId());
-						e.setQuoteNo(q.getVcQuoteNum());
+						e.setQuoteNo(q.getProjectNum());
 						e.setPurchaseId(pdb.getId());
 						e.setPurchaseNo(pdb.getContractNo());
 						e.setOrderId(odb.getId());
@@ -401,7 +402,7 @@ public class OrderAction extends DispatchPagerAction {
 						e.setAction("order");
 						e.setDetail("关于【" + q.getProjectName() + "】的订单已经审核入库至" + odb.getArea() + "仓库！订单号为" + odb.getOrderNo());
 						e.setQuoteId(q.getId());
-						e.setQuoteNo(q.getVcQuoteNum());
+						e.setQuoteNo(q.getProjectNum());
 						e.setPurchaseId(pdb.getId());
 						e.setPurchaseNo(pdb.getContractNo());
 						e.setOrderId(odb.getId());

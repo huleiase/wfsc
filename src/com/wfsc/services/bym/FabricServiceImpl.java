@@ -134,5 +134,15 @@ public class FabricServiceImpl implements IFabricService {
 	public Long getRefIdByCode(String vcFactoryCode, String vcBefModel) {
 		return fabricDao.getRefIdByCode(vcFactoryCode, vcBefModel);
 	}
+	@Override
+	public Page<Fabric> findForQuotePage(Page<Fabric> page,
+			 String vcFactoryCode ,String vcBefModel) {
+		return fabricDao.findForQuotePage(page, vcFactoryCode,vcBefModel);
+	}
+	@Override
+	public Page<Fabric> findHTForQuotePage(Page<Fabric> page,
+			String htCode) {
+		return fabricDao.findHTForQuotePage(page, htCode);
+	}
 
 }
