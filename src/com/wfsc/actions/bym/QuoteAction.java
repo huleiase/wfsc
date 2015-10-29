@@ -134,6 +134,9 @@ public class QuoteAction extends DispatchPagerAction {
 		boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
 		boolean isSaleManager = securityService.isAbleRole(admin.getUsername(), "销售经理");
 		boolean canPrint = true;
+		if(isAdmin){
+			isLocalManager = true;
+		}
 		request.setAttribute("isAdmin", isAdmin);
 		request.setAttribute("isLocalManager", isLocalManager);
 		request.setAttribute("isSale", isSale);

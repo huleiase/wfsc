@@ -115,7 +115,7 @@ public class QuoteDao extends EnhancedHibernateDaoSupport<Quote> {
 				}
 				
 			}
-			
+			hql.append(" order by obj.vcFormDate desc");
 			List<Quote> list = this.findList4PageWithParama(hql.toString(), page
 					.getFirst() - 1, page.getPageSize(),dataMap);
 			page.setData(list);

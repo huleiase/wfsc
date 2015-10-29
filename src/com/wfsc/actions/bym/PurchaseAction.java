@@ -270,11 +270,11 @@ public class PurchaseAction extends DispatchPagerAction {
         	}
         	HSSFCell cell6 = row9.getCell(3);//定金确认
         	if(cell6!=null){
-        		cell6.setCellValue(entity.getDepositConfirmation());
+        		cell6.setCellValue(entity.getDcPerson());
         	}
         	HSSFCell cell7 = row9.getCell(5);//余款确认
         	if(cell7!=null){
-        		cell7.setCellValue(entity.getBalanceConfirmation());
+        		cell7.setCellValue(entity.getBcPerson());
         	}
         	HSSFCell cell8 = row9.getCell(7);//货期要求
         	if(cell8!=null){
