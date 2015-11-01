@@ -182,6 +182,12 @@ public class PurchaseAction extends DispatchPagerAction {
 		return prop;
 	}
 	public String input() {
+		String currPageNo = request.getParameter("currPageNo");
+		String pageSize = request.getParameter("pageSize");
+		String orderStatus = request.getParameter("orderStatus");
+		request.setAttribute("currPageNo", currPageNo);
+		request.setAttribute("pageSize", pageSize);
+		request.setAttribute("orderStatus", orderStatus);
 		String isToPur = request.getParameter("isToPur");
 		String id = request.getParameter("id");
 		String isView = request.getParameter("isView");
@@ -457,6 +463,12 @@ public class PurchaseAction extends DispatchPagerAction {
 	}
 	
 	public String save(){
+		String currPageNo = request.getParameter("currPageNo");
+		String pageSize = request.getParameter("pageSize");
+		String orderStatus = request.getParameter("orderStatus");
+		request.setAttribute("currPageNo", currPageNo);
+		request.setAttribute("pageSize", pageSize);
+		request.setAttribute("orderStatus", orderStatus);
 		Purchase pdb = this.purchaseService.getPurchaseById(purchase.getId());
 		Quote q = pdb.getQuote();
 		Admin curAdmin = this.getCurrentAdminUser();
@@ -504,6 +516,7 @@ public class PurchaseAction extends DispatchPagerAction {
 					this.emailService.saveOrUpdateEntity(e);
 				}
 			}
+			purchaseService.saveOrUpdateEntity(purchase);
 			String curAdminName = this.getCurrentAdminUser().getUsername();
 			saveSystemLog(LogModule.toPurchaseLog, curAdminName+"提交了待采购单"+pdb.getContractNo());
 		}
@@ -551,6 +564,7 @@ public class PurchaseAction extends DispatchPagerAction {
 			e.setUsername(q.getModifyUser());
 			e.setStatus("0");
 			this.emailService.saveOrUpdateEntity(e);
+			purchaseService.saveOrUpdateEntity(purchase);
 			String curAdminName = this.getCurrentAdminUser().getUsername();
 			saveSystemLog(LogModule.toPurchaseLog, curAdminName+"审核了待采购单"+pdb.getContractNo());
 		}
@@ -580,7 +594,7 @@ public class PurchaseAction extends DispatchPagerAction {
 			String curAdminName = this.getCurrentAdminUser().getUsername();
 			saveSystemLog(LogModule.purchaseLog, curAdminName+"审核了采购单"+pdb.getContractNo());
 		}
-		purchaseService.saveOrUpdateEntity(purchase);
+	//	purchaseService.saveOrUpdateEntity(purchase);
 		Set<QuoteFabric> qfSet  = new HashSet<QuoteFabric>();
 		for(QuoteFabric qf:quoteFabricList){
 			if(!"1".equals(qf.getIsReplaced())){
@@ -664,8 +678,7 @@ public class PurchaseAction extends DispatchPagerAction {
 				order = new Order();
 				if(orderMap.size()==0){//第一次由采购单生成订单
 					order.setOrderNo(orderNo);// 新的单号
-					purchase.setOrderNo(orderNo);
-					this.purchaseService.saveOrUpdateEntity(purchase);
+					
 				}else{//修改报价单后新增了报价布匹，而且这个新增的报价布匹之前没有生成对应的订单
 					order.setOrderNo(ordersdb.get(0).getOrderNo());// 用原来的单号
 				}
@@ -682,6 +695,8 @@ public class PurchaseAction extends DispatchPagerAction {
 				order.setQuantation(purchase.getQuote().getProjectNum());
 				order.setQuoteId(purchase.getQuote().getId());
 			}
+			purchase.setOrderNo(order.getOrderNo());
+			this.purchaseService.saveOrUpdateEntity(purchase);
 			String formUser = map.get(fnum).getVcAssignAutor();
 			order.setOrderStatus(0);
 			order.setVcfrom(formUser);

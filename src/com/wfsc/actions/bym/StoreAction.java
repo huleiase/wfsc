@@ -61,8 +61,6 @@ public class StoreAction extends DispatchPagerAction {
 	private IStoreService storeService;
 	@Resource(name = "securityService")
 	private ISecurityService securityService;
-	@Resource(name = "orderService")
-	private IOrderService orderService;
 	@Resource(name = "storeFabricService")
 	private IStoreFabricService storeFabricService;
 	
@@ -81,8 +79,9 @@ public class StoreAction extends DispatchPagerAction {
 		boolean isSysAdmin = securityService.isAbleRole(user.getUsername(), "系统管理员");
 		boolean isStorer = securityService.isAbleRole(user.getUsername(), "仓库管理员");
 		boolean isPurManager = securityService.isAbleRole(user.getUsername(), "采购经理");
+		boolean isPurer = securityService.isAbleRole(user.getUsername(), "采购员");
 		Map<String,Object> paramap = new HashMap<String,Object>();
-		if(!isAdmin&&!isStorer&&!isPurManager&&!isSysAdmin){
+		if(!isAdmin&&!isStorer&&!isPurManager&&!isSysAdmin&&!isPurer){
 			paramap.put("storeName", arerMap.get(user.getArea()));
 			paramap.put("userName", user.getUsername());
 		}

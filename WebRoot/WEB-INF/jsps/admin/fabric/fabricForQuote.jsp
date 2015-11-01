@@ -194,7 +194,7 @@
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">
-	            <button type="button" class="btn btn-success" style="margin-left:355px;" onclick="checkForm();">查询</button>&nbsp;&nbsp;&nbsp;
+	            <button type="button" class="btn btn-success" style="margin-left:318px;" onclick="checkForm();">查询</button>&nbsp;&nbsp;&nbsp;
 	             <button type="button" class="btn btn-primary" onclick="resetForm();">重置</button>
 	          </div>
           </form>
@@ -207,7 +207,7 @@
       </div>
        <div class="clear"></div>
       <div class="controls">
-	            <button type="button" class="btn btn-success" style="margin-left:355px;" onclick="submitSelected();">确定</button>&nbsp;&nbsp;&nbsp;
+	            <button type="button" class="btn btn-success" style="margin-left:318px;" onclick="submitSelected();">确定</button>&nbsp;&nbsp;&nbsp;
 	             <button type="button" class="btn btn-primary" onclick="art.dialog.close();">关闭</button>
 	  </div>
 </div>

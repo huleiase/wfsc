@@ -27,12 +27,28 @@
 			$("#otherShipAddress").hide();
 		}
 	}
+	
+	function setConsignee(consignee){
+		if(consignee=="其他"){
+			$("#otherConsignee").show();
+		}else{
+			$("#otherConsignee").hide();
+			$("#otherConsignee").val("");
+		}
+	}
 	$(function(){
 		var otherShipAddress = $("#otherShipAddress").val();	
 		if(otherShipAddress){
 			$("#otherShipAddress").show();
 		}else{
 			$("#otherShipAddress").hide();
+		}
+		
+		var otherConsignee = $("#otherConsignee").val();	
+		if(otherConsignee){
+			$("#otherConsignee").show();
+		}else{
+			$("#otherConsignee").hide();
 		}
 	})
 </script>
@@ -146,8 +162,24 @@ table#quoteFabricTable .label, .badge {
 					<option value="广州分销" <c:if test="${order.areaZh=='广州分销'}">selected</c:if>>广州分销</option>
 					<option value="北京分销" <c:if test="${order.areaZh=='北京分销'}">selected</c:if>>北京分销</option>	
 	             </select>
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">收货人</label>
-	            <input name="order.consignee" id="consignee" type="text" class="span3"  value="${ order.consignee}">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">收货人信息</label>
+	             <select name="order.consignee" id="consignee" style="width:202px;float: left;" class="span3" onchange="setConsignee(this.value);">
+	            	 <option value="范燕清 13450229299" <c:if test="${order.consignee=='范燕清 13450229299'}">selected</c:if>>范燕清 13450229299</option>
+					 <option value="招永聪 15018480561" <c:if test="${order.consignee=='招永聪 15018480561'}">selected</c:if>>招永聪 15018480561</option>
+					<option value="陈楚虹 13580389912" <c:if test="${order.consignee=='陈楚虹 13580389912'}">selected</c:if>>陈楚虹 13580389912</option>
+					<option value="关文娟 15031119209" <c:if test="${order.consignee=='关文娟 15031119209'}">selected</c:if>>关文娟 15031119209</option>
+					<option value="江春霞 18930627328" <c:if test="${order.consignee=='江春霞 18930627328'}">selected</c:if>>江春霞 18930627328</option>
+					<option value="吴梦诗 13430771727" <c:if test="${order.consignee=='吴梦诗 13430771727'}">selected</c:if>>吴梦诗 13430771727</option>
+					<option value="张国茵 852-37412235" <c:if test="${order.consignee=='张国茵 852-37412235'}">selected</c:if>>张国茵 852-37412235</option>	
+					
+					<option value="陈子峰 13610364676" <c:if test="${order.consignee=='陈子峰 13610364676'}">selected</c:if>>陈子峰 13610364676</option>
+					<option value="史国栋 13422215055" <c:if test="${order.consignee=='史国栋 13422215055'}">selected</c:if>>史国栋 13422215055</option>
+					<option value="广州元韵 15018480561" <c:if test="${order.consignee=='广州元韵 15018480561'}">selected</c:if>>广州元韵 15018480561</option>
+					<option value="广州元韵 13450229299" <c:if test="${order.consignee=='广州元韵 13450229299'}">selected</c:if>>广州元韵 13450229299</option>
+					<option value="广州元韵 13580389912" <c:if test="${order.consignee=='广州元韵 13580389912'}">selected</c:if>>广州元韵 13580389912</option>
+					<option value="其他" <c:if test="${order.consignee=='其他'}">selected</c:if>>其他</option>
+	             </select>
+	            <input name="order.otherConsignee" id="otherConsignee" type="text" class="span3"  value="${ order.otherConsignee}">
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">
@@ -281,12 +313,12 @@ table#quoteFabricTable .label, .badge {
 	             </select>
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">收货地址</label>
 	           	<select name="order.shipAddress" id="shipAddress" style="width:202px;float: left;" class="span3" onchange="setAddress(this.value)">
-					<option value="广州市海珠区江泰路康泰街9号首层" <c:if test="${entity.shipAddress=='广州市海珠区江泰路康泰街9号首层'}">selected</c:if>>广州市海珠区江泰路康泰街9号首层</option>
-					<option value="上海市闸北区中山北路470号3号2楼202-208室" <c:if test="${entity.shipAddress=='上海市闸北区中山北路470号3号2楼202-208室'}">selected</c:if>>上海市闸北区中山北路470号3号2楼202-208室</option>
-					<option value="深圳市福田区泰然七路苍松大厦北座1501A" <c:if test="${entity.shipAddress=='深圳市福田区泰然七路苍松大厦北座1501A'}">selected</c:if>>深圳市福田区泰然七路苍松大厦北座1501A </option>
-					<option value="北京市朝阳区广渠門外大街八號优士閣B座2901室" <c:if test="${entity.shipAddress=='北京市朝阳区广渠門外大街八號优士閣B座2901室'}">selected</c:if>>北京市朝阳区广渠門外大街八號优士閣B座2901室</option>
-					<option value="香港北角英皇道338號華懋交易廣場二期1909室" <c:if test="${entity.shipAddress=='香港北角英皇道338號華懋交易廣場二期1909室'}">selected</c:if>>香港北角英皇道338號華懋交易廣場二期1909室</option>
-					<option value="广州市越秀区东风中路268号广州交易广场1501-1502室" <c:if test="${entity.shipAddress=='广州市越秀区东风中路268号广州交易广场1501-1502室'}">selected</c:if>>广州市越秀区东风中路268号广州交易广场1501-1502室</option>
+					<option value="广州市海珠区江泰路康泰街9号首层" <c:if test="${order.shipAddress=='广州市海珠区江泰路康泰街9号首层'}">selected</c:if>>广州市海珠区江泰路康泰街9号首层</option>
+					<option value="上海市闸北区中山北路470号3号2楼202-208室" <c:if test="${order.shipAddress=='上海市闸北区中山北路470号3号2楼202-208室'}">selected</c:if>>上海市闸北区中山北路470号3号2楼202-208室</option>
+					<option value="深圳市福田区泰然七路苍松大厦北座1501A" <c:if test="${order.shipAddress=='深圳市福田区泰然七路苍松大厦北座1501A'}">selected</c:if>>深圳市福田区泰然七路苍松大厦北座1501A </option>
+					<option value="北京市朝阳区广渠門外大街八號优士閣B座2901室" <c:if test="${order.shipAddress=='北京市朝阳区广渠門外大街八號优士閣B座2901室'}">selected</c:if>>北京市朝阳区广渠門外大街八號优士閣B座2901室</option>
+					<option value="香港北角英皇道338號華懋交易廣場二期1909室" <c:if test="${order.shipAddress=='香港北角英皇道338號華懋交易廣場二期1909室'}">selected</c:if>>香港北角英皇道338號華懋交易廣場二期1909室</option>
+					<option value="广州市越秀区东风中路268号广州交易广场1501-1502室" <c:if test="${order.shipAddress=='广州市越秀区东风中路268号广州交易广场1501-1502室'}">selected</c:if>>广州市越秀区东风中路268号广州交易广场1501-1502室</option>
 					<option value="其他地址">其他地址</option>
 	             </select>
 	              <input name="order.otherShipAddress" id="otherShipAddress" type="text" class="span3"  value="${order.otherShipAddress }">
@@ -315,6 +347,7 @@ table#quoteFabricTable .label, .badge {
 					<option value="2" <c:if test="${order.transportMode=='2'}">selected</c:if>>顺丰四日件</option>
 					<option value="3" <c:if test="${order.transportMode=='3'}">selected</c:if>>德邦精准卡航:广州芳村西朗站点</option>
 					<option value="4" <c:if test="${order.transportMode=='4'}">selected</c:if>>德邦精准卡航:北京朝阳区百子湾站点</option>
+					<option value="9" <c:if test="${order.transportMode=='9'}">selected</c:if>>德邦精准卡航:送货上门</option>
 					<option value="5" <c:if test="${order.transportMode=='5'}">selected</c:if>>和记(汽运-专线)</option>
 					<option value="6" <c:if test="${order.transportMode=='6'}">selected</c:if>>海运快递(先垫付运费)</option>
 					<option value="7" <c:if test="${order.transportMode=='7'}">selected</c:if>>普通海运(先垫付运费)</option>

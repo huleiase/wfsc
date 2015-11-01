@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
@@ -107,10 +108,10 @@ public class CupidBaseAction<T> extends ActionSupport implements SessionAware, S
 	 * @param page
 	 */
 	protected void setPageParams(Page<T> page){
-		String pageNoStr =  (request.getParameter("currPageNo") == null) ? "1" : request.getParameter("currPageNo");
+		String pageNoStr =  StringUtils.isBlank(request.getParameter("currPageNo")) ? "1" : request.getParameter("currPageNo");
 		page.setCurrPageNo(Integer.valueOf(pageNoStr));
 	
-		String pageSizeStr = (request.getParameter("pageSize") == null) ? "10" : request.getParameter("pageSize");
+		String pageSizeStr = StringUtils.isBlank(request.getParameter("pageSize")) ? "10" : request.getParameter("pageSize");
 		page.setPageSize(Integer.valueOf(pageSizeStr));
 	
 	}

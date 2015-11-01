@@ -30,7 +30,8 @@
 		
 	}
 	function toBack(){
-		window.location.href = basePath+"admin/purchase_manager.Q";
+		//window.location.href = basePath+"admin/purchase_manager.Q";
+		history.go(-1);
 	}
 	function setExpressCom(otherExpressCom){
 		if(otherExpressCom=="其他"){
@@ -119,6 +120,10 @@ table#quoteFabricTable .label, .badge {
         </div>
         <div class="widget-content nopadding">
           <form action="admin/purchase_save.Q" method="post" class="form-horizontal" id="inputForm">
+          <input type="hidden" name="orderStatus" value="${orderStatus }">
+          <input type="hidden" name="currPageNo" value="${currPageNo }">
+          <input type="hidden" name="pageSize" value="${pageSize }">
+          
           	<input type="hidden" name="purchase.id" id="purchaseId" value="${purchase.id }">
           	<input type="hidden" name="purchase.orderStatus" id="orderStatus" value="${purchase.orderStatus }">
 	         <div class="controls">

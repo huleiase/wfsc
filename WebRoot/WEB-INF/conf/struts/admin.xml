@@ -170,8 +170,18 @@
 			<result name="toImport">/WEB-INF/jsps/admin/purchase/import.jsp</result>
 			<result name="printPurchase">/WEB-INF/jsps/admin/purchase/printPurchase.jsp</result>
 			<result name="printPurchaseToPur">/WEB-INF/jsps/admin/purchase/printPurchaseToPur.jsp</result>
-			<result name="ok" type="redirectAction">purchase_manager.Q</result>
-			<result name="okToPur" type="redirectAction">purchase_managerToPur.Q</result>
+			<result name="ok" type="redirectAction">
+				<param name="actionName">purchase_manager.Q</param>
+				<param name="currPageNo">${#request.currPageNo}</param>
+				<param name="pageSize">${#request.pageSize}</param>
+				<param name="orderStatus">${#request.orderStatus}</param>
+			</result>
+			<result name="okToPur" type="redirectAction">
+				<param name="actionName">purchase_managerToPur.Q</param>
+				<param name="currPageNo">${#request.currPageNo}</param>
+				<param name="pageSize">${#request.pageSize}</param>
+				<param name="orderStatus">${#request.orderStatus}</param>
+			</result>
 		</action>		
 		
 		<!--订单管理-->

@@ -259,6 +259,9 @@ public class OrderAction extends DispatchPagerAction {
 		order.setQuoteId(odb.getQuoteId());
 		order.setFactoryNum(odb.getFactoryNum());
 		order.setHbUnit(odb.getHbUnit());
+		if(3==order.getOrderStatus()){
+			order.setAuditor(curAdmin.getUsername());
+		}
 		orderService.saveOrUpdateEntity(order);
 		List<QuoteFabric> qfdbList = new ArrayList<QuoteFabric>();
 		for(QuoteFabric qf:quoteFabricList){
@@ -415,8 +418,7 @@ public class OrderAction extends DispatchPagerAction {
 						this.emailService.saveOrUpdateEntity(e);
 					}
 				}
-			String curAdminName = this.getCurrentAdminUser().getUsername();
-			saveSystemLog(LogModule.orderLog, curAdminName+"审核了订单"+order.getOrderNo());
+			saveSystemLog(LogModule.orderLog, curAdmin.getUsername()+"审核了订单"+order.getOrderNo());
 			this.saveProStroage(order, qfdbList);
 		}
 		return "ok";
@@ -682,6 +684,8 @@ public class OrderAction extends DispatchPagerAction {
 						note = "普通海运(先垫付运费)";
 					} else if ("8".equals(noteThing2)) {
 						note = "待确认";
+					}else if ("9".equals(noteThing2)) {
+						note = "德邦精准卡航:送货上门";
 					}
 					cell4.setCellValue(note);
 				}
@@ -699,13 +703,11 @@ public class OrderAction extends DispatchPagerAction {
 			if (row11 != null) {
 				HSSFCell cell4 = row19.getCell(1);// 收货人
 				if (cell4 != null) {
-					//String name = order.getVcfrom();
-					//Admin user = this.securityService.getUserWithPermissionByName(name);
-					//if (user != null) {
-						cell4.setCellValue(order.getConsignee()==null?"":order.getConsignee());
-					//} else {
-					//	cell4.setCellValue("没找到对应的信息");
-					//}
+					String consignee = order.getConsignee();
+					if("其他".equals(order.getConsignee())){
+						consignee = order.getOtherConsignee()==null?"":order.getOtherConsignee();
+					}
+					cell4.setCellValue(consignee);
 				}
 			}
 

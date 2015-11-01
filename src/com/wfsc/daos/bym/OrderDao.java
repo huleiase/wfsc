@@ -48,7 +48,7 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 					sdate1 = sf.parse(paramap.get(key).toString());
 					hql.append(" and obj.orderDate >= :sdate1 " );
 					dataMap.put("sdate1", sdate1);
-					countSql.append(" and DATE_FORMAT(ordera.orderDate,'%Y%m%d')>='").append(paramap.get(key).toString()+"'");
+					countSql.append(" and ordera.orderDate>='").append(paramap.get(key).toString()+"'");
 					continue;
 				}
 				if ("endTime1".equals(key)) {
@@ -56,7 +56,7 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 					edate1 = sf.parse(paramap.get(key).toString());
 					hql.append(" and obj.orderDate <= :edate1 ");
 					dataMap.put("edate1", edate1);
-					countSql.append(" and DATE_FORMAT(ordera.orderDate,'%Y%m%d')<='").append(paramap.get(key).toString()+"'");
+					countSql.append(" and ordera.orderDate<='").append(paramap.get(key).toString()+"'");
 					continue;
 				}
 				if ("startTime2".equals(key)) {
@@ -64,7 +64,7 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 					sdate2 = sf.parse(paramap.get(key).toString());
 					hql.append(" and obj.shipDateRemark >= :sdate2 " );
 					dataMap.put("sdate2", sdate2);
-					countSql.append(" and DATE_FORMAT(ordera.shipDateRemark,'%Y%m%d')>='").append(paramap.get(key).toString()+"'");
+					countSql.append(" and ordera.shipDateRemark>='").append(paramap.get(key).toString()+"'");
 					continue;
 				}
 				if ("endTime2".equals(key)) {
@@ -72,7 +72,7 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 					edate2 = sf.parse(paramap.get(key).toString());
 					hql.append(" and obj.shipDateRemark <= :edate2 ");
 					dataMap.put("edate2", edate2);
-					countSql.append(" and DATE_FORMAT(ordera.shipDateRemark,'%Y%m%d')<='").append(paramap.get(key).toString()+"'");
+					countSql.append(" and ordera.shipDateRemark<='").append(paramap.get(key).toString()+"'");
 					continue;
 				}
 				if("supplier".equalsIgnoreCase(key)){

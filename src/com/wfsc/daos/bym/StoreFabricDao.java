@@ -37,7 +37,7 @@ public class StoreFabricDao extends EnhancedHibernateDaoSupport<StoreFabric> {
 		StringBuffer countSql = new StringBuffer("SELECT count(DISTINCT(sf.id)) AS countId");
 		countSql.append(" FROM bym_store_fabric sf inner JOIN bym_quote quote on sf.quoteId=quote.id");
 		countSql.append(" LEFT OUTER JOIN bym_quote_salesman salesman ON quote.id=salesman.quoteId");
-		countSql.append(" WHERE 1=1 ");
+		countSql.append(" WHERE sf.storeId='"+paramap.get("storeId")+"' ");
 		try {
 			Date sdate = null;
 			Date edate = null;

@@ -103,7 +103,7 @@ public class Order implements java.io.Serializable {
 	 */
 	private float sumMoney;
 	/**
-	 * 订单状态 0未审核,1提交,2注销，3审核通过
+	 * 订单状态 0未提交,1已提交,3已审核
 	 */
 	private int orderStatus;
 	/**
@@ -220,6 +220,34 @@ public class Order implements java.io.Serializable {
 	private String otherShipAddress;
 	
 	private String factoryNum;
+	
+	private String auditor;//审核人
+	
+	private String otherConsignee;//其他收货人
+	
+	
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getOtherConsignee() {
+		return otherConsignee;
+	}
+
+	public void setOtherConsignee(String otherConsignee) {
+		this.otherConsignee = otherConsignee;
+	}
+
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getAuditor() {
+		return auditor;
+	}
+
+	public void setAuditor(String auditor) {
+		this.auditor = auditor;
+	}
+
 	/**
 	 * @hibernate.property type="string"
 	 */

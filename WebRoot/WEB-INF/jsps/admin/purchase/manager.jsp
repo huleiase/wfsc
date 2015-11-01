@@ -18,7 +18,10 @@ var basePath = "<%=basePath%>";
 		
 	}
 	function operPurchase(id,oper){
-		var url = basePath+"admin/purchase_input.Q?id="+id+"&oper="+oper;
+		var orderStatus = $("#orderStatus").val();
+		var pageNo = $(".h2_span_on i").html();
+		var pageSize = $("#pageSize").val();
+		var url = basePath+"admin/purchase_input.Q?id="+id+"&oper="+oper+"&currPageNo="+pageNo+"&pageSize="+pageSize+"&orderStatus="+orderStatus;
 		if(oper==3 || oper==4){
 			window.open(url,"打印");
 		}else{

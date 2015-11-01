@@ -20,6 +20,7 @@
                   <th>订单确认</th>
                    <th>是否发货</th>
                   <th>订单状态</th>
+                  <th>审核人</th>
                    <c:if test="${!isLess}">
                   <th>总金额</th>
                   </c:if>
@@ -54,6 +55,7 @@
                   	<s:elseif test="#obj.orderStatus==2">已注销</s:elseif>
                   	<s:elseif test="#obj.orderStatus==3">已审核</s:elseif>
                   </td>
+                  <td><s:property value="auditor"/></td>
                    <c:if test="${!isLess}">
                    <td><s:property value="sumMoney"/> <s:property value="hbUnit"/></td>
                    </c:if>
@@ -63,6 +65,9 @@
                   <button class="label label-info btn btn-primary btn-mini" onclick="operOrder('<s:property value="id"/>',1);">提交</button>
                   </s:if>
                   </w:permission>
+                  <w:permission permissionId="<%=PermissionId.PROCESS_ORDER_MGT_DOWNLOAD%>">
+                   <button class="label label-info btn btn-primary btn-mini" onclick="downloadOrder('<s:property value="id"/>');">下载订单</button>
+                   </w:permission>
                   <w:permission permissionId="<%=PermissionId.PROCESS_ORDER_MGT_AUDIT%>">
                   <s:if test="#obj.orderStatus==1">
                   <button class="label label-info btn btn-primary btn-mini" onclick="operOrder('<s:property value="id"/>',3);">审核</button>
@@ -72,9 +77,6 @@
                   <w:permission permissionId="<%=PermissionId.PROCESS_ORDER_MGT_PRINT%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="printOrder('<s:property value="id"/>');">打印</button>
                   </w:permission>
-                  <w:permission permissionId="<%=PermissionId.PROCESS_ORDER_MGT_DOWNLOAD%>">
-                   <button class="label label-info btn btn-primary btn-mini" onclick="downloadOrder('<s:property value="id"/>');">下载订单</button>
-                   </w:permission>
                   </s:if>
                   <w:permission permissionId="<%=PermissionId.PROCESS_ORDER_MGT_ATTACHMENT%>">
                    <button class="label label-info btn btn-primary btn-mini" onclick="uploadFile('<s:property value="id"/>');">上传</button>
