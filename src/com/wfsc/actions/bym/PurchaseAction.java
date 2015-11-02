@@ -459,7 +459,13 @@ public class PurchaseAction extends DispatchPagerAction {
 		this.purchaseService.deleteByIds(ids);
 		 String curAdminName = this.getCurrentAdminUser().getUsername();
 		saveSystemLog(modul, curAdminName+"删除了"+title+sb.toString());
-		return "ok";
+		try {
+			response.getWriter().write("ok");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public String save(){

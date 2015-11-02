@@ -214,11 +214,11 @@
 			   			$("#qUnit"+lineNo).html("㎡");
 			   		}else if((oldPriceUnit=="yd" || oldPriceUnit=="YD") && vcPriceUnit=="㎡" ){
 			   			if(1==isFre){
-			   				if('1'==quoteFormate){
+			   				
 			   					price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))/width*100*Number(ctax);
-			   				}else{
-			   					price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))/width*100*Number(ctax);
-			   				}
+			   				
+			   					
+			   				
 			   				
 			   			}else{
 			   				prcice = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(vcSpecialExp))/width*100*Number(ctax);
@@ -233,11 +233,9 @@
 			   			$("#qUnit"+lineNo).html("㎡");
 			   		}else if((oldPriceUnit=="yd" || oldPriceUnit=="YD") && vcPriceUnit=="m" ){
 			   			if(1==isFre){
-			   				if('1'==quoteFormate){
+			   				
 			   					price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
-			   				}else{
-			   					price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
-			   				}
+			   				
 			   				
 			   			}else{
 			   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
@@ -344,11 +342,9 @@
 			   			$("#qUnit"+lineNo).html("㎡");
 			   		}else if((oldPriceUnit=="yd" || oldPriceUnit=="YD") && vcPriceUnit=="㎡" ){
 			   			if(1==isFre){
-			   				if('2'==quoteFormate){
+			   				
 			   					price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))/width*100*Number(ctax);
-			   				}else{
-			   					price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))/width*100*Number(ctax);
-			   				}
+			   				
 			   				
 			   			}else{
 			   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(vcSpecialExp))/width*100*Number(ctax);
@@ -363,11 +359,9 @@
 			   			$("#qUnit"+lineNo).html("㎡");
 			   		}else if((oldPriceUnit=="yd" || oldPriceUnit=="YD") && vcPriceUnit=="m" ){
 			   			if(1==isFre){
-				   			if('2'==quoteFormate){
+				   			
 				   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
-				   			}else{
-				   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
-				   			}
+				   			
 			   				
 			   			}else{
 			   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
@@ -703,6 +697,8 @@ function setUrgentCost(){
 				$("#replaceId"+newLastIndex).val("");
 				$("#isHiddenisReplaced"+newLastIndex).val("");
 				$("#replaceRemark"+newLastIndex).val("");
+				$("#quoteFabricId"+newLastIndex).val("");
+				
 			//	$("#qfId"+newLastIndex).val(0);
 				setSumMoney();
 			}, function () {

@@ -274,20 +274,20 @@ public class QuoteAction extends DispatchPagerAction {
 				 idsList.add(quoteId);
 				 Quote q = this.quoteService.getQuoteById(quoteId);
 				 sb.append(q.getProjectNum()).append(",");
-				 //如果签单了，生成的采购单订单库存等都要删除
+				 //生成的采购单订单库存等都要删除
+				 List<StoreFabric> sfs = storeFabricService.getStoreFabricByQuoteId(quoteId);
+				 if(sfs!=null){
+					 storeFabricService.deleteByProperty("quoteId", quoteId);
+				 }
+				 List<Order> os = orderService.getOrderByPurchaseId(quoteId);
+				 if(os!=null){
+					 orderService.deleteByProperty("quoteId", quoteId);
+				 }
+				 Purchase p =  purchaseService.getUniqPurchaseByQuoteId(quoteId);
+				 if(p!=null){
+					 purchaseService.deleteByProperty("quoteId", quoteId);
+				 }
 				 if("1".equals(q.getIsWritPerm())){
-					 List<StoreFabric> sfs = storeFabricService.getStoreFabricByQuoteId(quoteId);
-					 if(sfs!=null){
-						 storeFabricService.deleteByProperty("quoteId", quoteId);
-					 }
-					 List<Order> os = orderService.getOrderByPurchaseId(quoteId);
-					 if(os!=null){
-						 orderService.deleteByProperty("quoteId", quoteId);
-					 }
-					 Purchase p =  purchaseService.getUniqPurchaseByQuoteId(quoteId);
-					 if(p!=null){
-						 purchaseService.deleteByProperty("quoteId", quoteId);
-					 }
 						//	Quote oldQuote = this.quoteService.getQuoteById(quoteId);
 							//增加一条抵消设计费记录，原来的还保留
 							List<DesignerExpense> des = this.designerExpenseService.getDesignerExpenseByQuoteId(quoteId);
@@ -699,6 +699,9 @@ public class QuoteAction extends DispatchPagerAction {
 		List<Fabric> fbList = new ArrayList<Fabric>();
 		String[] fbidArray = fbids.split(",");
 		for (String id : fbidArray) {
+			if(StringUtils.isBlank(id)){
+				continue;
+			}
 			Fabric fb = this.fabricService.getFabricById(Long.valueOf(id));
 			fbList.add(fb);
 		}

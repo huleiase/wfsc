@@ -240,7 +240,13 @@ public class OrderAction extends DispatchPagerAction {
 		this.orderService.deleteByIds(ids);
 		String curAdminName = this.getCurrentAdminUser().getUsername();
 		saveSystemLog(LogModule.orderLog, curAdminName+"删除了订单"+sb.toString());
-		return "ok";
+		try {
+			response.getWriter().write("ok");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public String save(){
@@ -574,10 +580,10 @@ public class OrderAction extends DispatchPagerAction {
 				}
 				HSSFCell cell4 = row9.getCell(6);// 经手人
 				if (cell4 != null) {
-					if (StringUtils.isNotEmpty(order.getVcfrom())) {
-						Admin user = this.securityService.getUserWithPermissionByName(order.getVcfrom());
-						cell4.setCellValue(user == null ? "" : user.getZhname() == null ? "" : user.getZhname());
-					}
+					//if (StringUtils.isNotEmpty(order.getVcfrom())) {
+						//Admin user = this.securityService.getUserWithPermissionByName(order.getVcfrom());
+						cell4.setCellValue(order.getVcfrom()==null?"":order.getVcfrom());
+					//}
 				}
 			}
 			HSSFRow row10 = sheet.getRow(startRow + 2);

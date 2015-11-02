@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.base.EnhancedHibernateDaoSupport;
 import com.base.util.Page;
 import com.wfsc.common.bo.bym.StoreFabric;
-import com.wfsc.common.bo.bym.Supplier;
 
 /**
  * 

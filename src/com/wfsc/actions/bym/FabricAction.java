@@ -385,19 +385,19 @@ public class FabricAction extends DispatchPagerAction {
 			boolean isNew = true;
 			boolean isDHJOnly = false;
 			Fabric s = fabricService.getFabricByCode(vcFactoryCode, vcBefModel);
-			String addOrUpdate = "更新";
+			String addOrUpdate = "update";
 			if(s!=null){
 				isNew = false;
 				if(s.getDhjCost()>0&&s.getVcOldPrice()<1){
 					isDHJOnly = true;
 				}
 			}else{
-				addOrUpdate = "新增";
+				addOrUpdate = "add";
 				s = new Fabric();
 			}
 			log.info(i+"-->"+addOrUpdate+"-->"+vcFactoryCode+"-->"+vcBefModel);
 			if(excelMap.containsKey(vcFactoryCode+vcBefModel)){
-				log.info(i+"-->"+"有重复-->"+vcFactoryCode+"-->"+vcBefModel);
+				System.out.println(i+"-->duplication "+"-->"+vcFactoryCode+"-->"+vcBefModel);
 				excelMap.remove(vcFactoryCode+vcBefModel);
 			}
 			if(StringUtils.isNotBlank(importFactory)){
@@ -828,10 +828,10 @@ public class FabricAction extends DispatchPagerAction {
 			String vcFactoryCode = ExcelUtil.getCellValueAsString(row.getCell(0),"string");
 			String vcBefModel = ExcelUtil.getCellValueAsString(row.getCell(1),"string");
 			String htCode = ExcelUtil.getCellValueAsString(row.getCell(3),"string");
-			String addOrUpdate = "更新";
+			String addOrUpdate = "update";
 			Fabric s = fabricService.getHTFabricByCode(vcFactoryCode, vcBefModel, htCode);
 			if(s==null){
-				addOrUpdate = "新增";
+				addOrUpdate = "add";
 				s = new Fabric();
 				Long refId = fabricService.getRefIdByCode(vcFactoryCode, vcBefModel);
 				/*if(refId == null){
@@ -842,7 +842,7 @@ public class FabricAction extends DispatchPagerAction {
 			}
 			log.info(i+"-->"+addOrUpdate+"-->"+vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
 			if(excelMap.containsKey(vcFactoryCode+vcBefModel+htCode)){
-				log.info(i+"-->"+"有重复-->"+vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
+				System.out.println(i+"-->"+"duplication -->"+vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
 				excelMap.remove(vcFactoryCode+vcBefModel+htCode);
 			}
 			s.setCreateDate(new Date());
