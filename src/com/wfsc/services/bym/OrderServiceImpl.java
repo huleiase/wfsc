@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -56,11 +57,18 @@ public class OrderServiceImpl implements IOrderService {
 	}
 	@Override
 	public long getCurrentOrderNum(String area, String tbYearMonth) {
+		int num = 0;
 		List<Order> list = orderDao.getEntitiesByPropNames(new String[]{"area","tbYearMonth"}, new Object[]{area,tbYearMonth});
 		if(list!=null){
-			return list.size();
+			for(Order o : list){
+				String orderNo = o.getOrderNo();
+				int no = Integer.valueOf(StringUtils.substring(orderNo, -3));
+				if(no>num){
+					num = no;
+				}
+			}
 		}
-		return 0;
+		return num;
 	}
 	public List<Order> getOrderByOrderNo(String orderNo) {
 		return orderDao.getEntitiesByOneProperty("orderNo", orderNo);

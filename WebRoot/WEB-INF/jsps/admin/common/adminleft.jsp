@@ -22,10 +22,10 @@
 		      	<li id="msub11"><a href="<%=request.getContextPath()%>/admin/quote_manager.Q?topmenu=quoteUL&submenu=msub11"><i class="icon icon-pencil"></i> <span>报价单管理</span></a></li>
 		      </w:permission>
 		      <w:permission permissionId="<%=PermissionId.QUOTE_DESIGN_FEE_SALE%>">
-		       <li id="msub12"><a href="<%=request.getContextPath()%>/admin/products_manager.Q?topmenu=quoteUL&submenu=msub12"><i class="icon icon-pencil"></i> <span>设计费下载（销售）</span></a></li>
+		       <li id="msub12"><a href="javascript:void(0);"><i class="icon icon-pencil"></i> <span>设计费下载（销售）</span></a></li>
 		      </w:permission>
 		      <w:permission permissionId="<%=PermissionId.QUOTE_DESIGN_FEE_FINANCE%>">
-		       <li id="msub13"><a href="<%=request.getContextPath()%>/admin/products_manager.Q?topmenu=quoteUL&submenu=msub13"><i class="icon icon-pencil"></i> <span>设计费下载（财务）</span></a></li>
+		       <li id="msub13"><a href="javascript:void(0);"><i class="icon icon-pencil"></i> <span>设计费下载（财务）</span></a></li>
 		      </w:permission>
 	      </ul>
 	    </li>
@@ -101,22 +101,22 @@
 	    <li id="m5" class="submenu"> <a href="javascript:void(0);"><i class="icon icon-bar-chart"></i> <span>统计报表</span> <span class="label label-important">6</span> </a>
 	      <ul style="display: none" id="reprotUL">
 	        <w:permission permissionId="<%=PermissionId.REPORT_SALE_INCOME_ALL%>">
-	         <li id="msub51"><a href="<%=request.getContextPath() %>/admin/report_generateUserReport.Q?topmenu=reprotUL&submenu=msub51"><i class="icon icon-pencil"></i> <span>销售收入表</span></a></li>
+	         <li id="msub51"><a href="javascript:void(0);"><i class="icon icon-pencil"></i> <span>销售收入表</span></a></li>
 	        </w:permission>
 	        <w:permission permissionId="<%=PermissionId.REPORT_SALE_INCOME_PERSONAL%>">
-	         <li id="msub52"><a href="<%=request.getContextPath() %>/admin/report_financeReport.Q?topmenu=reprotUL&submenu=msub52"><i class="icon icon-pencil"></i> <span>个人销售收入表</span></a></li>
+	         <li id="msub52"><a href="javascript:void(0);"><i class="icon icon-pencil"></i> <span>个人销售收入表</span></a></li>
 	        </w:permission>
 	        <w:permission permissionId="<%=PermissionId.REPORT_SALE_INCOME_DORA%>">
-	         <li id="msub53"><a href="<%=request.getContextPath() %>/admin/report_productSales.Q?topmenu=reprotUL&submenu=msub53"><i class="icon icon-pencil"></i> <span>销售收入表dora</span></a></li>
+	         <li id="msub53"><a href="javascript:void(0);"><i class="icon icon-pencil"></i> <span>销售收入表dora</span></a></li>
 	        </w:permission>
 	        <w:permission permissionId="<%=PermissionId.REPOTR_GATHERING%>">
-	         <li id="msub54"><a href="<%=request.getContextPath() %>/admin/report_satisfactionReport.Q?topmenu=reprotUL&submenu=msub54"><i class="icon icon-pencil"></i> <span>收款表</span></a></li>
+	         <li id="msub54"><a href="javascript:void(0);"><i class="icon icon-pencil"></i> <span>收款表</span></a></li>
 	        </w:permission>
 	        <w:permission permissionId="<%=PermissionId.REPORT_SALE_COST%>">
-	         <li id="msub55"><a href="<%=request.getContextPath() %>/admin/report_satisfactionReport.Q?topmenu=reprotUL&submenu=msub55"><i class="icon icon-pencil"></i> <span>销售成本表</span></a></li>
+	         <li id="msub55"><a href="javascript:void(0);"><i class="icon icon-pencil"></i> <span>销售成本表</span></a></li>
 	        </w:permission>
 	        <w:permission permissionId="<%=PermissionId.REPORT_MATERIAL_DETAIL%>">
-	         <li id="msub56"><a href="<%=request.getContextPath() %>/admin/report_satisfactionReport.Q?topmenu=reprotUL&submenu=msub56"><i class="icon icon-pencil"></i> <span>材料明细</span></a></li>
+	         <li id="msub56"><a href="javascript:void(0);"><i class="icon icon-pencil"></i> <span>材料明细</span></a></li>
 	        </w:permission>
 	      </ul>
 	    </li>

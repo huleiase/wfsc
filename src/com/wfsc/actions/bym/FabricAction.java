@@ -67,7 +67,7 @@ public class FabricAction extends DispatchPagerAction {
 	
 	private static final String MODEL_EXCEL_NAME_DHJ = "大货价模板.xls";
 	
-	private Logger logger = LogUtil.getLogger(LogUtil.SYSTEM_LOG_ID);
+	//private Logger logger = LogUtil.getLogger(LogUtil.SYSTEM_LOG_ID);
 
 	@Resource(name = "fabricService")
 	private IFabricService fabricService;
@@ -395,7 +395,7 @@ public class FabricAction extends DispatchPagerAction {
 				addOrUpdate = "add";
 				s = new Fabric();
 			}
-			log.info(i+"-->"+addOrUpdate+"-->"+vcFactoryCode+"-->"+vcBefModel);
+			System.out.println(i+"-->"+addOrUpdate+"-->"+vcFactoryCode+"-->"+vcBefModel);
 			if(excelMap.containsKey(vcFactoryCode+vcBefModel)){
 				System.out.println(i+"-->duplication "+"-->"+vcFactoryCode+"-->"+vcBefModel);
 				excelMap.remove(vcFactoryCode+vcBefModel);
@@ -840,7 +840,7 @@ public class FabricAction extends DispatchPagerAction {
 				}*/
 				s.setRefid(refId);
 			}
-			log.info(i+"-->"+addOrUpdate+"-->"+vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
+			System.out.println(i+"-->"+addOrUpdate+"-->"+vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
 			if(excelMap.containsKey(vcFactoryCode+vcBefModel+htCode)){
 				System.out.println(i+"-->"+"duplication -->"+vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
 				excelMap.remove(vcFactoryCode+vcBefModel+htCode);
@@ -1229,7 +1229,7 @@ public class FabricAction extends DispatchPagerAction {
 		return null;
 	}
 	private List<Fabric> HtTofabrics(List<Fabric> htfbs){
-		logger.info("htfbs.size()======="+htfbs.size());
+		log.info("htfbs.size()======="+htfbs.size());
 		List<CurrencyConversion> conlist = currencyConversionService.getAll();
 		Map<String,Float> conMap = new HashMap<String,Float>();
 		conMap.put("RMB_RMB", new Float(1));
@@ -1241,13 +1241,13 @@ public class FabricAction extends DispatchPagerAction {
 		for(Fabric f : htfbs){
 			Long fcode = f.getRefid();
 			if(fcode==null||fcode==0){
-				logger.info("没有找到refid的Ht型号===="+f.getVcFactoryCode()+"--"+f.getVcBefModel()+"--"+f.getHtCode());
+				log.info("没有找到refid的Ht型号===="+f.getVcFactoryCode()+"--"+f.getVcBefModel()+"--"+f.getHtCode());
 			}else{
 				refidList.add(fcode);
 			}
 			
 		}
-		logger.info("refidList.size()======="+refidList.size());
+		log.info("refidList.size()======="+refidList.size());
 		List<Fabric> fbs = new ArrayList<Fabric>();
 		Map<Long,Fabric> map = new HashMap<Long,Fabric>();
 		if(refidList.size()>0){
@@ -1258,7 +1258,7 @@ public class FabricAction extends DispatchPagerAction {
 			}
 			refdis = refdis.substring(0, refdis.length()-1);
 			testhql += refdis+")";
-			logger.info(testhql);
+			log.info(testhql);
 			fbs = fabricService.getFabricByHql(testhql);
 			map = new HashMap<Long,Fabric>();
 			if(fbs!=null){
@@ -1269,7 +1269,7 @@ public class FabricAction extends DispatchPagerAction {
 			
 		}
 		
-		logger.info("根据refid找到的远厂型号——fbs.size()======="+fbs.size());
+		log.info("根据refid找到的远厂型号——fbs.size()======="+fbs.size());
 		for(int i=0;i<htfbs.size();i++){
 			Fabric fb = htfbs.get(i);
 			Long refId = fb.getRefid();
@@ -1277,12 +1277,12 @@ public class FabricAction extends DispatchPagerAction {
 				refId = 0L;
 			}
 			if(fb==null){
-				logger.info("fb========null---"+i);
+				log.info("fb========null---"+i);
 				continue;
 			}
 			Fabric f = map.get(refId);
 			if(f==null){
-				logger.info("f========null---"+i);
+				log.info("f========null---"+i);
 			}else{
 				fb.setDhjCost(f.getDhjCost());
 				fb.setDhjHKRate(f.getDhjHKRate());

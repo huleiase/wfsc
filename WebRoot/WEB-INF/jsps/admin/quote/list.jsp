@@ -15,7 +15,7 @@
                    <th>设计方</th>
                   <th>报价地</th>
                   <th>创建人</th>
-                  <th>日期</th>
+                  <th>最后修改日期</th>
                    <th>是否签单</th>
                   <th>审核状态</th>
                   <th>审核人</th>
@@ -34,7 +34,7 @@
                   <td><s:property value="projectDesignComp"/></td>
                   <td><s:property value="vcQuoteLocal"/></td>
                   <td><s:property value="curUserName"/></td>
-                 <td> <s:date name="vcFormDate" format="yyyy-MM-dd" /></td>
+                 <td> <s:date name="vcFormDate" format="yyyy-MM-dd HH:mm:ss" /></td>
                  <td>
                   	<s:if test="#obj.isWritPerm==1">是</s:if>
                   	<s:else>否</s:else>

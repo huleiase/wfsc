@@ -42,29 +42,18 @@
 	
 	function addFabric(){
 		var $options = $("#allFabric option:selected");
-	//	var vcDis = [];
-	//	$options.each(function(){
-	//	  var fbcode = $(this).text();
-	//	  if(fbcode.indexOf("停用")>0){
-	//	  	vcDis.push(fbcode);
-	//	  }
-	//	});
-	//	if(vcDis.length>0){
-	//		art.dialog({title:"温馨提示",content:vcDis.join(",")+"已停用，请重新选择",ok:true});
-	//		return;
-	//	}
 		var selectedFbId = $("#selectedFabricHidden").val();
 		var selectedFb = [];
 		$options.each(function(){
 		  var fbid = $(this).val();
 		  var fbcode = $(this).text();
-		  selectedFb.push(fbid+"="+fbcode);
+		  selectedFb.push(fbid+"={"+fbcode);
 		});
 		
 		 if(selectedFbId){
-		  	selectedFbId += ";"+selectedFb.join(";");
+		  	selectedFbId += ";{"+selectedFb.join(";{");
 		  }else{
-		  	selectedFbId += selectedFb.join(";");
+		  	selectedFbId += selectedFb.join(";{");
 		  }
 		$("#selectedFabricHidden").val(selectedFbId);
 		$options.appendTo("#selectedFabric");
@@ -73,19 +62,19 @@
 	function delFabric(){
 		var $options = $("#selectedFabric option:selected");
 		var selectedFbId = $("#selectedFabricHidden").val();
-		var selectedFbIdArray = selectedFbId.split(";");
+		var selectedFbIdArray = selectedFbId.split(";{");
 		if(selectedFbIdArray.length==1){
 			$("#selectedFabricHidden").val("");
 		}else{
 			$options.each(function(){
 			  var fbid = $(this).val();
 			  var fbcode = $(this).text();
-			  var index = getIndexOfArray(fbid+"="+fbcode,selectedFbIdArray);
+			  var index = getIndexOfArray(fbid+"={"+fbcode,selectedFbIdArray);
 			  if(index!=-1){
 			  	selectedFbIdArray = selectedFbIdArray.splice(index,1);
 			  }
 			});
-			$("#selectedFabricHidden").val(selectedFbIdArray.join(";"));
+			$("#selectedFabricHidden").val(selectedFbIdArray.join(";{"));
 		}
 		
 		$options.appendTo("#allFabric");

@@ -801,27 +801,30 @@ public class PurchaseAction extends DispatchPagerAction {
 			String purchaseId = request.getParameter("purchaseId");
 		//	String action = request.getParameter("action");
 			Purchase p = this.purchaseService.getPurchaseById(Long.valueOf(purchaseId));
-			String orderStatus = p.getOrderStatus();
-			int s = Integer.valueOf(orderStatus);
-			String canDo = "1";
-			if("1".equals(status)){//待采购单未提交，要去提交
-				if(s>0){
-					canDo = "0";
+			if(p!=null){
+				String orderStatus = p.getOrderStatus();
+				int s = Integer.valueOf(orderStatus);
+				String canDo = "1";
+				if("1".equals(status)){//待采购单未提交，要去提交
+					if(s>0){
+						canDo = "0";
+					}
+				}else if("2".equals(status)){//待采购单已经提交，要去审核
+					if(s>1){
+						canDo = "0";
+					}
+				}else if("3".equals(status)){//采购单未审核，要去审核
+					if(s>2){
+						canDo = "0";
+					}
 				}
-			}else if("2".equals(status)){//待采购单已经提交，要去审核
-				if(s>1){
-					canDo = "0";
-				}
-			}else if("3".equals(status)){//采购单未审核，要去审核
-				if(s>2){
-					canDo = "0";
+				try {
+					response.getWriter().write(canDo);
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
-			try {
-				response.getWriter().write(canDo);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			
 			return null;
 		}
 

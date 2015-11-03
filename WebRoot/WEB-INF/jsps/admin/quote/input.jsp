@@ -19,6 +19,17 @@
 			art.dialog({title:"温馨提示",content:"报价单号必填",ok:true});
 			return;
 		}
+		var vcWidthArray = [];
+		$(document).find("input[id^='vcWidth']").each(function(i){
+			var checkWidth = $(this).val();
+			if(checkWidth && isNaN(checkWidth)){
+				vcWidthArray.push(checkWidth);
+			}
+		})
+		if(vcWidthArray.length>0){
+			art.dialog({title:"温馨提示",content:"幅宽必须为数字",ok:true});
+			return;
+		}
 		var quoteId = $("#quoteId").val();
 		if(!quoteId){
 			$.ajax({
@@ -288,7 +299,7 @@ table#quoteFabricTable .label, .badge {
 	         </div>
 	         <div class="clear"></div>
 	         <br>
-	          <div class="widget-title" style="width:1008px;"> 
+	          <div class="widget-title" style="width:100%;"> 
 	            <select name="quote.fabricTitle" class="selectQuoteFabric">
 		            <option value="0" <c:if test="${quote.fabricTitle=='0' }">selected=selected</c:if>>Quotation 报价表</option>
 		            <option value="1" <c:if test="${quote.fabricTitle=='1' }">selected=selected</c:if>>Confirmation 合 同</option>
@@ -296,7 +307,7 @@ table#quoteFabricTable .label, .badge {
 		        </select>
 	             <span class="label label-info btn btn-primary btn-mini" onclick="selFabric();" style="float:left">产品选择</span>
 	          </div>
-	         <div class="widget-content nopadding" id="quoteFabricDiv" style="overflow-x:auto;width:1008px;">
+	         <div class="widget-content nopadding" id="quoteFabricDiv" style="overflow-x:auto;width:100%;">
             	<%@include file="quoteFabric.jsp"%>
       		</div>
       		 <div class="clear"></div>

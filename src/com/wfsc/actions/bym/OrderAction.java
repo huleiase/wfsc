@@ -104,6 +104,7 @@ public class OrderAction extends DispatchPagerAction {
 		boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
 		boolean isSaleManager = securityService.isAbleRole(admin.getUsername(), "销售经理");
 		boolean isQuoter = securityService.isAbleRole(admin.getUsername(), "报价员");
+		boolean isCaiwu = securityService.isAbleRole(admin.getUsername(), "财务经理");
 		boolean isLess = false;
 		if(isSale||isSaleManager||isQuoter){
 			isLess = true;
@@ -117,7 +118,9 @@ public class OrderAction extends DispatchPagerAction {
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
 		if(!isAdmin&&!isPurManager&&!isPurMan&&!isSysAdmin){
-			paramap.put("area", admin.getArea());
+			if(!(isCaiwu&&"GZ".equalsIgnoreCase(admin.getArea()))){
+				paramap.put("area", admin.getArea());
+			}
 			if(isSale&&!isSaleManager){
 				paramap.put("saleName", admin.getUsername());
 			}

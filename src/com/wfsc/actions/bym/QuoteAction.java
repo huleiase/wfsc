@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -674,6 +675,14 @@ public class QuoteAction extends DispatchPagerAction {
 		return null;
 	}
 	
+	private boolean isNumeric(String str){
+		if(StringUtils.isBlank(str)){
+			return false;
+		}
+	    Pattern pattern = Pattern.compile("[0-9]*");
+	    return pattern.matcher(str).matches();   
+	 }
+	
 	public String ajaxQuoteFabric() {
 		response.setContentType("text/html;charset=utf-8");
 		// 税率
@@ -699,11 +708,13 @@ public class QuoteAction extends DispatchPagerAction {
 		List<Fabric> fbList = new ArrayList<Fabric>();
 		String[] fbidArray = fbids.split(",");
 		for (String id : fbidArray) {
-			if(StringUtils.isBlank(id)){
+			if(!isNumeric(id)){
 				continue;
 			}
 			Fabric fb = this.fabricService.getFabricById(Long.valueOf(id));
-			fbList.add(fb);
+			if(fb!=null){
+				fbList.add(fb);
+			}
 		}
 		List<QuoteFabric> qfList = new ArrayList<QuoteFabric>();
 		for (Fabric f : fbList) {
@@ -760,12 +771,6 @@ public class QuoteAction extends DispatchPagerAction {
 			// 设置产品备注二
 			qf.setRemark2(f.getVcRemark2());
 
-			// 报价员备注，
-			// QuoteFabric qqq =
-			// this.quoteFabricManager.getQFByModNumAndFactory(f.getVcFactoryCode(),
-			// f.getVcBefModel());
-			// qf.setQuoteRemark(qqq==null?"":qqq.getQuoteRemark());
-			
 			// 进价时的单位
 			String measure = f.getVcMeasure().toLowerCase();
 			// 设置默认客户提供的单位

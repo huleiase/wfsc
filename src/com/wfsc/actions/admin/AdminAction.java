@@ -88,6 +88,9 @@ public class AdminAction extends DispatchPagerAction {
 			return "login";
 		}
 	//	String encrptPassword = new BASE64Encoder().encode(admin.getPassword().getBytes());
+		if(admin==null){
+			return "login";
+		}
 		String encrptPassword = admin.getPassword();
 		Admin user = securityService.getUserWithPermissionByName(admin.getUsername());
 		if(user!=null){
@@ -104,6 +107,7 @@ public class AdminAction extends DispatchPagerAction {
 				user.setLastLoginDate(new Date());
 				user.setLogCount(user.getLogCount()+1);
 				securityService.updateAdminUser(user); 
+				log.info( admin.getUsername()+"登录系统");
 				saveSystemLog(LogModule.systemLog, admin.getUsername()+"登录系统");
 				return SUCCESS;
 			}else{
@@ -164,7 +168,6 @@ public class AdminAction extends DispatchPagerAction {
 	 * @return
 	 */
 	public String logout() {
-		System.out.println("管理员退出....");
 		Object uObj = session.get(CupidStrutsConstants.SESSION_ADMIN);
 		if (uObj != null) {
 			Admin user = (Admin)uObj;
@@ -173,6 +176,7 @@ public class AdminAction extends DispatchPagerAction {
 		//	session.remove(CupidStrutsConstants.SESSION_ADMIN);
 		//	session.remove(CupidStrutsConstants.SESSION_ADMIN_ROLE);
 		//	session.remove(CupidStrutsConstants.SESSION_SUPER_ADMIN);
+			log.info(user.getUsername()+"退出系统");
 			saveSystemLog(LogModule.systemLog, user.getUsername()+"退出系统");
 			session.clear();
 			

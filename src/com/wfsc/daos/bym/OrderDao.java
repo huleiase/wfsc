@@ -118,6 +118,11 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 					countSql.append(" and ordera.areaZh = '").append(paramap.get(key).toString()+"'");
 					continue;
 				}
+				if ("area".equals(key)) {
+					hql.append(" and obj.area = '"+paramap.get(key)+"'");
+					countSql.append(" and ordera.area = '").append(paramap.get(key).toString()+"'");
+					continue;
+				}
 				if("vcModelNum".equalsIgnoreCase(key)){
 					hql.append(" and qf.vcModelNum like :vcModelNum ");
 					dataMap.put(key, paramap.get(key).toString());
