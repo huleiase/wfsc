@@ -331,6 +331,8 @@ public class Quote implements java.io.Serializable {
 	
 	private boolean canPrint;//临时字段，没审核的报价单销售不能打印，其他角色都可以打印
 	
+	private boolean canUpdate;
+	
 	
 	/**
 	 * 关联的报价布匹
@@ -1160,12 +1162,20 @@ public class Quote implements java.io.Serializable {
 		this.groupId = groupId;
 	}
 
-	public boolean isCanPrint() {
+	public boolean getCanPrint() {
 		return canPrint;
 	}
 
 	public void setCanPrint(boolean canPrint) {
 		this.canPrint = canPrint;
+	}
+
+	public boolean getCanUpdate() {
+		return canUpdate;
+	}
+
+	public void setCanUpdate(boolean canUpdate) {
+		this.canUpdate = canUpdate;
 	}
 	
 	

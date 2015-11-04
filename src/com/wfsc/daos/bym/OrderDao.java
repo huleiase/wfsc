@@ -142,6 +142,7 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 			//System.out.println("查订单数量的sql==="+countSql.toString());
 		//	int totalCount = this.countByHqlWithParama(hql.toString(),dataMap);
 		//	page.setTotalCount(totalCount);
+			hql.append(" order by obj.orderDate desc ");
 			List<Order> list = this.findList4PageWithParama(hql.toString(), page
 					.getFirst() - 1, page.getPageSize(),dataMap);
 			page.setData(list);

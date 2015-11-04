@@ -18,6 +18,16 @@ public class PriceUtil {
 		 BigDecimal b = new BigDecimal(value);
 		return b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
 	 }
+	 
+	 /**
+		 * 截取三位小数，四舍五入
+		 * @param value
+		 * @return
+		 */
+		 public static float getThreeDecimalFloat(double value){
+			 BigDecimal b = new BigDecimal(value);
+			return b.setScale(3, BigDecimal.ROUND_HALF_UP).floatValue();
+		 }
 	
 	 /**
 	  * 面价= 原始进价*采购折扣*汇率*工程系数/分销系数

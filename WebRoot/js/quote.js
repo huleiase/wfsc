@@ -680,6 +680,24 @@ function setUrgentCost(){
 					var idValue = $(this).attr("id");
 					var newIdValue = idValue.replace(index,newLastIndex);
 					$(this).attr("id",newIdValue);
+					var clickFuctionAttr = $(this).attr("onclick");
+					if(clickFuctionAttr){
+						var newClickFuctionAttr = clickFuctionAttr.replace("("+index,"("+newLastIndex);
+						var lastClickFuctionAttr = newClickFuctionAttr.replace("("+index,"("+newLastIndex);
+						$(this).attr("onclick",lastClickFuctionAttr);
+					}
+					var changeFuctionAttr = $(this).attr("onchange");
+					if(changeFuctionAttr){
+						var newChangeFuctionAttr = changeFuctionAttr.replace("("+index,"("+newLastIndex);
+						var lastChangeFuctionAttr = newChangeFuctionAttr.replace("("+index,"("+newLastIndex);
+						$(this).attr("onchange",lastChangeFuctionAttr);
+					}
+					var keyupFuctionAttr = $(this).attr("onkeyup");
+					if(keyupFuctionAttr){
+						var newKeyupFuctionAttr = keyupFuctionAttr.replace("("+index,"("+newLastIndex);
+						var lastKeyupFuctionAttr = newKeyupFuctionAttr.replace("("+index,"("+newLastIndex);
+						$(this).attr("onkeyup",lastKeyupFuctionAttr);
+					}
 				})
 				//重新设置name属性值
 				$("#tr"+newLastIndex).find("[name^='quoteFabricList']").each(function(i){
@@ -687,7 +705,7 @@ function setUrgentCost(){
 					var newNameValue = nameValue.replace(Number(index)-1,Number(newLastIndex)-1);
 					$(this).attr("name",newNameValue);
 				})
-				removAndAdd(newLastIndex);
+			//	removAndAdd(newLastIndex);
 				//设置复制行里面一些默认值,比如行号，序号。
 				$("#tr"+newLastIndex).find("input[name$='vcIndex']").val(newLastIndex-1);
 				$("#tr"+newLastIndex).find("input[name$='orderId']").val(newLastIndex);
@@ -723,13 +741,32 @@ function setUrgentCost(){
 							var idValue = $(this).attr("id");
 							var newIdValue = idValue.replace(vcCount,vcCount-1);
 							$(this).attr("id",newIdValue);
+							
+							var clickFuctionAttr = $(this).attr("onclick");
+							if(clickFuctionAttr){
+								var newClickFuctionAttr = clickFuctionAttr.replace("("+vcCount,"("+(vcCount-1));
+								var lastClickFuctionAttr = newClickFuctionAttr.replace("("+vcCount,"("+(vcCount-1));
+								$(this).attr("onclick",lastClickFuctionAttr);
+							}
+							var changeFuctionAttr = $(this).attr("onchange");
+							if(changeFuctionAttr){
+								var newChangeFuctionAttr = changeFuctionAttr.replace("("+vcCount,"("+(vcCount-1));
+								var lastChangeFuctionAttr = newChangeFuctionAttr.replace("("+vcCount,"("+(vcCount-1));
+								$(this).attr("onchange",lastChangeFuctionAttr);
+							}
+							var keyupFuctionAttr = $(this).attr("onkeyup");
+							if(keyupFuctionAttr){
+								var newKeyupFuctionAttr = keyupFuctionAttr.replace("("+vcCount,"("+(vcCount-1));
+								var lastKeyupFuctionAttr = newKeyupFuctionAttr.replace("("+vcCount,"("+(vcCount-1));
+								$(this).attr("onkeyup",lastKeyupFuctionAttr);
+							}
 						})
 						afterTr.find("[name^='quoteFabricList']").each(function(i){
 							var nameValue = $(this).attr("name");
 							var newNameValue = nameValue.replace(vcCount-1,vcCount-2);
 							$(this).attr("name",newNameValue);
 						})
-						removAndAdd(vcCount-1);
+					//	removAndAdd(vcCount-1);
 						afterTr.find("input[name$='vcIndex']").val(vcCount-2);
 						afterTr.find("input[name$='orderId']").val(vcCount-1);
 					}
@@ -742,49 +779,46 @@ function setUrgentCost(){
 		
 		function removAndAdd(newLastIndex){
 		//先要移除原有的事件，再重新绑定事件
-			$("#copy"+newLastIndex).removeAttr("onClick");
+			//$("#copy"+newLastIndex).removeAttr("onClick");
 			$("#copy"+newLastIndex).bind("click",{'index':newLastIndex,'type':'copy'},toHandle);
 			
-			$("#vcPriceUnit"+newLastIndex).removeAttr("onChange");
+			//$("#vcPriceUnit"+newLastIndex).removeAttr("onChange");
 			$("#vcPriceUnit"+newLastIndex).bind("change",{'index':newLastIndex,'type':'vcPriceUnit'},toHandle);
 			
-			$("#vcSpecialExp"+newLastIndex).removeAttr("onkeyup");
+			//$("#vcSpecialExp"+newLastIndex).removeAttr("onkeyup");
 			$("#vcSpecialExp"+newLastIndex).bind("keyup",{'index':newLastIndex,'type':'vcSpecialExp'},toHandle);
 			
-		//	$("#vcQuantity"+newLastIndex).removeAttr("onChange");
-		//	$("#vcQuantity"+newLastIndex).bind("change",{'index':newLastIndex,'type':'vcQuantity'},toHandle);
-			
-			$("#vcDiscount"+newLastIndex).removeAttr("onkeyup");
+			//$("#vcDiscount"+newLastIndex).removeAttr("onkeyup");
 			$("#vcDiscount"+newLastIndex).bind("keyup",{'index':newLastIndex,'type':'vcDiscount'},toHandle);
 			
-			$("#remove"+newLastIndex).removeAttr("onClick");
+			//$("#remove"+newLastIndex).removeAttr("onClick");
 			$("#remove"+newLastIndex).bind("click",{'index':newLastIndex,'type':'remove'},toHandle);
 			
-			$("#uploadFabric"+newLastIndex).removeAttr("onClick");
+			//$("#uploadFabric"+newLastIndex).removeAttr("onClick");
 			$("#uploadFabric"+newLastIndex).bind("click",{'index':newLastIndex,'type':'uploadIMGt'},toHandle);
 			
-			$("#replaceFabric"+newLastIndex).removeAttr("onClick");
+			//$("#replaceFabric"+newLastIndex).removeAttr("onClick");
 			$("#replaceFabric"+newLastIndex).bind("click",{'index':newLastIndex,'type':'replaceFabric2tt'},toHandle);
 			
-			$("#delreplaceFabric"+newLastIndex).removeAttr("onClick");
+			//$("#delreplaceFabric"+newLastIndex).removeAttr("onClick");
 			$("#delreplaceFabric"+newLastIndex).bind("click",{'index':newLastIndex,'type':'delreplaceFabric2tt'},toHandle);
 			
-			$("#orderQuantity"+newLastIndex).removeAttr("onkeyup");
+			//$("#orderQuantity"+newLastIndex).removeAttr("onkeyup");
 			$("#orderQuantity"+newLastIndex).bind("keyup",{'index':newLastIndex,'type':'orderQuantity'},toHandle);
 			
-			$("#customerQuantity"+newLastIndex).removeAttr("onkeyup");
+			//$("#customerQuantity"+newLastIndex).removeAttr("onkeyup");
 			$("#customerQuantity"+newLastIndex).bind("keyup",{'index':newLastIndex,'type':'customerQuantity'},toHandle);
 			
-			$("#customerUnit"+newLastIndex).removeAttr("onChange");
+			//$("#customerUnit"+newLastIndex).removeAttr("onChange");
 			$("#customerUnit"+newLastIndex).bind("change",{'index':newLastIndex,'type':'customerQuantity'},toHandle);
 			
-			$("#vcTotal"+newLastIndex).removeAttr("onClick");
+			//$("#vcTotal"+newLastIndex).removeAttr("onClick");
 			$("#vcTotal"+newLastIndex).bind("click",{'index':newLastIndex,'type':'setTrVcTotal'},toHandle);
 			
-			$("#dhjbj"+newLastIndex).removeAttr("onClick");
+			//$("#dhjbj"+newLastIndex).removeAttr("onClick");
 			$("#dhjbj"+newLastIndex).bind("click",{'index':newLastIndex,'type':'dahuojia'},toHandle);
 			
-			$("#cgbj"+newLastIndex).removeAttr("onClick");
+			//$("#cgbj"+newLastIndex).removeAttr("onClick");
 			$("#cgbj"+newLastIndex).bind("click",{'index':newLastIndex,'type':'cgjia'},toHandle);
 		}
 		//通过jQuery绑定事件的统一调用这个方法

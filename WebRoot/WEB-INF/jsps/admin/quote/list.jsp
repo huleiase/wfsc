@@ -45,9 +45,11 @@
                   </td>
                    <td><s:property value="auditPerson"/></td>
                   <td>
+                  <s:if test="#obj.canUpdate==true">
                   <w:permission permissionId="<%=PermissionId.QUOTE_MGT_UPDATE%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="updateOrCopy('<s:property value="id"/>');">修改</button>
                  </w:permission>
+                 </s:if>
                  <w:permission permissionId="<%=PermissionId.QUOTE_MGT_AUDIT%>">
                   <s:if test="#obj.vcAudit!=1">
                   <button class="label label-info btn btn-primary btn-mini" onclick="auditQuote('<s:property value="id"/>','<s:property value="quoteFormate"/>');">审核</button>

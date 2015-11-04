@@ -128,6 +128,10 @@ public class FabricAction extends DispatchPagerAction {
 		Admin admin = this.getCurrentAdminUser();
 		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
 		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
+		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
+		if(isSysAdmin){
+			isAdmin = true;
+		}
 		request.setAttribute("isAdmin", isAdmin);
 		request.setAttribute("isPurManager", isPurManager);
 		String id = request.getParameter("id");
@@ -149,6 +153,10 @@ public class FabricAction extends DispatchPagerAction {
 		Admin admin = this.getCurrentAdminUser();
 		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
 		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
+		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
+		if(isSysAdmin){
+			isAdmin = true;
+		}
 		request.setAttribute("isAdmin", isAdmin);
 		request.setAttribute("isPurManager", isPurManager);
 		String id = request.getParameter("id");
@@ -170,6 +178,10 @@ public class FabricAction extends DispatchPagerAction {
 		Admin admin = this.getCurrentAdminUser();
 		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
 		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
+		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
+		if(isSysAdmin){
+			isAdmin = true;
+		}
 		String id = request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
 			fabric = fabricService.getFabricById(Long.valueOf(id));
@@ -194,6 +206,10 @@ public class FabricAction extends DispatchPagerAction {
 		Admin admin = this.getCurrentAdminUser();
 		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
 		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
+		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
+		if(isSysAdmin){
+			isAdmin = true;
+		}
 		String id = request.getParameter("id");
 		fabric = fabricService.getFabricById(Long.valueOf(id));
 		String factoryCode = fabric.getVcFactoryCode();
@@ -1194,7 +1210,7 @@ public class FabricAction extends DispatchPagerAction {
 						fabric.getInnerSecPrice(),  
 						fabric.getHkPrice(),
 						fabric.getHkSecPrice(),
-						fabric.getVcProFre(),fabric.getVcRetFre(),fabric.getVcPurDis(),homeLowTransportCost,hkLowTransportCost,
+						fabric.getVcProFre(),fabric.getVcRetFre(),homeLowTransportCost,hkLowTransportCost,fabric.getVcPurDis(),
 						fabric.getVcDis(),fabric.getVcComposition(),fabric.getVcRemark1()};
 				for(int j = 0; j < values.length; j++) {
 					HSSFCell c = cRow.createCell( j);
@@ -1357,11 +1373,11 @@ public class FabricAction extends DispatchPagerAction {
 		List<JSONObject> selectedFabric = new ArrayList<JSONObject>();
 		if(StringUtils.isNotBlank(selectedFabricHidden)){
 			request.setAttribute("selectedFabricHidden", selectedFabricHidden);
-			String[] a = selectedFabricHidden.split(";");
+			String[] a = selectedFabricHidden.split(";\\{");
 			for(String fb :a){
 				JSONObject json = new JSONObject();
-				json.put("id",StringUtils.substringBefore(fb, "="));
-				json.put("fabricCode", StringUtils.substringAfter(fb, "="));
+				json.put("id",StringUtils.substringBefore(fb, "={"));
+				json.put("fabricCode", StringUtils.substringAfter(fb, "={"));
 				selectedFabric.add(json);
 			}
 		}

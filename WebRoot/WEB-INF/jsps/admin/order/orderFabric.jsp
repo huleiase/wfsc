@@ -183,6 +183,6 @@ function setSumMoney(){
 		}
 	   sumMoney+=Number(money);
 	 });
-	$("#sumMoney").val(Number(sumMoney).toFixed(0));
+	$("#sumMoney").val(Number(sumMoney).toFixed(1));
 }
 </script>

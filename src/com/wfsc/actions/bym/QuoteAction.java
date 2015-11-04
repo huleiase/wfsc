@@ -134,7 +134,9 @@ public class QuoteAction extends DispatchPagerAction {
 		boolean isLocalManager = securityService.isAbleRole(admin.getUsername(), "区域经理");
 		boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
 		boolean isSaleManager = securityService.isAbleRole(admin.getUsername(), "销售经理");
+		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
 		boolean canPrint = true;
+		boolean canUpdate = true;
 		if(isAdmin){
 			isLocalManager = true;
 		}
@@ -153,11 +155,21 @@ public class QuoteAction extends DispatchPagerAction {
 		}
 		page = quoteService.findForPage(page, paramap);
 		List<Quote> quoteList = page.getData();
-		for(Quote q:quoteList){
-			if((!"1".equals(q.getVcAudit()))&&(isSale&&!isSaleManager)){
-				canPrint = false;
+		if(quoteList!=null){
+			for(Quote q : quoteList){
+				if((!"1".equals(q.getVcAudit()))&&(isSale&&!isSaleManager)){
+					canPrint = false;
+				}
+				q.setCanPrint(canPrint);
+				canPrint = true;
+				if("1".equals(q.getVcAudit())&&"1".equals(q.getIsWritPerm())){
+					if(!isAdmin&&!isPurManager&&!"CQ".equalsIgnoreCase(admin.getUsername())){
+						canUpdate = false;
+					}
+				}
+				q.setCanUpdate(canUpdate);
+				canUpdate = true;
 			}
-			q.setCanPrint(canPrint);
 		}
 		List<Integer> li = page.getPageNos();
 		String listUrl = "/wfsc/admin/quote_list.Q";
