@@ -15,6 +15,7 @@ var basePath = "<%=basePath%>";
 		$("#endTime").val("");
 		$("#contractNo").val("");
 		$("#orderStatus").val("");
+		$("#orderNo").val("");
 		
 	}
 	function operPurchase(id,oper){
@@ -97,7 +98,7 @@ var basePath = "<%=basePath%>";
         <div class="widget-content">
           <form action="admin/purchase_manager.Q" method="post" id="queryForm">
             <div class="controls">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">采购单号</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">合同编号</label>
 	            <input name="contractNo" id="contractNo" type="text" class="span2"  value="${contractNo }">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">创建日期</label>
 	             <input type="text" id="startTime" name="startTime"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${startTime}" class="span2" />
@@ -109,6 +110,11 @@ var basePath = "<%=basePath%>";
                   	<option value="2" <s:if test="#request.orderStatus==2">selected</s:if> >未审核</option>
                   	<option value="3" <s:if test="#request.orderStatus==3">selected</s:if> >已审核</option>
 	             </select>
+	         </div>
+	         <div class="clear"></div>
+	         <div class="controls">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">单号</label>
+	            <input name="orderNo" id="orderNo" type="text" class="span2"  value="${orderNo }">
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">

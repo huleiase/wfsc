@@ -297,6 +297,16 @@ var basePath = "<%=basePath%>";
 	             </select>
 	         </div>
 	         <div class="clear"></div>
+	         
+	         <div class="controls">
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">是否签单</label>
+	            <select name="isWritPerm" id="isWritPerm" style="width:170px;">
+	            	<option value="">请选择</option>
+	             	<option value="0" <s:if test="#request.isWritPerm==0">selected</s:if> >未签单</option>
+                  	<option value="1" <s:if test="#request.isWritPerm==1">selected</s:if> >已签单</option>
+	             </select>
+	         </div>
+	         <div class="clear"></div>
 	          <div class="controls">
 	            <button type="submit" class="btn btn-success" style="margin-left:355px;">查询</button>&nbsp;&nbsp;&nbsp;
 	             <button type="button" class="btn btn-primary" onclick="resetForm();">重置</button>

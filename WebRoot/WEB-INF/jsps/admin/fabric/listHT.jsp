@@ -24,7 +24,7 @@
                  <tr>
                   <td><input type="checkbox" name="ids" value='<s:property value="id"/>'/></td>
                    <td><s:property value="vcFactoryCode"/></td>
-                  <td><a title="点击查看原厂型号信息" class="tip-bottom" href='<%=request.getContextPath()%>/admin/fabric_detail.Q?vcFactoryCode=<s:property value="vcFactoryCode"/>&vcBefModel=<s:property value="vcBefModel"/>' target="_blank"><s:property value="vcBefModel"/></a></td>
+                  <td><a title="点击查看原厂型号信息" class="tip-bottom" onclick='gotoFabricPage("<s:property value="vcFactoryCode"/>","<s:property value="vcBefModel"/>")' href='javascript:void(0);'><s:property value="vcBefModel"/></a></td>
                   <td><s:property value="colorCode"/></td>
                   <td><a title="点击查看HT型号信息" class="tip-bottom" href='<%=request.getContextPath()%>/admin/fabric_detailHT.Q?id=<s:property value="id"/>' target="_blank"><s:property value="htCode"/></a></td>
                   <td><s:property value="bookNo"/></td>

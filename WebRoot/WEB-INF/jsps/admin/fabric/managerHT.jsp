@@ -188,6 +188,12 @@
 			    cancel: true 
 			});
 	}
+	function gotoFabricPage(vcFactoryCode,vcBefModel){
+		var encodeFactoryCode = encodeURIComponent(vcFactoryCode);
+		var encodeBefModel = encodeURIComponent(vcBefModel);
+		var url = "<%=basePath%>admin/fabric_detail.Q?vcFactoryCode="+encodeFactoryCode+"&vcBefModel="+encodeBefModel;
+		window.open(url);
+	}
 </script>
 </head>
 <body>

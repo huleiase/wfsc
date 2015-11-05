@@ -10,13 +10,14 @@ public class Test {
 	 */
 	public static void main(String[] args) {
 		
-		Map<String,String> map = new HashMap<String,String>();
+		/*Map<String,String> map = new HashMap<String,String>();
 		
 		map.put("chedan", "teng");
 		map.put("hehe", "gun");
 		map.put("hehe", "nima");
-		System.out.println(map);
+		System.out.println(map);*/
 		
+		System.out.println("me 10 sd".equals("me 10 sd"));
 		//test();
 
 	}

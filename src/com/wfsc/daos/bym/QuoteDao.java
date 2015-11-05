@@ -113,6 +113,12 @@ public class QuoteDao extends EnhancedHibernateDaoSupport<Quote> {
 					countSql.append(" and quote.curUserName like '%").append(paramap.get(key).toString()+"%'");
 					continue;
 				}
+				if("isWritPerm".equals(key)){
+					hql.append(" and obj.isWritPerm = '").append(paramap.get(key)).append("' ");
+					countSql.append(" and quote.isWritPerm = '").append(paramap.get(key)).append("' ");
+					continue;
+				}
+				
 				
 			}
 			hql.append(" order by obj.vcFormDate desc");

@@ -46,6 +46,7 @@ import com.wfsc.services.bym.service.IStoreFabricService;
 import com.wfsc.services.bym.service.ISupplierService;
 import com.wfsc.services.security.ISecurityService;
 import com.wfsc.util.DateUtil;
+import com.wfsc.util.PriceUtil;
 import com.wfsc.util.QuoteFabricUtil;
 
 /**
@@ -710,8 +711,8 @@ public class PurchaseAction extends DispatchPagerAction {
 			float sumMoney = 0f;
 			for(QuoteFabric qf : qfSet){
 				if(!"1".equals(qf.getIsReplaced()) && qf.getVcFactoryNum().equals(order.getFactoryNum())){
-					float sigMoney = qf.getSinglePrice() * qf.getVcPurDis();
-					sigMoney = (float) (Math.round((sigMoney) * 10)) / 10;
+					float sigMoney = PriceUtil.getTwoDecimalFloat(qf.getSinglePrice() * qf.getVcPurDis());
+				//	sigMoney = (float) (Math.round((sigMoney) * 10)) / 10;
 					qf.setSigMoney(sigMoney);
 					float vcQuoteNum = qf.getVcQuoteNum() == 0 ? qf.getOrderQuantity() : qf.getVcQuoteNum();
 					float shijia = qf.getShijia() == 0 ? qf.getSigMoney() : qf.getShijia();
@@ -721,8 +722,8 @@ public class PurchaseAction extends DispatchPagerAction {
 			if(order.getSumMoney()>0){
 				sumMoney = order.getSumMoney();
 			}
-			sumMoney = (float) (Math.round((sumMoney) * 10)) / 10;
-			order.setSumMoney(sumMoney);
+			//sumMoney = (float) (Math.round((sumMoney) * 10)) / 10;
+			order.setSumMoney(PriceUtil.getTwoDecimalFloat(sumMoney));
 			this.orderService.saveOrUpdateEntity(order);
 				Email e = new Email();
 				e.setAction("order");
@@ -759,6 +760,8 @@ public class PurchaseAction extends DispatchPagerAction {
 		String endTime = request.getParameter("endTime");
 		String contractNo = request.getParameter("contractNo");
 		String orderStatus = request.getParameter("orderStatus");
+		String orderNo = request.getParameter("orderNo");
+		
 		if(StringUtils.isNotEmpty(startTime)){
 			paramap.put("startTime", startTime);
 			request.setAttribute("startTime", startTime);
@@ -774,6 +777,10 @@ public class PurchaseAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(orderStatus)){
 			paramap.put("orderStatus", orderStatus);
 			request.setAttribute("orderStatus", orderStatus);
+		}
+		if(StringUtils.isNotEmpty(orderNo)){
+			paramap.put("orderNo", orderNo);
+			request.setAttribute("orderNo", orderNo);
 		}
 		return paramap;
 	}

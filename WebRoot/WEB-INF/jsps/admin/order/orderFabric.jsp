@@ -170,8 +170,8 @@ function setOrderAmount(vcCount){
 	if(!vcQuoteNum){
 		vcQuoteNum = 0;
 	}
-	$("#realMonny"+vcCount).val((shijia*vcQuoteNum).toFixed(1));
-	$("#amountrmb"+vcCount).val((shijia*vcQuoteNum*rate).toFixed(1));
+	$("#realMonny"+vcCount).val((shijia*vcQuoteNum).toFixed(2));
+	$("#amountrmb"+vcCount).val((shijia*vcQuoteNum*rate).toFixed(2));
 	setSumMoney();
 }
 function setSumMoney(){
@@ -183,6 +183,6 @@ function setSumMoney(){
 		}
 	   sumMoney+=Number(money);
 	 });
-	$("#sumMoney").val(Number(sumMoney).toFixed(1));
+	$("#sumMoney").val(Number(sumMoney).toFixed(2));
 }
 </script>

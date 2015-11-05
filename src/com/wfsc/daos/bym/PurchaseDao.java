@@ -62,6 +62,12 @@ public class PurchaseDao extends EnhancedHibernateDaoSupport<Purchase> {
 					continue;
 				}
 				
+				if ("orderNo".equals(key)) {
+					hql.append(" and obj.orderNo like :orderNo");
+					dataMap.put("orderNo", paramap.get(key).toString());
+					continue;
+				}
+				
 				if ("area".equals(key)) {
 					hql.append(" and obj.area = '"+paramap.get("area")+"'");
 					continue;
@@ -78,7 +84,7 @@ public class PurchaseDao extends EnhancedHibernateDaoSupport<Purchase> {
 			}
 			int totalCount = this.countByHqlWithParama(hql.toString(),dataMap);
 			page.setTotalCount(totalCount);
-			hql.append("order by obj.contractDate desc ");
+			hql.append(" order by obj.contractDate desc ");
 			List<Purchase> list = this.findList4PageWithParama(hql.toString(), page
 					.getFirst() - 1, page.getPageSize(),dataMap);
 			page.setData(list);

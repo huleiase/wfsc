@@ -575,6 +575,8 @@ public class QuoteAction extends DispatchPagerAction {
 		String projectDesignComp = request.getParameter("projectDesignComp");
 		String vcBefModel = request.getParameter("vcBefModel");
 		String curUserName = request.getParameter("curUserName");
+		String isWritPerm = request.getParameter("isWritPerm");
+		
 		
 		if(StringUtils.isNotEmpty(startTime)){
 			paramap.put("startTime", startTime);
@@ -615,6 +617,10 @@ public class QuoteAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(curUserName)){
 			paramap.put("curUserName", curUserName);
 			request.setAttribute("curUserName", curUserName);
+		}
+		if(StringUtils.isNotEmpty(isWritPerm)){
+			paramap.put("isWritPerm", isWritPerm);
+			request.setAttribute("isWritPerm", isWritPerm);
 		}
 		return paramap;
 	}
