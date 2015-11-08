@@ -92,8 +92,7 @@ public class PurchaseAction extends DispatchPagerAction {
 	@SuppressWarnings("unchecked")
 	public String list(){
 		Admin admin = this.getCurrentAdminUser();
-		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
-		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
+		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "管理员");
 		boolean purManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
 		boolean purMan = securityService.isAbleRole(admin.getUsername(), "采购员");
 	//	request.setAttribute("isAdmin", isAdmin);
@@ -104,7 +103,7 @@ public class PurchaseAction extends DispatchPagerAction {
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
 		paramap.put("purchaseType", "2");
-		if(!isAdmin&&!purManager&&!purMan&&!isSysAdmin){
+		if(!isAdmin&&!purManager&&!purMan){
 			paramap.put("area", admin.getArea());
 		}
 		page = purchaseService.findForPage(page, paramap);
@@ -124,6 +123,9 @@ public class PurchaseAction extends DispatchPagerAction {
 					canAudit = true;
 				}
 				p.setCanAudit(canAudit);
+				if(StringUtils.isNotBlank(p.getOtheraddress())){
+					p.setAddress(p.getOtheraddress());
+				}
 			}
 		}
 		
@@ -132,8 +134,7 @@ public class PurchaseAction extends DispatchPagerAction {
 	}
 	public String listToPur(){
 		Admin admin = this.getCurrentAdminUser();
-		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
-		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
+		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "管理员");
 		boolean purManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
 		boolean purMan = securityService.isAbleRole(admin.getUsername(), "采购员");
 	//	request.setAttribute("isAdmin", isAdmin);
@@ -144,10 +145,17 @@ public class PurchaseAction extends DispatchPagerAction {
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
 		paramap.put("purchaseType", "1");
-		if(!isAdmin&&!purManager&&!purMan&&!isSysAdmin){
+		if(!isAdmin&&!purManager&&!purMan){
 			paramap.put("area", admin.getArea());
 		}
 		page = purchaseService.findForPage(page, paramap);
+		if(page.getData()!=null){
+			for(Purchase p : page.getData()){
+				if(StringUtils.isNotBlank(p.getOtheraddress())){
+					p.setAddress(p.getOtheraddress());
+				}
+			}
+		}
 		List<Integer> li = page.getPageNos();
 		String listUrl = "/wfsc/admin/purchase_listToPur.Q";
 		request.setAttribute("listUrl", listUrl);
@@ -183,6 +191,10 @@ public class PurchaseAction extends DispatchPagerAction {
 		return prop;
 	}
 	public String input() {
+		String rilegou = "1";
+		Admin admin = this.getCurrentAdminUser();
+		boolean salesMan = securityService.isAbleRole(admin.getUsername(), "销售");
+		boolean quoterMan = securityService.isAbleRole(admin.getUsername(), "报价员");
 		String currPageNo = request.getParameter("currPageNo");
 		String pageSize = request.getParameter("pageSize");
 		String orderStatus = request.getParameter("orderStatus");
@@ -195,19 +207,22 @@ public class PurchaseAction extends DispatchPagerAction {
 		request.setAttribute("isView", StringUtils.isBlank(isView)?"0":"1");
 		String oper = request.getParameter("oper");
 		purchase = this.purchaseService.getPurchaseById(Long.valueOf(id));
+		if(salesMan||quoterMan){
+			rilegou = "0";
+		}
+		purchase.setRilegou(rilegou);
 		Set<QuoteFabric> qfSet  = purchase.getQuote().getQuoteFabric();
 		if(qfSet!=null){
 			List<QuoteFabric> qfList =  QuoteFabricUtil.sort(qfSet, "getVcIndex", "asc");
 			for(QuoteFabric qf : qfList){
 				if(!"1".equals(qf.getIsReplaced())){//不是被替代的产品才在采购单中显示
-					if(StringUtils.isBlank(isToPur)){
-						qf.setVcModelNumDisplay(qf.getVcFactoryCode()+" "+qf.getVcModelNum());
-					}else{
-						if("1".equals(qf.getIsHtCode())){
+				//	if(StringUtils.isBlank(isToPur)){
+				//		qf.setVcModelNumDisplay(qf.getVcFactoryCode()+" "+qf.getVcModelNum());
+				//	}else{
+						if(StringUtils.isNotBlank(isToPur)&&"1".equals(qf.getIsHtCode())){
 							qf.setVcColorNum("");
 						}
-					}
-				//	qf.setVcModelNumDisplay(qf.getVcModelNum());
+				//	}
 					quoteFabricList.add(qf);
 				}
 			}
@@ -292,7 +307,12 @@ public class PurchaseAction extends DispatchPagerAction {
         if(row10!=null){
         	HSSFCell cell2 = row10.getCell(2);//收货地址
         	if(cell2!=null){
-        		cell2.setCellValue(entity.getAddress());
+        		if(StringUtils.isNotBlank(entity.getOtheraddress())){
+        			cell2.setCellValue(entity.getOtheraddress());
+				}else{
+					cell2.setCellValue(entity.getAddress());
+				}
+        		
         	}
         }
         HSSFRow row11 = sheet.getRow(startRow+5);

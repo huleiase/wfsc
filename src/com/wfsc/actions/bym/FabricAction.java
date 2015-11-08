@@ -126,12 +126,8 @@ public class FabricAction extends DispatchPagerAction {
 	
 	public String input() {
 		Admin admin = this.getCurrentAdminUser();
-		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
+		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "管理员");
 		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
-		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
-		if(isSysAdmin){
-			isAdmin = true;
-		}
 		request.setAttribute("isAdmin", isAdmin);
 		request.setAttribute("isPurManager", isPurManager);
 		String id = request.getParameter("id");
@@ -151,12 +147,8 @@ public class FabricAction extends DispatchPagerAction {
 	
 	public String inputHT() {
 		Admin admin = this.getCurrentAdminUser();
-		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
+		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "管理员");
 		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
-		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
-		if(isSysAdmin){
-			isAdmin = true;
-		}
 		request.setAttribute("isAdmin", isAdmin);
 		request.setAttribute("isPurManager", isPurManager);
 		String id = request.getParameter("id");
@@ -176,12 +168,8 @@ public class FabricAction extends DispatchPagerAction {
 	
 	public String detail() {
 		Admin admin = this.getCurrentAdminUser();
-		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
+		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "管理员");
 		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
-		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
-		if(isSysAdmin){
-			isAdmin = true;
-		}
 		String id = request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
 			fabric = fabricService.getFabricById(Long.valueOf(id));
@@ -204,12 +192,8 @@ public class FabricAction extends DispatchPagerAction {
 	
 	public String detailHT() {
 		Admin admin = this.getCurrentAdminUser();
-		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
+		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "管理员");
 		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
-		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
-		if(isSysAdmin){
-			isAdmin = true;
-		}
 		String id = request.getParameter("id");
 		fabric = fabricService.getFabricById(Long.valueOf(id));
 		String factoryCode = fabric.getVcFactoryCode();

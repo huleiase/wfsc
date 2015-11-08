@@ -108,9 +108,13 @@ public class QuoteDao extends EnhancedHibernateDaoSupport<Quote> {
 					continue;
 				}
 				if ("vcBefModel".equals(key)) {
-					hql.append(" and ((qf.vcModelNum like '%"+paramap.get("vcBefModel")).append("%' and qf.isHtCode='0') ")
-					.append("or (qf.htCode like '%"+paramap.get("vcBefModel")+"%'))");
-					countSql.append(" and quote.curUserName like '%").append(paramap.get(key).toString()+"%'");
+					hql.append(" and qf.vcModelNumDisplay like '%"+paramap.get(key)).append("%' ");
+					countSql.append(" and qf.vcModelNumDisplay like '%").append(paramap.get(key)+"%'");
+					continue;
+				}
+				if ("htCode".equals(key)) {
+					hql.append(" and qf.vcModelNumDisplay like '%"+paramap.get(key)).append("%' ");
+					countSql.append(" and qf.vcModelNumDisplay like '%").append(paramap.get(key)+"%'");
 					continue;
 				}
 				if("isWritPerm".equals(key)){

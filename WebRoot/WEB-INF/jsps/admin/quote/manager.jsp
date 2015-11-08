@@ -22,6 +22,7 @@ var basePath = "<%=basePath%>";
 		$("#projectDesignComp").val("");
 		$("#vcBefModel").val("");
 		$("#curUserName").val("");
+		$("#htCode").val("");
 	}
 	function addQuote(){
 		var url = basePath+"admin/quote_input.Q";
@@ -58,7 +59,7 @@ var basePath = "<%=basePath%>";
 	
 	function auditQuote(id,quoteFormate){
 		var isLocalManager = $("#isLocalManager").val();
-		if(isLocalManager==1&&(quoteFormate!=3||quoteFormate!=4)){
+		if(isLocalManager=="true"&&(quoteFormate==1||quoteFormate==2||quoteFormate==5)){
 			art.dialog({
 			    content: '区域经理只能审核大货价',
 			    okVal:'确定',
@@ -66,7 +67,7 @@ var basePath = "<%=basePath%>";
 			});
 			return;
 		}
-		if(isLocalManager!=1&&(quoteFormate==3||quoteFormate==4)){
+		if(isLocalManager!="true"&&(quoteFormate==3||quoteFormate==4)){
 			art.dialog({
 			    content: '大货价只能由区域经理或管理员审核',
 			    okVal:'确定',
@@ -282,7 +283,7 @@ var basePath = "<%=basePath%>";
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">型号</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">原厂型号</label>
 	            <input name="vcBefModel" id="vcBefModel" type="text" class="span2"  value="${vcBefModel }">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">创建人</label>
 	            <input name="curUserName" id="curUserName" type="text" class="span2"  value="${curUserName }">
@@ -297,8 +298,9 @@ var basePath = "<%=basePath%>";
 	             </select>
 	         </div>
 	         <div class="clear"></div>
-	         
-	         <div class="controls">
+	         <div>
+	         <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">HT型号</label>
+	            <input name="htCode" id="htCode" type="text" class="span2"  value="${htCode }">
 	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">是否签单</label>
 	            <select name="isWritPerm" id="isWritPerm" style="width:170px;">
 	            	<option value="">请选择</option>

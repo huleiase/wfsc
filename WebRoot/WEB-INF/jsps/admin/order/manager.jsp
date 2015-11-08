@@ -25,6 +25,7 @@ var basePath = "<%=basePath%>";
 		$("#area_zh").val("");
 		$("#orderNo").val("");
 		$("#orderStatus").val("");
+		$("#htCode").val("");
 		
 		
 	}
@@ -214,6 +215,11 @@ var basePath = "<%=basePath%>";
                   	<option value="0" <s:if test="#request.isOver==0">selected</s:if> >未完结</option>
                   	<option value="1" <s:if test="#request.isOver==1">selected</s:if> >已完结</option>
 	             </select>
+	         </div>
+	         <div class="clear"></div>
+	         <div class="controls">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">HT型号</label>
+	            <input name="htCode" id="htCode" type="text" class="span2"  value="${htCode }">
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">

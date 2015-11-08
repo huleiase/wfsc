@@ -251,6 +251,8 @@ public class StoreFabricAction extends DispatchPagerAction {
 		
 		String storeId = request.getParameter("storeId");
 		
+		String htCode = request.getParameter("htCode");
+		
 		if(StringUtils.isNotEmpty(startTime)){
 			paramap.put("startTime", startTime);
 			request.setAttribute("startTime", startTime);
@@ -279,6 +281,11 @@ public class StoreFabricAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(storeId)){
 			paramap.put("storeId", storeId);
 			request.setAttribute("storeId", storeId);
+		}
+		
+		if(StringUtils.isNotEmpty(htCode)){
+			paramap.put("htCode", htCode);
+			request.setAttribute("htCode", htCode);
 		}
 		return paramap;
 	}

@@ -48,12 +48,19 @@ public class StoreFabricDao extends EnhancedHibernateDaoSupport<StoreFabric> {
 					continue;
 				}
 				if ("vcModelNum".equals(key)) {
-					hql.append(" and obj.vcModelNum like :vcModelNum");
-					dataMap.put("vcModelNum", paramap.get(key));
-					countSql.append(" and sf.vcModelNum like '%").append(paramap.get(key).toString()+"%'");
+					hql.append(" and obj.displayNum like '%").append(paramap.get(key).toString()+"%'");
+				//	dataMap.put("displayNum", paramap.get(key));
+					countSql.append(" and sf.displayNum like '%").append(paramap.get(key).toString()+"%'");
 					continue;
 				}
-				if ("vcModelNum".equals(key)) {
+				if ("htCode".equals(key)) {
+					hql.append(" and obj.displayNum like '%").append(paramap.get(key).toString()+"%'");
+				//	dataMap.put("displayNum", paramap.get(key));
+					countSql.append(" and sf.displayNum like '%").append(paramap.get(key).toString()+"%'");
+					continue;
+				}
+				
+				if ("orderNo".equals(key)) {
 					hql.append(" and obj.orderNo like :orderNo");
 					dataMap.put("orderNo", paramap.get(key));
 					countSql.append(" and sf.orderNo like '%").append(paramap.get(key).toString()+"%'");

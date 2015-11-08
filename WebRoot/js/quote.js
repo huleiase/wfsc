@@ -725,11 +725,33 @@ function setUrgentCost(){
 		}
 		//删除报价中的布匹
 		function delFabric2(index){
+		//isHiddenisReplaced
 			var rrrr = $("#isReplaced"+index).val();
 			var hiddrep = $("#isHiddenisReplaced"+index).val();
 			if(1==rrrr || hiddrep!=""){art.dialog({content:"请先解除替代",okVal:"确定",ok:true});return;}
 			art.dialog.confirm('你确定要删除该型号吗？', function () {
 				$("#tr"+index).remove();
+				var allTrAray = $("#quoteFabricTable tr:gt(0)");
+				if(allTrAray&&allTrAray.length>0){
+					for(var j=0;j<allTrAray.length;j++ ){
+						var allTr = $(allTrAray[j]);
+						var vcCountindex = allTr.attr("id").substr(2);
+						var delisHiddenisReplaced = $("#isHiddenisReplaced"+vcCountindex).val();
+						if(delisHiddenisReplaced){
+							var hiddenModel = delisHiddenisReplaced.split("_")[0];
+							var replaceModel = delisHiddenisReplaced.split("_")[1];
+							var newhiddenModel = hiddenModel;
+							var newreplaceModel = replaceModel;
+							if(index<hiddenModel){
+								newhiddenModel = hiddenModel-1;
+							}
+							if(index<replaceModel){
+								newreplaceModel = replaceModel-1;
+							}
+							$("#isHiddenisReplaced"+vcCountindex).val(newhiddenModel+"_"+newreplaceModel);
+						}
+					}
+				}
 				//把复制行里面的id属性值全部替换为最新的行号，因为之前每行里面的元素的id属性值都跟行号绑定了，所以复制后要替换成最新的行号
 				var afterTrAray = $("#quoteFabricTable tr:gt("+(index-1)+")");
 				if(afterTrAray&&afterTrAray.length>0){

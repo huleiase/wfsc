@@ -231,7 +231,16 @@ public class Purchase implements java.io.Serializable {
 	
 	private boolean canAudit;
 	
+	private String rilegou;
 	
+	public String getRilegou() {
+		return rilegou;
+	}
+
+	public void setRilegou(String rilegou) {
+		this.rilegou = rilegou;
+	}
+
 	public boolean isCanAudit() {
 		return canAudit;
 	}

@@ -6,8 +6,11 @@
               <thead>
                 <tr>
                   <th>序号</th>
-                  <th>型号</th>
+                  <th>报价型号</th>
                    <th>色号</th>
+                   <s:if test="#request.purchase.rilegou==1">
+                    <th>原厂型号</th>
+                    </s:if>
                   <th>幅宽</th>
                   <th>订货数量</th>
                   <th>报价数量</th>
@@ -32,6 +35,11 @@
                  <td><s:property value="orderId"/></td>
 			     <td><s:property value="vcModelNumDisplay"/></td>
 			     <td><s:property value="vcColorNum"/></td>
+			     <s:if test="#request.purchase.rilegou==1">
+			     <td>
+			     	<s:property value="vcFactoryCode"/>&nbsp;<s:property value="vcModelNum"/>
+			     </td>
+			     </s:if>
                  <td>
                  <div style="width:100px;">
                  	<s:property value="vcWidth"/>&nbsp;&nbsp;<s:property value="vcWidthUnit"/>

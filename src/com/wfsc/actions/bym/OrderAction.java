@@ -28,8 +28,6 @@ import org.springframework.stereotype.Controller;
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
 import com.constants.LogModule;
-import com.wfsc.common.bo.bym.Attachment;
-import com.wfsc.common.bo.bym.CurrencyConversion;
 import com.wfsc.common.bo.bym.DesignerOrder;
 import com.wfsc.common.bo.bym.Email;
 import com.wfsc.common.bo.bym.Order;
@@ -40,14 +38,10 @@ import com.wfsc.common.bo.bym.Store;
 import com.wfsc.common.bo.bym.StoreFabric;
 import com.wfsc.common.bo.bym.Supplier;
 import com.wfsc.common.bo.user.Admin;
-import com.wfsc.services.bym.service.ICurrencyConversionService;
 import com.wfsc.services.bym.service.IDesignerOrderService;
 import com.wfsc.services.bym.service.IEmailService;
-import com.wfsc.services.bym.service.IFabricService;
 import com.wfsc.services.bym.service.IOrderService;
-import com.wfsc.services.bym.service.IPurchaseService;
 import com.wfsc.services.bym.service.IQuoteFabricService;
-import com.wfsc.services.bym.service.IQuoteService;
 import com.wfsc.services.bym.service.IStoreFabricService;
 import com.wfsc.services.bym.service.IStoreService;
 import com.wfsc.services.bym.service.ISupplierService;
@@ -97,8 +91,7 @@ public class OrderAction extends DispatchPagerAction {
 	@SuppressWarnings("unchecked")
 	public String list(){
 		Admin admin = this.getCurrentAdminUser();
-		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
-		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
+		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "管理员");
 		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
 		boolean isPurMan = securityService.isAbleRole(admin.getUsername(), "采购员");
 		boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
@@ -117,7 +110,7 @@ public class OrderAction extends DispatchPagerAction {
 		this.setPageParams(page);
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
-		if(!isAdmin&&!isPurManager&&!isPurMan&&!isSysAdmin){
+		if(!isAdmin&&!isPurManager&&!isPurMan){
 			if(!(isCaiwu&&"GZ".equalsIgnoreCase(admin.getArea()))){
 				paramap.put("area", admin.getArea());
 			}
@@ -177,9 +170,10 @@ public class OrderAction extends DispatchPagerAction {
 						if("1".equals(qf.getIsHtCode())){
 							qf.setVcColorNum("");
 						}
-					}else{
-						qf.setVcModelNumDisplay(qf.getVcModelNum());
 					}
+					/*else{
+						qf.setVcModelNumDisplay(qf.getVcModelNum());
+					}*/
 					quoteFabricList.add(qf);//不是被替代的产品才在采购单中显示
 				}
 			}
@@ -461,6 +455,7 @@ public class OrderAction extends DispatchPagerAction {
 		String orderStatus = request.getParameter("orderStatus");
 		String area_zh = request.getParameter("area_zh");
 		String isOver = request.getParameter("isOver");
+		String htCode = request.getParameter("htCode");
 		if(StringUtils.isNotEmpty(startTime1)){
 			paramap.put("startTime1", startTime1);
 			request.setAttribute("startTime1", startTime1);
@@ -517,6 +512,10 @@ public class OrderAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(isOver)){
 			paramap.put("isOver", isOver);
 			request.setAttribute("isOver", isOver);
+		}
+		if(StringUtils.isNotEmpty(htCode)){
+			paramap.put("htCode", htCode);
+			request.setAttribute("htCode", htCode);
 		}
 		return paramap;
 	}

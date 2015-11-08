@@ -9,11 +9,16 @@
 				序号
 			</th>
 			<th>
-				型号
+				报价型号
 			</th>
 			<th>
 				色号
 			</th>
+			<c:if test="${!isLess}">
+			<th>
+				原厂型号
+			</th>
+			</c:if>
 			<th>
 				幅宽
 			</th>
@@ -74,6 +79,11 @@
 					<td>
 						<s:property value="vcColorNum" />
 					</td>
+					<c:if test="${!isLess}">
+					<td>
+						<s:property value="vcFactoryCode"/>&nbsp;<s:property value="vcModelNum"/>
+					</td>
+					</c:if>
 					<td>
 						<div style="width: 90px;">
 							<s:property value="vcWidth" />

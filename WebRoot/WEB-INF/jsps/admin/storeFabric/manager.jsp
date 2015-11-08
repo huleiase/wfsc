@@ -124,8 +124,10 @@
 	          <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">项目名称</label>
 	            <input name="vcProject" id="vcProject" type="text" class="span2"  value="${vcProject }">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">型号</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">原厂型号</label>
 	             <input name="vcModelNum" id="vcModelNum" type="text" class="span2"  value="${vcModelNum }">
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">HT型号</label>
+	            <input name="htCode" id="htCode" type="text" class="span2"  value="${htCode }">
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">

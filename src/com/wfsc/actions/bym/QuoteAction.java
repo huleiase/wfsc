@@ -129,12 +129,11 @@ public class QuoteAction extends DispatchPagerAction {
 	@SuppressWarnings("unchecked")
 	public String list(){
 		Admin admin = this.getCurrentAdminUser();
-		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "超级管理员");
-		boolean isSysAdmin = securityService.isAbleRole(admin.getUsername(), "系统管理员");
+		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "管理员");
 		boolean isLocalManager = securityService.isAbleRole(admin.getUsername(), "区域经理");
 		boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
 		boolean isSaleManager = securityService.isAbleRole(admin.getUsername(), "销售经理");
-		boolean isPurManager = securityService.isAbleRole(admin.getUsername(), "采购经理");
+		boolean isCaiwuManager = securityService.isAbleRole(admin.getUsername(), "财务经理");
 		boolean canPrint = true;
 		boolean canUpdate = true;
 		if(isAdmin){
@@ -147,7 +146,7 @@ public class QuoteAction extends DispatchPagerAction {
 		this.setPageParams(page);
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
-		if(!isAdmin&&!isSysAdmin){
+		if(!isAdmin){
 			paramap.put("vcQuoteLocal", admin.getArea());
 		}
 		if(isSale&&!isSaleManager){
@@ -163,7 +162,7 @@ public class QuoteAction extends DispatchPagerAction {
 				q.setCanPrint(canPrint);
 				canPrint = true;
 				if("1".equals(q.getVcAudit())&&"1".equals(q.getIsWritPerm())){
-					if(!isAdmin&&!isPurManager&&!"CQ".equalsIgnoreCase(admin.getUsername())){
+					if(!isAdmin&&!"CQ".equalsIgnoreCase(admin.getUsername())&&!isCaiwuManager){
 						canUpdate = false;
 					}
 				}
@@ -211,8 +210,9 @@ public class QuoteAction extends DispatchPagerAction {
 				}
 			}
 			if("1".equals(isCopy)){
-			//	String quoteNum = quoteService.getQuoteRef(local);
-			//	quote.setVcQuoteNum(quoteNum);
+				for(QuoteFabric qf : quoteFabricList){
+					qf.setId(null);
+				}
 				quote.setId(null);
 				quote.setCurUserName(this.getCurrentAdminUser().getUsername());
 			}
@@ -576,7 +576,7 @@ public class QuoteAction extends DispatchPagerAction {
 		String vcBefModel = request.getParameter("vcBefModel");
 		String curUserName = request.getParameter("curUserName");
 		String isWritPerm = request.getParameter("isWritPerm");
-		
+		String htCode = request.getParameter("htCode");
 		
 		if(StringUtils.isNotEmpty(startTime)){
 			paramap.put("startTime", startTime);
@@ -621,6 +621,10 @@ public class QuoteAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(isWritPerm)){
 			paramap.put("isWritPerm", isWritPerm);
 			request.setAttribute("isWritPerm", isWritPerm);
+		}
+		if(StringUtils.isNotEmpty(htCode)){
+			paramap.put("htCode", htCode);
+			request.setAttribute("htCode", htCode);
 		}
 		return paramap;
 	}
