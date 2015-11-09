@@ -52,6 +52,10 @@
                   <button class="label label-info btn btn-primary btn-mini" onclick="operPurchase('<s:property value="id"/>',3);">打印</button>
                   </s:if>
                   </w:permission>
+                   <w:permission permissionId="<%=PermissionId.PROCESS_TO_PURCHASE_MGT_PRINTQUOTE%>">
+                  <button class="label label-info btn btn-primary btn-mini" onclick="printQuote('<s:property value="quote.id"/>');">打印报价单</button>
+                  </w:permission>
+                  
                   </td>
                 </tr>
                </s:iterator>

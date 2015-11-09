@@ -87,23 +87,23 @@ var basePath = "<%=basePath%>";
 		
 	}
 	function writPerm(id,quoteFormate){
-		var isLocalManager = $("#isLocalManager").val();
-		if(isLocalManager==1&&(quoteFormate!=3||quoteFormate!=4)){
-			art.dialog({
-			    content: '区域经理只能签单大货价',
-			    okVal:'确定',
-			    ok: true
-			});
-			return;
-		}
-		if(isLocalManager!=1&&(quoteFormate==3||quoteFormate==4)){
-			art.dialog({
-			    content: '大货价只能由区域经理或管理员签单',
-			    okVal:'确定',
-			    ok: true
-			});
-			return;
-		}
+	//	var isLocalManager = $("#isLocalManager").val();
+	//	if(isLocalManager==1&&(quoteFormate!=3||quoteFormate!=4)){
+	//		art.dialog({
+	//		    content: '区域经理只能签单大货价',
+	//		    okVal:'确定',
+	//		    ok: true
+	//		});
+	//		return;
+	//	}
+	//	if(isLocalManager!=1&&(quoteFormate==3||quoteFormate==4)){
+	//		art.dialog({
+	//		    content: '大货价只能由区域经理或管理员签单',
+	//		    okVal:'确定',
+	//		    ok: true
+	//		});
+	//		return;
+	//	}
 		art.dialog({
 			    content: '你确定要签单该报价单吗？',
 			    okVal:'确定',

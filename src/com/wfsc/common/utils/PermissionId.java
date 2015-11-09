@@ -48,6 +48,8 @@ public abstract class PermissionId {
     public static final String PROCESS_TO_PURCHASE_MGT_PRINT = "process_to_purchase_mgt_print";
     public static final String PROCESS_TO_PURCHASE_MGT_DOWNLOAD = "process_to_purchase_mgt_download";
     public static final String PROCESS_TO_PURCHASE_MGT_ATTACHMENT = "process_to_purchase_mgt_attachment";
+    public static final String PROCESS_TO_PURCHASE_MGT_PRINTQUOTE = "process_to_purchase_mgt_printQuote";
+    
     //采购单管理
     public static final String PROCESS_PURCHASE_MGT = "process_purchase_mgt";
     public static final String PROCESS_PURCHASE_MGT_DELETE = "process_purchase_mgt_delete";

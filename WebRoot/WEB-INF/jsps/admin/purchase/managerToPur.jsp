@@ -75,6 +75,35 @@ var basePath = "<%=basePath%>";
 			});
 		}
 	}
+	
+	function printQuote(id){
+		art.dialog({
+		    id: 'printQuote',
+		    content: '请选择你要打印的模板!',
+		    button: [
+		        {
+		            name: '内地模板',
+		            callback: function () {
+		            	var url = basePath+"admin/quote_printQuote.Q?id="+id;
+		            	window.open(url);
+		                return true;
+		            },
+		            focus: true
+		        },
+		        {
+		            name: '香港模板',
+		            callback: function () {
+		            	var url = basePath+"admin/quote_printQuote.Q?id="+id+"&local=hk";
+		            	window.open(url);
+		                return true;
+		            }
+		        },
+		        {
+		            name: '关闭'
+		        }
+		    ]
+		});
+	}
 
 </script>
 </head>
