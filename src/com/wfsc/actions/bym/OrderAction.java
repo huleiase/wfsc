@@ -99,10 +99,15 @@ public class OrderAction extends DispatchPagerAction {
 		boolean isQuoter = securityService.isAbleRole(admin.getUsername(), "报价员");
 		boolean isCaiwu = securityService.isAbleRole(admin.getUsername(), "财务经理");
 		boolean isLess = false;
+		boolean canToQuote = false;
 		if(isSale||isSaleManager||isQuoter){
 			isLess = true;
 		}
+		if(isAdmin||isCaiwu){
+			canToQuote = true;
+		}
 		request.setAttribute("isLess", isLess);
+		request.setAttribute("canToQuote", canToQuote);
 	//	request.setAttribute("isAdmin", isAdmin);
 	//	request.setAttribute("purManager", purManager);
 	//	request.setAttribute("purMan", purMan);

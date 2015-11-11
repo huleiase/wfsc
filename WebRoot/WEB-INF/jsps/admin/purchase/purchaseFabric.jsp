@@ -6,6 +6,9 @@
               <thead>
                 <tr>
                   <th>序号</th>
+                  <s:if test="#request.purchase.purchaseType==2">
+                  <th>操作</th>
+                  </s:if>
                   <th>报价型号</th>
                    <th>色号</th>
                    <s:if test="#request.purchase.rilegou==1">
@@ -19,9 +22,7 @@
                   <th>出货数明细</th>
                    <th>类型</th>
                   <th>备注</th>
-                <s:if test="#request.purchase.purchaseType==2">
-                  <th>操作</th>
-                  </s:if>
+                
                 </tr>
               </thead>
               <tbody>
@@ -33,6 +34,16 @@
                   <tr id="tr${vcCount }">
                   <input type="hidden" value="<s:property value="id"/>" id="id${vcCount }" name="quoteFabricList[${vcIndex }].id"/>
                  <td><s:property value="orderId"/></td>
+                 <s:if test="#request.purchase.purchaseType==2">
+                <td>
+                	<select id="vcAssignAutor${vcCount }" name="quoteFabricList[${vcIndex }].vcAssignAutor" style="width: 120px;">
+                 		<option value="">请选择采购员</option>
+		                 <s:iterator value="#request.userList">
+		                  	<option value='<s:property value="username"/>' <c:if test="${obj.vcAssignAutor==username}">selected</c:if>><s:property value="username"/></option>
+		                 </s:iterator>
+                 	</select>
+                 </td>
+                </s:if>
 			     <td><s:property value="vcModelNumDisplay"/></td>
 			     <td><s:property value="vcColorNum"/></td>
 			     <s:if test="#request.purchase.rilegou==1">
@@ -62,16 +73,7 @@
 			     <td><input type="text" value="<s:property value="vcShipmentNum"/>" id="vcShipmentNum${vcCount }" name="quoteFabricList[${vcIndex }].vcShipmentNum"  class="widthShort"/></td>
 			     <td><input type="text" value="<s:property value="vcType"/>" id="vcType${vcCount }" name="quoteFabricList[${vcIndex }].vcType"  class="widthShort"/></td>
 			     <td><input type="text" value="<s:property value="vcPurchaseRmk"/>" id="vcPurchaseRmk${vcCount }" name="quoteFabricList[${vcIndex }].vcPurchaseRmk" /></td>
-                <s:if test="#request.purchase.purchaseType==2">
-                <td>
-                	<select id="vcAssignAutor${vcCount }" name="quoteFabricList[${vcIndex }].vcAssignAutor" style="width: 120px;">
-                 		<option value="">请选择采购员</option>
-		                 <s:iterator value="#request.userList">
-		                  	<option value='<s:property value="username"/>' <c:if test="${obj.vcAssignAutor==username}">selected</c:if>><s:property value="username"/></option>
-		                 </s:iterator>
-                 	</select>
-                 </td>
-                </s:if>
+                
                 </tr>
                </s:iterator>
                </s:if>

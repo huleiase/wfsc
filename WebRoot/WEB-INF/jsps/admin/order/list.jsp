@@ -39,7 +39,12 @@
                    </c:if>
                   <td><s:property value="vcfrom"/></td>
                    <td> <s:date name="orderDate" format="yyyy-MM-dd" /></td>
+                    <c:if test="${canToQuote==false}">
                   <td><s:property value="quantation"/></td>
+                  </c:if>
+                  <c:if test="${canToQuote==true}">
+                  <td><a class="tip-bottom" title="点击查看报价单" href='<%=request.getContextPath()%>/admin/quote_input.Q?isView=1&id=<s:property value="purchase.quote.id"/>' target="_blank"><s:property value="quantation"/></a></td>
+                  </c:if>
                   <td><s:property value="areaZh"/></td>
                  <td>
                   	<s:if test="#obj.isOrderConfirm==1">已确认</s:if>

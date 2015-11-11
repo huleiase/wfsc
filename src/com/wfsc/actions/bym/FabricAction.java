@@ -380,8 +380,8 @@ public class FabricAction extends DispatchPagerAction {
 				continue;
 			}
 			row = sheet.getRow(i);
-			String vcFactoryCode = ExcelUtil.getCellValueAsString(row.getCell(0),"string");
-			String vcBefModel = ExcelUtil.getCellValueAsString(row.getCell(2),"string");
+			String vcFactoryCode = ExcelUtil.getCellValueAsString(row.getCell(0),"string").trim().toLowerCase();
+			String vcBefModel = ExcelUtil.getCellValueAsString(row.getCell(2),"string").trim().toLowerCase();
 			boolean isNew = true;
 			boolean isDHJOnly = false;
 			Fabric s = fabricService.getFabricByCode(vcFactoryCode, vcBefModel);
@@ -825,9 +825,9 @@ public class FabricAction extends DispatchPagerAction {
 				continue;
 			}
 			row = sheet.getRow(i);
-			String vcFactoryCode = ExcelUtil.getCellValueAsString(row.getCell(0),"string");
-			String vcBefModel = ExcelUtil.getCellValueAsString(row.getCell(1),"string");
-			String htCode = ExcelUtil.getCellValueAsString(row.getCell(3),"string");
+			String vcFactoryCode = ExcelUtil.getCellValueAsString(row.getCell(0),"string").trim().toLowerCase();
+			String vcBefModel = ExcelUtil.getCellValueAsString(row.getCell(1),"string").trim().toLowerCase();
+			String htCode = ExcelUtil.getCellValueAsString(row.getCell(3),"string").trim().toLowerCase();
 			String addOrUpdate = "update";
 			Fabric s = fabricService.getHTFabricByCode(vcFactoryCode, vcBefModel, htCode);
 			if(s==null){

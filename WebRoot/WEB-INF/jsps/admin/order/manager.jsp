@@ -31,7 +31,8 @@ var basePath = "<%=basePath%>";
 	}
 	function operOrder(id,oper){
 		var url = basePath+"admin/order_input.Q?id="+id+"&oper="+oper;
-		window.location.href = url;
+		window.open(url);
+	//	window.location.href = url;
 	}
 	
 	function printOrder(id){

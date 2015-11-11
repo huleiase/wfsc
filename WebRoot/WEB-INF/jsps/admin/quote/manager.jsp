@@ -58,23 +58,23 @@ var basePath = "<%=basePath%>";
 	}
 	
 	function auditQuote(id,quoteFormate){
-		var isLocalManager = $("#isLocalManager").val();
-		if(isLocalManager=="true"&&(quoteFormate==1||quoteFormate==2||quoteFormate==5)){
-			art.dialog({
-			    content: '区域经理只能审核大货价',
-			    okVal:'确定',
-			    ok: true
-			});
-			return;
-		}
-		if(isLocalManager!="true"&&(quoteFormate==3||quoteFormate==4)){
-			art.dialog({
-			    content: '大货价只能由区域经理或管理员审核',
-			    okVal:'确定',
-			    ok: true
-			});
-			return;
-		}
+	//	var isLocalManager = $("#isLocalManager").val();
+	//	if(isLocalManager=="true"&&(quoteFormate==1||quoteFormate==2||quoteFormate==5)){
+	//		art.dialog({
+	//		    content: '区域经理只能审核大货价',
+	//		    okVal:'确定',
+	//		    ok: true
+	//		});
+	//		return;
+	//	}
+	//	if(isLocalManager!="true"&&(quoteFormate==3||quoteFormate==4)){
+	//		art.dialog({
+	//		    content: '大货价只能由区域经理或管理员审核',
+	//		    okVal:'确定',
+	//		    ok: true
+	//		});
+	//		return;
+	//	}
 		art.dialog({
 			    content: '你确定要审核该报价单吗？',
 			    okVal:'确定',
