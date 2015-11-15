@@ -666,7 +666,7 @@ function setUrgentCost(){
 			}
 			art.dialog.confirm('你确定要复制该型号吗？', function () {
 				 //获取最后一行的行号
-				 var lastIndex = $("table#quoteFabricTable tr").last().attr("id").substr(2);
+				 var lastIndex = $("table#quoteFabricTable tr").length-1;
 			//	 alert(lastIndex);return;
 			//	var lastIndex = $("table#quoteFabricTable tr").last().find("input[name$='vcIndex']").val();
 				//最新行号
@@ -1054,9 +1054,9 @@ function setUrgentCost(){
 			   			conversionQuantity = Number(customerQuantity);
 			   		}
 			   		if(num==2){
-			   			$("#conversionQuantity"+index).val(conversionQuantity.toFixed(2));
+			   			$("#conversionQuantity"+index).val(conversionQuantity.toFixed(3));
 			   		}else if(num==1){
-			   			$("#vcQuantity"+index).val(conversionQuantity.toFixed(2));
+			   			$("#vcQuantity"+index).val(conversionQuantity.toFixed(3));
 			   		}
 			   			
 			   }
