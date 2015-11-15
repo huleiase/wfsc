@@ -666,8 +666,21 @@ function setUrgentCost(){
 			}
 			art.dialog.confirm('你确定要复制该型号吗？', function () {
 				 //获取最后一行的行号
-				 var lastIndex = $("table#quoteFabricTable tr").length-1;
-			//	 alert(lastIndex);return;
+				var lastIndex = $("table#quoteFabricTable tr").length-1;
+				var allTrAray = $("#quoteFabricTable tr:gt(0)");
+                if(allTrAray&&allTrAray.length>0){
+                    for(var j=0;j<allTrAray.length;j++ ){
+                    //	if(allTrAray[j]){
+	                    	var allTr = $(allTrAray[j]);
+	                        var vcCountindex = allTr.attr("id").substr(2);
+	                        if(Number(lastIndex)<Number(vcCountindex)){
+	                        	lastIndex = vcCountindex;
+	                        }
+                    //	}
+                        
+                    }
+                }
+				 
 			//	var lastIndex = $("table#quoteFabricTable tr").last().find("input[name$='vcIndex']").val();
 				//最新行号
 				var newLastIndex = Number(lastIndex)+1;
@@ -731,68 +744,6 @@ function setUrgentCost(){
 			if(1==rrrr || hiddrep!=""){art.dialog({content:"请先解除替代",okVal:"确定",ok:true});return;}
 			art.dialog.confirm('你确定要删除该型号吗？', function () {
 				$("#tr"+index).remove();
-				var allTrAray = $("#quoteFabricTable tr:gt(0)");
-				if(allTrAray&&allTrAray.length>0){
-					for(var j=0;j<allTrAray.length;j++ ){
-						var allTr = $(allTrAray[j]);
-						var vcCountindex = allTr.attr("id").substr(2);
-						var delisHiddenisReplaced = $("#isHiddenisReplaced"+vcCountindex).val();
-						if(delisHiddenisReplaced){
-							var hiddenModel = delisHiddenisReplaced.split("_")[0];
-							var replaceModel = delisHiddenisReplaced.split("_")[1];
-							var newhiddenModel = hiddenModel;
-							var newreplaceModel = replaceModel;
-							if(index<hiddenModel){
-								newhiddenModel = hiddenModel-1;
-							}
-							if(index<replaceModel){
-								newreplaceModel = replaceModel-1;
-							}
-							$("#isHiddenisReplaced"+vcCountindex).val(newhiddenModel+"_"+newreplaceModel);
-						}
-					}
-				}
-				//把复制行里面的id属性值全部替换为最新的行号，因为之前每行里面的元素的id属性值都跟行号绑定了，所以复制后要替换成最新的行号
-				var afterTrAray = $("#quoteFabricTable tr:gt("+(index-1)+")");
-				if(afterTrAray&&afterTrAray.length>0){
-					for(var k=0;k<afterTrAray.length;k++ ){
-						var afterTr = $(afterTrAray[k]);
-						var vcCount = afterTr.attr("id").substr(2);
-						afterTr.attr("id","tr"+(vcCount-1));
-						afterTr.find("[id]").each(function(i){
-							var idValue = $(this).attr("id");
-							var newIdValue = idValue.replace(vcCount,vcCount-1);
-							$(this).attr("id",newIdValue);
-							
-							var clickFuctionAttr = $(this).attr("onclick");
-							if(clickFuctionAttr){
-								var newClickFuctionAttr = clickFuctionAttr.replace("("+vcCount,"("+(vcCount-1));
-								var lastClickFuctionAttr = newClickFuctionAttr.replace("("+vcCount,"("+(vcCount-1));
-								$(this).attr("onclick",lastClickFuctionAttr);
-							}
-							var changeFuctionAttr = $(this).attr("onchange");
-							if(changeFuctionAttr){
-								var newChangeFuctionAttr = changeFuctionAttr.replace("("+vcCount,"("+(vcCount-1));
-								var lastChangeFuctionAttr = newChangeFuctionAttr.replace("("+vcCount,"("+(vcCount-1));
-								$(this).attr("onchange",lastChangeFuctionAttr);
-							}
-							var keyupFuctionAttr = $(this).attr("onkeyup");
-							if(keyupFuctionAttr){
-								var newKeyupFuctionAttr = keyupFuctionAttr.replace("("+vcCount,"("+(vcCount-1));
-								var lastKeyupFuctionAttr = newKeyupFuctionAttr.replace("("+vcCount,"("+(vcCount-1));
-								$(this).attr("onkeyup",lastKeyupFuctionAttr);
-							}
-						})
-						afterTr.find("[name^='quoteFabricList']").each(function(i){
-							var nameValue = $(this).attr("name");
-							var newNameValue = nameValue.replace(vcCount-1,vcCount-2);
-							$(this).attr("name",newNameValue);
-						})
-					//	removAndAdd(vcCount-1);
-						afterTr.find("input[name$='vcIndex']").val(vcCount-2);
-						afterTr.find("input[name$='orderId']").val(vcCount-1);
-					}
-				}
 				setSumMoney();
 			}, function () {
 				art.dialog.tips('取消操作');

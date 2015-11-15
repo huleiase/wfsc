@@ -261,7 +261,7 @@ public class Purchase implements java.io.Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	/**
 	 * @hibernate.property type="string"
 	 */

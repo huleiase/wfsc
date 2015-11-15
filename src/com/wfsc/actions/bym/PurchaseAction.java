@@ -213,7 +213,7 @@ public class PurchaseAction extends DispatchPagerAction {
 		purchase.setRilegou(rilegou);
 		Set<QuoteFabric> qfSet  = purchase.getQuote().getQuoteFabric();
 		if(qfSet!=null){
-			List<QuoteFabric> qfList =  QuoteFabricUtil.sort(qfSet, "getVcIndex", "asc");
+			List<QuoteFabric> qfList =  QuoteFabricUtil.sort(qfSet, "getOrderId", "asc");
 			for(QuoteFabric qf : qfList){
 				if(!"1".equals(qf.getIsReplaced())){//不是被替代的产品才在采购单中显示
 				//	if(StringUtils.isBlank(isToPur)){

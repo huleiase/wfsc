@@ -107,12 +107,19 @@
 			var quoteFormate = $pDocument.find("#quoteFormate").val();
 			var ctax = $pDocument.find("#containTax").val();
 			var isFreight = $pDocument.find("#isFreight").val();
-			var trId = $pDocument.find("#quoteFabricTable tr").last().attr("id");
-			var trNumber = 0;
-			if(trId){
-				trNumber = trId.substr(2);
-			}
-			//var trNumber = $pDocument.find("#quoteFabricTable tr").last().attr("id").substr(2);
+			var trNumber = $pDocument.find("#quoteFabricTable tr").length-1;
+			
+			var allTrAray = $pDocument.find("#quoteFabricTable tr:gt(0)");
+                if(allTrAray&&allTrAray.length>0){
+                    for(var j=0;j<allTrAray.length;j++ ){
+                        var allTr = $(allTrAray[j]);
+                        var vcCountindex = allTr.attr("id").substr(2);
+                        if(Number(trNumber)<Number(vcCountindex)){
+                        	trNumber = vcCountindex;
+                        }
+                    }
+                }
+			
 			$.ajax({
 				type:"POST",
 				url:url,

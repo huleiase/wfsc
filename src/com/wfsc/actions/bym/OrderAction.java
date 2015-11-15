@@ -156,7 +156,7 @@ public class OrderAction extends DispatchPagerAction {
 		Set<QuoteFabric> qfSet  = order.getPurchase().getQuote().getQuoteFabric();
 		float sumMoney = 0f;
 		if(qfSet!=null){
-			List<QuoteFabric> qfList =  QuoteFabricUtil.sort(qfSet, "getVcIndex", "asc");
+			List<QuoteFabric> qfList =  QuoteFabricUtil.sort(qfSet, "getOrderId", "asc");
 			for(QuoteFabric qf : qfList){
 				if(!"1".equals(qf.getIsReplaced()) && qf.getVcFactoryNum().equals(order.getFactoryNum())){
 					float sigMoney = PriceUtil.getTwoDecimalFloat(qf.getSinglePrice() * qf.getVcPurDis());
@@ -267,6 +267,7 @@ public class OrderAction extends DispatchPagerAction {
 		order.setQuoteId(odb.getQuoteId());
 		order.setFactoryNum(odb.getFactoryNum());
 		order.setHbUnit(odb.getHbUnit());
+		order.setModifyDate(new Date());
 		if(3==order.getOrderStatus()){
 			order.setAuditor(curAdmin.getUsername());
 		}

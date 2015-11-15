@@ -224,7 +224,19 @@ public class Order implements java.io.Serializable {
 	private String auditor;//审核人
 	
 	private String otherConsignee;//其他收货人
+	private Date modifyDate;
 	
+	/**
+	 * @return
+	 * @hibernate.property type="timestamp" column="modifyDate"
+	 */
+	public Date getModifyDate() {
+		return modifyDate;
+	}
+
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
 	
 	/**
 	 * @hibernate.property type="string"

@@ -333,6 +333,8 @@ public class Quote implements java.io.Serializable {
 	
 	private boolean canUpdate;
 	
+	private Date creatDate;
+	
 	
 	/**
 	 * 关联的报价布匹
@@ -374,9 +376,6 @@ public class Quote implements java.io.Serializable {
 		this.isWritPerm = isWritPerm;
 	}
 
-	
-	
-	
 	/**
 	 * @hibernate.collection-key column="quoteId"
 	 * @hibernate.collection-one-to-many class="com.wfsc.common.bo.bym.QuoteFabric"
@@ -1176,6 +1175,17 @@ public class Quote implements java.io.Serializable {
 
 	public void setCanUpdate(boolean canUpdate) {
 		this.canUpdate = canUpdate;
+	}
+	/**
+	 * @return
+	 * @hibernate.property type="timestamp" column="creatDate"
+	 */
+	public Date getCreatDate() {
+		return creatDate;
+	}
+
+	public void setCreatDate(Date creatDate) {
+		this.creatDate = creatDate;
 	}
 	
 	

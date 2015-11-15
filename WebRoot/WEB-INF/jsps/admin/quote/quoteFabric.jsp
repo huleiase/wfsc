@@ -16,9 +16,9 @@
                   <th>最终单价</th>
                   <th>面价</th>
                    <th>货币</th>
-                  <th>成分</th>
                   <th>运费</th>
                   <th>最低运费</th>
+                  <th>成分</th>
                    <th>品牌属性</th>
                   <th>产品范围</th>
                   <th>产地</th>
@@ -109,8 +109,8 @@
                  <div style="width:150px;">
                  	<input type="text" value="<s:property value="vcWidth"/>" id="vcWidth${vcCount }" name="quoteFabricList[${vcIndex }].vcWidth"  class="widthShort"/>
                  	<select id="vcWidthUnit${vcCount }" name="quoteFabricList[${vcIndex }].vcWidthUnit">
-                 		<option value="cm">cm</option>
-                 		<option value="sf">sf</option>
+                 		<option value="cm" <c:if test="${obj.vcWidthUnit=='cm'}">selected</c:if> >cm</option>
+                 		<option value="sf" <c:if test="${obj.vcWidthUnit=='sf'}">selected</c:if> >sf</option>
                  	</select>
                  	</div>
                  </td>
@@ -148,9 +148,9 @@
      			  	<span><s:property value="vcOldPriceUnit"/></span>&nbsp;
      			  </div>
      			  </td>
-     			 <td><input type="text" value="<s:property value="vcComposition"/>" id="vcComposition${vcCount }" name="quoteFabricList[${vcIndex }].vcComposition"  class="widthShort"/></td>
 			     <td><input type="text" readonly="readonly" value="<s:property value="freight"/>" id="freight${vcCount }" name="quoteFabricList[${vcIndex }].freight"  class="widthShort"/></td>
 			     <td><input type="text" readonly="readonly" value="<s:property value="lowFreight"/>" id="lowFreight${vcCount }" name="quoteFabricList[${vcIndex }].lowFreight"  class="widthShort"/></td>
+			    <td><input type="text" value="<s:property value="vcComposition"/>" id="vcComposition${vcCount }" name="quoteFabricList[${vcIndex }].vcComposition"  class="widthShort"/></td>
 			     <td class="brandAttri"><input type="text" readonly="readonly" value="<s:property value="brandAttri"/>" id="brandAttri${vcCount }" name="quoteFabricList[${vcIndex }].brandAttri"  class="widthShort"/></td>
 			     <td><input type="text" readonly="readonly" value="<s:property value="productRange"/>" id="productRange${vcCount }" name="quoteFabricList[${vcIndex }].productRange"  class="widthShort"/></td>
 			     <td><input type="text" readonly="readonly" value="<s:property value="vcProduceLocal"/>" id="vcProduceLocal${vcCount }" name="quoteFabricList[${vcIndex }].vcProduceLocal"  class="widthShort"/></td>
