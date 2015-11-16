@@ -462,6 +462,8 @@ public class OrderAction extends DispatchPagerAction {
 		String area_zh = request.getParameter("area_zh");
 		String isOver = request.getParameter("isOver");
 		String htCode = request.getParameter("htCode");
+		String comeCode = request.getParameter("comeCode");
+		
 		if(StringUtils.isNotEmpty(startTime1)){
 			paramap.put("startTime1", startTime1);
 			request.setAttribute("startTime1", startTime1);
@@ -522,6 +524,10 @@ public class OrderAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(htCode)){
 			paramap.put("htCode", htCode);
 			request.setAttribute("htCode", htCode);
+		}
+		if(StringUtils.isNotEmpty(comeCode)){
+			paramap.put("comeCode", comeCode);
+			request.setAttribute("comeCode", comeCode);
 		}
 		return paramap;
 	}

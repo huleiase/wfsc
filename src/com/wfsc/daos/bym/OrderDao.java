@@ -133,6 +133,10 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 				//	dataMap.put(key, paramap.get(key).toString());
 					countSql.append(" and qf.vcModelNumDisplay like '%").append(paramap.get(key).toString()+"%'");
 				}
+				if("comeCode".equalsIgnoreCase(key)){
+					hql.append(" and qf.vcModelNum like '%").append(paramap.get(key)).append("%'");
+					countSql.append(" and qf.vcModelNum like '%").append(paramap.get(key).toString()+"%'");
+				}
 				if("saleName".equals(key)){
 					hql.append(" and sellname = '").append(paramap.get("saleName")).append("' ");
 					countSql.append(" and salesman.salesname = '").append(paramap.get(key)).append("' ");

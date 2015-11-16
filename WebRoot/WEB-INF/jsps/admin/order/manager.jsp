@@ -26,6 +26,7 @@ var basePath = "<%=basePath%>";
 		$("#orderNo").val("");
 		$("#orderStatus").val("");
 		$("#htCode").val("");
+		$("#comeCode").val("");
 		
 		
 	}
@@ -221,6 +222,8 @@ var basePath = "<%=basePath%>";
 	         <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">HT型号</label>
 	            <input name="htCode" id="htCode" type="text" class="span2"  value="${htCode }">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">到货型号</label>
+	            <input name="comeCode" id="comeCode" type="text" class="span2"  value="${comeCode }">
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">

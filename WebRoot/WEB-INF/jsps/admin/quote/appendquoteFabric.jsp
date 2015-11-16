@@ -39,6 +39,7 @@
 	                 <input type="hidden" value="<s:property value="dhjWidth"/>" id="dhjWidth${vcCount }" name="quoteFabricList[${vcIndex }].dhjWidth" />
 	                 <input type="hidden" value="<s:property value="vcOldPriceUnit"/>" id="vcOldPriceUnit${vcCount }" name="quoteFabricList[${vcIndex }].vcOldPriceUnit" />
 	                 <input type="hidden" value="<s:property value="quoteFormate"/>" id="quoteFormate${vcCount }" name="quoteFabricList[${vcIndex }].quoteFormate" />
+	                 <input type="hidden" value="<s:property value="vcAssignAutor"/>" id="vcAssignAutor${vcCount }" name="quoteFabricList[${vcIndex }].vcAssignAutor" />
 	                 <div style="width:85px;">
 	                 <span class="label label-info btn btn-primary btn-mini" id="copy${vcCount }" onclick="copyFabric2(${vcCount });">复制</span>
 	                 <span class="label label-info btn btn-primary btn-mini" id="remove${vcCount }" onclick="delFabric2(${vcCount });">删除</span>

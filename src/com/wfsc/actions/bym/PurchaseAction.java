@@ -631,7 +631,9 @@ public class PurchaseAction extends DispatchPagerAction {
 				qfdb.setVcShipmentNum(qf.getVcShipmentNum());
 				qfdb.setVcType(qf.getVcType());
 				qfdb.setVcPurchaseRmk(qf.getVcPurchaseRmk());
-				qfdb.setVcAssignAutor(qf.getVcAssignAutor());
+				if(StringUtils.isNotBlank(qf.getVcAssignAutor())){
+					qfdb.setVcAssignAutor(qf.getVcAssignAutor());
+				}
 				if("3".equals(purchase.getOrderStatus())){
 					qfSet.add(qfdb);
 				}else{
