@@ -204,6 +204,9 @@ public class QuoteAction extends DispatchPagerAction {
 			Set<QuoteFabric> qfSet = quote.getQuoteFabric();
 			quoteFabricList = QuoteFabricUtil.sort(qfSet,"getOrderId","asc");
 			for(QuoteFabric qf : quoteFabricList){
+				if(StringUtils.isBlank(qf.getVcProject())){
+					qf.setVcProject(qf.getOrderId()+"");
+				}
 				Attachment attr = commonService.getOnlyAttachmentByKey(qf.getVcFactoryCode()+"_"+qf.getVcModelNum());
 				if(attr!=null){
 					qf.setFilePath(attr.getAttachPath());
@@ -782,6 +785,7 @@ public class QuoteAction extends DispatchPagerAction {
 			
 			qf.setVcIndex(trNumber++);
 			qf.setOrderId(qf.getVcIndex()+1);
+			qf.setVcProject(qf.getOrderId()+"");
 			// 工厂编号
 			qf.setVcFactoryCode(f.getVcFactoryCode());
 			// 原厂型号
@@ -1246,7 +1250,11 @@ public class QuoteAction extends DispatchPagerAction {
         //	r.setRowStyle(rowStyle);
         	HSSFCell c1 = r.createCell(0);
         	c1.setCellStyle(style);
-        	c1.setCellValue(qfList.get(i).getVcProject());
+        	String project = qfList.get(i).getVcProject();
+        	if(StringUtils.isBlank(project)){
+        		project = qfList.get(i).getOrderId()+"";
+        	}
+        	c1.setCellValue(project);
         	HSSFCell c2 = r.createCell(1);
         	c2.setCellStyle(style);
         	c2.setCellValue(qfList.get(i).getVcDes());
@@ -1774,6 +1782,9 @@ public class QuoteAction extends DispatchPagerAction {
 		List<QuoteFabric> listQF = new ArrayList<QuoteFabric>();
 		for(QuoteFabric qf : quoteFabricList){
 			if(!"1".equals(qf.getIsHidden())){//不是隐藏型号的才打印
+				if(StringUtils.isBlank(qf.getVcProject())){
+					qf.setVcProject(qf.getOrderId()+"");
+				}
 				listQF.add(qf);
 			}
 		}

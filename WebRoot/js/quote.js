@@ -722,6 +722,7 @@ function setUrgentCost(){
 				//设置复制行里面一些默认值,比如行号，序号。
 				$("#tr"+newLastIndex).find("input[name$='vcIndex']").val(newLastIndex-1);
 				$("#tr"+newLastIndex).find("input[name$='orderId']").val(newLastIndex);
+				$("#tr"+newLastIndex).find("input[name$='vcProject']").val(newLastIndex);
 				$("#iscopy"+newLastIndex).val("Y");
 				$("#isHidden"+newLastIndex).val("0");
 				$("#isReplaced"+newLastIndex).val("0");

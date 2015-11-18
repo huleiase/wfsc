@@ -28,6 +28,11 @@ var basePath = "<%=basePath%>";
 		var url = basePath+"admin/quote_input.Q";
 		window.location.href = url;
 	}
+	
+	function copyQuote(id){
+		var url = basePath+"admin/quote_input.Q?id="+id+"&isCopy=1";
+		 window.location.href = url;
+	}
 	function updateOrCopy(id){
 			art.dialog({
 		    id: 'updateOrCopy',

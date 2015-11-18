@@ -50,6 +50,9 @@
                   <button class="label label-info btn btn-primary btn-mini" onclick="updateOrCopy('<s:property value="id"/>');">修改</button>
                  </w:permission>
                  </s:if>
+                 <w:permission permissionId="<%=PermissionId.QUOTE_MGT_UPDATE%>">
+                  <button class="label label-info btn btn-primary btn-mini" onclick="copyQuote('<s:property value="id"/>');">新增</button>
+                 </w:permission>
                  <w:permission permissionId="<%=PermissionId.QUOTE_MGT_AUDIT%>">
                   <s:if test="#obj.vcAudit!=1">
                   <button class="label label-info btn btn-primary btn-mini" onclick="auditQuote('<s:property value="id"/>','<s:property value="quoteFormate"/>');">审核</button>
