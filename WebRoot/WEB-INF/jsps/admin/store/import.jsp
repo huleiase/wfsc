@@ -114,7 +114,7 @@
 													<p>
 														您可在此处下载模板,点击
 														<samp>
-														<a style="text-decoration: underline; color: rgb(255, 102, 0);" title="" href="admin/store_getDesignerExcelModel.Q">下载模板</a>！
+														<a style="text-decoration: underline; color: rgb(255, 102, 0);" title="" href="admin/store_getStoreExcelModel.Q">下载模板</a>！
 													</p>
 												</h1>
 											</div>

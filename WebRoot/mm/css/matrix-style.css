@@ -8,6 +8,7 @@ html, body{height:100%}
 /*Bootstrap-overlay*/
 
 body {
+	min-width: 1200px;
 	overflow-x: hidden;
 	margin-top: -10px; font-family: 'Open Sans', sans-serif; font-size:12px; color:#666;
 }
@@ -1459,7 +1460,7 @@ form {
 	padding: 5px 4px 2px;
 }
 }
- @media (min-width: 481px) and (max-width: 970px) {
+ @media (min-width: 481px) and (max-width: 1024px) {
 body {
 	background:#49CCED
 }
@@ -1532,6 +1533,10 @@ body {
 	margin-left: 43px;
 }
 #sidebar .content{ display:none;}
+input.span2, textarea.span2, .uneditable-input.span2 {	width:86px;}
+[class*="span"], .row-fluid [class*="span"] {display: block; float: left;}
+input.span3 {width: 200px;}	
+
 }
 @media (max-width: 600px) {
 .widget-title .buttons {
@@ -1567,14 +1572,14 @@ body {
 }
 #sidebar .content{ display:none;}
 }
-@media (min-width: 768px) and (max-width: 979px) {
+/*@media (min-width: 768px) and (max-width: 979px) {
  [class*="span"], .row-fluid [class*="span"] {
  display: block;
  float: none;
  margin-left: 0;
  width: auto;
 }
-}
+}*/
 @media (max-width: 979px) {
 div.dataTables_wrapper .ui-widget-header {
 	height: 68px;

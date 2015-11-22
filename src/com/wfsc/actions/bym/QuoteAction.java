@@ -466,6 +466,7 @@ public class QuoteAction extends DispatchPagerAction {
 			if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay())){
 				continue;
 			}
+			qf.setQuoteNum(quote.getProjectNum());
 			qf.setQuote(quote);
 		}
 		quote.setQuoteFabric(qfset);

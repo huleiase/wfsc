@@ -75,6 +75,10 @@ public class StoreFabricAction extends DispatchPagerAction {
 		boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
 		boolean isSaleManager = securityService.isAbleRole(admin.getUsername(), "销售经理");
 		boolean isquoteer = securityService.isAbleRole(admin.getUsername(), "报价员");
+		
+		boolean isLogistics = securityService.isAbleRole(admin.getUsername(), "物流专员");
+		boolean isAreaCaiwu = securityService.isAbleRole(admin.getUsername(), "分区财务经理");
+		
 		if(isSale&&!isSaleManager){
 			paramap.put("userName", admin.getUsername());
 		}
@@ -89,7 +93,7 @@ public class StoreFabricAction extends DispatchPagerAction {
 			}
 		}
 		String permission = request.getParameter("permission");
-		if(isSale||isquoteer||isSaleManager){
+		if(isSale||isquoteer||isSaleManager||isLogistics||isAreaCaiwu){
 			permission = "0";
 		}
 		request.setAttribute("permission", permission);
@@ -105,6 +109,14 @@ public class StoreFabricAction extends DispatchPagerAction {
 	}
 	
 	public String input() {
+		Admin admin = this.getCurrentAdminUser();
+		boolean isLogistics = securityService.isAbleRole(admin.getUsername(), "物流专员");
+		boolean isAreaCaiwu = securityService.isAbleRole(admin.getUsername(), "分区财务经理");
+		String permission = "1";
+		if(isLogistics||isAreaCaiwu){
+			permission = "0";
+		}
+		request.setAttribute("permission", permission);
 		String id = request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
 			storeFabric = storeFabricService.getStoreFabricById(Long.valueOf(id));
@@ -116,6 +128,14 @@ public class StoreFabricAction extends DispatchPagerAction {
 	}
 	
 	public String detail() {
+		Admin admin = this.getCurrentAdminUser();
+		boolean isLogistics = securityService.isAbleRole(admin.getUsername(), "物流专员");
+		boolean isAreaCaiwu = securityService.isAbleRole(admin.getUsername(), "分区财务经理");
+		String permission = "1";
+		if(isLogistics||isAreaCaiwu){
+			permission = "0";
+		}
+		request.setAttribute("permission", permission);
 		String id = request.getParameter("id");
 		storeFabric = storeFabricService.getStoreFabricById(Long.valueOf(id));
 		request.setAttribute("isView", true);

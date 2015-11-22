@@ -324,6 +324,8 @@ public class QuoteFabric implements java.io.Serializable{
 	
 	private String vcDis;
 	
+	private String quoteNum; 
+	
 	/**
 	  * hibernate中的主键
 	  * 
@@ -1171,5 +1173,17 @@ public class QuoteFabric implements java.io.Serializable{
 	public void setVcDis(String vcDis) {
 		this.vcDis = vcDis;
 	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getQuoteNum() {
+		return quoteNum;
+	}
+
+	public void setQuoteNum(String quoteNum) {
+		this.quoteNum = quoteNum;
+	}
+	
+	
 	
 }

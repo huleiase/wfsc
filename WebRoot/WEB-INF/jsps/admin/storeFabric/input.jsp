@@ -14,7 +14,8 @@
 		$("#inputForm").submit();
 	}
 	function toBack(){
-		window.location.href = "<%=basePath %>/admin/storeFabric_manager.Q";
+		history.go(-1);
+		//window.location.href = "<%=basePath %>/admin/storeFabric_manager.Q";
 	}
 </script>
 
@@ -39,8 +40,10 @@
 	         </div>
 	         <div class="clear"></div>
 	         <div class="controls">
+	         <c:if test="${permission=='1'}">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">供应商</label>
 	            <input name="storeFabric.supplie" id="supplie" type="text" class="span2"  value="${ storeFabric.supplie}">
+	            </c:if>
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">色号</label>
 	            <input name="storeFabric.vcColorNum" id="vcColorNum" type="text" class="span2"  value="${ storeFabric.vcColorNum}">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">对照码</label>

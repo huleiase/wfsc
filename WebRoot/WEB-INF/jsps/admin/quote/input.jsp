@@ -57,7 +57,7 @@
 <style type="text/css">
 input.span3 {
     float: left;
-    width: 205px;
+    width: 190px;
 }
 input.blankInput {
      float: left;
@@ -66,14 +66,14 @@ input.blankInput {
     width: 75px;
 }
 input.span11 {
-    width: 870px;
+    width: 825px;
 }
 input.span6 {
-    width: 538px;
+    width: 508px;
 }
 .quoteItem {
     height: 160px;
-    width: 876px;
+    width: 826px;
 }
 .selectQuoteFabric {
     float: left;
@@ -132,7 +132,7 @@ table#quoteFabricTable .label, .badge {
 	         <div class="clear"></div>
 	          <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">报价公司</label>
-	            <select name="quote.vcFrom" id="vcFrom" style="width:219px;float: left;" onchange="setDeputyCom2();" class="span3">
+	            <select name="quote.vcFrom" id="vcFrom" style="width:204px;float: left;" onchange="setDeputyCom2();" class="span3">
 	            	<option value="">请选择</option>
 	             	<option value="北京帛韵鸿维装饰材料有限公司" <s:if test="#request.quote.vcFrom=='北京帛韵鸿维装饰材料有限公司'">selected</s:if> >北京帛韵鸿维装饰材料有限公司</option>
                   	<option value="北京元韵布艺文化发展有限公司" <s:if test="#request.quote.vcFrom=='北京元韵布艺文化发展有限公司'">selected</s:if> >北京元韵布艺文化发展有限公司</option>
@@ -160,7 +160,7 @@ table#quoteFabricTable .label, .badge {
 	         <div class="clear"></div>
 	          <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">报价地</label>
-	            <select name="quote.vcQuoteLocal" id="vcQuoteLocal" style="width:219px;float: left;" onchange="setSells(this.value,'${quote.vcSalesman }');setRefNo(this.value);setTel(this.value)" class="span3">
+	            <select name="quote.vcQuoteLocal" id="vcQuoteLocal" style="width:204px;float: left;" onchange="setSells(this.value,'${quote.vcSalesman }');setRefNo(this.value);setTel(this.value)" class="span3">
 	             	<option value="GZ" <s:if test="#request.quote.vcQuoteLocal=='GZ'">selected</s:if> >广州</option>
 	             	<option value="SH" <s:if test="#request.quote.vcQuoteLocal=='SH'">selected</s:if> >上海</option>
 	             	<option value="BJ" <s:if test="#request.quote.vcQuoteLocal=='BJ'">selected</s:if> >北京</option>
@@ -168,7 +168,7 @@ table#quoteFabricTable .label, .badge {
 	             	<option value="HK" <s:if test="#request.quote.vcQuoteLocal=='HK'">selected</s:if> >香港</option>
 	             </select>
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">销售</label>
-	            <select name="quote.vcSalesman" id="vcSalesman" style="width:219px;float: left;" onchange="setSellPhone(this.value);" class="span3">
+	            <select name="quote.vcSalesman" id="vcSalesman" style="width:204px;float: left;" onchange="setSellPhone(this.value);" class="span3">
 	            	<option value="">请选择</option>
 	            	<s:iterator value="#request.localsellmanList" var="ls">
 	            		<option value="${ls.username }" <c:if test='${quote.vcSalesman==ls.username }'>selected=selected</c:if>>${ls.username }</option>
@@ -180,21 +180,21 @@ table#quoteFabricTable .label, .badge {
 	         <div class="clear"></div>
 	          <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">销售1</label>
-	            <select name="quote.vcSalesman1" id="vcSalesman1" style="width:219px;float: left;"  class="span3">
+	            <select name="quote.vcSalesman1" id="vcSalesman1" style="width:204px;float: left;"  class="span3">
 	            	<option value="">请选择</option>
 	            	<s:iterator value="#request.sellmanList" var="s1">
 	            		<option value="${s1.username }" <c:if test='${quote.vcSalesman1==s1.username }'>selected=selected</c:if>>${s1.username }</option>
 	            	</s:iterator>
 	             </select>
 	              <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">销售2</label>
-	            <select name="quote.vcSalesman2" id="vcSalesman2" style="width:219px;float: left;"  class="span3">
+	            <select name="quote.vcSalesman2" id="vcSalesman2" style="width:204px;float: left;"  class="span3">
 	            	<option value="">请选择</option>
 	            	<s:iterator value="#request.sellmanList" var="s2">
 	            		<option value="${s2.username }" <c:if test='${quote.vcSalesman2==s2.username }'>selected=selected</c:if>>${s2.username }</option>
 	            	</s:iterator>
 	             </select>
 	              <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">销售3</label>
-	            <select name="quote.vcSalesman3" id="vcSalesman1" style="width:219px;float: left;"  class="span3">
+	            <select name="quote.vcSalesman3" id="vcSalesman1" style="width:204px;float: left;"  class="span3">
 	            	<option value="">请选择</option>
 	            	<s:iterator value="#request.sellmanList" var="s3">
 	            		<option value="${s3.username }" <c:if test='${quote.vcSalesman3==s3.username }'>selected=selected</c:if>>${s3.username }</option>
@@ -204,14 +204,14 @@ table#quoteFabricTable .label, .badge {
 	         <div class="clear"></div>
 	          <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">销售4</label>
-	            <select name="quote.vcSalesman4" id="vcSalesman4" style="width:219px;float: left;"  class="span3">
+	            <select name="quote.vcSalesman4" id="vcSalesman4" style="width:204px;float: left;"  class="span3">
 	            	<option value="">请选择</option>
 	            	<s:iterator value="#request.sellmanList" var="s4">
 	            		<option value="${s4.username }" <c:if test='${quote.vcSalesman4==s4.username }'>selected=selected</c:if>>${s4.username }</option>
 	            	</s:iterator>
 	             </select>
 	              <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">销售组</label>
-	            <select name="quote.groupId" id="salesmanGroup" style="width:219px;float: left;"  class="span3">
+	            <select name="quote.groupId" id="salesmanGroup" style="width:204px;float: left;"  class="span3">
 	            	<option value="">请选择</option>
 	            	<s:iterator value="#request.salesmanGroup" var="sg">
 	            		<option value="${sg.id }" <c:if test='${quote.groupId==sg.id }'>selected=selected</c:if>>${sg.groupName }</option>
@@ -234,7 +234,7 @@ table#quoteFabricTable .label, .badge {
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">尊敬的</label>
 	            <input name="quote.customer" id="customer" type="text" class="span3"  value="${ quote.customer}" onclick="setCustomer();">
 	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">报价</label>
-	            <select name="quote.quoteFormate" id="quoteFormate" style="width:219px;float: left;" class="span3">
+	            <select name="quote.quoteFormate" id="quoteFormate" style="width:204px;float: left;" class="span3">
 	             	<option value="">请选择</option>
 	             	<option value="1" <s:if test="#request.quote.quoteFormate==1">selected</s:if> >内地报价</option>
                   	<option value="2" <s:if test="#request.quote.quoteFormate==2">selected</s:if> >香港报价</option>
@@ -317,7 +317,7 @@ table#quoteFabricTable .label, .badge {
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">最低运费</label>
 	            <input name="quote.lowestFreight" id="lowestFreight" type="text" class="span3"  value="${ quote.lowestFreight}" onkeyup="setSumMoney();">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">是否含运费</label>
-	             <select name="quote.isFreight" id="isFreight" style="width:219px;float: left;" onchange="setPriceByFre2();" class="span3">
+	             <select name="quote.isFreight" id="isFreight" style="width:204px;float: left;" onchange="setPriceByFre2();" class="span3">
 	             	<option value="1" <s:if test="#request.quote.isFreight==1">selected</s:if> >是</option>
                   	<option value="0" <s:if test="#request.quote.isFreight==0">selected</s:if> >否</option>
 	             </select>

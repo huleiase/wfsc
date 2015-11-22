@@ -19,6 +19,9 @@
                   <th>下单地区</th>
                   <th>订单确认</th>
                    <th>是否发货</th>
+                    <th>物流方式1</th>
+                    <th>物流方式2</th>
+                    <th>物流方式3</th>
                   <th>订单状态</th>
                   <th>审核人</th>
                    <c:if test="${!isLess}">
@@ -60,6 +63,9 @@
                   	<s:elseif test="#obj.orderStatus==2">已注销</s:elseif>
                   	<s:elseif test="#obj.orderStatus==3">已审核</s:elseif>
                   </td>
+                   <td><s:property value="express1"/></td>
+                    <td><s:property value="express2"/></td>
+                     <td><s:property value="express3"/></td>
                   <td><s:property value="auditor"/></td>
                    <c:if test="${!isLess}">
                    <td><s:property value="sumMoney"/> <s:property value="hbUnit"/></td>

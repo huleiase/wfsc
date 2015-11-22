@@ -148,6 +148,15 @@ table#quoteFabricTable .label, .badge {
 	         </div>
 	         <div class="clear"></div>
 	         </c:if>
+	          <c:if test="${isMoreLess}">
+	          	<div class="controls">
+	          	<label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">订单日期</label>
+	            <input id="orderDate" type="text" class="span3"  value="${ order.orderDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">经手人</label>
+	            <input name="order.vcfrom" id="vcfrom" type="text" class="span3"  value="${ order.vcfrom}">
+	         </div>
+	         <div class="clear"></div>
+	          </c:if>
 	          <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">报价单号</label>
 	             <input name="order.quantation" id="quantation" type="text" class="span3"  value="${ order.quantation}" readonly="readonly">

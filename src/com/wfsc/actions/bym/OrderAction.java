@@ -106,6 +106,14 @@ public class OrderAction extends DispatchPagerAction {
 		if(isAdmin||isCaiwu){
 			canToQuote = true;
 		}
+		boolean isLogistics = securityService.isAbleRole(admin.getUsername(), "物流专员");
+		boolean isAreaCaiwu = securityService.isAbleRole(admin.getUsername(), "分区财务经理");
+		boolean isMoreLess = false;
+		if(isLogistics||isAreaCaiwu){
+			isMoreLess = true;
+			isLess = true;
+		}
+		request.setAttribute("isMoreLess", isMoreLess);
 		request.setAttribute("isLess", isLess);
 		request.setAttribute("canToQuote", canToQuote);
 	//	request.setAttribute("isAdmin", isAdmin);
@@ -143,6 +151,14 @@ public class OrderAction extends DispatchPagerAction {
 		if(isSale||isSaleManager||isQuoter){
 			isLess = true;
 		}
+		boolean isLogistics = securityService.isAbleRole(admin.getUsername(), "物流专员");
+		boolean isAreaCaiwu = securityService.isAbleRole(admin.getUsername(), "分区财务经理");
+		boolean isMoreLess = false;
+		if(isLogistics||isAreaCaiwu){
+			isMoreLess = true;
+			isLess = true;
+		}
+		request.setAttribute("isMoreLess", isMoreLess);
 		request.setAttribute("isLess", isLess);
 		String id = request.getParameter("id");
 		String isView = request.getParameter("isView");
@@ -463,6 +479,7 @@ public class OrderAction extends DispatchPagerAction {
 		String isOver = request.getParameter("isOver");
 		String htCode = request.getParameter("htCode");
 		String comeCode = request.getParameter("comeCode");
+		String isQC = request.getParameter("isQC");
 		
 		if(StringUtils.isNotEmpty(startTime1)){
 			paramap.put("startTime1", startTime1);
@@ -528,6 +545,11 @@ public class OrderAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(comeCode)){
 			paramap.put("comeCode", comeCode);
 			request.setAttribute("comeCode", comeCode);
+		}
+		
+		if(StringUtils.isNotEmpty(isQC)){
+			paramap.put("isQC", isQC);
+			request.setAttribute("isQC", isQC);
 		}
 		return paramap;
 	}

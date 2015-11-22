@@ -27,6 +27,7 @@ var basePath = "<%=basePath%>";
 		$("#orderStatus").val("");
 		$("#htCode").val("");
 		$("#comeCode").val("");
+		$("#isQC").val("");
 		
 		
 	}
@@ -224,6 +225,13 @@ var basePath = "<%=basePath%>";
 	            <input name="htCode" id="htCode" type="text" class="span2"  value="${htCode }">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">到货型号</label>
 	            <input name="comeCode" id="comeCode" type="text" class="span2"  value="${comeCode }">
+	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">货物QC是否完成</label>
+	            <select name="isQC" id="isQC" style="width:170px;float:left;">
+	            	<option value="">请选择</option>
+                  	<option value="0" <c:if test="${isQC=='0'}">selected</c:if>>否</option>	
+					<option value="1" <c:if test="${isQC=='1'}">selected</c:if>>是</option>
+					<option value="2" <c:if test="${isQC=='2'}">selected</c:if>>QC异常</option>
+	             </select>
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">
