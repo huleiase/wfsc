@@ -78,7 +78,11 @@ public class StoreFabricAction extends DispatchPagerAction {
 		
 		boolean isLogistics = securityService.isAbleRole(admin.getUsername(), "物流专员");
 		boolean isAreaCaiwu = securityService.isAbleRole(admin.getUsername(), "分区财务经理");
-		
+		boolean lessPermission =false;
+		if(isLogistics||isAreaCaiwu){
+			lessPermission = true;
+		}
+		request.setAttribute("lessPermission", lessPermission);
 		if(isSale&&!isSaleManager){
 			paramap.put("userName", admin.getUsername());
 		}
@@ -93,7 +97,7 @@ public class StoreFabricAction extends DispatchPagerAction {
 			}
 		}
 		String permission = request.getParameter("permission");
-		if(isSale||isquoteer||isSaleManager||isLogistics||isAreaCaiwu){
+		if(isSale||isquoteer||isSaleManager){
 			permission = "0";
 		}
 		request.setAttribute("permission", permission);
@@ -273,6 +277,8 @@ public class StoreFabricAction extends DispatchPagerAction {
 		
 		String htCode = request.getParameter("htCode");
 		
+		String comeCode = request.getParameter("comeCode");
+		
 		if(StringUtils.isNotEmpty(startTime)){
 			paramap.put("startTime", startTime);
 			request.setAttribute("startTime", startTime);
@@ -306,6 +312,11 @@ public class StoreFabricAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(htCode)){
 			paramap.put("htCode", htCode);
 			request.setAttribute("htCode", htCode);
+		}
+		
+		if(StringUtils.isNotEmpty(comeCode)){
+			paramap.put("comeCode", comeCode);
+			request.setAttribute("comeCode", comeCode);
 		}
 		return paramap;
 	}

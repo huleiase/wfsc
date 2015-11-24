@@ -342,6 +342,7 @@ public class OrderAction extends DispatchPagerAction {
 			this.emailService.saveOrUpdateEntity(e);
 			String curAdminName = this.getCurrentAdminUser().getUsername();
 			saveSystemLog(LogModule.orderLog, curAdminName+"提交了订单"+order.getOrderNo());
+			this.saveProStroage(order, qfdbList);
 		}
 		if(3==order.getOrderStatus()){
 			List<Admin> purManegers = this.securityService.getUserListByRoleName("采购经理");
@@ -444,7 +445,6 @@ public class OrderAction extends DispatchPagerAction {
 					}
 				}
 			saveSystemLog(LogModule.orderLog, curAdmin.getUsername()+"审核了订单"+order.getOrderNo());
-			this.saveProStroage(order, qfdbList);
 		}
 		return "ok";
 	}

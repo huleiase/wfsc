@@ -371,6 +371,7 @@ public class QuoteAction extends DispatchPagerAction {
 			addOrUpdate = "修改";
 			List<Long> delQfIds = new ArrayList<Long>();
 			Quote oldQuote = this.quoteService.getQuoteById(quote.getId());
+			quote.setCreatDate(oldQuote.getCreatDate());
 			Set<QuoteFabric> oldQfSet = oldQuote.getQuoteFabric();
 			//增加一条抵消设计费记录，原来的还保留
 			List<DesignerExpense> des = this.designerExpenseService.getDesignerExpenseByQuoteId(quote.getId());

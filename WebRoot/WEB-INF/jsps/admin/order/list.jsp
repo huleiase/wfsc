@@ -57,15 +57,16 @@
                   	<s:if test="#obj.isShipments==1">已发货</s:if>
                   	<s:else>未发货</s:else>
                   </td>
+                   <td><s:property value="express1"/></td>
+                    <td><s:property value="express2"/></td>
+                     <td><s:property value="express3"/></td>
                   <td>
                   	<s:if test="#obj.orderStatus==0">未提交</s:if>
                   	<s:elseif test="#obj.orderStatus==1">已提交</s:elseif>
                   	<s:elseif test="#obj.orderStatus==2">已注销</s:elseif>
                   	<s:elseif test="#obj.orderStatus==3">已审核</s:elseif>
                   </td>
-                   <td><s:property value="express1"/></td>
-                    <td><s:property value="express2"/></td>
-                     <td><s:property value="express3"/></td>
+                  
                   <td><s:property value="auditor"/></td>
                    <c:if test="${!isLess}">
                    <td><s:property value="sumMoney"/> <s:property value="hbUnit"/></td>

@@ -60,6 +60,11 @@ public class StoreFabricDao extends EnhancedHibernateDaoSupport<StoreFabric> {
 					continue;
 				}
 				
+				if("comeCode".equalsIgnoreCase(key)){
+					hql.append(" and obj.vcModelNum like '%").append(paramap.get(key)).append("%'");
+					countSql.append(" and sf.vcModelNum like '%").append(paramap.get(key).toString()+"%'");
+				}
+				
 				if ("orderNo".equals(key)) {
 					hql.append(" and obj.orderNo like :orderNo");
 					dataMap.put("orderNo", paramap.get(key));

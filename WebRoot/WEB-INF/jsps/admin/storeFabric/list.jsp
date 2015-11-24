@@ -11,10 +11,12 @@
                   <th>项目名称</th>
                   <th>报价单号</th>
                   <th>订单号</th>
+                  <c:if test="${!lessPermission}">
                   <th>供应商</th>
+                  </c:if>
                    <th>支付方式</th>
+                   <th>报价型号</th>
                   <th>原厂型号</th>
-                  <th>HT型号</th>
                   <th>色号</th>
                    <th>实订量</th>
                   <th>分铺段量</th>
@@ -36,10 +38,12 @@
                   <td><s:property value="vcProject"/></td>
                    <td><s:property value="quoteNum"/></td>
                   <td><s:property value="orderNo"/></td>
+                    <c:if test="${!lessPermission}">
                   <td><s:property value="supplie"/></td>
+                  </c:if>
                   <td><s:property value="payment"/></td>
-                  <td><s:property value="vcModelNum"/></td>
-                   <td><s:property value="htCode"/></td>
+                  <td><s:property value="displayNum"/></td>
+                  <td><s:property value="vcFactoryCode"/> <s:property value="vcModelNum"/></td>
                   <td><s:property value="vcColorNum"/></td>
                   <td><s:property value="vcQuoteNum"/></td>
                   <td><s:property value="vcSubLay"/></td>

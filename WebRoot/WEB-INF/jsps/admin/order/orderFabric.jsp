@@ -14,7 +14,7 @@
 			<th>
 				色号
 			</th>
-			<c:if test="${!isLess}">
+			<c:if test="${!isLess||isMoreLess}">
 			<th>
 				原厂型号
 			</th>
@@ -79,7 +79,7 @@
 					<td>
 						<s:property value="vcColorNum" />
 					</td>
-					<c:if test="${!isLess}">
+					<c:if test="${!isLess||isMoreLess}">
 					<td>
 						<s:property value="vcFactoryCode"/>&nbsp;<s:property value="vcModelNum"/>
 					</td>

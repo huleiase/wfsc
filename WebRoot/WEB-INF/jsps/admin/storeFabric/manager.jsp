@@ -17,6 +17,9 @@
 		$("#vcModelNum").val("");
 		$("#orderNo").val("");
 		$("#surplus").val("");
+		$("#htCode").val("");
+		$("#comeCode").val("");
+		
 	}
 	function addOrUpdate(id){
 		var url = "<%=basePath%>admin/storeFabric_input.Q";
@@ -128,6 +131,11 @@
 	             <input name="vcModelNum" id="vcModelNum" type="text" class="span2"  value="${vcModelNum }">
 	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">HT型号</label>
 	            <input name="htCode" id="htCode" type="text" class="span2"  value="${htCode }">
+	         </div>
+	         <div class="clear"></div>
+	          <div class="controls">
+	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">到货型号</label>
+	            <input name="comeCode" id="comeCode" type="text" class="span2"  value="${comeCode }">
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">
