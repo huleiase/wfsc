@@ -445,6 +445,7 @@ public class OrderAction extends DispatchPagerAction {
 					}
 				}
 			saveSystemLog(LogModule.orderLog, curAdmin.getUsername()+"审核了订单"+order.getOrderNo());
+			this.saveProStroage(order, qfdbList);
 		}
 		return "ok";
 	}

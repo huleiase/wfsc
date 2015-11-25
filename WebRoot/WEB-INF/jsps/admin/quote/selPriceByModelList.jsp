@@ -5,6 +5,7 @@
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
+                <th>项目名称</th>
                  <th>项目</th>
                   <th>描述</th>
                   <th>型号</th>
@@ -24,6 +25,7 @@
               <s:if test="#request.page.data.size>0">
                 <s:iterator value="#request.page.data" var="obj">
                  <tr>
+                 <td><s:property value="quote.projectName"/></td>
                   <td><s:property value="vcProject"/></td>
                   <td><s:property value="vcDes"/></td>
                   <td><s:property value="vcModelNumDisplay"/></td>

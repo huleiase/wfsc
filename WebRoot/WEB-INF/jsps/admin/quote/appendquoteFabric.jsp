@@ -45,9 +45,9 @@
 	                 <span class="label label-info btn btn-primary btn-mini" id="remove${vcCount }" onclick="delFabric2(${vcCount });">删除</span>
 	                 </div>
                  </td>
-                 <td><input type="text" value="<s:property value="orderId"/>" id="orderId${vcCount }" name="quoteFabricList[${vcIndex }].orderId" class="widthShort"/></td>
+                 <td><input type="text" value="<s:property value="orderId"/>" id="orderId${vcCount }" name="quoteFabricList[${vcIndex }].orderId" class="widthShort"/></td><!--
 			     <td><input type="text" value="<s:property value="vcProject"/>" id="vcProject${vcCount }" name="quoteFabricList[${vcIndex }].vcProject"/></td>
-			     <td><input type="text" value="<s:property value="vcDes"/>" id="vcDes${vcCount }" name="quoteFabricList[${vcIndex }].vcDes" /></td>
+			     --><td><input type="text" value="<s:property value="vcDes"/>" id="vcDes${vcCount }" name="quoteFabricList[${vcIndex }].vcDes" /></td>
 			     <td><input type="text" value="<s:property value="vcDis"/>" id="vcDis${vcCount }" name="quoteFabricList[${vcIndex }].vcDis"  class="widthShort"/></td>
 			     <td><input type="text" value="<s:property value="vcModelNumDisplay"/>" id="vcModelNumDisplay${vcCount }" name="quoteFabricList[${vcIndex }].vcModelNumDisplay" readonly="readonly" /></td>
 			     <td>
