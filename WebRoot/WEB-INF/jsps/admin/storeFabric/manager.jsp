@@ -21,6 +21,33 @@
 		$("#comeCode").val("");
 		
 	}
+	
+	function storeOver(id){
+		art.dialog({
+			    content: '你确定要把选中的记录改为已完结吗？',
+			    okVal:'确定',
+			    ok: function () {
+			    	$.ajax({
+						url:"<%=basePath%>admin/storeFabric_storeOver.Q",
+						data:{"id":id},
+						dataType:'text',
+						success:function(data){
+							if(!isNaN(data)){
+								$("#isStoreOver"+data).html("已完结");
+							}else{
+								art.dialog({
+									time: 2,
+									content: '修改失败！'
+								});
+							}
+					    }
+					})
+			    },
+			    cancelVal: '取消',
+			    cancel: true 
+			});
+	
+	}
 	function addOrUpdate(id){
 		var url = "<%=basePath%>admin/storeFabric_input.Q";
 		if(id){
@@ -136,6 +163,12 @@
 	          <div class="controls">
 	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">到货型号</label>
 	            <input name="comeCode" id="comeCode" type="text" class="span2"  value="${comeCode }">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">仓库完结</label>
+	            <select name="isStoreOver" id="isStoreOver" style="width:170px;float:left;">
+	            	<option value="">请选择</option>
+                  	<option value="0" <s:if test="#request.isStoreOver==0">selected</s:if> >否</option>
+                  	<option value="1" <s:if test="#request.isStoreOver==1">selected</s:if> >是</option>
+	             </select>
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">

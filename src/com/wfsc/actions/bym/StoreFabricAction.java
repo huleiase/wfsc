@@ -162,6 +162,20 @@ public class StoreFabricAction extends DispatchPagerAction {
 		}
 		return null;
 	}
+	public String storeOver(){
+		String id = request.getParameter("id");
+		try {
+			StoreFabric sfdb = storeFabricService.getStoreFabricById(Long.valueOf(id));
+			sfdb.setIsStoreOver("1");
+			storeFabricService.saveOrUpdateEntity(sfdb);
+			response.getWriter().write(id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 	
 	public String save(){
 		StoreFabric sfdb = storeFabricService.getStoreFabricById(storeFabric.getId());
@@ -279,6 +293,8 @@ public class StoreFabricAction extends DispatchPagerAction {
 		
 		String comeCode = request.getParameter("comeCode");
 		
+		String isStoreOver = request.getParameter("isStoreOver");
+		
 		if(StringUtils.isNotEmpty(startTime)){
 			paramap.put("startTime", startTime);
 			request.setAttribute("startTime", startTime);
@@ -318,6 +334,13 @@ public class StoreFabricAction extends DispatchPagerAction {
 			paramap.put("comeCode", comeCode);
 			request.setAttribute("comeCode", comeCode);
 		}
+		
+		if(StringUtils.isNotEmpty(isStoreOver)){
+			paramap.put("isStoreOver", isStoreOver);
+			request.setAttribute("isStoreOver", isStoreOver);
+		}
+		
+		
 		return paramap;
 	}
 	public String getStoreFabricExcelModel(){

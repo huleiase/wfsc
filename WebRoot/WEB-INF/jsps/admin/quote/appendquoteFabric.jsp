@@ -49,7 +49,9 @@
 			     <td><input type="text" value="<s:property value="vcProject"/>" id="vcProject${vcCount }" name="quoteFabricList[${vcIndex }].vcProject"/></td>
 			     --><td><input type="text" value="<s:property value="vcDes"/>" id="vcDes${vcCount }" name="quoteFabricList[${vcIndex }].vcDes" /></td>
 			     <td><input type="text" value="<s:property value="vcDis"/>" id="vcDis${vcCount }" name="quoteFabricList[${vcIndex }].vcDis"  class="widthShort"/></td>
-			     <td><input type="text" value="<s:property value="vcModelNumDisplay"/>" id="vcModelNumDisplay${vcCount }" name="quoteFabricList[${vcIndex }].vcModelNumDisplay" readonly="readonly" /></td>
+			     <td><input type="text" value="<s:property value="vcModelNumDisplay"/>" id="vcModelNumDisplay${vcCount }" name="quoteFabricList[${vcIndex }].vcModelNumDisplay" readonly="readonly" />
+			     <span id="orderQuantityDisplay${vcCount }"><s:property value="orderQuantity"/></span><span><s:property value="vcOldPriceUnit"/></span>
+			     </td>
 			     <td>
 			     <c:if test="${obj.isHtCode==1}">
 			     <input type="text" id="vcNoDisplayColorNum${vcCount }"  class="widthShort" readonly="readonly"/>

@@ -99,19 +99,16 @@ public class StoreFabricDao extends EnhancedHibernateDaoSupport<StoreFabric> {
 					continue;
 				}
 				if ("userName".equals(key)) {
-					/*hql.append(" and (obj.vcSalesman = '").append(paramap.get(key)).append("'");
-					hql.append(" or obj.vcSalesman = '").append(paramap.get(key)).append("'");
-					hql.append(" or obj.vcSalesman1 = '").append(paramap.get(key)).append("'");
-					hql.append(" or obj.vcSalesman2 = '").append(paramap.get(key)).append("'");
-					hql.append(" or obj.vcSalesman3 = '").append(paramap.get(key)).append("'");
-					hql.append(" or obj.vcSalesman4 = '").append(paramap.get(key)).append("') ");*/
-					//quote.salesman
 					hql.append(" and sellname = '").append(paramap.get(key)).append("' ");
 					countSql.append(" and salesman.salesname = '").append(paramap.get(key)).append("' ");
 					continue;
 				}
+				if("isStoreOver".equalsIgnoreCase(key)){
+					hql.append(" and obj.isStoreOver = '").append(paramap.get(key)).append("' ");
+					countSql.append(" and sf.isStoreOver = '").append(paramap.get(key).toString()+"' ");
+				}
 			}
-			System.out.println(hql);
+		//	System.out.println(hql);
 		/*	int totalCount = this.countByHqlWithParama(hql.toString(),dataMap);
 			page.setTotalCount(totalCount);*/
 			List<StoreFabric> list = this.findList4PageWithParama(hql.toString(), page

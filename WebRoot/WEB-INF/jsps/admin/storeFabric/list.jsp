@@ -18,6 +18,8 @@
                    <th>报价型号</th>
                   <th>原厂型号</th>
                   <th>色号</th>
+                  <th>幅宽</th>
+                  <th>订货量</th>
                    <th>实订量</th>
                   <th>分铺段量</th>
                   <th>实际到货</th>
@@ -26,6 +28,8 @@
                   <th>经手人</th>
                    <th>位置</th>
                   <th>入库日期</th>
+                  <th>完结状态</th>
+                   <th>备注</th>
                   <th>图片</th>
                   <th>操作</th>
                 </tr>
@@ -45,6 +49,8 @@
                   <td><s:property value="displayNum"/></td>
                   <td><s:property value="vcFactoryCode"/> <s:property value="vcModelNum"/></td>
                   <td><s:property value="vcColorNum"/></td>
+                   <td><s:property value="vcWidth"/> <s:property value="vcWidthUnit"/></td>
+                    <td><s:property value="orderQuantity"/></td>
                   <td><s:property value="vcQuoteNum"/></td>
                   <td><s:property value="vcSubLay"/></td>
                   <td><s:property value="vcRealityAog"/></td>
@@ -53,6 +59,11 @@
                   <td><s:property value="vcAssignAutor"/></td>
                   <td><s:property value="vcAddr"/></td>
                   <td><s:date name="inStoreDate" format="yyyy-MM-dd" /></td>
+                  <td id='isStoreOver<s:property value="id"/>'>
+                  <s:if test="#obj.isStoreOver==1">已完结</s:if>
+                  	<s:else>未完结</s:else>
+                  </td>
+                  <td><s:property value="vcPurchaseRmk"/></td>
                   <td>
                   	<a target="_blank" title="点击查看图片" href='<s:property value="fileName"/>' rel="attachment" class="tip-bottom" style="display: inline-block; width: 60px;">
 				     		<img width="30" height="20" alt="暂无图片" src='<s:property value="fileName"/>' /> 
@@ -60,6 +71,7 @@
                   </td>
                   <td>
                   <w:permission permissionId="<%=PermissionId.PROCESS_STOCk_MGT_UPDATE%>">
+                  <button class="label label-info btn btn-primary btn-mini" onclick="storeOver('<s:property value="id"/>');">完结</button>
                   <button class="label label-info btn btn-primary btn-mini" onclick="addOrUpdate('<s:property value="id"/>');">修改</button>
                   </w:permission>
                   <w:permission permissionId="<%=PermissionId.PROCESS_STOCk_MGT_TRANSFER%>">

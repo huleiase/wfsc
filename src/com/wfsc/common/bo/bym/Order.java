@@ -218,13 +218,17 @@ public class Order implements java.io.Serializable {
 	private String madan;
 	//其他地址
 	private String otherShipAddress;
-	
+	//产地编号
 	private String factoryNum;
 	
 	private String auditor;//审核人
 	
 	private String otherConsignee;//其他收货人
 	private Date modifyDate;
+	//财务完结
+	private String isCaiwuOver;
+	//货到目的地完结
+	private String isArrivalOver;
 	
 	/**
 	 * @return
@@ -986,6 +990,26 @@ public class Order implements java.io.Serializable {
 
 	public void setOtherShipAddress(String otherShipAddress) {
 		this.otherShipAddress = otherShipAddress;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getIsCaiwuOver() {
+		return isCaiwuOver;
+	}
+
+	public void setIsCaiwuOver(String isCaiwuOver) {
+		this.isCaiwuOver = isCaiwuOver;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getIsArrivalOver() {
+		return isArrivalOver;
+	}
+
+	public void setIsArrivalOver(String isArrivalOver) {
+		this.isArrivalOver = isArrivalOver;
 	}
 
 

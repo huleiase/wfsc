@@ -481,6 +481,8 @@ public class OrderAction extends DispatchPagerAction {
 		String htCode = request.getParameter("htCode");
 		String comeCode = request.getParameter("comeCode");
 		String isQC = request.getParameter("isQC");
+		String isArrivalOver = request.getParameter("isArrivalOver");
+		String isCaiwuOver = request.getParameter("isCaiwuOver");
 		
 		if(StringUtils.isNotEmpty(startTime1)){
 			paramap.put("startTime1", startTime1);
@@ -551,6 +553,14 @@ public class OrderAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(isQC)){
 			paramap.put("isQC", isQC);
 			request.setAttribute("isQC", isQC);
+		}
+		if(StringUtils.isNotEmpty(isArrivalOver)){
+			paramap.put("isArrivalOver", isArrivalOver);
+			request.setAttribute("isArrivalOver", isArrivalOver);
+		}
+		if(StringUtils.isNotEmpty(isCaiwuOver)){
+			paramap.put("isCaiwuOver", isCaiwuOver);
+			request.setAttribute("isCaiwuOver", isCaiwuOver);
 		}
 		return paramap;
 	}
@@ -1252,6 +1262,10 @@ public class OrderAction extends DispatchPagerAction {
 				sf.setFileName(f.getFilePath());
 				sf.setQuoteNum(q.getProjectNum());
 				sf.setDisplayNum(f.getVcModelNumDisplay());
+				sf.setVcWidth(f.getVcWidth());
+				sf.setVcWidthUnit(f.getVcWidthUnit());
+				sf.setVcPurchaseRmk(f.getVcPurchaseRmk());
+				sf.setOrderQuantity(f.getOrderQuantity());
 				this.storeFabricService.saveOrUpdateEntity(sf);
 				this.saveSystemLog(sf.getVcModelNum()+"_"+sf.getVcFactoryCode(),storeLocal+"到货，型号:"+sf.getVcModelNum()+", 数量:"+sf.getVcRealityAog());
 			}

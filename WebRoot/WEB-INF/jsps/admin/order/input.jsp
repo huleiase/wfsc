@@ -299,13 +299,27 @@ table#quoteFabricTable .label, .badge {
 	          <div class="controls">
 	         	 <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">是否已交货</label>
 	           	<select name="order.isStore" id="isStore" style="width:202px;float: left;" class="span3">
-					<option value="0" <c:if test="${order.isStore=='1'}">selected</c:if>>未交留仓</option>
-					<option value="1" <c:if test="${order.isStore=='2'}">selected</c:if>>已交货给客户</option>
+					<option value="0" <c:if test="${order.isStore=='0'}">selected</c:if>>未交留仓</option>
+					<option value="1" <c:if test="${order.isStore=='1'}">selected</c:if>>已交货给客户</option>
 	             </select>
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">订单是否完结</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">项目是否完结</label>
 	           	<select name="order.isOver" id="isOver" style="width:202px;float: left;" class="span3">
 					<option value="0" <c:if test="${order.isOver=='0'}">selected</c:if>>否</option>	
 					<option value="1" <c:if test="${order.isOver=='1'}">selected</c:if>>是</option>
+	             </select>
+	            </div>
+	          <div class="clear"></div>
+	          
+	           <div class="controls">
+	         	 <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">货到目的地完结</label>
+	           	<select name="order.isArrivalOver" id="isArrivalOver" style="width:202px;float: left;" class="span3">
+					<option value="0" <c:if test="${order.isArrivalOver=='0'}">selected</c:if>>否</option>
+					<option value="1" <c:if test="${order.isArrivalOver=='1'}">selected</c:if>>是</option>
+	             </select>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">财务完结</label>
+	           	<select name="order.isCaiwuOver" id="isCaiwuOver" style="width:202px;float: left;" class="span3">
+					<option value="0" <c:if test="${order.isCaiwuOver=='0'}">selected</c:if>>否</option>	
+					<option value="1" <c:if test="${order.isCaiwuOver=='1'}">selected</c:if>>是</option>
 	             </select>
 	            </div>
 	          <div class="clear"></div>

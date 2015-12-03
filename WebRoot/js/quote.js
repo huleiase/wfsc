@@ -965,6 +965,7 @@ function setUrgentCost(){
 				    	customerQuantity = $("#orderQuantity"+index).val();
 				    	oldPriceUnit = $("#vcPriceUnit"+index).val();
 				    	vcPriceUnit = $("#vcOldPriceUnit"+index).val();
+				    	$("#orderQuantityDisplay"+index).html(customerQuantity);
 				    }
 				    
 				    if(!customerQuantity){
@@ -1008,7 +1009,7 @@ function setUrgentCost(){
 			   		if(num==2){
 			   			$("#conversionQuantity"+index).val(conversionQuantity.toFixed(3));
 			   		}else if(num==1){
-			   			$("#vcQuantity"+index).val(conversionQuantity.toFixed(3));
+			   			$("#vcQuantity"+index).val((conversionQuantity+0.0049).toFixed(2));
 			   		}
 			   			
 			   }
@@ -1056,7 +1057,7 @@ function setUrgentCost(){
 				    		$("#isHidden"+index).val("1");//设置被点击的型号为隐藏型号
 				    		$("#replaceId"+index).val(valueText[0]);
 				    		$("#replaceRemark"+index).val("替代"+valueText[1]+"");
-				    		var displayvcModelNum = $("#vcModelNum"+index).val();
+				    		var displayvcModelNum = $("#vcModelNumDisplay"+index).val();
 				    		$("#replaceRemark"+valueText[2]).val("被"+displayvcModelNum+"替代");
 				    		$("#isReplaced"+valueText[2]).val("1");//设置被选择的型号为被替代型号
 				    		$("#isHiddenisReplaced"+index).val(index+"_"+valueText[2]);

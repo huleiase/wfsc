@@ -212,7 +212,7 @@ var basePath = "<%=basePath%>";
                   	<option value="广州分销" <c:if test="${area_zh=='广州分销'}">selected</c:if> >广州分销</option>
                   	<option value="北京分销" <c:if test="${area_zh=='北京分销'}">selected</c:if> >北京分销</option>
 	             </select>
-	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">是否完结</label>
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">项目完结</label>
 	            <select name="isOver" id="isOver" style="width:170px;float:left;">
 	            	<option value="">请选择</option>
                   	<option value="0" <s:if test="#request.isOver==0">selected</s:if> >未完结</option>
@@ -234,6 +234,23 @@ var basePath = "<%=basePath%>";
 	             </select>
 	         </div>
 	         <div class="clear"></div>
+	         
+	         <div class="controls">
+	         	 <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">货到目的地完结</label>
+	           	<select name="isArrivalOver" id="isArrivalOver" style="width:170px;float: left;" class="span3">
+	           	<option value="">请选择</option>
+					<option value="0" <c:if test="${isArrivalOver=='0'}">selected</c:if>>否</option>
+					<option value="1" <c:if test="${isArrivalOver=='1'}">selected</c:if>>是</option>
+	             </select>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">财务完结</label>
+	           	<select name="isCaiwuOver" id="isCaiwuOver" style="width:170px;float: left;" class="span3">
+	           	<option value="">请选择</option>
+					<option value="0" <c:if test="${isCaiwuOver=='0'}">selected</c:if>>否</option>	
+					<option value="1" <c:if test="${isCaiwuOver=='1'}">selected</c:if>>是</option>
+	             </select>
+	            </div>
+	          <div class="clear"></div>
+	         
 	          <div class="controls">
 	            <button type="submit" class="btn btn-success" style="margin-left:355px;">查询</button>&nbsp;&nbsp;&nbsp;
 	             <button type="button" class="btn btn-primary" onclick="resetForm();">重置</button>

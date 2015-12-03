@@ -130,6 +130,16 @@ public class StoreFabric implements java.io.Serializable{
 	
 	private String displayNum;//显示的型号
 	
+	private String isStoreOver;//仓库是否完结
+	
+	private float vcWidth;
+	
+	private String vcWidthUnit;
+	
+	private float orderQuantity;
+	
+	private String vcPurchaseRmk;
+	
 	/**
 	  * hibernate中的主键
 	  * 
@@ -469,6 +479,56 @@ public class StoreFabric implements java.io.Serializable{
 
 	public void setDisplayNum(String displayNum) {
 		this.displayNum = displayNum;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getIsStoreOver() {
+		return isStoreOver;
+	}
+
+	public void setIsStoreOver(String isStoreOver) {
+		this.isStoreOver = isStoreOver;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getVcWidth() {
+		return vcWidth;
+	}
+
+	public void setVcWidth(float vcWidth) {
+		this.vcWidth = vcWidth;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getVcWidthUnit() {
+		return vcWidthUnit;
+	}
+
+	public void setVcWidthUnit(String vcWidthUnit) {
+		this.vcWidthUnit = vcWidthUnit;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getOrderQuantity() {
+		return orderQuantity;
+	}
+
+	public void setOrderQuantity(float orderQuantity) {
+		this.orderQuantity = orderQuantity;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getVcPurchaseRmk() {
+		return vcPurchaseRmk;
+	}
+
+	public void setVcPurchaseRmk(String vcPurchaseRmk) {
+		this.vcPurchaseRmk = vcPurchaseRmk;
 	}
 	
 
