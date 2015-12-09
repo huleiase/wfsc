@@ -1112,6 +1112,7 @@ public class FabricAction extends DispatchPagerAction {
 				//香港报价国产厂
 				if("0".equals(fabric.getIsHtCode())&&"0".equals(fabric.getImportFactory())){
 					hkPrice = PriceUtil.getHKDomesticFacePrice(fabric.getVcOldPrice(), fabric.getVcPurDis(), getExchangeRate("2",fabric.getVcPriceCur()), getExchangeRate("2",fabric.getVcPriceCur()))+" HKD";
+					System.out.println(fabric.getVcFactoryCode()+"-->"+fabric.getVcBefModel()+"-->"+hkPrice);
 				}
 				String lsPrice = PriceUtil.getRetailFacePrice(fabric.getVcOldPrice(), fabric.getVcPurDis(), getExchangeRate("5",fabric.getVcPriceCur()), fabric.getVcProRatio(), supplier.getRetailCoefficient())+" RMB";
 				HSSFRow cRow = sheet.createRow(i);

@@ -121,6 +121,7 @@
 			    var width = $("#vcWidth"+lineNo).val();
 			    //面价单位
 			    var oldPriceUnit = $("#vcOldPriceUnit"+lineNo).val();
+			  //  var oldPriceUnit = $("#qUnit"+lineNo).html();
 			    //最终单价单位
 			    var vcPriceUnit = $("#vcPriceUnit"+lineNo).val();
 			 //是否包含运费
@@ -1055,7 +1056,7 @@ function setUrgentCost(){
 				    	//为被点击的型号的总价钱文本框增加一个属性，为了计算小计的时候不把该型号的价钱加上
 				    		$("#vcTotal"+index).attr("isHiddenAttr","isHiddenAttr");
 				    		$("#isHidden"+index).val("1");//设置被点击的型号为隐藏型号
-				    		$("#replaceId"+index).val(valueText[0]);
+				    		$("#replaceId"+index).val(valueText[1]);
 				    		$("#replaceRemark"+index).val("替代"+valueText[1]+"");
 				    		var displayvcModelNum = $("#vcModelNumDisplay"+index).val();
 				    		$("#replaceRemark"+valueText[2]).val("被"+displayvcModelNum+"替代");

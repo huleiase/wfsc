@@ -192,6 +192,9 @@ public class OrderAction extends DispatchPagerAction {
 							qf.setVcColorNum("");
 						}
 					}
+					if("1".equals(qf.getIsHidden())&&StringUtils.isNotBlank(qf.getReplaceId())){
+						qf.setVcModelNumDisplay(qf.getReplaceId());
+					}
 					/*else{
 						qf.setVcModelNumDisplay(qf.getVcModelNum());
 					}*/
@@ -1262,6 +1265,9 @@ public class OrderAction extends DispatchPagerAction {
 				sf.setFileName(f.getFilePath());
 				sf.setQuoteNum(q.getProjectNum());
 				sf.setDisplayNum(f.getVcModelNumDisplay());
+				if("1".equals(f.getIsHidden())&&StringUtils.isNotBlank(f.getReplaceId())){
+					sf.setDisplayNum(f.getReplaceId());
+				}
 				sf.setVcWidth(f.getVcWidth());
 				sf.setVcWidthUnit(f.getVcWidthUnit());
 				sf.setVcPurchaseRmk(f.getVcPurchaseRmk());

@@ -595,7 +595,7 @@ public class QuoteAction extends DispatchPagerAction {
 		String curUserName = request.getParameter("curUserName");
 		String isWritPerm = request.getParameter("isWritPerm");
 		String htCode = request.getParameter("htCode");
-		
+		String vcAudit = request.getParameter("vcAudit");
 		if(StringUtils.isNotEmpty(startTime)){
 			paramap.put("startTime", startTime);
 			request.setAttribute("startTime", startTime);
@@ -643,6 +643,10 @@ public class QuoteAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(htCode)){
 			paramap.put("htCode", htCode);
 			request.setAttribute("htCode", htCode);
+		}
+		if(StringUtils.isNotEmpty(vcAudit)){
+			paramap.put("vcAudit", vcAudit);
+			request.setAttribute("vcAudit", vcAudit);
 		}
 		return paramap;
 	}
@@ -907,6 +911,7 @@ public class QuoteAction extends DispatchPagerAction {
 					vcPrice = PriceUtil.getCommonProjectFinalPrice(oldPrice, 1, f.getDhjInlandTransCost(), 0, ctax, isFreight);
 				}
 				qf.setIsCgbj("0");
+				
 				qf.setVcMoney("RMB");
 				qf.setVcWidth(qf.getDhjWidth());
 			} else if ("4".equals(quoteFormate)) {//大货价香港报价

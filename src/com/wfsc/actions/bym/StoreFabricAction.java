@@ -94,6 +94,9 @@ public class StoreFabricAction extends DispatchPagerAction {
 				if(attr!=null){
 					sf.setFileName(attr.getAttachPath());
 				}
+				/*if("1".equals(sf.getIsHidden())&&StringUtils.isNotBlank(sf.getReplaceId())){
+					sf.setDisplayNum(sf.getReplaceId());
+				}*/
 			}
 		}
 		String permission = request.getParameter("permission");

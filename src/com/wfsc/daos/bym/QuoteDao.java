@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
@@ -120,6 +119,11 @@ public class QuoteDao extends EnhancedHibernateDaoSupport<Quote> {
 				if("isWritPerm".equals(key)){
 					hql.append(" and obj.isWritPerm = '").append(paramap.get(key)).append("' ");
 					countSql.append(" and quote.isWritPerm = '").append(paramap.get(key)).append("' ");
+					continue;
+				}
+				if("vcAudit".equals(key)){
+					hql.append(" and obj.vcAudit = '").append(paramap.get(key)).append("' ");
+					countSql.append(" and quote.vcAudit = '").append(paramap.get(key)).append("' ");
 					continue;
 				}
 				

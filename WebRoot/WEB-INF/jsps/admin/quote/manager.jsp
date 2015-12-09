@@ -307,10 +307,16 @@ var basePath = "<%=basePath%>";
 	         <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">HT型号</label>
 	            <input name="htCode" id="htCode" type="text" class="span2"  value="${htCode }">
 	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">是否签单</label>
-	            <select name="isWritPerm" id="isWritPerm" style="width:170px;">
+	            <select name="isWritPerm" id="isWritPerm" style="width:170px;float: left;">
 	            	<option value="">请选择</option>
 	             	<option value="0" <s:if test="#request.isWritPerm==0">selected</s:if> >未签单</option>
                   	<option value="1" <s:if test="#request.isWritPerm==1">selected</s:if> >已签单</option>
+	             </select>
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">是否审核</label>
+	            <select name="vcAudit" id="vcAudit" style="width:170px;">
+	            	<option value="">请选择</option>
+	             	<option value="0" <s:if test="#request.vcAudit==0">selected</s:if> >未审核</option>
+                  	<option value="1" <s:if test="#request.vcAudit==1">selected</s:if> >已审核</option>
 	             </select>
 	         </div>
 	         <div class="clear"></div>

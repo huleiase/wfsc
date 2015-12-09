@@ -220,6 +220,23 @@ table#quoteFabricTable .label, .badge {
 	             <input name="order.expressMoney3" id="expressMoney3" type="text" class="span3"  value="${ order.expressMoney3}">
 	           </div>
 	             <div class="clear"></div>
+	             
+	             <div class="controls">
+	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">备注1</label>
+	            <input name="order.expressRmk1" id="expressRmk1" type="text" class="span7"  value="${ order.expressRmk1}">
+	           </div>
+	             <div class="clear"></div>
+	             <div class="controls">
+	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">备注2</label>
+	            <input name="order.expressRmk2" id="expressRmk2" type="text" class="span7"  value="${ order.expressRmk2}">
+	           </div>
+	             <div class="clear"></div>
+	             <div class="controls">
+	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">备注3</label>
+	            <input name="order.expressRmk3" id="expressRmk3" type="text" class="span7"  value="${ order.expressRmk3}">
+	           </div>
+	             <div class="clear"></div>
+	             
 	             <div class="controls">
 	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">码单</label>
 	            <input name="order.madan" id="madan" type="text" class="span3"  value="${ order.madan}">

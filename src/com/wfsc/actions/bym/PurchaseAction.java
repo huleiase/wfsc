@@ -212,22 +212,23 @@ public class PurchaseAction extends DispatchPagerAction {
 		}
 		purchase.setRilegou(rilegou);
 		Set<QuoteFabric> qfSet  = purchase.getQuote().getQuoteFabric();
-		if(qfSet!=null){
-			List<QuoteFabric> qfList =  QuoteFabricUtil.sort(qfSet, "getOrderId", "asc");
-			for(QuoteFabric qf : qfList){
-				if(!"1".equals(qf.getIsReplaced())){//不是被替代的产品才在采购单中显示
-				//	if(StringUtils.isBlank(isToPur)){
-				//		qf.setVcModelNumDisplay(qf.getVcFactoryCode()+" "+qf.getVcModelNum());
-				//	}else{
-						if(StringUtils.isNotBlank(isToPur)&&"1".equals(qf.getIsHtCode())){
-							qf.setVcColorNum("");
-						}
-				//	}
+		if (qfSet != null) {
+			List<QuoteFabric> qfList = QuoteFabricUtil.sort(qfSet,
+					"getOrderId", "asc");
+			for (QuoteFabric qf : qfList) {
+				if (!"1".equals(qf.getIsReplaced())) {// 不是被替代的产品才在采购单中显示
+					if (StringUtils.isNotBlank(isToPur)
+							&& "1".equals(qf.getIsHtCode())) {
+						qf.setVcColorNum("");
+					}
+					if ("1".equals(qf.getIsHidden())
+							&& StringUtils.isNotBlank(qf.getReplaceId())) {
+						qf.setVcModelNumDisplay(qf.getReplaceId());
+					}
 					quoteFabricList.add(qf);
 				}
 			}
 		}
-	//	request.setAttribute("status", status);
 		if("1".equals(oper)){//提交，审核待采购单
 			return "inputToPur";
 		}else if("2".equals(oper)){//审核采购单
@@ -665,6 +666,7 @@ public class PurchaseAction extends DispatchPagerAction {
 		}
 		// 根据地区和年月查询订单数
 		long num = orderService.getCurrentOrderNum(purchase.getArea(), purchase.getTbYearMonth());
+		log.info("根据地区和年月查询订单数==="+purchase.getArea()+"-->"+purchase.getTbYearMonth()+"-->"+num);
 		String qlocal = purchase.getQuote().getVcQuoteLocal();		
 		if("GZ".equals(qlocal)){
 			qlocal = "A";
@@ -712,7 +714,7 @@ public class PurchaseAction extends DispatchPagerAction {
 					order.setOrderNo(ordersdb.get(0).getOrderNo());// 用原来的单号
 				}
 				order.setOrderDate(new Date());
-				order.setTbYearMonth(DateUtil.getYearMonthStr());
+				order.setTbYearMonth(purchase.getTbYearMonth());
 				order.setVcfromTel("080-83309415");
 				order.setVcfromFax("02083309428");
 				order.setArea(purchase.getArea());// 地区

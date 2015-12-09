@@ -56,7 +56,7 @@ public class OrderServiceImpl implements IOrderService {
 		return orderDao.getEntitiesByOneProperty("purchase.id", purchaseId);
 	}
 	@Override
-	public long getCurrentOrderNum(String area, String tbYearMonth) {
+	public synchronized long getCurrentOrderNum(String area, String tbYearMonth) {
 		int num = 0;
 		List<Order> list = orderDao.getEntitiesByPropNames(new String[]{"area","tbYearMonth"}, new Object[]{area,tbYearMonth});
 		if(list!=null){

@@ -230,6 +230,10 @@ public class Order implements java.io.Serializable {
 	//货到目的地完结
 	private String isArrivalOver;
 	
+	private String expressRmk1;
+	private String expressRmk2;
+	private String expressRmk3;
+	
 	/**
 	 * @return
 	 * @hibernate.property type="timestamp" column="modifyDate"
@@ -1010,6 +1014,36 @@ public class Order implements java.io.Serializable {
 
 	public void setIsArrivalOver(String isArrivalOver) {
 		this.isArrivalOver = isArrivalOver;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getExpressRmk1() {
+		return expressRmk1;
+	}
+
+	public void setExpressRmk1(String expressRmk1) {
+		this.expressRmk1 = expressRmk1;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getExpressRmk2() {
+		return expressRmk2;
+	}
+
+	public void setExpressRmk2(String expressRmk2) {
+		this.expressRmk2 = expressRmk2;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getExpressRmk3() {
+		return expressRmk3;
+	}
+
+	public void setExpressRmk3(String expressRmk3) {
+		this.expressRmk3 = expressRmk3;
 	}
 
 

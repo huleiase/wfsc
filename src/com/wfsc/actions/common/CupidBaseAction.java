@@ -108,11 +108,18 @@ public class CupidBaseAction<T> extends ActionSupport implements SessionAware, S
 	 * @param page
 	 */
 	protected void setPageParams(Page<T> page){
-		String pageNoStr =  StringUtils.isBlank(request.getParameter("currPageNo")) ? "1" : request.getParameter("currPageNo");
-		page.setCurrPageNo(Integer.valueOf(pageNoStr));
-	
-		String pageSizeStr = StringUtils.isBlank(request.getParameter("pageSize")) ? "10" : request.getParameter("pageSize");
-		page.setPageSize(Integer.valueOf(pageSizeStr));
+		String currPageNo = request.getParameter("currPageNo");
+		if(StringUtils.isBlank(currPageNo)||"null".equalsIgnoreCase(currPageNo)){
+			page.setCurrPageNo(1);
+		}else{
+			page.setCurrPageNo(Integer.valueOf(currPageNo));
+		}
+		String pageSize = request.getParameter("pageSize");
+		if(StringUtils.isBlank(pageSize)||"null".equalsIgnoreCase(pageSize)){
+			page.setPageSize(10);
+		}else{
+			page.setPageSize(Integer.valueOf(pageSize));
+		}
 	
 	}
 	

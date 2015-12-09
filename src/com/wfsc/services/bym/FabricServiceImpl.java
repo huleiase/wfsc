@@ -43,14 +43,15 @@ public class FabricServiceImpl implements IFabricService {
 			return;
 		Fabric s = fabricDao.getEntityById(Long.valueOf(id));
 		s.setVcDis("停用");
-		List<Fabric> htList = getHTFabricByRefid(s.getId());
+		fabricDao.saveOrUpdateEntity(s);
+		List<Fabric> htList = getHTFabricByRefid(Long.valueOf(id));
 		if(htList!=null){
 			for(Fabric ht : htList){
 				ht.setVcDis("停用");
+				fabricDao.saveOrUpdateEntity(ht);
 			}
 		}
-		htList.add(s);
-		fabricDao.saveOrUpdateAllEntities(htList);
+		
 	}
 	
 	public void enableFabric(String id) {
@@ -58,7 +59,14 @@ public class FabricServiceImpl implements IFabricService {
 			return;
 		Fabric s = fabricDao.getEntityById(Long.valueOf(id));
 		s.setVcDis("启用");
-		fabricDao.updateEntity(s);
+		fabricDao.saveOrUpdateEntity(s);
+		List<Fabric> htList = getHTFabricByRefid(Long.valueOf(id));
+		if(htList!=null){
+			for(Fabric ht : htList){
+				ht.setVcDis("启用");
+				fabricDao.saveOrUpdateEntity(ht);
+			}
+		}
 	}
 	@Override
 	public void disableFabrics(String[] ids) {
