@@ -30,7 +30,7 @@ public class StoreFabric implements java.io.Serializable{
 	private Date inStoreDate;//入库日期
 	
 	private String fileName;
-	private String vcAddr;
+	private String vcAddr;//位置
 	
 	//
 
@@ -67,7 +67,7 @@ public class StoreFabric implements java.io.Serializable{
 	 */
 	private float vcQuoteNum;
 	
-	private String unit;
+	private String unit;//单位
 
 	
 	/**
@@ -122,7 +122,7 @@ public class StoreFabric implements java.io.Serializable{
 	 */
 	private String vcSalesman4;
 	
-	private String vcRealityAog;
+	private String vcRealityAog;//实际到货
 	
 	private Long quoteId;
 	
@@ -132,13 +132,29 @@ public class StoreFabric implements java.io.Serializable{
 	
 	private String isStoreOver;//仓库是否完结
 	
-	private float vcWidth;
+	private float vcWidth;//幅宽
 	
-	private String vcWidthUnit;
+	private String vcWidthUnit;//幅宽单位
 	
-	private float orderQuantity;
+	private float orderQuantity;//订货量
 	
 	private String vcPurchaseRmk;
+	
+	
+	private Date orderDate;//订单日期，读取订单模块的订单日期
+	private String shipAddress;//发货地址
+	private String shipPerson;//出货经手人
+	private String expressNumber;//快递单号
+	private String expressCompany;//快递公司
+	private String arrivalCompany;//到货公司
+	private String isOrderConfirm;//订单是否确认
+	private String deliveryRequirements;//货期要求,读取采购单列表的货期要求
+	private String vcRmk2;//备注2
+	private String arrivalAddress;//到货地址
+	private String specialReq;//特殊要求
+	private Date arrivalDate;//要求到货日期,读取订单管理的货期
+	private String arrivalNum;//到货数量
+	private Date outStoreDate;//出库日期
 	
 	/**
 	  * hibernate中的主键
@@ -529,6 +545,151 @@ public class StoreFabric implements java.io.Serializable{
 
 	public void setVcPurchaseRmk(String vcPurchaseRmk) {
 		this.vcPurchaseRmk = vcPurchaseRmk;
+	}
+	
+	/**
+	 * @return
+	 * @hibernate.property type="timestamp" column="orderDate"
+	 */
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getShipAddress() {
+		return shipAddress;
+	}
+
+	public void setShipAddress(String shipAddress) {
+		this.shipAddress = shipAddress;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getShipPerson() {
+		return shipPerson;
+	}
+
+	public void setShipPerson(String shipPerson) {
+		this.shipPerson = shipPerson;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getExpressNumber() {
+		return expressNumber;
+	}
+
+	public void setExpressNumber(String expressNumber) {
+		this.expressNumber = expressNumber;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getExpressCompany() {
+		return expressCompany;
+	}
+
+	public void setExpressCompany(String expressCompany) {
+		this.expressCompany = expressCompany;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getArrivalCompany() {
+		return arrivalCompany;
+	}
+
+	public void setArrivalCompany(String arrivalCompany) {
+		this.arrivalCompany = arrivalCompany;
+	}
+
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getIsOrderConfirm() {
+		return isOrderConfirm;
+	}
+
+	public void setIsOrderConfirm(String isOrderConfirm) {
+		this.isOrderConfirm = isOrderConfirm;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getDeliveryRequirements() {
+		return deliveryRequirements;
+	}
+
+	public void setDeliveryRequirements(String deliveryRequirements) {
+		this.deliveryRequirements = deliveryRequirements;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getVcRmk2() {
+		return vcRmk2;
+	}
+
+	public void setVcRmk2(String vcRmk2) {
+		this.vcRmk2 = vcRmk2;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getArrivalAddress() {
+		return arrivalAddress;
+	}
+
+	public void setArrivalAddress(String arrivalAddress) {
+		this.arrivalAddress = arrivalAddress;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getSpecialReq() {
+		return specialReq;
+	}
+
+	public void setSpecialReq(String specialReq) {
+		this.specialReq = specialReq;
+	}
+	/**
+	 * @return
+	 * @hibernate.property type="timestamp" column="arrivalDate"
+	 */
+	public Date getArrivalDate() {
+		return arrivalDate;
+	}
+
+	public void setArrivalDate(Date arrivalDate) {
+		this.arrivalDate = arrivalDate;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getArrivalNum() {
+		return arrivalNum;
+	}
+
+	public void setArrivalNum(String arrivalNum) {
+		this.arrivalNum = arrivalNum;
+	}
+	/**
+	 * @return
+	 * @hibernate.property type="timestamp" column="outStoreDate"
+	 */
+	public Date getOutStoreDate() {
+		return outStoreDate;
+	}
+
+	public void setOutStoreDate(Date outStoreDate) {
+		this.outStoreDate = outStoreDate;
 	}
 	
 

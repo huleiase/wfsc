@@ -1,5 +1,6 @@
 package com.wfsc.daos.bym;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,8 +11,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Repository;
 
 import com.base.EnhancedHibernateDaoSupport;
@@ -356,5 +359,15 @@ public class FabricDao extends EnhancedHibernateDaoSupport<Fabric> {
 		}
 		
 		return page;
+	}
+	
+	public int updateVcdis(){
+		return (Integer) getHibernateTemplate().execute(new HibernateCallback() {
+			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+				String updateSql = "update bym_fabric hb,bym_fabric fb set hb.vcDis =fb.vcDis where hb.refid=fb.id ;";
+				SQLQuery query = session.createSQLQuery(updateSql);
+				return query.executeUpdate();
+			}
+		});
 	}
 }

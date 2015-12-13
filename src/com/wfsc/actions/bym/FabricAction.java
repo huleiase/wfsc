@@ -743,6 +743,8 @@ public class FabricAction extends DispatchPagerAction {
 				//fabricService.saveOrUpdateAll(ssList);
 				request.setAttribute("successMsg", "数据导入成功!");
 				excelMap.clear();
+				int updateCount = fabricService.updateVcdis();
+				log.info("导入产品后更新是否停用的Ht型号"+updateCount+"条");
 			}
 			
 		} catch (RuntimeException e) {

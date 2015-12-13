@@ -152,5 +152,9 @@ public class FabricServiceImpl implements IFabricService {
 			String htCode) {
 		return fabricDao.findHTForQuotePage(page, htCode);
 	}
+	@Override
+	public int updateVcdis() {
+		return fabricDao.updateVcdis();
+	}
 
 }

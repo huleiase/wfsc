@@ -225,7 +225,7 @@ public class Order implements java.io.Serializable {
 	
 	private String otherConsignee;//其他收货人
 	private Date modifyDate;
-	//财务完结
+	//财务收款完结
 	private String isCaiwuOver;
 	//货到目的地完结
 	private String isArrivalOver;
@@ -234,6 +234,8 @@ public class Order implements java.io.Serializable {
 	private String expressRmk2;
 	private String expressRmk3;
 	
+	//财务付款完结
+	private String isCaiwuPayOver;
 	/**
 	 * @return
 	 * @hibernate.property type="timestamp" column="modifyDate"
@@ -1044,6 +1046,16 @@ public class Order implements java.io.Serializable {
 
 	public void setExpressRmk3(String expressRmk3) {
 		this.expressRmk3 = expressRmk3;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getIsCaiwuPayOver() {
+		return isCaiwuPayOver;
+	}
+
+	public void setIsCaiwuPayOver(String isCaiwuPayOver) {
+		this.isCaiwuPayOver = isCaiwuPayOver;
 	}
 
 

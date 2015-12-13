@@ -333,11 +333,28 @@ table#quoteFabricTable .label, .badge {
 					<option value="0" <c:if test="${order.isArrivalOver=='0'}">selected</c:if>>否</option>
 					<option value="1" <c:if test="${order.isArrivalOver=='1'}">selected</c:if>>是</option>
 	             </select>
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">财务完结</label>
-	           	<select name="order.isCaiwuOver" id="isCaiwuOver" style="width:202px;float: left;" class="span3">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">财务收款完结</label>
+	             
+	           	<select name="order.isCaiwuOver" id="isCaiwuOver" style="width:202px;float: left;" class="span3" <c:if test="${!canCaiwuOver}">disabled </c:if>>
 					<option value="0" <c:if test="${order.isCaiwuOver=='0'}">selected</c:if>>否</option>	
 					<option value="1" <c:if test="${order.isCaiwuOver=='1'}">selected</c:if>>是</option>
 	             </select>
+	             
+	             <c:if test="${!canCaiwuOver}">
+	             <input name="order.isCaiwuOver" id="isCaiwuOver" type="hidden" class="span3"  value="${ order.isCaiwuOver}">
+	             </c:if>
+	            </div>
+	          <div class="clear"></div>
+	          
+	           <div class="controls">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">财务付款完结</label>
+	           	<select name="order.isCaiwuPayOver" id="isCaiwuPayOver" style="width:202px;float: left;" class="span3" <c:if test="${!canCaiwuOver}">disabled </c:if>>
+					<option value="0" <c:if test="${order.isCaiwuPayOver=='0'}">selected</c:if>>否</option>	
+					<option value="1" <c:if test="${order.isCaiwuPayOver=='1'}">selected</c:if>>是</option>
+	             </select>
+	              <c:if test="${!canCaiwuOver}">
+	             <input name="order.isCaiwuPayOver" id="isCaiwuPayOver" type="hidden" class="span3"  value="${ order.isCaiwuPayOver}">
+	             </c:if>
 	            </div>
 	          <div class="clear"></div>
 	          

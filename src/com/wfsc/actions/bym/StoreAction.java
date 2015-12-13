@@ -209,8 +209,8 @@ public class StoreAction extends DispatchPagerAction {
 		}
 		// 必填项
 		List<String> mustTitles = new ArrayList<String>();
-		mustTitles.add("单号");
-		mustTitles.add("产品编号");
+		mustTitles.add("订单号");
+		mustTitles.add("报价型号");
 		Sheet sheet = workbook.getSheetAt(0);
 		Row firstRow = sheet.getRow(0);
 		int colNums = firstRow.getLastCellNum();
@@ -232,7 +232,7 @@ public class StoreAction extends DispatchPagerAction {
 		Map<String,StoreFabric> map = new HashMap<String,StoreFabric>();
 		if(oldrecord!=null){
 			for(StoreFabric s : oldrecord){
-				map.put(s.getOrderNo()+"_"+s.getFabricNo(), s);
+				map.put(s.getOrderNo()+"_"+s.getDisplayNum(), s);
 			}
 			
 		}
@@ -247,36 +247,34 @@ public class StoreAction extends DispatchPagerAction {
 				continue;
 			}
 			row = sheet.getRow(i);
-			String orderNo = ExcelUtil.getCellValueAsString(row.getCell(0),"string");
-			String fabricNo = ExcelUtil.getCellValueAsString(row.getCell(1),"string");
-			StoreFabric s = new StoreFabric();
-			//根据工厂代码判断是否是更新
-			if(map.get(orderNo+"_"+fabricNo)!=null){
-				s = map.get(orderNo+"_"+fabricNo);
+			String orderNo = ExcelUtil.getCellValueAsString(row.getCell(2),"string");
+			String displayNum = ExcelUtil.getCellValueAsString(row.getCell(5),"string");
+			StoreFabric	s = map.get(orderNo+"_"+displayNum);
+			if(s==null){
+				continue;
 			}
 			for (int j = 0; j < colNums; j++) {
 				Cell cell = row.getCell(j);
 				title = titles.get(j);
 				prefix = "第" + (i + 1) + "行,第" + (j + 1) + "列 " + title;
-				if (StringUtils.equals(title, "单号")) {
-					value = ExcelUtil.getCellValueAsString(cell,"string");
-					s.setOrderNo(value);
-					continue;
-				}
-				if (StringUtils.equals(title, "产品编号")) {
-					value = ExcelUtil.getCellValueAsString(cell,"string");
-					s.setFabricNo(value);
-					continue;
-				}
-				if (StringUtils.equals(title, "数量")) {//到货数量和剩余数量
+				if (StringUtils.equals(title, "分段铺量")) {
 					value = ExcelUtil.getCellValueAsString(cell,"string");
 					s.setVcSubLay(value);
-					s.setSurplus(value);
 					continue;
 				}
-				if (StringUtils.equals(title, "单位")) {
+				if (StringUtils.equals(title, "到货数量")) {
 					value = ExcelUtil.getCellValueAsString(cell,"string");
-					s.setUnit(value);
+					s.setArrivalNum(value);
+					continue;
+				}
+				if (StringUtils.equals(title, "实际到货")) {
+					value = ExcelUtil.getCellValueAsString(cell,"string");
+					s.setVcRealityAog(value);
+					continue;
+				}
+				if (StringUtils.equals(title, "剩余数量")) {
+					value = ExcelUtil.getCellValueAsString(cell,"string");
+					s.setSurplus(value);
 					continue;
 				}
 				if (StringUtils.equals(title, "入库日期")) {
@@ -286,7 +284,7 @@ public class StoreAction extends DispatchPagerAction {
 						if(StringUtils.isEmpty(value)){
 							s.setInStoreDate(new Date());
 						}else{
-							date = DateUtil.getDate(value);
+							date = DateUtil.getDateByFormat(value,"yyyy-MM-dd");
 							s.setInStoreDate(date);
 						}
 					} catch (ParseException e) {
@@ -294,12 +292,19 @@ public class StoreAction extends DispatchPagerAction {
 					}
 					continue;
 				}
-				if (StringUtils.equals(title, "经手采购")) {
-					value = ExcelUtil.getCellValueAsString(cell,"string");
-					s.setVcAssignAutor(value);
-					continue;
-				}
 				if (StringUtils.equals(title, "出库日期")) {
+					try {
+						value = ExcelUtil.getCellValueAsString(cell,"date");
+						Date date = null;
+						if(StringUtils.isEmpty(value)){
+							s.setOutStoreDate(null);
+						}else{
+							date = DateUtil.getDateByFormat(value,"yyyy-MM-dd");
+							s.setOutStoreDate(date);
+						}
+					} catch (ParseException e) {
+						errorList.add(prefix + "日期格式错误");
+					}
 					continue;
 				}
 				if (StringUtils.equals(title, "位置")) {
@@ -307,9 +312,58 @@ public class StoreAction extends DispatchPagerAction {
 					s.setVcAddr(value);
 					continue;
 				}
-				if (StringUtils.equals(title, "备注")) {
+				if (StringUtils.equals(title, "完结状态")) {
+					value = ExcelUtil.getCellValueAsString(cell,"string");
+					if("已完结".equals(value)||"y".equalsIgnoreCase(value)||"1".equalsIgnoreCase(value)||"是".equalsIgnoreCase(value)){
+						s.setIsStoreOver("1");
+					}else{
+						s.setIsStoreOver("0");
+					}
+					continue;
+				}
+				if (StringUtils.equals(title, "备注1")) {
 					value = ExcelUtil.getCellValueAsString(cell,"string");
 					s.setVcRmk(value);
+					continue;
+				}
+				if (StringUtils.equals(title, "发货地址")) {
+					value = ExcelUtil.getCellValueAsString(cell,"string");
+					s.setShipAddress(value);
+					continue;
+				}
+				if (StringUtils.equals(title, "出货经手人")) {
+					value = ExcelUtil.getCellValueAsString(cell,"string");
+					s.setShipPerson(value);
+					continue;
+				}
+				if (StringUtils.equals(title, "快递单号")) {
+					value = ExcelUtil.getCellValueAsString(cell,"string");
+					s.setExpressNumber(value);
+					continue;
+				}
+				if (StringUtils.equals(title, "快递公司")) {
+					value = ExcelUtil.getCellValueAsString(cell,"string");
+					s.setExpressCompany(value);
+					continue;
+				}
+				if (StringUtils.equals(title, "到货公司")) {
+					value = ExcelUtil.getCellValueAsString(cell,"string");
+					s.setArrivalCompany(value);
+					continue;
+				}
+				if (StringUtils.equals(title, "备注2")) {
+					value = ExcelUtil.getCellValueAsString(cell,"string");
+					s.setVcRmk2(value);
+					continue;
+				}
+				if (StringUtils.equals(title, "到货地址")) {
+					value = ExcelUtil.getCellValueAsString(cell,"string");
+					s.setArrivalAddress(value);
+					continue;
+				}
+				if (StringUtils.equals(title, "特殊要求")) {
+					value = ExcelUtil.getCellValueAsString(cell,"string");
+					s.setSpecialReq(value);
 					continue;
 				}
 			}

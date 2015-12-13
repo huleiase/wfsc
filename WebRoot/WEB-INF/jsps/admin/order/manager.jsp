@@ -242,11 +242,17 @@ var basePath = "<%=basePath%>";
 					<option value="0" <c:if test="${isArrivalOver=='0'}">selected</c:if>>否</option>
 					<option value="1" <c:if test="${isArrivalOver=='1'}">selected</c:if>>是</option>
 	             </select>
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">财务完结</label>
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">财务收款完结</label>
 	           	<select name="isCaiwuOver" id="isCaiwuOver" style="width:170px;float: left;" class="span3">
 	           	<option value="">请选择</option>
 					<option value="0" <c:if test="${isCaiwuOver=='0'}">selected</c:if>>否</option>	
 					<option value="1" <c:if test="${isCaiwuOver=='1'}">selected</c:if>>是</option>
+	             </select>
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">财务付款完结</label>
+	           	<select name="isCaiwuPayOver" id="isCaiwuPayOver" style="width:170px;float: left;" class="span3">
+	           	<option value="">请选择</option>
+					<option value="0" <c:if test="${isCaiwuPayOver=='0'}">selected</c:if>>否</option>	
+					<option value="1" <c:if test="${isCaiwuPayOver=='1'}">selected</c:if>>是</option>
 	             </select>
 	            </div>
 	          <div class="clear"></div>

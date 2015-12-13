@@ -144,6 +144,15 @@ public class OrderAction extends DispatchPagerAction {
 	}
 	public String input() {
 		Admin admin = this.getCurrentAdminUser();
+		//财务收款完结（各地财务、管理员、系统管理员）才有权限下拉选择
+		//财务付款完结（广州财务、管理员、系统管理员）才有权限下拉
+		boolean isAdmin = securityService.isAbleRole(admin.getUsername(), "管理员");
+		boolean isCaiwu = securityService.isAbleRole(admin.getUsername(), "财务经理");
+		boolean canCaiwuOver = false;
+		if(isAdmin||isCaiwu){
+			canCaiwuOver = true;
+		}
+		request.setAttribute("canCaiwuOver", canCaiwuOver);
 		boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
 		boolean isSaleManager = securityService.isAbleRole(admin.getUsername(), "销售经理");
 		boolean isQuoter = securityService.isAbleRole(admin.getUsername(), "报价员");
@@ -486,6 +495,7 @@ public class OrderAction extends DispatchPagerAction {
 		String isQC = request.getParameter("isQC");
 		String isArrivalOver = request.getParameter("isArrivalOver");
 		String isCaiwuOver = request.getParameter("isCaiwuOver");
+		String isCaiwuPayOver = request.getParameter("isCaiwuPayOver");
 		
 		if(StringUtils.isNotEmpty(startTime1)){
 			paramap.put("startTime1", startTime1);
@@ -564,6 +574,10 @@ public class OrderAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(isCaiwuOver)){
 			paramap.put("isCaiwuOver", isCaiwuOver);
 			request.setAttribute("isCaiwuOver", isCaiwuOver);
+		}
+		if(StringUtils.isNotEmpty(isCaiwuPayOver)){
+			paramap.put("isCaiwuPayOver", isCaiwuPayOver);
+			request.setAttribute("isCaiwuPayOver", isCaiwuPayOver);
 		}
 		return paramap;
 	}
@@ -1272,6 +1286,11 @@ public class OrderAction extends DispatchPagerAction {
 				sf.setVcWidthUnit(f.getVcWidthUnit());
 				sf.setVcPurchaseRmk(f.getVcPurchaseRmk());
 				sf.setOrderQuantity(f.getOrderQuantity());
+				sf.setArrivalNum(f.getVcRealityAog());
+				sf.setOrderDate(o.getOrderDate());
+				sf.setIsOrderConfirm(o.getIsOrderConfirm());
+				sf.setDeliveryRequirements(o.getPurchase().getDeliveryRequirements());
+				sf.setArrivalDate(o.getShipDateRemark());
 				this.storeFabricService.saveOrUpdateEntity(sf);
 				this.saveSystemLog(sf.getVcModelNum()+"_"+sf.getVcFactoryCode(),storeLocal+"到货，型号:"+sf.getVcModelNum()+", 数量:"+sf.getVcRealityAog());
 			}

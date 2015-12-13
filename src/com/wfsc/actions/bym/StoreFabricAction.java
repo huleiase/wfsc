@@ -233,7 +233,9 @@ public class StoreFabricAction extends DispatchPagerAction {
 			outputStream = response.getOutputStream();
 			HSSFWorkbook wb = new HSSFWorkbook();
 			HSSFSheet sheet = wb.createSheet("Store");
-			String titleStr [] = {"项目名称","订单号", "供应商", "支付方式", "型号","色号", "实订量", "到货数量", "剩余数量","单位","经手人", "入库日期"};
+			String titleStr [] = {"项目名称","报价单号", "订单号", "供应商", "支付方式","报价型号", "原厂型号", "色号", "幅宽","订货量","实订量", "分段铺量",
+					"到货数量","实际到货", "剩余数量", "单位", "经手人","入库日期", "出库日期", "位置", "完结状态","备注1","订单日期", "发货地址",
+					"出货经手人","快递单号", "快递公司", "到货公司", "订单确认","货期要求", "备注2", "到货地址", "特殊要求","要求到货日期"};
 			HSSFRow thRow = sheet.createRow(0);//表头行
 			for(int i = 0; i < titleStr.length; i++) {
 				HSSFCell thCell = thRow.createCell( i);
@@ -243,7 +245,12 @@ public class StoreFabricAction extends DispatchPagerAction {
 			int i = 1;
 			for(StoreFabric sf : list) {
 				HSSFRow cRow = sheet.createRow(i);
-				Object values[] = {sf.getVcProject(),sf.getOrderNo(),sf.getSupplie(),sf.getPayment(),sf.getVcModelNum(),sf.getVcColorNum(),sf.getVcQuoteNum(),sf.getVcSubLay(),sf.getSurplus(),sf.getUnit(),sf.getVcAssignAutor(),sf.getInStoreDate()};
+				Object values[] = {sf.getVcProject(),sf.getQuoteNum(),sf.getOrderNo(),sf.getSupplie(),sf.getPayment(),sf.getDisplayNum(),sf.getVcModelNum()
+						,sf.getVcColorNum(),sf.getVcWidth()+sf.getVcWidthUnit()==null?"cm":sf.getVcWidthUnit(),sf.getOrderQuantity(),sf.getVcQuoteNum(),sf.getVcSubLay()
+						,sf.getArrivalNum(),sf.getVcRealityAog(),sf.getSurplus(),sf.getUnit(),sf.getVcAssignAutor(),sf.getInStoreDate(),sf.getOutStoreDate()
+						,sf.getVcAddr(),"1".equals(sf.getIsStoreOver())?"已完结":"未完结",sf.getVcRmk(),sf.getOrderDate(),sf.getShipAddress()
+						,sf.getShipPerson(),sf.getExpressNumber(),sf.getExpressCompany(),sf.getArrivalCompany(),"1".equals(sf.getIsOrderConfirm())?"已确认":"未确认"
+						,sf.getDeliveryRequirements(),sf.getVcRmk2(),sf.getArrivalAddress(),sf.getSpecialReq(),sf.getArrivalDate()};
 				for(int j = 0; j < values.length; j++) {
 					HSSFCell c = cRow.createCell( j);
 					if(values[j] instanceof Float) {

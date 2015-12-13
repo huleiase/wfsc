@@ -57,4 +57,6 @@ public interface IFabricService {
 	public Page<Fabric> findForQuotePage(Page<Fabric> page, String vcFactoryCode ,String vcBefModel);
 	
 	public Page<Fabric> findHTForQuotePage(Page<Fabric> page, String htCode);
+	
+	public int updateVcdis();
 }

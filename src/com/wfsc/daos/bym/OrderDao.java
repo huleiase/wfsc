@@ -162,6 +162,11 @@ public class OrderDao extends EnhancedHibernateDaoSupport<Order> {
 					countSql.append(" and ordera.isCaiwuOver = '").append(paramap.get(key).toString()+"'");
 					continue;
 				}
+				if ("isCaiwuPayOver".equals(key)) {
+					hql.append(" and obj.isCaiwuPayOver = '"+paramap.get(key)+"'");
+					countSql.append(" and ordera.isCaiwuPayOver = '").append(paramap.get(key).toString()+"'");
+					continue;
+				}
 			}
 			//System.out.println("查订单数量的sql==="+countSql.toString());
 		//	int totalCount = this.countByHqlWithParama(hql.toString(),dataMap);
