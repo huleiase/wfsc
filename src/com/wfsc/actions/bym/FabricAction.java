@@ -835,13 +835,13 @@ public class FabricAction extends DispatchPagerAction {
 			if(s==null){
 				addOrUpdate = "add";
 				s = new Fabric();
-				Long refId = fabricService.getRefIdByCode(vcFactoryCode, vcBefModel);
-				/*if(refId == null){
-					errorList.add("第" + (i + 1) + "行" + "没有找到对应的原厂型号");
-					continue;
-				}*/
-				s.setRefid(refId);
 			}
+			Long refId = fabricService.getRefIdByCode(vcFactoryCode, vcBefModel);
+			/*if(refId == null){
+				errorList.add("第" + (i + 1) + "行" + "没有找到对应的原厂型号");
+				continue;
+			}*/
+			s.setRefid(refId);
 			System.out.println(i+"-->"+addOrUpdate+"-->"+vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
 			if(excelMap.containsKey(vcFactoryCode+vcBefModel+htCode)){
 				System.out.println(i+"-->"+"duplication -->"+vcFactoryCode+"-->"+vcBefModel+"-->"+htCode);
