@@ -442,14 +442,16 @@ table#quoteFabricTable .label, .badge {
 	             </select>
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">shipping service</label>
 	           	<select name="order.shippingService" id="shippingService" style="width:202px;float: left;" class="span3" >
-					<option value="1" <c:if test="${order.shippingService=='1'}">selected</c:if>>Fedex Intl Priority on our A/C:2820 72386</option>
-					<option value="2" <c:if test="${order.shippingService=='2'}">selected</c:if>>Fedex Intl Economy on our A/C:2820 72386</option>
+					<option value="1" <c:if test="${order.shippingService=='1'}">selected</c:if>>Fedex Intl Priority on our A/C: 7153 51862</option>
+					<option value="2" <c:if test="${order.shippingService=='2'}">selected</c:if>>Fedex Intl Economy on our A/C: 7153 51862</option>
 					<option value="3" <c:if test="${order.shippingService=='3'}">selected</c:if>>UPS Saver on your A/C and invoice us</option>
 					<option value="4" <c:if test="${order.shippingService=='4'}">selected</c:if>>UPS Expedited on your A/C and invoice us</option>
 					<option value="5" <c:if test="${order.shippingService=='5'}">selected</c:if>>DHL on your A/C and invoice us</option>
 					<option value="6" <c:if test="${order.shippingService=='6'}">selected</c:if>>TNT on your A/C and invoice us</option>
 					<option value="7" <c:if test="${order.shippingService=='7'}">selected</c:if>>To be advised</option>
 					<option value="8" <c:if test="${order.shippingService=='8'}">selected</c:if>>DHL on our A/C 967947655</option>
+					<option value="9" <c:if test="${order.shippingService=='9'}">selected</c:if>>UPS Saver on our A/C E8838F</option>
+					
 	             </select>
 	            </div>
 	          <div class="clear"></div>

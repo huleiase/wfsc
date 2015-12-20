@@ -987,9 +987,9 @@ public class OrderAction extends DispatchPagerAction {
 					String note = "";
 					String shippingService = order.getShippingService();
 					if ("1".equals(shippingService)) {
-						note = "Fedex Intl Priority on our A/C:2820 72386";
+						note = "Fedex Intl Priority on our A/C: 7153 51862";
 					} else if ("2".equals(shippingService)) {
-						note = "Fedex Intl Economy on our A/C:2820 72386";
+						note = "Fedex Intl Economy on our A/C: 7153 51862";
 					} else if ("3".equals(shippingService)) {
 						note = "UPS Saver on your A/C and invoice us";
 					} else if ("4".equals(shippingService)) {
@@ -1002,6 +1002,8 @@ public class OrderAction extends DispatchPagerAction {
 						note = "To be advised";
 					}else if ("8".equals(shippingService)) {
 						note = "DHL on our A/C 967947655";
+					}else if ("9".equals(shippingService)) {
+						note = "UPS Saver on our A/C E8838F";
 					}
 					cell4.setCellValue(note);
 				}

@@ -310,7 +310,6 @@ var basePath = "<%=basePath%>";
       					<s:if test='#request.quote.discountMoney>0' >
       						<tr>
 						        <td height="36" colspan="7">
-						        	<div align="center">&nbsp;${quote.urgentCostRmk}</div>
 						        	<div align="right">优惠金额:</div>
 						        </td>
 						        <td><div align="center" id="discountMoney"><s:if test='#request.quote.discountMoney!=0&&#request.quote.discountMoney!=""'>&yen;&nbsp;${quote.discountMoney}</s:if><s:else>-</s:else></div></td>
