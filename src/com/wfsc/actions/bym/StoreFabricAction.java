@@ -75,6 +75,7 @@ public class StoreFabricAction extends DispatchPagerAction {
 		boolean isSale = securityService.isAbleRole(admin.getUsername(), "销售");
 		boolean isSaleManager = securityService.isAbleRole(admin.getUsername(), "销售经理");
 		boolean isquoteer = securityService.isAbleRole(admin.getUsername(), "报价员");
+		boolean isAreamgt = securityService.isAbleRole(admin.getUsername(), "区域经理");
 		
 		boolean isLogistics = securityService.isAbleRole(admin.getUsername(), "物流专员");
 		boolean isAreaCaiwu = securityService.isAbleRole(admin.getUsername(), "分区财务经理");
@@ -100,7 +101,7 @@ public class StoreFabricAction extends DispatchPagerAction {
 			}
 		}
 		String permission = request.getParameter("permission");
-		if(isSale||isquoteer||isSaleManager){
+		if(isSale||isquoteer||isSaleManager||isAreamgt){
 			permission = "0";
 		}
 		request.setAttribute("permission", permission);
