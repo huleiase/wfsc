@@ -160,7 +160,30 @@
 			});
 		}
 	}
-
+ function deleteByUser(){
+ 	art.dialog({
+			    content: '你确定要删除全部的邮件吗？',
+			    okVal:'确定',
+			    ok: function () {
+			    	$.ajax({
+						url:"<%=basePath%>admin/email_deleteByUser.Q",
+						dataType:'text',
+						success:function(data){
+							if("ok"==data){
+								window.location.href="<%=basePath%>admin/email_manager.Q";
+							}else{
+								art.dialog({
+									time: 2,
+									content: '删除失败！'
+								});
+							}
+					    }
+					})
+			    },
+			    cancelVal: '取消',
+			    cancel: true 
+			});
+ }
 	
 </script>
 </head>
@@ -187,7 +210,8 @@
         </div>
         <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>邮件列表</h5>
-            <button class="label label-info btn btn-primary btn-mini" onclick="deleteByIds();">删除</button>
+            <button class="label label-info btn btn-primary btn-mini" onclick="deleteByIds();">删除选中</button>
+             <button class="label label-info btn btn-primary btn-mini" onclick="deleteByUser();">全部删除</button>
          </div>
          <div class="widget-content nopadding" id="listTableDiv">
             <%@include file="list.jsp"%>

@@ -83,7 +83,7 @@
 								var counselorRatInput = " <input id=\"counselorRate_"+suffixId+"\" name=\"designerExpense.counselorRate"+suffixId+"\" type=\"text\" value=\"\" readonly=\"readonly\" class=\"span3\"/>"
 								$("#counselorRate_"+suffixId).replaceWith(counselorRatInput);
 								if(counselorRate.indexOf("%")>0){
-									counselorRate = counselorRate.substring(0,counselorRate.length-1)
+									counselorRate = counselorRate.substring(0,counselorRate.length-1)*0.01
 								}
 								$("#counselorRate_"+suffixId).val(counselorRate);
 								designMony = realTotel*Number(counselorRate);
@@ -420,7 +420,7 @@ table#quoteFabricTable .label, .badge {
 	         <div class="clear"></div>
 	         <div class="controls">
 	          <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">实际金额</label>
-	            <input name="designerExpense.realTotel" id="realTotel" type="text" class="span3"  value="${designerExpense.realTotel}" >
+	            <input name="designerExpense.realTotel" id="realTotel" type="text" class="span3"  value="${designerExpense.realTotel}" readonly="readonly">
 	          </div>
 	         <div class="clear"></div>
 	         <div class="controls">

@@ -68,11 +68,15 @@
                   <button class="label label-info btn btn-primary btn-mini" onclick="printQuote('<s:property value="id"/>');">打印</button>
                   </w:permission>
                   </s:if>
-                  <s:if test="#obj.vcAudit==1">
+                  <s:if test="#obj.isWritPerm==1">
                   <w:permission permissionId="<%=PermissionId.QUOTE_MGT_DESIGN%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="designQuote('<s:property value="id"/>');">设计</button>
                  </w:permission>
+                  <w:permission permissionId="<%=PermissionId.QUOTE_MGT_DELETE%>">
+                  <button class="label label-info btn btn-primary btn-mini" onclick="cancelQuote('<s:property value="id"/>');">作废</button>
+                 </w:permission>
                  </s:if>
+                 
                  <w:permission permissionId="<%=PermissionId.QUOTE_MGT_ATTACHMENT%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="uploadFile('<s:property value="id"/>');">上传</button>
                   <button class="label label-info btn btn-primary btn-mini" onclick="downloadFile('<s:property value="id"/>');">下载</button>

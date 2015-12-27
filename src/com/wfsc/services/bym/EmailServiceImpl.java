@@ -53,6 +53,10 @@ public class EmailServiceImpl implements IEmailService {
 	public int getUnreadCount(String username) {
 		return emailDao.getUnreadCount(username);
 	}
+	@Override
+	public void deleteByUser(String username) {
+		emailDao.deleteEntityByProperty("username", username);
+	}
 
 	
 }

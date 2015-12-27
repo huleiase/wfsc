@@ -250,6 +250,33 @@ var basePath = "<%=basePath%>";
 		window.location.href = url;
 	}
 	
+	function cancelQuote(id){
+	art.dialog({
+			    content: '你确定要作废该报价单吗？',
+			    okVal:'确定',
+			    ok: function () {
+			    	$.ajax({
+						url:basePath+"admin/quote_cancelQuote.Q",
+						data:{"id":id},
+						dataType:'text',
+						success:function(data){
+							if("ok"==data){
+								window.location.href=basePath+"admin/quote_manager.Q";
+							}else{
+								art.dialog({
+									time: 2,
+									content: '作废失败！'
+								});
+							}
+					    }
+					})
+			    },
+			    cancelVal: '取消',
+			    cancel: true 
+			});
+		
+	}
+	
 	function uploadFile(id){
 		var url = basePath+"admin/quote_toImport.Q?quoteId="+id;
 		art.dialog.open(url, {title: '上传附件', lock: true, drag:true, width: getClientWidth()*0.7, height: getClientHeight()*0.38});

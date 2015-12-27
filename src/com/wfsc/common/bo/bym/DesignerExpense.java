@@ -13,15 +13,17 @@ public class DesignerExpense implements java.io.Serializable, Cloneable{
 	private static final long serialVersionUID = 6845456925571L;
 	
 	private Long id;
+	//报价单id
 	private Long quoteId;
+	//报价单号
 	private String quoteNo;
-	
+	//时间
 	private Date contractDate;
-	
+	//合同号
 	private String contractNo;
-	
+	//报价地
 	private String quoteLocal;
-	
+	//实际金额
 	private float realTotel;
 	
 	private float designTotelMoney;
@@ -38,9 +40,9 @@ public class DesignerExpense implements java.io.Serializable, Cloneable{
 	 */
 	private float designMony1;
 	/**
-	 * 实际收款金额
+	 * 实际收款金额（应该就是已付款金额）
 	 */
-	private float realMony1;
+	//private float realMony1;
 	/**
 	 * 是否收齐款
 	 */
@@ -69,7 +71,7 @@ public class DesignerExpense implements java.io.Serializable, Cloneable{
 	private String designer2;
 	private float counselorRate2;
 	private float designMony2;
-	private float realMony2;
+	//private float realMony2;
 	private String isGetAll2;
 	private String isApply2;
 	private Date applyDate2;
@@ -80,7 +82,7 @@ public class DesignerExpense implements java.io.Serializable, Cloneable{
 	private String designer3;
 	private float counselorRate3;
 	private float designMony3;
-	private float realMony3;
+	//private float realMony3;
 	private String isGetAll3;
 	private String isApply3;
 	private Date applyDate3;
@@ -115,6 +117,7 @@ public class DesignerExpense implements java.io.Serializable, Cloneable{
 	//其他
 	private float vcOther;
 	private String operation;
+	private Date createDate;
 	
 	public Object clone() {   
         try {   
@@ -162,15 +165,6 @@ public class DesignerExpense implements java.io.Serializable, Cloneable{
 	}
 	public void setDesignMony1(float designMony1) {
 		this.designMony1 = designMony1;
-	}
-	/**
-	 * @hibernate.property type="float"
-	 */
-	public float getRealMony1() {
-		return realMony1;
-	}
-	public void setRealMony1(float realMony1) {
-		this.realMony1 = realMony1;
 	}
 	/**
 	 * @hibernate.property type="string"
@@ -237,15 +231,6 @@ public class DesignerExpense implements java.io.Serializable, Cloneable{
 		this.designMony2 = designMony2;
 	}
 	/**
-	 * @hibernate.property type="float"
-	 */
-	public float getRealMony2() {
-		return realMony2;
-	}
-	public void setRealMony2(float realMony2) {
-		this.realMony2 = realMony2;
-	}
-	/**
 	 * @hibernate.property type="string"
 	 */
 	public String getIsGetAll2() {
@@ -309,15 +294,7 @@ public class DesignerExpense implements java.io.Serializable, Cloneable{
 	public void setDesignMony3(float designMony3) {
 		this.designMony3 = designMony3;
 	}
-	/**
-	 * @hibernate.property type="float"
-	 */
-	public float getRealMony3() {
-		return realMony3;
-	}
-	public void setRealMony3(float realMony3) {
-		this.realMony3 = realMony3;
-	}
+
 	/**
 	 * @hibernate.property type="string"
 	 */
@@ -571,6 +548,16 @@ public class DesignerExpense implements java.io.Serializable, Cloneable{
 	}
 	public void setOperation(String operation) {
 		this.operation = operation;
+	}
+	/**
+	 * @return
+	 * @hibernate.property type="timestamp" column="createDate"
+	 */
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 	
 

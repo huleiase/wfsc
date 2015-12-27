@@ -32,4 +32,6 @@ public interface IEmailService {
 	public List<Email> getEmailByPara(Map<String,Object> paramap);
 	
 	public int getUnreadCount(String username);
+	
+	public void deleteByUser(String username);
 }

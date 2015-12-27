@@ -272,8 +272,7 @@ public class QuoteAction extends DispatchPagerAction {
 	}
 	
 	/**
-	 * 将要删除的报价单及其关联的采购单，订单，全部设置成软删除
-	 * 然后再针对要删除的报价单及其关联的采购单，订单生成一条抵消报记录，目的是为了财务统计
+	 * 将要删除的报价单及其关联的采购单，订单，库存全部删除
 	 * @return
 	 */
 	public String deleteByIds(){
@@ -318,7 +317,7 @@ public class QuoteAction extends DispatchPagerAction {
 								designerExpenseService.saveOrUpdateEntity(offsetDe);
 							}
 							//设计费处理结束
-							
+							/*	
 							//开始处理设计订单，因为这时候不确定还有没有订单，所以先把型号的改变记录先保存下来，后面再根据订单的quoteId
 							//与QuoteFabricReport的quoteId联系起来
 							List<QuoteFabricReport> qfrList = this.commonService.getByQuoteId(quoteId);
@@ -340,12 +339,86 @@ public class QuoteAction extends DispatchPagerAction {
 								}
 								qfrList.addAll(qfrOffList);
 								commonService.saveOrUpdateAllQFR(qfrOffList);
-							}
+							}*/
 					}
 				 }
 			String curAdminName = this.getCurrentAdminUser().getUsername();
-			saveSystemLog(LogModule.quoteLog, curAdminName+"删除了报价单"+sb.toString());
 			quoteService.deleteByIds(idsList);
+			saveSystemLog(LogModule.quoteLog, curAdminName+"删除了报价单"+sb.toString());
+			response.getWriter().write("ok");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	//	Admin user = getCurrentAdminUser();
+	//	SystemLog systemLog = new SystemLog(SystemLog.MODULE_SUPPLIER, user.getUsername(), "删除");
+	//	systemLogService.saveSystemLog(systemLog);
+		return null;
+	}
+	
+	public String cancelQuote(){
+		String id = request.getParameter("id");
+		
+		try {
+			
+				 Long quoteId = new Long(id);
+				 Quote q = this.quoteService.getQuoteById(quoteId);
+				 //生成的采购单订单库存等都要删除
+				 List<StoreFabric> sfs = storeFabricService.getStoreFabricByQuoteId(quoteId);
+				 if(sfs!=null){
+					 storeFabricService.deleteByProperty("quoteId", quoteId);
+				 }
+				 List<Order> os = orderService.getOrderByPurchaseId(quoteId);
+				 if(os!=null){
+					 orderService.deleteByProperty("quoteId", quoteId);
+				 }
+				 Purchase p =  purchaseService.getUniqPurchaseByQuoteId(quoteId);
+				 if(p!=null){
+					 purchaseService.deleteByProperty("quoteId", quoteId);
+				 }
+				 if("1".equals(q.getIsWritPerm())){
+						//	Quote oldQuote = this.quoteService.getQuoteById(quoteId);
+							//增加一条抵消设计费记录，原来的还保留
+							List<DesignerExpense> des = this.designerExpenseService.getDesignerExpenseByQuoteId(quoteId);
+							if(CollectionUtils.isNotEmpty(des)){
+								DesignerExpense oldDe = des.get(0);
+								oldDe.setOperation("old");
+								designerExpenseService.saveOrUpdateEntity(oldDe);
+								DesignerExpense offsetDe = (DesignerExpense)oldDe.clone();
+								offsetDe.setId(null);
+								offsetDe.setOperation("offset");
+								offsetDe.setSumMoney(-oldDe.getSumMoney());
+								designerExpenseService.saveOrUpdateEntity(offsetDe);
+							}
+							//设计费处理结束
+							
+							//开始处理设计订单，因为这时候不确定还有没有订单，所以先把型号的改变记录先保存下来，后面再根据订单的quoteId
+							//与QuoteFabricReport的quoteId联系起来
+							/*List<QuoteFabricReport> qfrList = this.commonService.getByQuoteId(quoteId);
+							List<QuoteFabricReport> qfrOffList = new ArrayList<QuoteFabricReport>();
+							if(CollectionUtils.isNotEmpty(qfrList)){
+								for(QuoteFabricReport qfr : qfrList){
+									qfr.setOperation("old");
+									QuoteFabricReport qfrOff = new QuoteFabricReport();
+									qfrOff.setIsHidden(qfr.getIsHidden());
+									qfrOff.setIsReplaced(qfr.getIsReplaced());
+									qfrOff.setOperation("offset");
+									qfrOff.setQuoteId(qfr.getQuoteId());
+									qfrOff.setTaxation(qfr.getTaxation());
+									qfrOff.setVcModelNum(qfr.getVcModelNum());
+									qfrOff.setVcPrice(qfr.getVcPrice());
+									qfrOff.setVcPriceUnit(qfr.getVcPriceUnit());
+									qfrOff.setVcQuantity(qfr.getVcQuantity());
+									qfrOffList.add(qfrOff);
+								}
+								qfrList.addAll(qfrOffList);
+								commonService.saveOrUpdateAllQFR(qfrOffList);
+							}*/
+					}
+			q.setIsWritPerm("0");
+			q.setVcAudit("0");
+			quoteService.saveOrUpdateEntity(q);
+			String curAdminName = this.getCurrentAdminUser().getUsername();
+			saveSystemLog(LogModule.quoteLog, curAdminName+"取消了报价单"+id);
 			response.getWriter().write("ok");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -371,10 +444,11 @@ public class QuoteAction extends DispatchPagerAction {
 			addOrUpdate = "修改";
 			List<Long> delQfIds = new ArrayList<Long>();
 			Quote oldQuote = this.quoteService.getQuoteById(quote.getId());
-			quote.setCreatDate(oldQuote.getCreatDate());
+			quote.setCreatDate(oldQuote.getCreatDate());//创建时间
+			quote.setCurUserName(oldQuote.getCurUserName());//创建人
 			Set<QuoteFabric> oldQfSet = oldQuote.getQuoteFabric();
 			//增加一条抵消设计费记录，原来的还保留
-			List<DesignerExpense> des = this.designerExpenseService.getDesignerExpenseByQuoteId(quote.getId());
+			/*List<DesignerExpense> des = this.designerExpenseService.getDesignerExpenseByQuoteId(quote.getId());
 			DesignerExpense oldDe = new DesignerExpense();
 			if(CollectionUtils.isNotEmpty(des)){
 				oldDe = des.get(0);
@@ -385,12 +459,12 @@ public class QuoteAction extends DispatchPagerAction {
 			offsetDe.setId(null);
 			offsetDe.setOperation("offset");
 			offsetDe.setSumMoney(-oldDe.getSumMoney());
-			designerExpenseService.saveOrUpdateEntity(offsetDe);
+			designerExpenseService.saveOrUpdateEntity(offsetDe);*/
 			//设计费处理结束
 			
 			//开始处理设计订单，因为这时候不确定还有没有订单，所以先把型号的改变记录先保存下来，后面再根据订单的quoteId
 			//与QuoteFabricReport的quoteId联系起来
-			List<QuoteFabricReport> qfrList = this.commonService.getByQuoteId(quote.getId());
+			/*List<QuoteFabricReport> qfrList = this.commonService.getByQuoteId(quote.getId());
 			List<QuoteFabricReport> qfrOffList = new ArrayList<QuoteFabricReport>();
 			if(CollectionUtils.isNotEmpty(qfrList)){
 				for(QuoteFabricReport qfr : qfrList){
@@ -409,7 +483,7 @@ public class QuoteAction extends DispatchPagerAction {
 				}
 				qfrList.addAll(qfrOffList);
 				commonService.saveOrUpdateAllQFR(qfrOffList);
-			}
+			}*/
 			//比较数据库中与当前的qf，数据库中有而当前没有，说明是删除了该qf，那么就要执行删除方法，因为页面上的删除只是dom上的删除
 			for(QuoteFabric oldqf : oldQfSet){
 				int compareCount = 0;
@@ -425,8 +499,8 @@ public class QuoteAction extends DispatchPagerAction {
 			}
 			this.quoteFabricService.deleteByIds(delQfIds);
 		}else{
-			quote.setCurUserName(curAdmin.getUsername());
-			quote.setCreatDate(new Date());
+			quote.setCurUserName(curAdmin.getUsername());//创建人
+			quote.setCreatDate(new Date());//创建时间
 		}
 		//将所有与报价单关联的销售统一放到sales里面保存起来，方便以后查询
 		Set<String> sales = new HashSet<String>();
@@ -473,7 +547,7 @@ public class QuoteAction extends DispatchPagerAction {
 		quote.setQuoteFabric(qfset);
 		quoteService.saveOrUpdateEntity(quote);
 		//增加一条设计费记录
-		DesignerExpense de = new DesignerExpense();
+		/*DesignerExpense de = new DesignerExpense();
 		de.setQuoteId(quote.getId());
 		de.setOperation("add");
 		de.setQuoteLocal(quote.getVcQuoteLocal());
@@ -495,10 +569,10 @@ public class QuoteAction extends DispatchPagerAction {
 		de.setTaxationCost((quote.getSumMoney() / quote.getContainTax())*(quote.getContainTax() - 1));
 		de.setVcAftertreatment(StringUtils.isBlank(quote.getVcAftertreatment())?0F:Float.valueOf(quote.getVcAftertreatment()));
 		de.setVcOther(StringUtils.isBlank(quote.getVcOther())?0F:Float.valueOf(quote.getVcOther()));
-		this.designerExpenseService.saveOrUpdateEntity(de);
+		this.designerExpenseService.saveOrUpdateEntity(de);*/
 		//设计费增加结束
 		//增加设计订单记录
-		List<QuoteFabricReport> qfrs = new ArrayList<QuoteFabricReport>();
+		/*List<QuoteFabricReport> qfrs = new ArrayList<QuoteFabricReport>();
 		for(QuoteFabric qf : qfset){
 			if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay()))continue;
 			QuoteFabricReport qfr = new QuoteFabricReport();
@@ -513,7 +587,7 @@ public class QuoteAction extends DispatchPagerAction {
 			qfr.setOperation("add");
 			qfrs.add(qfr);
 		}
-		this.commonService.saveOrUpdateAllQFR(qfrs);
+		this.commonService.saveOrUpdateAllQFR(qfrs);*/
 		List<Admin> saleManegers = this.securityService.getUsersByRoleAndArea("销售经理", curAdmin.getArea());
 		if(CollectionUtils.isNotEmpty(saleManegers)){
 			for(Admin admin : saleManegers){
@@ -1539,13 +1613,16 @@ public class QuoteAction extends DispatchPagerAction {
 		float containFre = (quote.getSumMoney() / quote.getContainTax()) * (quote.getContainTax() - 1);
 		float realTotel = quote.getSumMoney() - processFre - installFre - quote.getUrgentCost()
 				- quote.getLowestFreight() - containFre - aftertreatment - other;
-		request.setAttribute("realTotel",PriceUtil.getTwoDecimalFloat(realTotel));
+		//request.setAttribute("realTotel",PriceUtil.getTwoDecimalFloat(realTotel));
 		//DesignerExpense de = null;
 		
 		List<DesignerExpense> des = designerExpenseService
 				.getDesignerExpenseByQuoteId(Long.valueOf(id));
 		if (des != null && des.size() > 0) {
 			designerExpense = des.get(0);
+			if(designerExpense.getRealTotel()>0F){
+				realTotel = designerExpense.getRealTotel();
+			}
 			designerExpense.setRealTotel(PriceUtil.getTwoDecimalFloat((realTotel)));
 		}
 		String item = quote.getItem().replaceAll("@", "<br><br>");
@@ -1558,6 +1635,10 @@ public class QuoteAction extends DispatchPagerAction {
 		}
 		List<Designer> designs = designerService.getAll();
 		request.setAttribute("designs", designs);
+		List<Admin> sellmanList = securityService.getUserListByRoleName("销售");
+		request.setAttribute("sellmanList", sellmanList);
+		List<UserGroup> salesmanGroup = this.securityService.getAllGroups();
+		request.setAttribute("salesmanGroup", salesmanGroup);
 		return "designQuote";
 	}
 	 
@@ -1694,6 +1775,77 @@ public class QuoteAction extends DispatchPagerAction {
 			 savePurchase(q);
 			 String curAdminName = this.getCurrentAdminUser().getUsername();
 			saveSystemLog(LogModule.quoteLog, curAdminName+"签单了报价单"+q.getProjectNum());
+			
+			DesignerExpense de = new DesignerExpense();
+			List<DesignerExpense> des = this.designerExpenseService.getDesignerExpenseByQuoteId(q.getId());
+			if(CollectionUtils.isNotEmpty(des)){
+				DesignerExpense oldDe = des.get(0);
+				oldDe.setOperation("old");
+				//更新旧的
+				designerExpenseService.saveOrUpdateEntity(oldDe);
+				DesignerExpense offsetDe = (DesignerExpense)oldDe.clone();
+				offsetDe.setSumMoney(-oldDe.getSumMoney());
+				offsetDe.setOperation("offset");
+				offsetDe.setCreateDate(new Date());
+				offsetDe.setId(null);
+				//保存一条抵消的
+				designerExpenseService.saveOrUpdateEntity(offsetDe);
+				de = (DesignerExpense)oldDe.clone();
+				de.setId(null);
+			}
+			de.setContractDate(q.getContractDate());
+			de.setContractNo(q.getContractNo());
+			de.setCreateDate(new Date());
+			de.setCustomerName(q.getVcAttnName());
+			de.setQuoteId(q.getId());
+			de.setOperation("add");
+			de.setQuoteLocal(q.getVcQuoteLocal());
+			de.setQuoteNo(q.getProjectNum());
+			de.setSumMoney(q.getSumMoney());
+			de.setProjectName(q.getProjectName());
+			de.setVcProcessFre(StringUtils.isBlank(q.getVcProcessFre())?0F:Float.valueOf(q.getVcProcessFre()));
+			de.setVcInstallFre(StringUtils.isBlank(q.getVcInstallFre())?0F:Float.valueOf(q.getVcInstallFre()));
+			de.setUrgentCost(q.getUrgentCost());
+			float freight = 0F;
+			Set<QuoteFabric> qfs = q.getQuoteFabric();
+			for(QuoteFabric qf :qfs){
+				if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay()))continue;
+				String lowFreight = qf.getLowFreight();
+				freight +=qf.getOrderQuantity()*(StringUtils.isEmpty(lowFreight)?0:Float.valueOf(lowFreight));
+			}
+			freight+=q.getLowestFreight();
+			freight+=q.getArriveTransport();
+			//----------
+			de.setFreight(freight);
+			//------------
+			de.setVcAftertreatment(StringUtils.isBlank(q.getVcAftertreatment())?0F:Float.valueOf(q.getVcAftertreatment()));
+			de.setVcOther(StringUtils.isBlank(q.getVcOther())?0F:Float.valueOf(q.getVcOther()));
+			de.setTaxationCost((q.getSumMoney() / q.getContainTax())*(q.getContainTax() - 1));
+			String vcProcessFre = quote.getVcProcessFre();
+			float processFre = 0F;
+			if(StringUtils.isNotEmpty(vcProcessFre)){
+				processFre = new Float(vcProcessFre);
+			}
+			String vcInstallFre = quote.getVcInstallFre();
+			float installFre = 0F;
+			if(StringUtils.isNotEmpty(vcInstallFre)){
+				installFre = new Float(vcInstallFre);
+			}
+			String vcAftertreatment = quote.getVcAftertreatment();
+			float aftertreatment = 0F;
+			if(StringUtils.isNotEmpty(vcAftertreatment)){
+				aftertreatment = new Float(vcAftertreatment);
+			}
+			String vcOther = quote.getVcOther();
+			float other = 0F;
+			if(StringUtils.isNotEmpty(vcOther)){
+				other = new Float(vcOther);
+			}
+			float realTotel = quote.getSumMoney() - processFre - installFre - quote.getUrgentCost()
+					- quote.getLowestFreight() - de.getTaxationCost() - aftertreatment - other;
+			de.setRealTotel(realTotel);
+			//保存最新的
+			this.designerExpenseService.saveOrUpdateEntity(de);
 				
 		 }
 		 return "ok";
@@ -1738,13 +1890,10 @@ public class QuoteAction extends DispatchPagerAction {
 	 public String saveDE(){
 		 Long deId = designerExpense.getId();
 		 DesignerExpense de = designerExpenseService.getDesignerExpenseById(deId);
-		 Quote q = this.quoteService.getQuoteById(de.getQuoteId());
-		 if(q!=null){
-			 designerExpense.setContractNo(q.getContractNo());
-			 designerExpense.setContractDate(q.getContractDate());
-		 }
+		 designerExpense.setContractNo(de.getContractNo());
+		 designerExpense.setContractDate(de.getContractDate());
 		 designerExpense.setQuoteId(de.getQuoteId());
-		 designerExpense.setOperation("add");
+		 designerExpense.setOperation(de.getOperation());
 		 designerExpense.setQuoteLocal(de.getQuoteLocal());
 		 designerExpense.setQuoteNo(de.getQuoteNo());
 		 designerExpense.setSumMoney(de.getSumMoney());
@@ -1758,9 +1907,10 @@ public class QuoteAction extends DispatchPagerAction {
 		 designerExpense.setVcAftertreatment(de.getVcAftertreatment());
 		 designerExpense.setVcOther(de.getVcOther());
 		 designerExpense.setDesignTotelMoney(designerExpense.getDesignMony1()+designerExpense.getDesignMony2()+designerExpense.getDesignMony3());
+		 designerExpense.setCreateDate(de.getCreateDate());
 		 designerExpenseService.saveOrUpdateEntity(designerExpense);
 		 String curAdminName = this.getCurrentAdminUser().getUsername();
-		saveSystemLog(LogModule.quoteLog, curAdminName+"设计了报价单"+q.getProjectNum());
+		saveSystemLog(LogModule.quoteLog, curAdminName+"设计了报价单"+de.getQuoteNo());
 		 return "ok";
 	 }
 	 public String getCounselorRate(){

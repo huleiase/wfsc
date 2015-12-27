@@ -335,7 +335,6 @@ public class Quote implements java.io.Serializable {
 	
 	private Date creatDate;
 	
-	
 	/**
 	 * 关联的报价布匹
 	 */
@@ -1187,7 +1186,5 @@ public class Quote implements java.io.Serializable {
 	public void setCreatDate(Date creatDate) {
 		this.creatDate = creatDate;
 	}
-	
-	
 	
 }

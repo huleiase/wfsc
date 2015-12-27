@@ -51,7 +51,8 @@ public class DesignerExpenseServiceImpl implements IDesignerExpenseService {
 	}
 	@Override
 	public List<DesignerExpense> getDesignerExpenseByQuoteId(Long quoteId) {
-		return designerExpenseDao.getEntitiesByPropNames(new String[]{"quoteId","operation"}, new Object[]{quoteId,"add"});
+		String hql = "from DesignerExpense where quoteId="+quoteId+" order by id desc";
+		return designerExpenseDao.getEntityByHql(hql);
 	}
 	
 }

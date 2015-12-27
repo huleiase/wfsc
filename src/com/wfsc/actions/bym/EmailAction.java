@@ -107,6 +107,18 @@ public class EmailAction extends DispatchPagerAction {
 		return null;
 	}
 	
+	
+	public String deleteByUser(){
+		String username = this.getCurrentAdminUser().getUsername();
+		try {
+			emailService.deleteByUser(username);
+			response.getWriter().write("ok");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	/**
 	 * 封装request请求参数到map中
 	 * @return
