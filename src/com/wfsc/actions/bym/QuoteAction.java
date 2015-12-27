@@ -432,7 +432,7 @@ public class QuoteAction extends DispatchPagerAction {
 	public String save(){
 		Admin curAdmin = this.getCurrentAdminUser();
 		String addOrUpdate = "提交";
-		float freight = 0F;//运费
+		//float freight = 0F;//运费
 		Set<QuoteFabric> qfset = new HashSet<QuoteFabric>();
 		for(QuoteFabric qf : quoteFabricList){
 			if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay())){
@@ -1780,16 +1780,18 @@ public class QuoteAction extends DispatchPagerAction {
 			List<DesignerExpense> des = this.designerExpenseService.getDesignerExpenseByQuoteId(q.getId());
 			if(CollectionUtils.isNotEmpty(des)){
 				DesignerExpense oldDe = des.get(0);
-				oldDe.setOperation("old");
-				//更新旧的
-				designerExpenseService.saveOrUpdateEntity(oldDe);
-				DesignerExpense offsetDe = (DesignerExpense)oldDe.clone();
-				offsetDe.setSumMoney(-oldDe.getSumMoney());
-				offsetDe.setOperation("offset");
-				offsetDe.setCreateDate(new Date());
-				offsetDe.setId(null);
-				//保存一条抵消的
-				designerExpenseService.saveOrUpdateEntity(offsetDe);
+				if("add".equals(oldDe.getOperation())){
+					oldDe.setOperation("old");
+					//更新旧的
+					designerExpenseService.saveOrUpdateEntity(oldDe);
+					DesignerExpense offsetDe = (DesignerExpense)oldDe.clone();
+					offsetDe.setSumMoney(-oldDe.getSumMoney());
+					offsetDe.setOperation("offset");
+					offsetDe.setCreateDate(new Date());
+					offsetDe.setId(null);
+					//保存一条抵消的
+					designerExpenseService.saveOrUpdateEntity(offsetDe);
+				}
 				de = (DesignerExpense)oldDe.clone();
 				de.setId(null);
 			}
