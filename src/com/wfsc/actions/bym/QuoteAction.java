@@ -418,7 +418,7 @@ public class QuoteAction extends DispatchPagerAction {
 			q.setVcAudit("0");
 			quoteService.saveOrUpdateEntity(q);
 			String curAdminName = this.getCurrentAdminUser().getUsername();
-			saveSystemLog(LogModule.quoteLog, curAdminName+"取消了报价单"+id);
+			saveSystemLog(LogModule.quoteLog, curAdminName+"作废了报价单"+id);
 			response.getWriter().write("ok");
 		} catch (IOException e) {
 			e.printStackTrace();
