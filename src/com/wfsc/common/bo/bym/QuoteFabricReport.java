@@ -15,7 +15,7 @@ public class QuoteFabricReport implements java.io.Serializable{
 	private Long quoteId;
 
 	/**
-	 * 型号
+	 * 报价的型号
 	 */
 	private String vcModelNum;
 
@@ -48,8 +48,27 @@ public class QuoteFabricReport implements java.io.Serializable{
 	
 	private DesignerOrder designerOrder;
 	
+	
 	//第一次add，修改后第一次的改为old，新增的改为add，再增加一条offset（抵消）
 	private String operation;
+	
+	private Long doId;
+	
+	/**
+	 * 工厂编号
+	 */
+	private String vcFactoryCode;
+	
+	/**
+	 * 原厂型号
+	 */
+	private String vcBefModel;
+	
+	private String isHtCode;
+	
+	private String htCode;
+	
+	private Long qfId;
 	
 	/**
 	  * hibernate中的主键
@@ -133,10 +152,10 @@ public class QuoteFabricReport implements java.io.Serializable{
 	public void setTaxation(float taxation) {
 		this.taxation = taxation;
 	}
-	/**
-	 * @return
-	 * @hibernate.many-to-one class="com.wfsc.common.bo.bym.DesignerOrder" column="doId"
-	 */
+//	/**
+//	 * @return
+//	 * @hibernate.many-to-one class="com.wfsc.common.bo.bym.DesignerOrder" column="doId"
+//	 */
 	public DesignerOrder getDesignerOrder() {
 		return designerOrder;
 	}
@@ -164,5 +183,68 @@ public class QuoteFabricReport implements java.io.Serializable{
 	public void setOperation(String operation) {
 		this.operation = operation;
 	}
+	/**
+	 * @hibernate.property type="long"
+	 */
+	public Long getDoId() {
+		return doId;
+	}
+
+	public void setDoId(Long doId) {
+		this.doId = doId;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getVcFactoryCode() {
+		return vcFactoryCode;
+	}
+
+	public void setVcFactoryCode(String vcFactoryCode) {
+		this.vcFactoryCode = vcFactoryCode;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getVcBefModel() {
+		return vcBefModel;
+	}
+
+	public void setVcBefModel(String vcBefModel) {
+		this.vcBefModel = vcBefModel;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getIsHtCode() {
+		return isHtCode;
+	}
+
+	public void setIsHtCode(String isHtCode) {
+		this.isHtCode = isHtCode;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getHtCode() {
+		return htCode;
+	}
+
+	public void setHtCode(String htCode) {
+		this.htCode = htCode;
+	}
+	/**
+	 * @hibernate.property type="long"
+	 */
+	public Long getQfId() {
+		return qfId;
+	}
+
+	public void setQfId(Long qfId) {
+		this.qfId = qfId;
+	}
+	
+	
+	
 	
 }
