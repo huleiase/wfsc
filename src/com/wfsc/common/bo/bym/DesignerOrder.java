@@ -851,11 +851,11 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	public void setSumMoney(float sumMoney) {
 		this.sumMoney = sumMoney;
 	}
-	/**
-	 * @hibernate.collection-key column="doId"
-	 * @hibernate.collection-one-to-many class="com.wfsc.common.bo.bym.QuoteFabricReport"
-	 * @hibernate.set cascade="all" lazy="false" inverse="true"
-	 */
+//	/**
+//	 * @hibernate.collection-key column="doId"
+//	 * @hibernate.collection-one-to-many class="com.wfsc.common.bo.bym.QuoteFabricReport"
+//	 * @hibernate.set cascade="save-update" lazy="true" inverse="true"
+//	 */
 	public Set<QuoteFabricReport> getQfrSet() {
 		return qfrSet;
 	}
