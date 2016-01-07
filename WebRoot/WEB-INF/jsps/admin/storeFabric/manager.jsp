@@ -8,7 +8,7 @@
 
 <%@include file="/WEB-INF/jsps/common/commonHeader.jsp"%>
 <%@include file="/WEB-INF/jsps/admin//common/adminCommonHeader.jsp"%>
-
+<script src="js/dpicker/WdatePicker.js" type="text/javascript"></script>
 <script type="text/javascript">
 	function resetForm(){
 		$("#startTime").val("");

@@ -311,7 +311,7 @@ var basePath = "<%=basePath%>";
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">询价方</label>
 	            <input name="vcAttn" id="vcAttn" type="text" class="span2"  value="${vcAttn }">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">设计方</label>
-	            <input name="designerName" id="designerName" type="text" class="span2"  value="${designerName }">
+	            <input name="projectDesignComp" id="projectDesignComp" type="text" class="span2"  value="${projectDesignComp }">
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">
