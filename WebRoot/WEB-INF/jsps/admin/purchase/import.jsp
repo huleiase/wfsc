@@ -46,7 +46,7 @@ body {
 										class="gongdan_xq">
 										<tr>
 											<td width="925" height="25" align="left" class="">
-													<form action="admin/quote_importFile.Q" method="post" enctype="multipart/form-data" id="importForm">
+													<form action="admin/purchase_importFile.Q" method="post" enctype="multipart/form-data" id="importForm">
 													<input type="hidden" name="purchaseId" value="${purchaseId }">
 													<center>
 									                      <div style="text-align: center;" class="add_work_od">

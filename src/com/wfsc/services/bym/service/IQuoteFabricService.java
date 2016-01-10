@@ -34,4 +34,6 @@ public interface IQuoteFabricService {
 	public  List<QuoteFabric> getQfByQuoteId(Long quoteId);
 	public void deleteByProperty(String name,Object value);
 	
+	public List<QuoteFabric> getQuoteFabricByCodeAndQuoteId(String a,String b,Long c);
+	
 }

@@ -1,5 +1,6 @@
 package com.wfsc.services.bym;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +58,12 @@ public class QuoteFabricServiceImpl implements IQuoteFabricService {
 	public List<QuoteFabric> getQfByQuoteId(Long quoteId) {
 		// TODO Auto-generated method stub
 		return quoteFabricDao.getEntitiesByOneProperty("quoteId", quoteId);
+	}
+	@Override
+	public List<QuoteFabric> getQuoteFabricByCodeAndQuoteId(String a, String b,
+			Long c) {
+		// TODO Auto-generated method stub
+		return new ArrayList<QuoteFabric>();
 	}
 	
 }

@@ -16,6 +16,7 @@
                   <th>传真</th>
                   <th>邮箱</th>
                   <th>状态</th>
+                  <th>备注</th>
                   <th>操作</th>
                 </tr>
               </thead>
@@ -32,6 +33,7 @@
                   <td><s:property value="vcFax"/></td>
                    <td><s:property value="vcEmail"/></td>
                   <td><s:property value="vcDis"/></td>
+                  <td><s:property value="vcRemarks"/></td>
                   <td>
                    <w:permission permissionId="<%=PermissionId.BASIC_SUPPLIER_MGT_UPDATE%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="addOrUpdate('<s:property value="id"/>');">修改</button>

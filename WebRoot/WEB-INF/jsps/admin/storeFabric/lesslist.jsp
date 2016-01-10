@@ -4,7 +4,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="c" uri="/WEB-INF/c.tld"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-            <table class="table table-bordered table-striped with-check">
+            <table class="table table-bordered table-striped with-check" style="background-color: #f9f9f9;">
               <thead>
                 <tr>
                   <th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox" /></th>
