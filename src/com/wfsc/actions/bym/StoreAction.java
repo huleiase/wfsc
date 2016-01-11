@@ -314,7 +314,7 @@ public class StoreAction extends DispatchPagerAction {
 				}
 				if (StringUtils.equals(title, "完结状态")) {
 					value = ExcelUtil.getCellValueAsString(cell,"string");
-					if("已完结".equals(value)||"y".equalsIgnoreCase(value)||"1".equalsIgnoreCase(value)||"是".equalsIgnoreCase(value)){
+					if("完结".equals(value)||"已完结".equals(value)||"y".equalsIgnoreCase(value)||"1".equalsIgnoreCase(value)||"是".equalsIgnoreCase(value)){
 						s.setIsStoreOver("1");
 					}else{
 						s.setIsStoreOver("0");

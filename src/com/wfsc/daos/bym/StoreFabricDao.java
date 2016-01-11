@@ -108,6 +108,7 @@ public class StoreFabricDao extends EnhancedHibernateDaoSupport<StoreFabric> {
 					countSql.append(" and sf.isStoreOver = '").append(paramap.get(key).toString()+"' ");
 				}
 			}
+			hql.append(" order by obj.inStoreDate desc");
 		//	System.out.println(hql);
 		/*	int totalCount = this.countByHqlWithParama(hql.toString(),dataMap);
 			page.setTotalCount(totalCount);*/
