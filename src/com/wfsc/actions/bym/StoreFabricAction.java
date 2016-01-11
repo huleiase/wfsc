@@ -32,6 +32,7 @@ import com.wfsc.services.bym.service.IStoreFabricService;
 import com.wfsc.services.bym.service.IStoreService;
 import com.wfsc.services.security.ISecurityService;
 import com.wfsc.services.system.ISystemLogService;
+import com.wfsc.util.CommonUtil;
 
 /**
  * 
@@ -385,15 +386,15 @@ public class StoreFabricAction extends DispatchPagerAction {
 			newStore = "0";
 		}
 		String fenduan = request.getParameter("fenduan");//选择的分段
-		
+		fenduan = CommonUtil.getNumericFromStr(fenduan);
 		String id = request.getParameter("id");
 		storeFabric = this.storeFabricService.getStoreFabricById(Long.valueOf(id));
 		String transferNum = request.getParameter("transferNum");
-		int tn = Integer.valueOf(transferNum).intValue();//转移数量
+		float tn = Float.valueOf(transferNum).floatValue();//转移数量
 		String vcReason = request.getParameter("vcReason");
 		String surplus = storeFabric.getSurplus();//剩余数量
 		String newSurplus =  "";
-		int newFenduan = (Integer.valueOf(fenduan).intValue()-tn);
+		float newFenduan = (Float.valueOf(fenduan).floatValue()-tn);
 		if(newFenduan==0){
 			if(surplus.indexOf("+")<0){
 				newSurplus = "0";
@@ -475,16 +476,17 @@ public class StoreFabricAction extends DispatchPagerAction {
 	}
 	public String saveshipments(){
 		String fenduan = request.getParameter("fenduan");//选择的分段
+		fenduan = CommonUtil.getNumericFromStr(fenduan);
 		String shipmentsNo = request.getParameter("shipmentsNo");//发货单号
 		String shipmentsDate = request.getParameter("shipmentsDate");
 		String id = request.getParameter("id");
 		storeFabric = this.storeFabricService.getStoreFabricById(Long.valueOf(id));
 		String transferNum = request.getParameter("transferNum");
-		int tn = Integer.valueOf(transferNum).intValue();//转移数量
+		float tn = Float.valueOf(transferNum).floatValue();//转移数量
 		String vcReason = request.getParameter("vcReason");
 		String surplus = storeFabric.getSurplus();//剩余数量
 		String newSurplus =  "";
-		int newFenduan = (Integer.valueOf(fenduan).intValue()-tn);
+		float newFenduan = (Float.valueOf(fenduan).floatValue()-tn);
 		if(newFenduan==0){
 			if(surplus.indexOf("+")<0){
 				newSurplus = "0";
