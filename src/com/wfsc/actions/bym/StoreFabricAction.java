@@ -24,10 +24,12 @@ import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
 import com.constants.LogModule;
 import com.wfsc.common.bo.bym.Attachment;
+import com.wfsc.common.bo.bym.Order;
 import com.wfsc.common.bo.bym.Store;
 import com.wfsc.common.bo.bym.StoreFabric;
 import com.wfsc.common.bo.system.SystemLog;
 import com.wfsc.common.bo.user.Admin;
+import com.wfsc.services.bym.service.IOrderService;
 import com.wfsc.services.bym.service.IStoreFabricService;
 import com.wfsc.services.bym.service.IStoreService;
 import com.wfsc.services.security.ISecurityService;
@@ -55,6 +57,8 @@ public class StoreFabricAction extends DispatchPagerAction {
 	private ISecurityService securityService;
 	@Resource(name = "storeFabricService")
 	private IStoreFabricService storeFabricService;
+	@Resource(name = "orderService")
+	private IOrderService orderService;
 	
 	private StoreFabric storeFabric;
 	@Autowired
@@ -96,6 +100,18 @@ public class StoreFabricAction extends DispatchPagerAction {
 				if(attr!=null){
 					sf.setFileName(attr.getAttachPath());
 				}
+				Order o = orderService.getOrderById(sf.getOrderId());
+				if("1".equals(o.getIsShipments())){
+					o.setIsShipments("是");
+				}else{
+					o.setIsShipments("否");
+				}
+				if("1".equals(o.getIsArrivalOver())){
+					o.setIsArrivalOver("是");
+				}else{
+					o.setIsArrivalOver("否");
+				}
+				sf.setOrder(o);
 				/*if("1".equals(sf.getIsHidden())&&StringUtils.isNotBlank(sf.getReplaceId())){
 					sf.setDisplayNum(sf.getReplaceId());
 				}*/
@@ -236,7 +252,8 @@ public class StoreFabricAction extends DispatchPagerAction {
 			HSSFWorkbook wb = new HSSFWorkbook();
 			HSSFSheet sheet = wb.createSheet("Store");
 			String titleStr [] = {"项目名称","报价单号", "订单号", "供应商", "支付方式","报价型号", "原厂型号", "色号", "幅宽","订货量","实订量", "分段铺量",
-					"到货数量","实际到货", "剩余数量", "单位", "经手人","入库日期", "出库日期", "位置", "完结状态","备注1","订单日期", "发货地址",
+					"到货数量","实际到货", "剩余数量", "单位", "经手人","是否已发货","快递单号1","快递单号2","快递单号3","物流方式1","物流方式2","物流方式3",
+					"货到目的地完结","入库日期","出库数量", "出库日期", "位置", "完结状态","备注1","订单日期", "发货地址",
 					"出货经手人","快递单号", "快递公司", "到货公司", "订单确认","货期要求", "备注2", "到货地址", "特殊要求","要求到货日期"};
 			HSSFRow thRow = sheet.createRow(0);//表头行
 			for(int i = 0; i < titleStr.length; i++) {
@@ -246,10 +263,24 @@ public class StoreFabricAction extends DispatchPagerAction {
 			
 			int i = 1;
 			for(StoreFabric sf : list) {
+				Order o = orderService.getOrderById(sf.getOrderId());
+				String isShipments = "1".equals(o.getIsShipments())?"是":"否";
+				String expressNumber1 = o.getExpressNumber1();
+				String expressNumber2 = o.getExpressNumber2();
+				String expressNumber3 = o.getExpressNumber3();
+				String express1 = o.getExpress1();
+				String express2 = o.getExpress2();
+				String express3 = o.getExpress3();
+				String isArrivalOver = "1".equals(o.getIsArrivalOver())?"是":"否";
+				float vcWidth = sf.getVcWidth();
+				String vcWidthUnit = sf.getVcWidthUnit()==null?"cm":sf.getVcWidthUnit();
+				//System.out.println("幅宽=========="+vcWidth+vcWidthUnit);
 				HSSFRow cRow = sheet.createRow(i);
 				Object values[] = {sf.getVcProject(),sf.getQuoteNum(),sf.getOrderNo(),sf.getSupplie(),sf.getPayment(),sf.getDisplayNum(),sf.getVcModelNum()
-						,sf.getVcColorNum(),sf.getVcWidth()+sf.getVcWidthUnit()==null?"cm":sf.getVcWidthUnit(),sf.getOrderQuantity(),sf.getVcQuoteNum(),sf.getVcSubLay()
-						,sf.getArrivalNum(),sf.getVcRealityAog(),sf.getSurplus(),sf.getUnit(),sf.getVcAssignAutor(),sf.getInStoreDate(),sf.getOutStoreDate()
+						,sf.getVcColorNum(),vcWidth+vcWidthUnit,sf.getOrderQuantity(),sf.getVcQuoteNum(),sf.getVcSubLay()
+						,sf.getArrivalNum(),sf.getVcRealityAog(),sf.getSurplus(),sf.getUnit(),sf.getVcAssignAutor(),
+						isShipments,expressNumber1,expressNumber2,expressNumber3,express1,express2,express3,isArrivalOver,
+						sf.getInStoreDate(),sf.getOutNum(),sf.getOutStoreDate()
 						,sf.getVcAddr(),"1".equals(sf.getIsStoreOver())?"已完结":"未完结",sf.getVcRmk(),sf.getOrderDate(),sf.getShipAddress()
 						,sf.getShipPerson(),sf.getExpressNumber(),sf.getExpressCompany(),sf.getArrivalCompany(),"1".equals(sf.getIsOrderConfirm())?"已确认":"未确认"
 						,sf.getDeliveryRequirements(),sf.getVcRmk2(),sf.getArrivalAddress(),sf.getSpecialReq(),sf.getArrivalDate()};
@@ -411,6 +442,12 @@ public class StoreFabricAction extends DispatchPagerAction {
 		}else{
 			newSurplus =  StringUtils.replaceOnce(surplus, fenduan, newFenduan+"");
 		}
+		String dbTransferNum = storeFabric.getTransferNum();
+		if(StringUtils.isNotBlank(dbTransferNum)){
+			storeFabric.setTransferNum(dbTransferNum+"+"+transferNum);
+		}else{
+			storeFabric.setTransferNum(transferNum);
+		}
 		storeFabric.setSurplus(newSurplus);
 		String vcFactoryCode = storeFabric.getVcFactoryCode();
 		String vcModelNum = storeFabric.getVcModelNum();
@@ -466,6 +503,11 @@ public class StoreFabricAction extends DispatchPagerAction {
 			sf.setVcSalesman3(storeFabric.getVcSalesman3());
 			sf.setVcSalesman4(storeFabric.getVcSalesman4());
 			sf.setStoreName(nsn);
+			sf.setVcWidth(storeFabric.getVcWidth());
+			sf.setVcWidthUnit(storeFabric.getVcWidthUnit());
+			sf.setDisplayNum(storeFabric.getDisplayNum());
+			//vcRealityAog,quoteId,quoteNum,displayNum,isStoreOver,vcWidth,vcWidthUnit,orderQuantity,vcPurchaseRmk
+			sf.setIsTransfer("1");
 			this.storeFabricService.saveOrUpdateEntity(sf);
 		}
 		
@@ -502,6 +544,12 @@ public class StoreFabricAction extends DispatchPagerAction {
 			}
 		}else{
 			newSurplus =  StringUtils.replaceOnce(surplus, fenduan, newFenduan+"");
+		}
+		String dbOutNum = storeFabric.getOutNum();
+		if(StringUtils.isNotBlank(dbOutNum)){
+			storeFabric.setOutNum(dbOutNum+"+"+transferNum);
+		}else{
+			storeFabric.setOutNum(transferNum);
 		}
 		storeFabric.setSurplus(newSurplus);
 		String vcFactoryCode = storeFabric.getVcFactoryCode();

@@ -29,6 +29,17 @@
                   <th>经手人</th>
                    <th>位置</th>
                   <th>入库日期</th>
+                  
+                  <th>是否已发货</th>
+                  <th>快递单号1</th>
+                  <th>快递单号2</th>
+                  <th>快递单号3</th>
+                  <th>物流方式1</th>
+                  <th>物流方式2</th>
+                  <th>物流方式3</th>
+                  <th>货到目的地完结</th>
+                  <th>出库数量</th>
+                  
                    <th>出库日期</th>
                    <th>订单日期</th>
                   <th>完结状态</th>
@@ -75,6 +86,17 @@
                   <td><s:property value="vcAssignAutor"/></td>
                   <td><s:property value="vcAddr"/></td>
                   <td><s:date name="inStoreDate" format="yyyy-MM-dd" /></td>
+                  
+                  <td><s:property value="order.isShipments"/></td>
+                  <td><s:property value="order.expressNumber1"/></td>
+                  <td><s:property value="order.expressNumber2"/></td>
+                  <td><s:property value="order.expressNumber3"/></td>
+                  <td><s:property value="order.express1"/></td>
+                  <td><s:property value="order.express2"/></td>
+                  <td><s:property value="order.express3"/></td>
+                  <td><s:property value="order.isArrivalOver"/></td>
+                  <td><s:property value="outNum"/></td>
+                  
                    <td><s:date name="outStoreDate" format="yyyy-MM-dd" /></td>
                    <td><s:date name="orderDate" format="yyyy-MM-dd" /></td>
                   <td id='isStoreOver<s:property value="id"/>'>

@@ -156,6 +156,14 @@ public class StoreFabric implements java.io.Serializable{
 	private String arrivalNum;//到货数量
 	private Date outStoreDate;//出库日期
 	
+	private String transferNum;//转移数量
+	
+	private String outNum;//出库数量
+	
+	private String isTransfer;//是否是转移过来的。1是0不是
+	
+	private Order order;
+	
 	/**
 	  * hibernate中的主键
 	  * 
@@ -690,6 +698,44 @@ public class StoreFabric implements java.io.Serializable{
 
 	public void setOutStoreDate(Date outStoreDate) {
 		this.outStoreDate = outStoreDate;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getTransferNum() {
+		return transferNum;
+	}
+
+	public void setTransferNum(String transferNum) {
+		this.transferNum = transferNum;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getOutNum() {
+		return outNum;
+	}
+
+	public void setOutNum(String outNum) {
+		this.outNum = outNum;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getIsTransfer() {
+		return isTransfer;
+	}
+
+	public void setIsTransfer(String isTransfer) {
+		this.isTransfer = isTransfer;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 	
 

@@ -4,9 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,10 +15,6 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -32,6 +26,7 @@ import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.constants.LogModule;
+import com.wfsc.common.bo.bym.Order;
 import com.wfsc.common.bo.bym.Store;
 import com.wfsc.common.bo.bym.StoreFabric;
 import com.wfsc.common.bo.user.Admin;
@@ -63,6 +58,8 @@ public class StoreAction extends DispatchPagerAction {
 	private ISecurityService securityService;
 	@Resource(name = "storeFabricService")
 	private IStoreFabricService storeFabricService;
+	@Resource(name = "orderService")
+	private IOrderService orderService;
 	
 	private Store store;
 
@@ -253,6 +250,9 @@ public class StoreAction extends DispatchPagerAction {
 			if(s==null){
 				continue;
 			}
+			Long orderId = s.getOrderId();
+			Order o = orderService.getOrderById(orderId);
+			
 			for (int j = 0; j < colNums; j++) {
 				Cell cell = row.getCell(j);
 				title = titles.get(j);
@@ -366,7 +366,64 @@ public class StoreAction extends DispatchPagerAction {
 					s.setSpecialReq(value);
 					continue;
 				}
+				if (StringUtils.equals(title, "出库数量")) {
+					value = ExcelUtil.getCellValueAsString(cell,"string");
+					s.setOutNum(value);
+					continue;
+				}
+				if(o!=null){
+					if (StringUtils.equals(title, "是否已发货")) {
+						value = ExcelUtil.getCellValueAsString(cell,"string");
+						if("是".equals(value)||"1".equals(value)){
+							o.setIsShipments("1");
+						}else{
+							o.setIsShipments("0");
+						}
+						
+						continue;
+					}
+					if (StringUtils.equals(title, "快递单号1")) {
+						value = ExcelUtil.getCellValueAsString(cell,"string");
+						o.setExpressNumber1(value);
+						continue;
+					}
+					if (StringUtils.equals(title, "快递单号2")) {
+						value = ExcelUtil.getCellValueAsString(cell,"string");
+						o.setExpressNumber2(value);
+						continue;
+					}
+					if (StringUtils.equals(title, "快递单号3")) {
+						value = ExcelUtil.getCellValueAsString(cell,"string");
+						o.setExpressNumber3(value);
+						continue;
+					}
+					if (StringUtils.equals(title, "物流方式1")) {
+						value = ExcelUtil.getCellValueAsString(cell,"string");
+						o.setExpress1(value);
+						continue;
+					}
+					if (StringUtils.equals(title, "物流方式2")) {
+						value = ExcelUtil.getCellValueAsString(cell,"string");
+						o.setExpress2(value);
+						continue;
+					}
+					if (StringUtils.equals(title, "物流方式3")) {
+						value = ExcelUtil.getCellValueAsString(cell,"string");
+						o.setExpress3(value);
+						continue;
+					}
+					if (StringUtils.equals(title, "货到目的地完结")) {
+						value = ExcelUtil.getCellValueAsString(cell,"string");
+						if("是".equals(value)||"1".equals(value)){
+							o.setIsArrivalOver("1");
+						}else{
+							o.setIsArrivalOver("0");
+						}
+						continue;
+					}
+				}
 			}
+			this.orderService.saveOrUpdateEntity(o);
 			ss.add(s);
 		}
 		try {
