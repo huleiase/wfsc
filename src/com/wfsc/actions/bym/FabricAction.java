@@ -209,6 +209,7 @@ public class FabricAction extends DispatchPagerAction {
 	
 	
 	public String deleteByIds(){
+		String isHtCode = request.getParameter("isHtCode");
 		String ids = request.getParameter("ids");
 		String[] idArray = ids.split(",");
 		List<Long> idList = new ArrayList<Long>();
@@ -216,7 +217,7 @@ public class FabricAction extends DispatchPagerAction {
 			idList.add(Long.valueOf(id));
 		}
 		try {
-			fabricService.deleteByIds(idList);
+			fabricService.deleteByIds(idList,isHtCode);
 			response.getWriter().write("ok");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -235,7 +236,7 @@ public class FabricAction extends DispatchPagerAction {
 			}else{
 				fs = fabricService.getFabricByPara(paramap);
 			}
-			fabricService.deleteFabrics(fs);
+			fabricService.deleteFabrics(fs,isHtCode);
 			response.getWriter().write("ok");
 		} catch (IOException e) {
 			e.printStackTrace();

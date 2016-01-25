@@ -250,8 +250,8 @@ public class StoreAction extends DispatchPagerAction {
 			if(s==null){
 				continue;
 			}
-			Long orderId = s.getOrderId();
-			Order o = orderService.getOrderById(orderId);
+		//	Long orderId = s.getOrderId();
+		//	Order o = orderService.getOrderById(orderId);
 			
 			for (int j = 0; j < colNums; j++) {
 				Cell cell = row.getCell(j);
@@ -371,7 +371,7 @@ public class StoreAction extends DispatchPagerAction {
 					s.setOutNum(value);
 					continue;
 				}
-				if(o!=null){
+			/*	if(o!=null){
 					if (StringUtils.equals(title, "是否已发货")) {
 						value = ExcelUtil.getCellValueAsString(cell,"string");
 						if("是".equals(value)||"1".equals(value)){
@@ -421,9 +421,9 @@ public class StoreAction extends DispatchPagerAction {
 						}
 						continue;
 					}
-				}
+				}*/
 			}
-			this.orderService.saveOrUpdateEntity(o);
+		//	this.orderService.saveOrUpdateEntity(o);
 			ss.add(s);
 		}
 		try {

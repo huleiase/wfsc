@@ -104,7 +104,14 @@ var basePath = "<%=basePath%>";
 		    ]
 		});
 	}
-
+function uploadFile(id){
+		var url = basePath+"admin/purchase_toImport.Q?purchaseId="+id;
+		art.dialog.open(url, {title: '上传附件', lock: true, drag:true, width: getClientWidth()*0.7, height: getClientHeight()*0.38});
+	}
+	function downloadFile(id){
+		var url = basePath+"admin/purchase_downloadFile.Q?purchaseId="+id;
+		window.location.href = url;
+	}
 </script>
 </head>
 <body>

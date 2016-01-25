@@ -31,12 +31,16 @@
                   <td><s:property value="address"/></td>
                   <td><s:property value="customer"/></td>
                  <td>
-                  	<s:if test="#obj.orderStatus==2">未审核</s:if>
+                  	<s:if test="#obj.orderStatus==2">未提交</s:if>
+                  	<s:elseif test="#obj.orderStatus==9">已提交</s:elseif>
                   	<s:elseif test="#obj.orderStatus==3">已审核</s:elseif>
                   </td>
                    <td><s:property value="approver"/></td>
                   <td>
-                   <s:if test="#obj.orderStatus==2&& #obj.canAudit==true">
+                   <s:if test="#obj.orderStatus==2||#obj.orderStatus==9">
+                  <button class="label label-info btn btn-primary btn-mini" onclick="operPurchase('<s:property value="id"/>',9);">提交</button>
+                  </s:if>
+                   <s:if test="(#obj.orderStatus==2||#obj.orderStatus==9)&& #obj.canAudit==true">
                   <w:permission permissionId="<%=PermissionId.PROCESS_PURCHASE_MGT_AUDIT%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="operPurchase('<s:property value="id"/>',2);">审核</button>
                   </w:permission>

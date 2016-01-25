@@ -28,7 +28,20 @@ public class FabricServiceImpl implements IFabricService {
 	public Page<Fabric> findForPage(Page<Fabric> page, Map<String,Object> paramap){
 		return fabricDao.findForPage(page, paramap);
 	}
-	public void deleteByIds(List<Long> ids) {
+	public void deleteByIds(List<Long> ids,String isHtCode) {
+		if("0".equals(isHtCode)){
+			for(Long id : ids){
+				List<Fabric> htList = getHTFabricByRefid(Long.valueOf(id));
+				if(htList!=null){
+					for(Fabric ht : htList){
+						ht.setRefid(null);
+						ht.setVcDis("停用");
+						fabricDao.saveOrUpdateEntity(ht);
+					}
+				}
+			}
+			
+		}
 		fabricDao.deletAllEntities(ids);
 	}
 	public void saveOrUpdateEntity(Fabric entity){
@@ -130,7 +143,20 @@ public class FabricServiceImpl implements IFabricService {
 		return fabricDao.getEntityByHql(hql);
 	}
 	@Override
-	public void deleteFabrics(Collection<Fabric> fs) {
+	public void deleteFabrics(Collection<Fabric> fs,String isHtCode) {
+		if("0".equals(isHtCode)){
+			for(Fabric f : fs){
+				List<Fabric> htList = getHTFabricByRefid(f.getId());
+				if(htList!=null){
+					for(Fabric ht : htList){
+						ht.setRefid(null);
+						ht.setVcDis("停用");
+						fabricDao.saveOrUpdateEntity(ht);
+					}
+				}
+			}
+			
+		}
 		fabricDao.deleteAllEntities(fs);
 	}
 	@Override

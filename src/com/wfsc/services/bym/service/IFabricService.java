@@ -14,7 +14,7 @@ public interface IFabricService {
 	
 	public Page<Fabric> findHTForPage(Page<Fabric> page, Map<String,Object> paramap);
 	
-	public void deleteByIds(List<Long> ids);
+	public void deleteByIds(List<Long> ids,String isHtCode);
 	
 	public void saveOrUpdateEntity(Fabric entity); 
 	
@@ -46,7 +46,7 @@ public interface IFabricService {
 	
 	public List<Fabric> getFabricByHql(String hql);
 	
-	public void deleteFabrics(Collection<Fabric> fs);
+	public void deleteFabrics(Collection<Fabric> fs,String isHtCode);
 	
 	public Fabric getHTFabricByCode(String vcFactoryCode, String vcBefModel,String htCode);
 	

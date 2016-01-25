@@ -185,6 +185,11 @@ public class OrderAction extends DispatchPagerAction {
 			for(QuoteFabric qf : qfList){
 				if(!"1".equals(qf.getIsReplaced()) && qf.getVcFactoryNum().equals(order.getFactoryNum())){
 					float sigMoney = PriceUtil.getTwoDecimalFloat(qf.getSinglePrice() * qf.getVcPurDis());
+					if(sigMoney==0){
+						float vcPurDis = qf.getVcPurDis()==0?1F:qf.getVcPurDis();
+						sigMoney = PriceUtil.getTwoDecimalFloat(qf.getDhjCost() * vcPurDis);
+						//sigMoney = qf.get
+					}
 					//sigMoney = (float) (Math.round((sigMoney) * 10)) / 10;
 					qf.setSigMoney(sigMoney);
 					float vcQuoteNum = qf.getVcQuoteNum() == 0 ? qf.getOrderQuantity() : qf.getVcQuoteNum();

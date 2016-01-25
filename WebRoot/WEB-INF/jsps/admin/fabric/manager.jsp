@@ -45,7 +45,7 @@
 			    ok: function () {
 			    	$.ajax({
 						url:"<%=basePath%>admin/fabric_deleteByIds.Q",
-						data:{"ids":ids},
+						data:{"ids":ids,"isHtCode":"0"},
 						dataType:'text',
 						success:function(data){
 							if("ok"==data){

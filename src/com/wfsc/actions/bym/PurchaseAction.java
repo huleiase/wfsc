@@ -231,11 +231,12 @@ public class PurchaseAction extends DispatchPagerAction {
 		}
 		if("1".equals(oper)){//提交，审核待采购单
 			return "inputToPur";
-		}else if("2".equals(oper)){//审核采购单
+		}else if("2".equals(oper)||"9".equals(oper)){//提交、审核采购单
 			List<Admin> purMans = this.securityService.getUserListByRoleName("采购员");
 			List<Admin> purManagers = this.securityService.getUserListByRoleName("采购经理");
 			purMans.addAll(purManagers);
 			request.setAttribute("userList", purMans);
+			request.setAttribute("oper", oper);
 			return "input";
 		}else if("3".equals(oper)){//打印待采购单
 			return "printPurchaseToPur";
@@ -622,7 +623,32 @@ public class PurchaseAction extends DispatchPagerAction {
 			String curAdminName = this.getCurrentAdminUser().getUsername();
 			saveSystemLog(LogModule.purchaseLog, curAdminName+"审核了采购单"+pdb.getContractNo());
 		}
-	//	purchaseService.saveOrUpdateEntity(purchase);
+		if("9".equals(purchase.getOrderStatus())){
+			purchase.setOrderDate(pdb.getOrderDate());
+			purchase.setAuditor(pdb.getAuditor());
+			purchase.setPurchaseType(pdb.getPurchaseType());
+			purchaseService.saveOrUpdateEntity(purchase);
+			/*List<Admin> saleManegers = this.securityService.getUserListByRoleName("财务经理");
+			if(CollectionUtils.isNotEmpty(saleManegers)){
+				for(Admin admin : saleManegers){
+					Email e = new Email();
+					e.setAction("puchase");
+					e.setDetail("关于【" + q.getProjectName() + "】的采购单已经审核！合同编号为"+pdb.getContractNo());
+					e.setQuoteId(q.getId());
+					e.setQuoteNo(q.getProjectNum());
+					e.setPurchaseId(pdb.getId());
+					e.setPurchaseNo(pdb.getContractNo());
+					e.setSender(curAdmin.getUsername());
+					e.setSendTime(new Date());
+					e.setState("1");
+					e.setUsername(admin.getUsername());
+					e.setStatus("0");
+					this.emailService.saveOrUpdateEntity(e);
+				}
+			}*/
+			String curAdminName = this.getCurrentAdminUser().getUsername();
+			saveSystemLog(LogModule.purchaseLog, curAdminName+"提交了采购单"+pdb.getContractNo());
+		}
 		Set<QuoteFabric> qfSet  = new HashSet<QuoteFabric>();
 		for(QuoteFabric qf:quoteFabricList){
 			if(!"1".equals(qf.getIsReplaced())){
@@ -645,6 +671,9 @@ public class PurchaseAction extends DispatchPagerAction {
 		}
 		if("3".equals(purchase.getOrderStatus())){
 			saveOrder(purchase,qfSet);
+			return "ok";
+		}
+		if("9".equals(purchase.getOrderStatus())){
 			return "ok";
 		}
 		return "okToPur";

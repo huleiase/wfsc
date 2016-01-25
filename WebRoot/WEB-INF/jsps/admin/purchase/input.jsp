@@ -20,7 +20,7 @@
 		   		
 		   }
 		 });
-		 if(error){
+		 if(error.length>0&&status=='3'){
 		 	art.dialog({title:'提示',content:'请选择采购员',ok:true});
 		 }else{
 		 	$("#orderStatus").val(status);
@@ -123,6 +123,7 @@ table#quoteFabricTable .label, .badge {
           <input type="hidden" name="orderStatus" value="${orderStatus }">
           <input type="hidden" name="currPageNo" value="${currPageNo }">
           <input type="hidden" name="pageSize" value="${pageSize }">
+          <input type="hidden" name="oper" value="${oper }">
           
           	<input type="hidden" name="purchase.id" id="purchaseId" value="${purchase.id }">
           	<input type="hidden" name="purchase.orderStatus" id="orderStatus" value="${purchase.orderStatus }">
@@ -224,7 +225,13 @@ table#quoteFabricTable .label, .badge {
       		 <div class="clear"></div>
             <div class="form-actions">
              <s:if test="#request.isView==0">
-             <button type="button" class="btn btn-success" onclick="checkForm(3)" id="saveButton">审核</button>&nbsp;&nbsp;
+              <s:if test="#request.oper==2">
+             <button type="button" class="btn btn-success" onclick="checkForm(3)" id="saveButton">审核</button>
+             </s:if>
+             <s:if test="#request.oper==9">
+             <button type="button" class="btn btn-success" onclick="checkForm(9)" id="saveButton">提交</button>
+             </s:if>
+             &nbsp;&nbsp;
              <button type="button" class="btn btn-success" onclick="toBack();">返回</button>
              </s:if>
              <s:else>

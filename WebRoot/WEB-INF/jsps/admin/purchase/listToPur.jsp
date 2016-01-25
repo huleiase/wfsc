@@ -55,7 +55,8 @@
                    <w:permission permissionId="<%=PermissionId.PROCESS_TO_PURCHASE_MGT_PRINTQUOTE%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="printQuote('<s:property value="quote.id"/>');">打印报价单</button>
                   </w:permission>
-                  
+                  <button class="label label-info btn btn-primary btn-mini" onclick="uploadFile('<s:property value="id"/>');">上传</button>
+                    <button class="label label-info btn btn-primary btn-mini" onclick="downloadFile('<s:property value="id"/>');">下载</button>
                   </td>
                 </tr>
                </s:iterator>

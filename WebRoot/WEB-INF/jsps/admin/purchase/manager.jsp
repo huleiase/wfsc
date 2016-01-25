@@ -107,7 +107,8 @@ var basePath = "<%=basePath%>";
 	         <label class="span1" for="inputSuccess" style="margin-top:5px;width:30px;">状态</label>
 	            <select name="orderStatus" id="orderStatus" style="width:170px;">
 	            	<option value="">请选择</option>
-                  	<option value="2" <s:if test="#request.orderStatus==2">selected</s:if> >未审核</option>
+                  	<option value="2" <s:if test="#request.orderStatus==2">selected</s:if> >未提交</option>
+                  	<option value="9" <s:if test="#request.orderStatus==9">selected</s:if> >已提交</option>
                   	<option value="3" <s:if test="#request.orderStatus==3">selected</s:if> >已审核</option>
 	             </select>
 	         </div>
