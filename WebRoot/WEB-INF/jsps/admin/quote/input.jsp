@@ -53,6 +53,31 @@
 	function toBack(){
 		window.location.href = basePath+"admin/quote_manager.Q";
 	}
+	
+	function modifyVcFrom(val){
+		if("自行填写"==val){
+			art.dialog({
+			    content: '你确定要自行填写？',
+			    ok: function () {
+			    	var vcFromInput = "<input name=\"quote.vcFrom\" id=\"vcFrom\" type=\"text\" class=\"span3\" >";
+			    	$("#vcFrom").replaceWith(vcFromInput);
+			        return true;
+			    },
+			    cancel: true //为true等价于function(){}
+			});
+		}
+	}
+	
+	$(function(){
+		var quoteId = $("#quoteId").val();
+		var val = $("#deputyCom").val();
+		if(val){
+			var vcFromInput = "<input name=\"quote.vcFrom\" id=\"vcFrom\" type=\"text\" class=\"span3\" >";
+			$("#vcFrom").replaceWith(vcFromInput);
+			$("#vcFrom").val(val);
+		}
+	})
+	
 </script>
 <style type="text/css">
 input.span3 {
@@ -132,7 +157,7 @@ table#quoteFabricTable .label, .badge {
 	         <div class="clear"></div>
 	          <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">报价公司</label>
-	            <select name="quote.vcFrom" id="vcFrom" style="width:204px;float: left;" onchange="setDeputyCom2();" class="span3">
+	            <select name="quote.vcFrom" id="vcFrom" style="width:204px;float: left;" onchange="modifyVcFrom(this.value);" class="span3">
 	            	<option value="">请选择</option>
 	             	<option value="北京帛韵鸿维装饰材料有限公司" <s:if test="#request.quote.vcFrom=='北京帛韵鸿维装饰材料有限公司'">selected</s:if> >北京帛韵鸿维装饰材料有限公司</option>
                   	<option value="北京元韵布艺文化发展有限公司" <s:if test="#request.quote.vcFrom=='北京元韵布艺文化发展有限公司'">selected</s:if> >北京元韵布艺文化发展有限公司</option>
@@ -142,6 +167,7 @@ table#quoteFabricTable .label, .badge {
                   	<option value="广州元韵装饰材料有限公司" <s:if test="#request.quote.vcFrom=='广州元韵装饰材料有限公司'">selected</s:if> >广州元韵装饰材料有限公司</option>
                   	<option value="協誠洋行有限公司" <s:if test="#request.quote.vcFrom=='協誠洋行有限公司'">selected</s:if> >協誠洋行有限公司</option>
                   	<option value="广州道勤装饰材料有限公司" <s:if test="#request.quote.vcFrom=='广州道勤装饰材料有限公司'">selected</s:if> >广州道勤装饰材料有限公司</option>
+                  	<option value="自行填写">自行填写</option>
 	             </select>
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">报价地电话</label>
 	            <input name="quote.vcFormTel" id="vcFormTel" type="text" class="span3"  value="${ quote.vcFormTel}">

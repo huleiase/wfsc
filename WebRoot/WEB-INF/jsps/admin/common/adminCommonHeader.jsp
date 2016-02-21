@@ -55,4 +55,19 @@ clear:both;
     margin-left: 20px;
 }
 </style>
-
+<script type="text/javascript">
+ $(function() {
+    $("#title-table-checkbox").click(function() {
+    	var isChecked = this.checked;
+           $('input[name="ids"]').each(function() {
+				$(this).attr("checked", isChecked);
+				if(isChecked){
+					$(this).parent().addClass("checked");
+				}else{
+					$(this).parent().removeClass("checked");
+				}
+				
+			}); 
+            });
+        });
+</script>

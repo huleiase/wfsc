@@ -182,6 +182,8 @@ table#quoteFabricTable .label, .badge {
 	         <div class="clear"></div>
 	          <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">报价公司</label>
+	            <input name="quote.vcFrom" id="vcFrom" type="text" class="span3"  value="${quote.vcFrom }">
+	            <!--
 	            <select disabled="disabled" name="quote.vcFrom" id="vcFrom" style="width:202px;float: left;" class="span3">
 	            	<option value="">请选择</option>
 	             	<option value="北京帛韵鸿维装饰材料有限公司" <s:if test="#request.quote.vcFrom=='北京帛韵鸿维装饰材料有限公司'">selected</s:if> >北京帛韵鸿维装饰材料有限公司</option>
@@ -193,7 +195,7 @@ table#quoteFabricTable .label, .badge {
                   	<option value="協誠洋行有限公司" <s:if test="#request.quote.vcFrom=='協誠洋行有限公司'">selected</s:if> >協誠洋行有限公司</option>
                   	<option value="广州道勤装饰材料有限公司" <s:if test="#request.quote.vcFrom=='广州道勤装饰材料有限公司'">selected</s:if> >广州道勤装饰材料有限公司</option>
 	             </select>
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">报价地电话</label>
+	            --><label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">报价地电话</label>
 	            <input disabled="disabled" name="quote.vcFormTel" id="vcFormTel" type="text" class="span3"  value="${ quote.vcFormTel}">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">报价地传真</label>
 	            <input disabled="disabled" name="quote.vcFormFax" id="vcFormFax" type="text" class="span3"  value="${quote.vcFormFax }">

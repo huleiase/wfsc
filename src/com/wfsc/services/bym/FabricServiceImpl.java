@@ -32,12 +32,13 @@ public class FabricServiceImpl implements IFabricService {
 		if("0".equals(isHtCode)){
 			for(Long id : ids){
 				List<Fabric> htList = getHTFabricByRefid(Long.valueOf(id));
-				if(htList!=null){
-					for(Fabric ht : htList){
+				if(htList!=null&&htList.size()>0){
+					fabricDao.deleteAllEntities(htList);
+					/*for(Fabric ht : htList){
 						ht.setRefid(null);
 						ht.setVcDis("停用");
 						fabricDao.saveOrUpdateEntity(ht);
-					}
+					}*/
 				}
 			}
 			
@@ -147,12 +148,13 @@ public class FabricServiceImpl implements IFabricService {
 		if("0".equals(isHtCode)){
 			for(Fabric f : fs){
 				List<Fabric> htList = getHTFabricByRefid(f.getId());
-				if(htList!=null){
-					for(Fabric ht : htList){
+				if(htList!=null&&htList.size()>0){
+					fabricDao.deleteAllEntities(htList);
+					/*for(Fabric ht : htList){
 						ht.setRefid(null);
 						ht.setVcDis("停用");
 						fabricDao.saveOrUpdateEntity(ht);
-					}
+					}*/
 				}
 			}
 			
