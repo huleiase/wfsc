@@ -22,10 +22,8 @@
 		      	<li id="msub11"><a href="<%=request.getContextPath()%>/admin/quote_manager.Q?topmenu=quoteUL&submenu=msub11"><i class="icon icon-pencil"></i> <span>报价单管理</span></a></li>
 		      </w:permission>
 		      <w:permission permissionId="<%=PermissionId.QUOTE_DESIGN_FEE_SALE%>">
-		       <li id="msub12"><a href="javascript:void(0);"><i class="icon icon-pencil"></i> <span>设计费下载（销售）</span></a></li>
-		      </w:permission>
-		      <w:permission permissionId="<%=PermissionId.QUOTE_DESIGN_FEE_FINANCE%>">
-		       <li id="msub13"><a href="javascript:void(0);"><i class="icon icon-pencil"></i> <span>设计费下载（财务）</span></a></li>
+		       <li id="msub12"><a href="<%=request.getContextPath()%>/admin/designerExpense_managerSell.Q?topmenu=quoteUL&submenu=msub12"><i class="icon icon-pencil"></i> <span>设计费</span></a></li>
+		       <li id="msub13"><a href="<%=request.getContextPath()%>/admin/designerExpense_managerSellPerson.Q?topmenu=quoteUL&submenu=msub13"><i class="icon icon-pencil"></i> <span>个人设计费</span></a></li>
 		      </w:permission>
 	      </ul>
 	    </li>

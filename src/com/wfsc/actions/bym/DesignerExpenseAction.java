@@ -44,75 +44,143 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 
 	private static final long serialVersionUID = 6840813999299260353L;
 	
-	//下载模板
-	private static final String MODEL_EXCEL_NAME = "designerExpense.xls";
-
 	@Resource(name = "designerExpenseService")
 	private IDesignerExpenseService designerExpenseService;
 	
 	private DesignerExpense designerExpense;
 
-	public String manager(){
+	public String managerSellPerson(){
 		this.setTopMenu();
-		list();
-		return "manager";
+		listSellPerson();
+		return "managerSellPerson";
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String list(){
+	public String listSellPerson(){
+		Page<DesignerExpense> page = new Page<DesignerExpense>();
+		this.setPageParams(page);
+		page.setPaginationSize(7);
+		Map<String,Object> paramap = handleRequestParameter();
+		String designer = paramap.get("designer")==null?"":paramap.get("designer").toString();
+		if(StringUtils.isBlank(designer)){
+			List<Integer> li = page.getPageNos();
+			String listUrl = "/wfsc/admin/designerExpense_listSellPerson.Q";
+			request.setAttribute("listUrl", listUrl);
+			request.setAttribute("page", page);
+			request.setAttribute("li", li);
+			return "listSellPerson";
+		}
+		page = designerExpenseService.findForPage(page, paramap);
+		for(DesignerExpense de : page.getData()){
+			if(designer.equalsIgnoreCase(de.getDesigner2())){
+				de.setDesigner1(de.getDesigner2());
+				de.setCounselorRate1(de.getCounselorRate2());
+				de.setDesigner1(de.getDesigner2());
+				de.setHasApply1(de.getHasApply2());
+				de.setIsGetAll1(de.getIsGetAll2());
+				de.setIsApply1(de.getIsApply2());
+				de.setApplyDate1(de.getApplyDate2());
+				de.setRemark1(de.getRemark2());
+			}else if(designer.equalsIgnoreCase(de.getDesigner3())){
+				de.setDesigner1(de.getDesigner3());
+				de.setCounselorRate1(de.getCounselorRate3());
+				de.setDesigner1(de.getDesigner3());
+				de.setHasApply1(de.getHasApply3());
+				de.setIsGetAll1(de.getIsGetAll3());
+				de.setIsApply1(de.getIsApply3());
+				de.setApplyDate1(de.getApplyDate3());
+				de.setRemark1(de.getRemark3());
+			}
+		}
+		List<Integer> li = page.getPageNos();
+		String listUrl = "/wfsc/admin/designerExpense_listSellPerson.Q";
+		request.setAttribute("listUrl", listUrl);
+		request.setAttribute("page", page);
+		request.setAttribute("li", li);
+		return "listSellPerson";
+	}
+	public String managerSell(){
+		this.setTopMenu();
+		listSell();
+		return "managerSell";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String listSell(){
 		Page<DesignerExpense> page = new Page<DesignerExpense>();
 		this.setPageParams(page);
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
 		page = designerExpenseService.findForPage(page, paramap);
 		List<Integer> li = page.getPageNos();
-		String listUrl = "/wfsc/admin/designerExpense_list.Q";
+		String listUrl = "/wfsc/admin/designerExpense_listSell.Q";
 		request.setAttribute("listUrl", listUrl);
 		request.setAttribute("page", page);
 		request.setAttribute("li", li);
-		return "list";
+		return "listSell";
+	}
+	/*public String managerCaiwuPerson(){
+		this.setTopMenu();
+		listCaiwuPerson();
+		return "managerCaiwuPerson";
 	}
 	
-	public String input() {
-		String id = request.getParameter("id");
-		if(StringUtils.isNotBlank(id)){
-			designerExpense = designerExpenseService.getDesignerExpenseById(Long.valueOf(id));
-		}else{
-			designerExpense = new DesignerExpense();
+	@SuppressWarnings("unchecked")
+	public String listCaiwuPerson(){
+		Page<DesignerExpense> page = new Page<DesignerExpense>();
+		this.setPageParams(page);
+		page.setPaginationSize(7);
+		Map<String,Object> paramap = handleRequestParameter();
+		page = designerExpenseService.findForPage(page, paramap);
+		String designer = paramap.get("designer").toString();
+		for(DesignerExpense de : page.getData()){
+			if(designer.equals(de.getDesigner2())){
+				de.setDesigner1(de.getDesigner2());
+				de.setCounselorRate1(de.getCounselorRate2());
+				de.setDesigner1(de.getDesigner2());
+				de.setHasApply1(de.getHasApply2());
+				de.setIsGetAll1(de.getIsGetAll2());
+				de.setIsApply1(de.getIsApply2());
+				de.setApplyDate1(de.getApplyDate2());
+				de.setRemark1(de.getRemark2());
+			}else if(designer.equals(de.getDesigner3())){
+				de.setDesigner1(de.getDesigner3());
+				de.setCounselorRate1(de.getCounselorRate3());
+				de.setDesigner1(de.getDesigner3());
+				de.setHasApply1(de.getHasApply3());
+				de.setIsGetAll1(de.getIsGetAll3());
+				de.setIsApply1(de.getIsApply3());
+				de.setApplyDate1(de.getApplyDate3());
+				de.setRemark1(de.getRemark3());
+			}
 		}
-		request.setAttribute("isView", false);
-		return "input";
+		List<Integer> li = page.getPageNos();
+		String listUrl = "/wfsc/admin/designerExpense_listCaiwuPerson.Q";
+		request.setAttribute("listUrl", listUrl);
+		request.setAttribute("page", page);
+		request.setAttribute("li", li);
+		return "listCaiwuPerson";
+	}
+	public String managerCaiwu(){
+		this.setTopMenu();
+		listCaiwu();
+		return "managerCaiwu";
 	}
 	
-	public String detail() {
-		String id = request.getParameter("id");
-		designerExpense = designerExpenseService.getDesignerExpenseById(Long.valueOf(id));
-		request.setAttribute("isView", true);
-		return "detail";
-	}
-	
-	
-	public String deleteByIds(){
-		String ids = request.getParameter("ids");
-		String[] idArray = ids.split(",");
-		List<Long> idList = new ArrayList<Long>();
-		for(String id : idArray){
-			idList.add(Long.valueOf(id));
-		}
-		try {
-			designerExpenseService.deleteByIds(idList);
-			response.getWriter().write("ok");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public String save(){
-		designerExpenseService.saveOrUpdateEntity(designerExpense);
-		return "ok";
-	}
-	
+	@SuppressWarnings("unchecked")
+	public String listCaiwu(){
+		Page<DesignerExpense> page = new Page<DesignerExpense>();
+		this.setPageParams(page);
+		page.setPaginationSize(7);
+		Map<String,Object> paramap = handleRequestParameter();
+		page = designerExpenseService.findForPage(page, paramap);
+		List<Integer> li = page.getPageNos();
+		String listUrl = "/wfsc/admin/designerExpense_listCaiwu.Q";
+		request.setAttribute("listUrl", listUrl);
+		request.setAttribute("page", page);
+		request.setAttribute("li", li);
+		return "listCaiwu";
+	}*/
 	/**
 	 * 封装request请求参数到map中
 	 * @return
@@ -154,33 +222,65 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 		}
 		return paramap;
 	}
-	public String getDesignerExpenseExcelModel(){
-		
-		return super.getExcelModel(MODEL_EXCEL_NAME);
-	}
 	
 	public String exportDesignerExpenseData(){
+		FileInputStream in = null;
 		List<DesignerExpense> list = null;
 		Map<String,Object> paramap = handleRequestParameter();
+		String isSell = paramap.get("isSell").toString();
+		String designer = paramap.get("designer")==null?"":paramap.get("designer").toString();
+		String fileUrl = "";
+		//if ("1".equals(isSell)) {// 销售
+			if (StringUtils.isNotEmpty(designer)) {// 个人设计费
+				fileUrl = "model/销售个人设计费.xls";
+			} else {
+				fileUrl = "model/销售设计费.xls";
+			}
+			/*} else if ("2".equals(isSell)) {// 财务
+			if (StringUtils.isNotEmpty(designer)) {// 个人设计费
+				fileUrl = "model/财务个人设计费.xls";
+			} else {
+				fileUrl = "model/财务设计费.xls";
+			}
+		}*/
+	
 		list = designerExpenseService.getDesignerExpenseByPara(paramap);
+		
 		OutputStream outputStream = null;
 		response.setContentType("application/vnd.ms-excel");
 		response.setHeader("Content-disposition", "attachment;filename=data.xls");
 		try {
-			outputStream = response.getOutputStream();
-			HSSFWorkbook wb = new HSSFWorkbook();
-			HSSFSheet sheet = wb.createSheet("DesignerExpense");
-			String titleStr [] = {"编号", "合作方", "顾问费率"};
-			HSSFRow thRow = sheet.createRow(0);//表头行
-			for(int i = 0; i < titleStr.length; i++) {
-				HSSFCell thCell = thRow.createCell( i);
-				thCell.setCellValue(titleStr[i]);
-			}
+			in = new FileInputStream(request.getRealPath(fileUrl));
+			HSSFWorkbook wb = new HSSFWorkbook(in);
+			HSSFSheet sheet = wb.getSheetAt(0);
+			/*HSSFRow row0 = sheet.getRow(0);
+			HSSFCell cell0 = row0.getCell(0);
+			if (StringUtils.isNotEmpty(designer)) {// 如果是个人明细表要第一行要加上 设计师的名字
+				String value = cell0.getStringCellValue();
+				String lastValue = value + "(" + designer + ")";
+				cell0.setCellValue(lastValue);
+			}*/
 			
+			outputStream = response.getOutputStream();
 			int i = 1;
 			for(DesignerExpense designerExpense : list) {
 				HSSFRow cRow = sheet.createRow(i);
-				Object values[] = {designerExpense.getApplyDate1(), designerExpense.getApplyDate1(), designerExpense.getApplyDate1()};
+				Object[] values = {designerExpense.getApplyDate1(), designerExpense.getApplyDate1(), designerExpense.getApplyDate1()};
+				
+			//	if ("1".equals(isSell)) {// 销售
+					if (StringUtils.isNotEmpty(designer)) {// 个人设计费
+						values = null;
+					} else {
+						values = null;
+					}
+				/*} else if ("2".equals(isSell)) {// 财务
+					if (StringUtils.isNotEmpty(designer)) {// 个人设计费
+						values = null;
+					} else {
+						values = null;
+					}
+				}*/
+				
 				for(int j = 0; j < values.length; j++) {
 					HSSFCell c = cRow.createCell( j);
 					if(values[j] instanceof Float) {
@@ -201,6 +301,13 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{
+			if(in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			if(outputStream != null) {
 				try {
 					outputStream.close();
@@ -209,29 +316,8 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 				}
 			}
 		}
-		String curAdminName = this.getCurrentAdminUser().getUsername();
 		return null;
 	}
-	
-	public void downloadDesignExpense(List<DesignerExpense> list,String designer,String isSell){
-		String fileUrl = "";
-			if ("1".equals(isSell)) {// 销售
-				if (StringUtils.isNotEmpty(designer)) {// 个人设计费
-					fileUrl = "model/销售设计费明细.xls";
-				} else {
-					fileUrl = "model/销售设计费.xls";
-				}
-			} else if ("2".equals(isSell)) {// 财务
-				if (StringUtils.isNotEmpty(designer)) {// 个人设计费
-					fileUrl = "model/财务设计费明细.xls";
-				} else {
-					fileUrl = "model/财务设计费.xls";
-				}
-			}
-		
-	}
-	
-	
 	
 
 	public DesignerExpense getDesignerExpense() {

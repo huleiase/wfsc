@@ -1780,7 +1780,9 @@ public class QuoteAction extends DispatchPagerAction {
 			List<DesignerExpense> des = this.designerExpenseService.getDesignerExpenseByQuoteId(q.getId());
 			if(CollectionUtils.isNotEmpty(des)){
 				DesignerExpense oldDe = des.get(0);
-				//一般情况下最后一条数据肯定是 add，但是作废报价单的时候最后一条是取消，当再签单的时候就不需要更新之前的和添加一条抵消的
+				de = (DesignerExpense)oldDe.clone();
+				de.setId(null);
+				//一般情况下最后一条数据肯定是 add，但是作废或删除报价单的时候最后一条是offset，当再签单的时候就不需要更新之前的和添加一条抵消的
 				if("add".equals(oldDe.getOperation())){
 					oldDe.setOperation("old");
 					//更新旧的
@@ -1911,6 +1913,22 @@ public class QuoteAction extends DispatchPagerAction {
 		 designerExpense.setVcOther(de.getVcOther());
 		 designerExpense.setDesignTotelMoney(designerExpense.getDesignMony1()+designerExpense.getDesignMony2()+designerExpense.getDesignMony3());
 		 designerExpense.setCreateDate(de.getCreateDate());
+		 if(designerExpense.getFreight()==0){
+			 Long qId = de.getQuoteId();
+			 Quote q = this.quoteService.getQuoteById(qId);
+			 float freight = 0F;
+				Set<QuoteFabric> qfs = q.getQuoteFabric();
+				for(QuoteFabric qf :qfs){
+					if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay()))continue;
+					String lowFreight = qf.getLowFreight();
+					freight +=qf.getOrderQuantity()*(StringUtils.isEmpty(lowFreight)?0:Float.valueOf(lowFreight));
+				}
+				freight+=q.getLowestFreight();
+				freight+=q.getArriveTransport();
+				//---------老数据没这个值，需要在导出的时候再计算一遍
+				designerExpense.setFreight(freight);
+				//------------ 
+		 }
 		 designerExpenseService.saveOrUpdateEntity(designerExpense);
 		 String curAdminName = this.getCurrentAdminUser().getUsername();
 		saveSystemLog(LogModule.quoteLog, curAdminName+"设计了报价单"+de.getQuoteNo());

@@ -238,6 +238,19 @@
 			<result name="ok" type="redirectAction">note_manager.Q</result>
 			<result name="input">/WEB-INF/jsps/admin/note/input.jsp</result>
 		</action>	
+		
+		<action name="designerExpense_*" class="DesignerExpenseAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="managerSellPerson">/WEB-INF/jsps/admin/designerExpense/managerSellPerson.jsp</result>
+			<result name="listSellPerson">/WEB-INF/jsps/admin/designerExpense/listSellPerson.jsp</result>
+			<result name="managerSell">/WEB-INF/jsps/admin/designerExpense/managerSell.jsp</result>
+			<result name="listSell">/WEB-INF/jsps/admin/designerExpense/listSell.jsp</result>
+			<!-- 
+			<result name="managerCaiwuPerson">/WEB-INF/jsps/admin/designerExpense/managerCaiwuPerson.jsp</result>
+			<result name="listCaiwuPerson">/WEB-INF/jsps/admin/designerExpense/listCaiwuPerson.jsp</result>
+			<result name="managerCaiwu">/WEB-INF/jsps/admin/designerExpense/managerCaiwu.jsp</result>
+			<result name="listCaiwu">/WEB-INF/jsps/admin/designerExpense/listCaiwu.jsp</result> -->
+		</action>	
 	</package>
 	
 </struts>

@@ -920,8 +920,11 @@ public abstract class EnhancedHibernateDaoSupport<T> extends HibernateDaoSupport
 						q.setEntity(key, obj);
 					}
 				}
-				q.setFirstResult(firstRow);
-				q.setMaxResults(maxRow);
+				if(firstRow!=-1&&maxRow!=-1){
+					q.setFirstResult(firstRow);
+					q.setMaxResults(maxRow);
+				}
+				
 				return q.list();
 			}
 		});
