@@ -263,7 +263,7 @@ public class FabricDao extends EnhancedHibernateDaoSupport<Fabric> {
 		if(CollectionUtils.isEmpty(list)){
 			return null;
 		}else{
-			return (Long)list.get(0);
+			return (Long)list.get(list.size()-1);
 		}
 	}
 	public Page<Fabric> findForQuotePage(Page<Fabric> page,
@@ -369,5 +369,41 @@ public class FabricDao extends EnhancedHibernateDaoSupport<Fabric> {
 				return query.executeUpdate();
 			}
 		});
+	}
+	
+	public int deleteBySql(final String sql){
+		return (Integer) getHibernateTemplate().execute(new HibernateCallback() {
+			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+				SQLQuery query = session.createSQLQuery(sql);
+				return query.executeUpdate();
+			}
+		});
+	}
+	
+	public List<Long> getHtFabricIdByIds(String sql){
+		List<Long> ids = new ArrayList<Long>();
+		Session s = null;
+		try {
+			s = this.getSession();
+			List<Object[]> list = s.createSQLQuery(sql).addScalar("id", Hibernate.LONG).list();
+			if(CollectionUtils.isNotEmpty(list)){
+				for(Object[] obj : list){
+					if(obj!=null&&obj.length==1){
+						ids.add((Long)obj[0]);
+					}
+				}
+			}
+		} catch (DataAccessResourceFailureException e) {
+			e.printStackTrace();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}finally{
+			if(s!=null){
+				s.close();
+			}
+		}
+		return ids;
 	}
 }

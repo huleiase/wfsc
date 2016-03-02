@@ -1,11 +1,13 @@
 package com.wfsc.services.bym;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -29,21 +31,21 @@ public class FabricServiceImpl implements IFabricService {
 		return fabricDao.findForPage(page, paramap);
 	}
 	public void deleteByIds(List<Long> ids,String isHtCode) {
+		StringBuffer sql = new StringBuffer("delete from bym_fabric where ");
 		if("0".equals(isHtCode)){
-			for(Long id : ids){
-				List<Fabric> htList = getHTFabricByRefid(Long.valueOf(id));
-				if(htList!=null&&htList.size()>0){
-					fabricDao.deleteAllEntities(htList);
-					/*for(Fabric ht : htList){
-						ht.setRefid(null);
-						ht.setVcDis("停用");
-						fabricDao.saveOrUpdateEntity(ht);
-					}*/
-				}
-			}
-			
+			List<Long> htIds = this.getHtFabricIdByIds(ids);
+			ids.addAll(htIds);
 		}
-		fabricDao.deletAllEntities(ids);
+		for(int i=0;i<ids.size();i++){
+			if(i==ids.size()-1){
+				sql.append(" id="+ids.get(i));
+			}else{
+				sql.append(" id="+ids.get(i)+" or ");
+			}
+		}
+		System.out.println("deleteByIds==="+sql);
+		int count = this.deleteBySql(sql.toString());
+		System.out.println("删除的记录数==="+count);
 	}
 	public void saveOrUpdateEntity(Fabric entity){
 		fabricDao.saveOrUpdateEntity(entity);
@@ -144,22 +146,14 @@ public class FabricServiceImpl implements IFabricService {
 		return fabricDao.getEntityByHql(hql);
 	}
 	@Override
-	public void deleteFabrics(Collection<Fabric> fs,String isHtCode) {
-		if("0".equals(isHtCode)){
+	public void deleteFabrics(List<Fabric> fs,String isHtCode) {
+		List<Long> ids = new ArrayList<Long>();
+		if(CollectionUtils.isNotEmpty(fs)){
 			for(Fabric f : fs){
-				List<Fabric> htList = getHTFabricByRefid(f.getId());
-				if(htList!=null&&htList.size()>0){
-					fabricDao.deleteAllEntities(htList);
-					/*for(Fabric ht : htList){
-						ht.setRefid(null);
-						ht.setVcDis("停用");
-						fabricDao.saveOrUpdateEntity(ht);
-					}*/
-				}
+				ids.add(f.getId());
 			}
-			
 		}
-		fabricDao.deleteAllEntities(fs);
+		this.deleteByIds(ids, isHtCode);
 	}
 	@Override
 	public Map<String, Long> getRefMap() {
@@ -183,6 +177,28 @@ public class FabricServiceImpl implements IFabricService {
 	@Override
 	public int updateVcdis() {
 		return fabricDao.updateVcdis();
+	}
+	
+	public int deleteBySql(String sql){
+		return fabricDao.deleteBySql(sql);
+	}
+	
+	public List<Long> getHtFabricIdByIds(List<Long> ids){
+		StringBuffer sql = new StringBuffer("select id from bym_fabric where ");
+		if(ids!=null&&ids.size()>0){
+			for(int i=0;i<ids.size();i++){
+				if(i==ids.size()-1){
+					sql.append(" refid="+ids.get(i));
+				}else{
+					sql.append(" refid="+ids.get(i)+" or ");
+				}
+			}
+			System.out.println("getHtFabricIdByIds==="+sql);
+			return fabricDao.getHtFabricIdByIds(sql.toString());
+		}else{
+			return new ArrayList<Long>();
+		}
+		
 	}
 
 }

@@ -1611,8 +1611,31 @@ public class QuoteAction extends DispatchPagerAction {
 			other = new Float(vcOther);
 		}
 		float containFre = (quote.getSumMoney() / quote.getContainTax()) * (quote.getContainTax() - 1);
-		float realTotel = quote.getSumMoney() - processFre - installFre - quote.getUrgentCost()
-				- quote.getLowestFreight() - containFre - aftertreatment - other;
+		float freight = 0F;
+		if("1".equals(quote.getIsFreight())){
+			Set<QuoteFabric> qfs = quote.getQuoteFabric();
+			for(QuoteFabric qf :qfs){
+				if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay())||"1".equals(qf.getIsHidden()))continue;
+				float lowFreight = 0F;
+				//quoteFormate==1内地报价,quoteFormate==2香港报价,quoteFormate==3大货价内地报价,quoteFormate==4大货价香港报价,quoteFormate==5零售报价
+				if("1".equals(quote.getQuoteFormate())||"5".equals(quote.getQuoteFormate())){
+					lowFreight = qf.getVcProFre();
+				}else if("2".equals(quote.getQuoteFormate())){
+					lowFreight = qf.getVcRetFre();
+				}else if("3".equals(quote.getQuoteFormate())){
+					lowFreight = qf.getDhjInlandTransCost();
+				}else if("4".equals(quote.getQuoteFormate())){
+					lowFreight = qf.getDhjHKTransCost();
+				}
+				freight +=qf.getOrderQuantity()*lowFreight;
+			}
+		}
+		freight+=quote.getLowestFreight();
+		freight+=quote.getArriveTransport();
+		if("3".equals(quote.getQuoteFormate())||"4".equals(quote.getQuoteFormate())||"5".equals(quote.getQuoteFormate())){
+			freight+=quote.getUrgentCost();
+		}
+		float realTotel = quote.getSumMoney() - freight - containFre - aftertreatment - other-processFre-installFre;
 		//request.setAttribute("realTotel",PriceUtil.getTwoDecimalFloat(realTotel));
 		//DesignerExpense de = null;
 		
@@ -1620,9 +1643,9 @@ public class QuoteAction extends DispatchPagerAction {
 				.getDesignerExpenseByQuoteId(Long.valueOf(id));
 		if (des != null && des.size() > 0) {
 			designerExpense = des.get(0);
-			if(designerExpense.getRealTotel()>0F){
+			/*if(designerExpense.getRealTotel()>0F){
 				realTotel = designerExpense.getRealTotel();
-			}
+			}*/
 			designerExpense.setRealTotel(PriceUtil.getTwoDecimalFloat((realTotel)));
 		}
 		String item = quote.getItem().replaceAll("@", "<br><br>");
@@ -1812,14 +1835,29 @@ public class QuoteAction extends DispatchPagerAction {
 			de.setVcInstallFre(StringUtils.isBlank(q.getVcInstallFre())?0F:Float.valueOf(q.getVcInstallFre()));
 			de.setUrgentCost(q.getUrgentCost());
 			float freight = 0F;
-			Set<QuoteFabric> qfs = q.getQuoteFabric();
-			for(QuoteFabric qf :qfs){
-				if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay()))continue;
-				String lowFreight = qf.getLowFreight();
-				freight +=qf.getOrderQuantity()*(StringUtils.isEmpty(lowFreight)?0:Float.valueOf(lowFreight));
+			if("1".equals(q.getIsFreight())){
+				Set<QuoteFabric> qfs = q.getQuoteFabric();
+				for(QuoteFabric qf :qfs){
+					if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay())||"1".equals(qf.getIsHidden()))continue;
+					float lowFreight = 0F;
+					//quoteFormate==1内地报价,quoteFormate==2香港报价,quoteFormate==3大货价内地报价,quoteFormate==4大货价香港报价,quoteFormate==5零售报价
+					if("1".equals(q.getQuoteFormate())||"5".equals(q.getQuoteFormate())){
+						lowFreight = qf.getVcProFre();
+					}else if("2".equals(q.getQuoteFormate())){
+						lowFreight = qf.getVcRetFre();
+					}else if("3".equals(q.getQuoteFormate())){
+						lowFreight = qf.getDhjInlandTransCost();
+					}else if("4".equals(q.getQuoteFormate())){
+						lowFreight = qf.getDhjHKTransCost();
+					}
+					freight +=qf.getOrderQuantity()*lowFreight;
+				}
 			}
 			freight+=q.getLowestFreight();
 			freight+=q.getArriveTransport();
+			if("3".equals(q.getQuoteFormate())||"4".equals(q.getQuoteFormate())||"5".equals(q.getQuoteFormate())){
+				freight+=q.getUrgentCost();
+			}
 			//---------老数据没这个值，需要在导出的时候再计算一遍
 			de.setFreight(freight);
 			//------------
@@ -1913,22 +1951,37 @@ public class QuoteAction extends DispatchPagerAction {
 		 designerExpense.setVcOther(de.getVcOther());
 		 designerExpense.setDesignTotelMoney(designerExpense.getDesignMony1()+designerExpense.getDesignMony2()+designerExpense.getDesignMony3());
 		 designerExpense.setCreateDate(de.getCreateDate());
-		 if(designerExpense.getFreight()==0){
+	//	 if(designerExpense.getFreight()==0){
 			 Long qId = de.getQuoteId();
 			 Quote q = this.quoteService.getQuoteById(qId);
 			 float freight = 0F;
-				Set<QuoteFabric> qfs = q.getQuoteFabric();
-				for(QuoteFabric qf :qfs){
-					if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay()))continue;
-					String lowFreight = qf.getLowFreight();
-					freight +=qf.getOrderQuantity()*(StringUtils.isEmpty(lowFreight)?0:Float.valueOf(lowFreight));
+				if("1".equals(q.getIsFreight())){
+					Set<QuoteFabric> qfs = q.getQuoteFabric();
+					for(QuoteFabric qf :qfs){
+						if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay())||"1".equals(qf.getIsHidden()))continue;
+						float lowFreight = 0F;
+						//quoteFormate==1内地报价,quoteFormate==2香港报价,quoteFormate==3大货价内地报价,quoteFormate==4大货价香港报价,quoteFormate==5零售报价
+						if("1".equals(q.getQuoteFormate())||"5".equals(q.getQuoteFormate())){
+							lowFreight = qf.getVcProFre();
+						}else if("2".equals(q.getQuoteFormate())){
+							lowFreight = qf.getVcRetFre();
+						}else if("3".equals(q.getQuoteFormate())){
+							lowFreight = qf.getDhjInlandTransCost();
+						}else if("4".equals(q.getQuoteFormate())){
+							lowFreight = qf.getDhjHKTransCost();
+						}
+						freight +=qf.getOrderQuantity()*lowFreight;
+					}
 				}
 				freight+=q.getLowestFreight();
 				freight+=q.getArriveTransport();
+				if("3".equals(q.getQuoteFormate())||"4".equals(q.getQuoteFormate())||"5".equals(q.getQuoteFormate())){
+					freight+=q.getUrgentCost();
+				}
 				//---------老数据没这个值，需要在导出的时候再计算一遍
 				designerExpense.setFreight(freight);
 				//------------ 
-		 }
+		// }
 		 designerExpenseService.saveOrUpdateEntity(designerExpense);
 		 String curAdminName = this.getCurrentAdminUser().getUsername();
 		saveSystemLog(LogModule.quoteLog, curAdminName+"设计了报价单"+de.getQuoteNo());

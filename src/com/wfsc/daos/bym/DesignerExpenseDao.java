@@ -74,6 +74,18 @@ public class DesignerExpenseDao extends EnhancedHibernateDaoSupport<DesignerExpe
 					countSql.append(" and de.contractNo like '%").append(paramap.get(key).toString()+"%'");
 					continue;
 				}
+				if ("quoteNo".equals(key)) {
+					hql.append(" and obj.quoteNo like :quoteNo");
+					dataMap.put("quoteNo", paramap.get(key));
+					countSql.append(" and de.quoteNo like '%").append(paramap.get(key).toString()+"%'");
+					continue;
+				}
+				if ("quoteLocal".equals(key)) {
+					hql.append(" and obj.quoteLocal='"+paramap.get(key)+"'");
+					dataMap.put("quoteLocal", paramap.get(key));
+					countSql.append(" and de.quoteLocal = '").append(paramap.get(key).toString()+"'");
+					continue;
+				}
 			}
 			hql.append(" order by obj.createDate desc");
 			List<DesignerExpense> list = this.findList4PageWithParama(hql.toString(), page
@@ -127,6 +139,16 @@ public class DesignerExpenseDao extends EnhancedHibernateDaoSupport<DesignerExpe
 				if ("contractNo".equals(key)) {
 					hql.append(" and obj.contractNo like :contractNo");
 					dataMap.put("contractNo", paramap.get(key));
+					continue;
+				}
+				if ("quoteNo".equals(key)) {
+					hql.append(" and obj.quoteNo like :quoteNo");
+					dataMap.put("quoteNo", paramap.get(key));
+					continue;
+				}
+				if ("quoteLocal".equals(key)) {
+					hql.append(" and obj.quoteLocal='"+paramap.get(key)+"'");
+					dataMap.put("quoteLocal", paramap.get(key));
 					continue;
 				}
 			}

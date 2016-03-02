@@ -8,6 +8,7 @@
               <thead>
                 <tr>
                   <th>时间</th>
+                  <th>报价单号</th>
                   <th>合同号</th>
                   <th>客户名称</th>
                   <th>项目</th>
@@ -49,6 +50,7 @@
                 <s:iterator value="#request.page.data" var="obj">
                  <tr>
                   <td> <s:date name="createDate" format="yyyy-MM-dd" /></td>
+                  <td><s:property value="quoteNo"/></td>
                    <td><s:property value="contractNo"/></td>
                     <td><s:property value="customerName"/></td>
                      <td><s:property value="projectName"/></td>

@@ -11,6 +11,7 @@
 <script src="js/dpicker/WdatePicker.js" type="text/javascript"></script>
 <script type="text/javascript">
 	function resetForm(){
+		$("#quoteNo").val("");
 		$("#contractNo").val("");
 		$("#beginDate").val("");
 		$("#endDate").val("");
@@ -46,8 +47,13 @@
           <form action="admin/designerExpense_managerSell.Q" method="post" id="queryForm">
           <input name="isSell" type="hidden" value="1">
             <div class="controls">
+            	 <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">报价单号</label>
+	            <input name="quoteNo" id="quoteNo" type="text" class="span2"  value="${quoteNo }">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">合同号</label>
 	            <input name="contractNo" id="contractNo" type="text" class="span2"  value="${contractNo }">
+	         </div>
+	         <div class="clear"></div>
+	         <div class="controls">
 	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">日期</label>
 	             <input type="text" id="beginDate" name="beginDate"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${beginDate}" class="span2" />
 		                  	&nbsp;&nbsp;<span class="span1" style="width: 20px;margin-left: 10px;">至</span>&nbsp;&nbsp;

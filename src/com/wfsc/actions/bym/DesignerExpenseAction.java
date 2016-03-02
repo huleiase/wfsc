@@ -1,12 +1,9 @@
 package com.wfsc.actions.bym;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,21 +13,18 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CreationHelper;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
 import com.wfsc.common.bo.bym.DesignerExpense;
-import com.wfsc.common.bo.bym.Quote;
+import com.wfsc.common.bo.user.Admin;
 import com.wfsc.services.bym.service.IDesignerExpenseService;
-import com.wfsc.util.ProPrice;
+import com.wfsc.services.security.ISecurityService;
 
 /**
  * 
@@ -46,7 +40,8 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 	
 	@Resource(name = "designerExpenseService")
 	private IDesignerExpenseService designerExpenseService;
-	
+	@Resource(name = "securityService")
+	private ISecurityService securityService;
 	private DesignerExpense designerExpense;
 
 	public String managerSellPerson(){
@@ -193,8 +188,20 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 		String isApply = request.getParameter("isApply");
 		String isSell = request.getParameter("isSell");//销售的设计费：1；财务的设计费：2
 		String contractNo = request.getParameter("contractNo");
+		String quoteNo = request.getParameter("quoteNo");
 		
 		Map<String,Object> paramap = new HashMap<String,Object>();
+		
+		Admin admin = this.getCurrentAdminUser();
+		boolean isAdminb = securityService.isAbleRole(admin.getUsername(), "管理员");
+		if(!isAdminb){
+			paramap.put("quoteLocal", admin.getArea());
+		}
+		
+		if(StringUtils.isNotEmpty(quoteNo)){
+			paramap.put("quoteNo", quoteNo);
+			request.setAttribute("quoteNo", quoteNo);
+		}
 		if(StringUtils.isNotEmpty(beginDate)){
 			paramap.put("beginDate", beginDate);
 			request.setAttribute("beginDate", beginDate);
