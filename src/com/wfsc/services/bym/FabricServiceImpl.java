@@ -32,10 +32,10 @@ public class FabricServiceImpl implements IFabricService {
 	}
 	public void deleteByIds(List<Long> ids,String isHtCode) {
 		StringBuffer sql = new StringBuffer("delete from bym_fabric where ");
-		if("0".equals(isHtCode)){
+		/*if("0".equals(isHtCode)){
 			List<Long> htIds = this.getHtFabricIdByIds(ids);
 			ids.addAll(htIds);
-		}
+		}*/
 		for(int i=0;i<ids.size();i++){
 			if(i==ids.size()-1){
 				sql.append(" id="+ids.get(i));

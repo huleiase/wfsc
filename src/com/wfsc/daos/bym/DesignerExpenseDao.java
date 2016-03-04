@@ -82,7 +82,6 @@ public class DesignerExpenseDao extends EnhancedHibernateDaoSupport<DesignerExpe
 				}
 				if ("quoteLocal".equals(key)) {
 					hql.append(" and obj.quoteLocal='"+paramap.get(key)+"'");
-					dataMap.put("quoteLocal", paramap.get(key));
 					countSql.append(" and de.quoteLocal = '").append(paramap.get(key).toString()+"'");
 					continue;
 				}
@@ -148,7 +147,6 @@ public class DesignerExpenseDao extends EnhancedHibernateDaoSupport<DesignerExpe
 				}
 				if ("quoteLocal".equals(key)) {
 					hql.append(" and obj.quoteLocal='"+paramap.get(key)+"'");
-					dataMap.put("quoteLocal", paramap.get(key));
 					continue;
 				}
 			}

@@ -354,27 +354,27 @@ public class PurchaseAction extends DispatchPagerAction {
         row.getCell(2).setCellStyle(style);
         row.getCell(2).setCellValue("*型号");
         row.getCell(3).setCellStyle(style);
-        row.getCell(3).setCellValue("*幅宽(CM)");
+        row.getCell(3).setCellValue("报价型号");
         row.getCell(4).setCellStyle(style);
-        row.getCell(4).setCellValue("*⑦订货数量");
+        row.getCell(4).setCellValue("*幅宽(CM)");
         row.getCell(5).setCellStyle(style);
-        row.getCell(5).setCellValue("*④单位 ");
+        row.getCell(5).setCellValue("*⑦订货数量");
         row.getCell(6).setCellStyle(style);
-        row.getCell(6).setCellValue("*② 类型");
+        row.getCell(6).setCellValue("*④单位 ");
         row.getCell(7).setCellStyle(style);
-        row.getCell(7).setCellValue("备注");
-        HSSFCell ct4_7 = row.getCell(8);
+        row.getCell(7).setCellValue("*② 类型");
+        row.getCell(8).setCellStyle(style);
+        row.getCell(8).setCellValue("备注");
+        /*HSSFCell ct4_7 = row.getCell(9);
         ct4_7.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(
         		shifStartRow, //first row (0-based)
         		shifStartRow, //last row  (0-based)
                 7, //first column (0-based)
                 8  //last column  (0-based)
-        ));
-      //  HSSFCellStyle rowStyle = row.getRowStyle();
+        ));*/
         for(int i = 0; i < rows; i++){
         	HSSFRow r = sheet.createRow(shifStartRow+i+1);
-        //	r.setRowStyle(rowStyle);
         	HSSFCell c1 = r.createCell(0);//序号
         	c1.setCellStyle(style);
         	c1.setCellValue(qfList.get(i).getOrderId());
@@ -383,36 +383,39 @@ public class PurchaseAction extends DispatchPagerAction {
         	c2.setCellValue(qfList.get(i).getVcFactoryCode());
         	HSSFCell c3 = r.createCell(2);//型号
         	c3.setCellStyle(style);
-        //	String isHtCode = qfList.get(i).getIsHtCode();
-	    //    String vcModelNumDisplay = isHtCode.equals("0")?qfList.get(i).getVcModelNum():qfList.get(i).getHtCode();//显示的型号
         	String cv = qfList.get(i).getVcModelNum();
         	if(StringUtils.isNotEmpty(qfList.get(i).getVcColorNum())){
         		cv += "-"+qfList.get(i).getVcColorNum();
         	}
         	c3.setCellValue(cv);
-        	HSSFCell c4 = r.createCell(3);//幅宽
+        	
+        	HSSFCell c2_1 = r.createCell(3);//报价型号
+        	c2_1.setCellStyle(style);
+        	c2_1.setCellValue(qfList.get(i).getVcModelNumDisplay());
+        	
+        	HSSFCell c4 = r.createCell(4);//幅宽
         	c4.setCellStyle(style);
         	c4.setCellValue(qfList.get(i).getVcWidth());
-        	HSSFCell c5 = r.createCell(4);//订货量
+        	HSSFCell c5 = r.createCell(5);//订货量
         	c5.setCellStyle(style);
         	c5.setCellValue(qfList.get(i).getOrderQuantity());
-        	HSSFCell c6 = r.createCell(5);//单位
+        	HSSFCell c6 = r.createCell(6);//单位
         	c6.setCellStyle(style);
         	c6.setCellValue(qfList.get(i).getVcOldPriceUnit());
-        	HSSFCell c7 = r.createCell(6);//类型
+        	HSSFCell c7 = r.createCell(7);//类型
         	c7.setCellStyle(style);
         	c7.setCellValue(qfList.get(i).getVcType());
-        	HSSFCell c8 = r.createCell(7);//备注
+        	HSSFCell c8 = r.createCell(8);//备注
         	c8.setCellStyle(style);
         	c8.setCellValue(qfList.get(i).getVcPurchaseRmk());
-        	HSSFCell c5_7 = r.createCell(8);
+        	/*HSSFCell c5_7 = r.createCell(9);
         	c5_7.setCellStyle(style);
         	sheet.addMergedRegion(new CellRangeAddress(
         			shifStartRow+i+1, //first row (0-based)
         			shifStartRow+i+1, //last row  (0-based)
                     7, //first column (0-based)
                     8  //last column  (0-based)
-            ));
+            ));*/
         	
         }
         HSSFRow afterInsertRow1 = sheet.getRow(shifStartRow+rows+1);
