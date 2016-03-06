@@ -20,8 +20,12 @@
 			$("#queryForm").submit();
 		
 	}
-	function downloadSellPerson(){
+	function downloadSell(){
 		var url = "<%=basePath%>admin/designerExpense_exportDesignerExpenseData.Q?isSell=1"
+		var quoteNo = $("#quoteNo").val();
+			if(quoteNo){
+				 url += "&quoteNo="+quoteNo;
+			}
 		var contractNo = $("#contractNo").val();
 			if(contractNo){
 				 url += "&contractNo="+contractNo;
@@ -68,7 +72,7 @@
         </div>
         <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>设计费</h5>
-            <button class="label label-info btn btn-primary btn-mini" onclick="javascript:void(0);">按条件导出</button>
+            <button class="label label-info btn btn-primary btn-mini" onclick="downloadSell();">按条件导出</button>
          </div>
          <div class="widget-content nopadding" id="listTableDiv">
             <%@include file="listSell.jsp"%>

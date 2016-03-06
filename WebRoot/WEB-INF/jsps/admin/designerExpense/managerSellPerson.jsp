@@ -79,7 +79,7 @@
         </div>
         <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>个人设计费</h5>
-            <button class="label label-info btn btn-primary btn-mini" onclick="javascript:void(0);">按条件导出</button>
+            <button class="label label-info btn btn-primary btn-mini" onclick="downloadSellPerson();">按条件导出</button>
          </div>
          <div class="widget-content nopadding" id="listTableDiv">
             <%@include file="listSellPerson.jsp"%>
