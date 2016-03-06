@@ -151,7 +151,7 @@ table#quoteFabricTable .label, .badge {
 	          <c:if test="${isMoreLess}">
 	          	<div class="controls">
 	          	<label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">订单日期</label>
-	            <input id="orderDate" type="text" class="span3"  value="${ order.orderDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+	            <input id="orderDate" type="text" class="span3"  value="${ order.orderDate}">
 	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">经手人</label>
 	            <input name="order.vcfrom" id="vcfrom" type="text" class="span3"  value="${ order.vcfrom}">
 	         </div>
@@ -194,6 +194,28 @@ table#quoteFabricTable .label, .badge {
 					<option value="其他" <c:if test="${order.consignee=='其他'}">selected</c:if>>其他</option>
 	             </select>
 	            <input name="order.otherConsignee" id="otherConsignee" type="text" class="span3"  value="${ order.otherConsignee}">
+	         </div>
+	         <div class="clear"></div>
+
+	          <div class="controls">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">出货数量</label>
+	             <input name="order.outNum" id="outNum" type="text" class="span3"  value="${ order.outNum}" >
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">出库日期</label>
+	            <input name="order.outStoreDate" id="outStoreDate" type="text" class="span3"  value="${ order.outStoreDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+	         </div>
+	         <div class="clear"></div>
+	         <div class="controls">
+	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">出货经手人</label>
+	            <input name="order.shipPerson" id="shipPerson" type="text" class="span3"  value="${order.shipPerson }">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">快递单号</label>
+	            <input name="order.expressNumber" id="expressNumber" type="text" class="span3"  value="${ order.expressNumber}">
+	         </div>
+	         <div class="clear"></div>
+	         <div class="controls">
+	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">快递公司</label>
+	            <input name="order.expressCompany" id="expressCompany" type="text" class="span3"  value="${order.expressCompany }">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">到货地址</label>
+	            <input name="order.arrivalAddress" id="arrivalAddress" type="text" class="span3"  value="${ order.arrivalAddress}">
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">

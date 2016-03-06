@@ -82,7 +82,15 @@ public class OrderAction extends DispatchPagerAction {
 	private Order order;
 	private DesignerOrder designerOrder;
 	private List<QuoteFabric> quoteFabricList = new ArrayList<QuoteFabric>();
+	private StoreFabric sf;
+	
 
+	public StoreFabric getSf() {
+		return sf;
+	}
+	public void setSf(StoreFabric sf) {
+		this.sf = sf;
+	}
 	public String manager(){
 		this.setTopMenu();
 		list();
@@ -1298,6 +1306,12 @@ public class OrderAction extends DispatchPagerAction {
 				sf.setIsOrderConfirm(o.getIsOrderConfirm());
 				sf.setDeliveryRequirements(o.getPurchase().getDeliveryRequirements());
 				sf.setArrivalDate(o.getShipDateRemark());
+				sf.setOutNum(o.getOutNum());
+				sf.setOutStoreDate(o.getOutStoreDate());
+				sf.setShipPerson(o.getShipPerson());
+				sf.setExpressNumber(o.getExpressNumber());
+				sf.setExpressCompany(o.getExpressCompany());
+				sf.setArrivalAddress(o.getArrivalAddress());
 				this.storeFabricService.saveOrUpdateEntity(sf);
 				this.saveSystemLog(sf.getVcModelNum()+"_"+sf.getVcFactoryCode(),storeLocal+"到货，型号:"+sf.getVcModelNum()+", 数量:"+sf.getVcRealityAog());
 			}

@@ -143,22 +143,22 @@ public class StoreFabric implements java.io.Serializable{
 	
 	private Date orderDate;//订单日期，读取订单模块的订单日期
 	private String shipAddress;//发货地址
-	private String shipPerson;//出货经手人
-	private String expressNumber;//快递单号
-	private String expressCompany;//快递公司
+	private String shipPerson;//3、出货经手人
+	private String expressNumber;//4、快递单号
+	private String expressCompany;//5、快递公司
 	private String arrivalCompany;//到货公司
 	private String isOrderConfirm;//订单是否确认
 	private String deliveryRequirements;//货期要求,读取采购单列表的货期要求
 	private String vcRmk2;//备注2
-	private String arrivalAddress;//到货地址
+	private String arrivalAddress;//6、到货地址
 	private String specialReq;//特殊要求
 	private Date arrivalDate;//要求到货日期,读取订单管理的货期
 	private String arrivalNum;//到货数量
-	private Date outStoreDate;//出库日期
+	private Date outStoreDate;//2、出库日期
 	
 	private String transferNum;//转移数量
 	
-	private String outNum;//出库数量
+	private String outNum;//1、出库数量
 	
 	private String isTransfer;//是否是转移过来的。1是0不是
 	

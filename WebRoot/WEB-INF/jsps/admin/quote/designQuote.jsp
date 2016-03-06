@@ -422,7 +422,7 @@ table#quoteFabricTable .label, .badge {
 	         <div class="clear"></div>
 	         <div class="controls">
 	          <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">实际金额</label>
-	            <input name="designerExpense.realTotel" id="realTotel" type="text" class="span3"  value="${designerExpense.realTotel}" readonly="readonly">
+	            <input name="designerExpense.realTotel" id="realTotel" type="text" class="span3"  value="${designerExpense.realTotel}">
 	          </div>
 	         <div class="clear"></div>
 	         <div class="controls">
