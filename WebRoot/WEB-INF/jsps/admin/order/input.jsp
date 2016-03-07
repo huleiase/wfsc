@@ -196,29 +196,7 @@ table#quoteFabricTable .label, .badge {
 	            <input name="order.otherConsignee" id="otherConsignee" type="text" class="span3"  value="${ order.otherConsignee}">
 	         </div>
 	         <div class="clear"></div>
-
-	          <div class="controls">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">出货数量</label>
-	             <input name="order.outNum" id="outNum" type="text" class="span3"  value="${ order.outNum}" >
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">出库日期</label>
-	            <input name="order.outStoreDate" id="outStoreDate" type="text" class="span3"  value="${ order.outStoreDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
-	         </div>
-	         <div class="clear"></div>
 	         <div class="controls">
-	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">出货经手人</label>
-	            <input name="order.shipPerson" id="shipPerson" type="text" class="span3"  value="${order.shipPerson }">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">快递单号</label>
-	            <input name="order.expressNumber" id="expressNumber" type="text" class="span3"  value="${ order.expressNumber}">
-	         </div>
-	         <div class="clear"></div>
-	         <div class="controls">
-	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">快递公司</label>
-	            <input name="order.expressCompany" id="expressCompany" type="text" class="span3"  value="${order.expressCompany }">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">到货地址</label>
-	            <input name="order.arrivalAddress" id="arrivalAddress" type="text" class="span3"  value="${ order.arrivalAddress}">
-	         </div>
-	         <div class="clear"></div>
-	          <div class="controls">
 	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">物流方式1</label>
 	            <input name="order.express1" id="express1" type="text" class="span3"  value="${order.express1 }">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">快递单号1</label>

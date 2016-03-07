@@ -1,5 +1,7 @@
 package com.wfsc.common.bo.bym;
 
+import java.util.Date;
+
 
 
 /**
@@ -325,6 +327,77 @@ public class QuoteFabric implements java.io.Serializable{
 	private String vcDis;
 	
 	private String quoteNum; 
+	
+	
+	private String outNum;//1、出库数量
+	private Date outStoreDate;//2、出库日期
+	private String shipPerson;//3、出货经手人
+	private String expressNumber;//4、快递单号
+	private String expressCompany;//5、快递公司
+	private String arrivalAddress;//6、到货地址
+	
+	
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getOutNum() {
+		return outNum;
+	}
+
+	public void setOutNum(String outNum) {
+		this.outNum = outNum;
+	}
+	/**
+	 * @return
+	 * @hibernate.property type="timestamp" column="outStoreDate"
+	 */
+	public Date getOutStoreDate() {
+		return outStoreDate;
+	}
+
+	public void setOutStoreDate(Date outStoreDate) {
+		this.outStoreDate = outStoreDate;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getShipPerson() {
+		return shipPerson;
+	}
+
+	public void setShipPerson(String shipPerson) {
+		this.shipPerson = shipPerson;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getExpressNumber() {
+		return expressNumber;
+	}
+
+	public void setExpressNumber(String expressNumber) {
+		this.expressNumber = expressNumber;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getExpressCompany() {
+		return expressCompany;
+	}
+
+	public void setExpressCompany(String expressCompany) {
+		this.expressCompany = expressCompany;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getArrivalAddress() {
+		return arrivalAddress;
+	}
+
+	public void setArrivalAddress(String arrivalAddress) {
+		this.arrivalAddress = arrivalAddress;
+	}
 	
 	/**
 	  * hibernate中的主键

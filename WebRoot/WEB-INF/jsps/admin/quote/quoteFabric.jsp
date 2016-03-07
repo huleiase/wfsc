@@ -86,6 +86,13 @@
 	                 <input type="hidden" value="<s:property value="vcType"/>" id="vcType${vcCount }" name="quoteFabricList[${vcIndex }].vcType" />
 	                 <input type="hidden" value="<s:property value="vcPurchaseRmk"/>" id="vcPurchaseRmk${vcCount }" name="quoteFabricList[${vcIndex }].vcPurchaseRmk" />
 	                 <input type="hidden" value="<s:property value="vcAssignAutor"/>" id="vcAssignAutor${vcCount }" name="quoteFabricList[${vcIndex }].vcAssignAutor" />
+	                 
+	                 <input type="hidden" value="<s:property value="outNum"/>" id="outNum${vcCount }" name="quoteFabricList[${vcIndex }].outNum" />
+	                 <input type="hidden" value="<s:date name="outStoreDate" format="yyyy-MM-dd" />" id="outStoreDate${vcCount }" name="quoteFabricList[${vcIndex }].outStoreDate" />
+	                 <input type="hidden" value="<s:property value="shipPerson"/>" id="shipPerson${vcCount }" name="quoteFabricList[${vcIndex }].shipPerson" />
+	                 <input type="hidden" value="<s:property value="expressNumber"/>" id="expressNumber${vcCount }" name="quoteFabricList[${vcIndex }].expressNumber" />
+	                 <input type="hidden" value="<s:property value="expressCompany"/>" id="expressCompany${vcCount }" name="quoteFabricList[${vcIndex }].expressCompany" />
+	                 <input type="hidden" value="<s:property value="arrivalAddress"/>" id="arrivalAddress${vcCount }" name="quoteFabricList[${vcIndex }].arrivalAddress" />
 	                 <div style="width:85px;">
 	                 <span class="label label-info btn btn-primary btn-mini" id="copy${vcCount }" onclick="copyFabric2(${vcCount });">复制</span>
 	                 <span class="label label-info btn btn-primary btn-mini" id="remove${vcCount }" onclick="delFabric2(${vcCount });">删除</span>

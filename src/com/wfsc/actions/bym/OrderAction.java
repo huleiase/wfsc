@@ -326,6 +326,14 @@ public class OrderAction extends DispatchPagerAction {
 			qfdb.setShijia(qf.getShijia());
 			qfdb.setRealMonny(qf.getRealMonny());
 			qfdb.setAmountrmb(qf.getAmountrmb());
+			
+			qfdb.setOutNum(qf.getOutNum());
+			qfdb.setOutStoreDate(qf.getOutStoreDate());
+			qfdb.setShipPerson(qf.getShipPerson());
+			qfdb.setExpressNumber(qf.getExpressNumber());
+			qfdb.setExpressCompany(qf.getExpressCompany());
+			qfdb.setArrivalAddress(qf.getArrivalAddress());
+			
 			quoteFabricService.saveOrUpdateEntity(qfdb);
 			qfdbList.add(qfdb);
 		}
@@ -1306,12 +1314,12 @@ public class OrderAction extends DispatchPagerAction {
 				sf.setIsOrderConfirm(o.getIsOrderConfirm());
 				sf.setDeliveryRequirements(o.getPurchase().getDeliveryRequirements());
 				sf.setArrivalDate(o.getShipDateRemark());
-				sf.setOutNum(o.getOutNum());
-				sf.setOutStoreDate(o.getOutStoreDate());
-				sf.setShipPerson(o.getShipPerson());
-				sf.setExpressNumber(o.getExpressNumber());
-				sf.setExpressCompany(o.getExpressCompany());
-				sf.setArrivalAddress(o.getArrivalAddress());
+				sf.setOutNum(f.getOutNum());
+				sf.setOutStoreDate(f.getOutStoreDate());
+				sf.setShipPerson(f.getShipPerson());
+				sf.setExpressNumber(f.getExpressNumber());
+				sf.setExpressCompany(f.getExpressCompany());
+				sf.setArrivalAddress(f.getArrivalAddress());
 				this.storeFabricService.saveOrUpdateEntity(sf);
 				this.saveSystemLog(sf.getVcModelNum()+"_"+sf.getVcFactoryCode(),storeLocal+"到货，型号:"+sf.getVcModelNum()+", 数量:"+sf.getVcRealityAog());
 			}

@@ -34,6 +34,26 @@
 			<th>
 				类型
 			</th>
+			
+			<th>
+				出货数量
+			</th>
+			<th>
+				出库日期
+			</th>
+			<th>
+				出货经手人
+			</th>
+			<th>
+				快递单号
+			</th>
+			<th>
+				快递公司
+			</th>
+			<th>
+				到货地址
+			</th>
+			
 			<th>
 				备注
 			</th>
@@ -113,6 +133,35 @@
 							id="vcType${vcCount }" name="quoteFabricList[${vcIndex }].vcType"
 							class="widthShort" />
 					</td>
+					
+					<td>
+						<input type="text" value="<s:property value="outNum"/>"
+							id="outNum${vcCount }" name="quoteFabricList[${vcIndex }].outNum"
+							class="widthShort" />
+					</td>
+					<td>
+						<input type="text" value="<s:date name="outStoreDate" format="yyyy-MM-dd" />"
+							id="outStoreDate${vcCount }" name="quoteFabricList[${vcIndex }].outStoreDate"
+							  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+					</td>
+					<td>
+						<input type="text" value="<s:property value="shipPerson"/>"
+							id="shipPerson${vcCount }" name="quoteFabricList[${vcIndex }].shipPerson"
+							class="widthShort" />
+					</td>
+					<td>
+						<input type="text" value="<s:property value="expressNumber"/>"
+							id="expressNumber${vcCount }" name="quoteFabricList[${vcIndex }].expressNumber" />
+					</td>
+					<td>
+						<input type="text" value="<s:property value="expressCompany"/>"
+							id="expressCompany${vcCount }" name="quoteFabricList[${vcIndex }].expressCompany"/>
+					</td>
+					<td>
+						<input type="text" value="<s:property value="arrivalAddress"/>"
+							id="arrivalAddress${vcCount }" name="quoteFabricList[${vcIndex }].arrivalAddress" />
+					</td>
+					
 					<td>
 						<input type="text" value="<s:property value="vcPurchaseRmk"/>"
 							id="vcPurchaseRmk${vcCount }"
