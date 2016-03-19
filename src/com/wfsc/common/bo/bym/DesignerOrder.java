@@ -128,25 +128,6 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	private String gatheringArea;
 	
 	private String vcSalesman;
-	/**
-	 * 销售1
-	 */
-	private String vcSalesman1;
-	
-	/**
-	 * 销售2
-	 */
-	private String vcSalesman2;
-	
-	/**
-	 * 销售3
-	 */
-	private String vcSalesman3;
-	
-	/**
-	 * 销售4
-	 */
-	private String vcSalesman4;
 	
 	private float mon1;
 	private float mon2;
@@ -169,7 +150,59 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	//合同金额
 	private float sumMoney;
 	
-	private Set<QuoteFabricReport> qfrSet = new HashSet<QuoteFabricReport>();
+	private String operation;
+	
+	private Date createDate;
+	//////////////////////////////////////////////////////////////
+	//报价材料合计。后处理+其它+电机合计+阻燃+5个报价的空
+	private float bjClTotel;
+	//加工费。读取报价页面
+	private float vcProcessFre;
+	//量窗费。读取报价页面
+	private float lcFre;
+	//安装费。读取报价页面
+	private float vcInstallFre;
+	//运费.（各个型号的实际采购数量的值*具体类型的运费，再相加）+最低运费+货到工地运费
+	private float bjFreight;
+	//报价合计
+	private float bjTotel;
+	//////////////////////////////
+	//销售成本材料合计
+	private float cbClTotel;
+	/////////////////////////////////
+	//加工费.读取采购页面
+	private float processFee;
+	//安装费 读取采购页面
+	private float installFee;
+	//运费 同一订单号订单运费相
+	private float cbFreight;
+	//差旅费 读取采购页面
+	private float travelExpenses;
+	//设计费
+	private float designFre;
+	//其他 读取采购页面
+	private float otherFre;
+	//销售费用合计
+	private float cbTotel;
+	//毛利
+	private float profit; 
+	//毛利率
+	private float profitRate;
+	//设计师1
+	private String designer1;
+	private float designMony1;
+	//设计师2
+	private String designer2;
+	private float designMony2;
+	//设计师3
+	private String designer3;
+	private float designMony3;
+	//抬头 读取报价单第三行的from
+	private String vcFrom;
+	//销售毛利
+	private float sellProfit; 
+	//销售毛利率
+	private float sellProfitRate;
 	
 	public Object clone() {   
         try {   
@@ -615,54 +648,6 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	/**
 	 * @hibernate.property type="string"
 	 */
-	public String getVcSalesman1() {
-		return vcSalesman1;
-	}
-
-
-	public void setVcSalesman1(String vcSalesman1) {
-		this.vcSalesman1 = vcSalesman1;
-	}
-
-	/**
-	 * @hibernate.property type="string"
-	 */
-	public String getVcSalesman2() {
-		return vcSalesman2;
-	}
-
-
-	public void setVcSalesman2(String vcSalesman2) {
-		this.vcSalesman2 = vcSalesman2;
-	}
-
-	/**
-	 * @hibernate.property type="string"
-	 */
-	public String getVcSalesman3() {
-		return vcSalesman3;
-	}
-
-
-	public void setVcSalesman3(String vcSalesman3) {
-		this.vcSalesman3 = vcSalesman3;
-	}
-
-	/**
-	 * @hibernate.property type="string"
-	 */
-	public String getVcSalesman4() {
-		return vcSalesman4;
-	}
-
-
-	public void setVcSalesman4(String vcSalesman4) {
-		this.vcSalesman4 = vcSalesman4;
-	}
-
-	/**
-	 * @hibernate.property type="string"
-	 */
 	public String getOrderNo() {
 		return orderNo;
 	}
@@ -851,16 +836,256 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	public void setSumMoney(float sumMoney) {
 		this.sumMoney = sumMoney;
 	}
-//	/**
-//	 * @hibernate.collection-key column="doId"
-//	 * @hibernate.collection-one-to-many class="com.wfsc.common.bo.bym.QuoteFabricReport"
-//	 * @hibernate.set cascade="save-update" lazy="true" inverse="true"
-//	 */
+	/*
 	public Set<QuoteFabricReport> getQfrSet() {
 		return qfrSet;
 	}
 	public void setQfrSet(Set<QuoteFabricReport> qfrSet) {
 		this.qfrSet = qfrSet;
+	}*/
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getOperation() {
+		return operation;
+	}
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+	/**
+	 * @return
+	 * @hibernate.property type="timestamp" column="createDate"
+	 */
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getBjClTotel() {
+		return bjClTotel;
+	}
+	public void setBjClTotel(float bjClTotel) {
+		this.bjClTotel = bjClTotel;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getVcProcessFre() {
+		return vcProcessFre;
+	}
+	public void setVcProcessFre(float vcProcessFre) {
+		this.vcProcessFre = vcProcessFre;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getLcFre() {
+		return lcFre;
+	}
+	public void setLcFre(float lcFre) {
+		this.lcFre = lcFre;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getVcInstallFre() {
+		return vcInstallFre;
+	}
+	public void setVcInstallFre(float vcInstallFre) {
+		this.vcInstallFre = vcInstallFre;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getBjFreight() {
+		return bjFreight;
+	}
+	public void setBjFreight(float bjFreight) {
+		this.bjFreight = bjFreight;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getBjTotel() {
+		return bjTotel;
+	}
+	public void setBjTotel(float bjTotel) {
+		this.bjTotel = bjTotel;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getCbClTotel() {
+		return cbClTotel;
+	}
+	public void setCbClTotel(float cbClTotel) {
+		this.cbClTotel = cbClTotel;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getProcessFee() {
+		return processFee;
+	}
+	public void setProcessFee(float processFee) {
+		this.processFee = processFee;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getInstallFee() {
+		return installFee;
+	}
+	public void setInstallFee(float installFee) {
+		this.installFee = installFee;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getCbFreight() {
+		return cbFreight;
+	}
+	public void setCbFreight(float cbFreight) {
+		this.cbFreight = cbFreight;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getTravelExpenses() {
+		return travelExpenses;
+	}
+	public void setTravelExpenses(float travelExpenses) {
+		this.travelExpenses = travelExpenses;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getDesignFre() {
+		return designFre;
+	}
+	public void setDesignFre(float designFre) {
+		this.designFre = designFre;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getOtherFre() {
+		return otherFre;
+	}
+	public void setOtherFre(float otherFre) {
+		this.otherFre = otherFre;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getCbTotel() {
+		return cbTotel;
+	}
+	public void setCbTotel(float cbTotel) {
+		this.cbTotel = cbTotel;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getProfit() {
+		return profit;
+	}
+	public void setProfit(float profit) {
+		this.profit = profit;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getProfitRate() {
+		return profitRate;
+	}
+	public void setProfitRate(float profitRate) {
+		this.profitRate = profitRate;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getDesigner1() {
+		return designer1;
+	}
+	public void setDesigner1(String designer1) {
+		this.designer1 = designer1;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getDesignMony1() {
+		return designMony1;
+	}
+	public void setDesignMony1(float designMony1) {
+		this.designMony1 = designMony1;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getDesigner2() {
+		return designer2;
+	}
+	public void setDesigner2(String designer2) {
+		this.designer2 = designer2;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getDesignMony2() {
+		return designMony2;
+	}
+	public void setDesignMony2(float designMony2) {
+		this.designMony2 = designMony2;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getDesigner3() {
+		return designer3;
+	}
+	public void setDesigner3(String designer3) {
+		this.designer3 = designer3;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getDesignMony3() {
+		return designMony3;
+	}
+	public void setDesignMony3(float designMony3) {
+		this.designMony3 = designMony3;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getVcFrom() {
+		return vcFrom;
+	}
+	public void setVcFrom(String vcFrom) {
+		this.vcFrom = vcFrom;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getSellProfit() {
+		return sellProfit;
+	}
+	public void setSellProfit(float sellProfit) {
+		this.sellProfit = sellProfit;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getSellProfitRate() {
+		return sellProfitRate;
+	}
+	public void setSellProfitRate(float sellProfitRate) {
+		this.sellProfitRate = sellProfitRate;
 	}
 	
 

@@ -17,14 +17,6 @@ public interface IDesignerOrderService {
 	
 	public DesignerOrder getDesignerOrderById(Long id);
 	
-	/*public void disableDesignerOrders(String[] ids);
-	
-	public void enableDesignerOrders(String[] ids);
-	
-	public void disableDesignerOrder(String id);
-	
-	public void enableDesignerOrder(String id);*/
-	
 	public List<DesignerOrder> getAll();
 	
 	public void saveOrUpdateAll(List<DesignerOrder> list);
@@ -33,5 +25,7 @@ public interface IDesignerOrderService {
 	
 	public DesignerOrder getDesignerOrderByOrderId(Long orderId);
 	public List<DesignerOrder> getDesignerOrderByOrderNo(String orderNo);
+	
+	public List<DesignerOrder> getDesignerOrderByQuoteId(Long quoteId);
 	
 }

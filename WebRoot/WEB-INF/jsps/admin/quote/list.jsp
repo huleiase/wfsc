@@ -72,6 +72,9 @@
                   <w:permission permissionId="<%=PermissionId.QUOTE_MGT_DESIGN%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="designQuote('<s:property value="id"/>');">设计</button>
                  </w:permission>
+                 <w:permission permissionId="<%=PermissionId.PROCESS_ORDER_MGT_DESIGN%>">
+                  <button class="label label-info btn btn-primary btn-mini" onclick="designOrder('<s:property value="id"/>');">财务设计</button>
+                 </w:permission>
                   <w:permission permissionId="<%=PermissionId.QUOTE_MGT_DELETE%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="cancelQuote('<s:property value="id"/>');">作废</button>
                  </w:permission>

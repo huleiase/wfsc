@@ -156,6 +156,7 @@
 			<result name="designQuote">/WEB-INF/jsps/admin/quote/designQuote.jsp</result>
 			<result name="selPriceByModel">/WEB-INF/jsps/admin/quote/selPriceByModel.jsp</result>
 			<result name="selPriceByModelList">/WEB-INF/jsps/admin/quote/selPriceByModelList.jsp</result>
+			<result name="designOrder">/WEB-INF/jsps/admin/quote/designOrder.jsp</result>
 		</action>
 		
 		<!--采购单管理-->

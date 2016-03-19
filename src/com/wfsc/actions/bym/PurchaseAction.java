@@ -31,6 +31,7 @@ import org.springframework.stereotype.Controller;
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
 import com.constants.LogModule;
+import com.wfsc.common.bo.bym.DesignerOrder;
 import com.wfsc.common.bo.bym.Email;
 import com.wfsc.common.bo.bym.Order;
 import com.wfsc.common.bo.bym.Purchase;
@@ -38,6 +39,7 @@ import com.wfsc.common.bo.bym.Quote;
 import com.wfsc.common.bo.bym.QuoteFabric;
 import com.wfsc.common.bo.bym.Supplier;
 import com.wfsc.common.bo.user.Admin;
+import com.wfsc.services.bym.service.IDesignerOrderService;
 import com.wfsc.services.bym.service.IEmailService;
 import com.wfsc.services.bym.service.IOrderService;
 import com.wfsc.services.bym.service.IPurchaseService;
@@ -75,6 +77,8 @@ public class PurchaseAction extends DispatchPagerAction {
 	private IStoreFabricService storeFabricService;
 	@Resource(name = "emailService")
 	private IEmailService emailService;
+	@Resource(name = "designerOrderService")
+	private IDesignerOrderService designerOrderService;
 	private Purchase purchase;
 	private List<QuoteFabric> quoteFabricList = new ArrayList<QuoteFabric>();
 
@@ -781,6 +785,16 @@ public class PurchaseAction extends DispatchPagerAction {
 			//sumMoney = (float) (Math.round((sumMoney) * 10)) / 10;
 			order.setSumMoney(PriceUtil.getTwoDecimalFloat(sumMoney));
 			this.orderService.saveOrUpdateEntity(order);
+			List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(purchase.getQuote().getId());
+			if(deos!=null){
+				for(DesignerOrder deo : deos){
+					if(StringUtils.isEmpty(deo.getOrderNo())){
+						deo.setOrderNo(order.getOrderNo());
+						designerOrderService.saveOrUpdateEntity(deo);
+					}
+					
+				}
+			}
 				Email e = new Email();
 				e.setAction("order");
 				e.setDetail("关于【" + purchase.getQuote().getProjectName() + "】的采购单已经审核！订单号为"+order.getOrderNo()+",请去提交");

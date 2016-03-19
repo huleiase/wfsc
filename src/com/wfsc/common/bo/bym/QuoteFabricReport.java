@@ -20,12 +20,12 @@ public class QuoteFabricReport implements java.io.Serializable{
 	private String vcModelNum;
 
 	/**
-	 * 最终单价 
+	 * 最终单价 (报价)
 	 */
 	private float vcPrice;
 
 	/**
-	 * 最终单价单位
+	 * 最终单价单位（报价）
 	 */
 	private String vcPriceUnit;
 
@@ -46,7 +46,7 @@ public class QuoteFabricReport implements java.io.Serializable{
 	//税率
 	private float taxation;
 	
-	private DesignerOrder designerOrder;
+	//private DesignerOrder designerOrder;
 	
 	
 	//第一次add，修改后第一次的改为old，新增的改为add，再增加一条offset（抵消）
@@ -69,6 +69,30 @@ public class QuoteFabricReport implements java.io.Serializable{
 	private String htCode;
 	
 	private Long qfId;
+	
+	/**
+	 * 最终单价 (成本)
+	 */
+	private float cbPrice;
+
+	/**
+	 * 最终单价单位（成本）
+	 */
+	private String cbPriceUnit;
+
+	/**
+	 * (成本数量)
+	 */
+	private float cbQuantity;
+	
+	
+	public Object clone() {   
+        try {   
+            return super.clone();   
+        } catch (CloneNotSupportedException e) {   
+            return null;   
+        }   
+    }   
 	
 	/**
 	  * hibernate中的主键
@@ -152,17 +176,13 @@ public class QuoteFabricReport implements java.io.Serializable{
 	public void setTaxation(float taxation) {
 		this.taxation = taxation;
 	}
-//	/**
-//	 * @return
-//	 * @hibernate.many-to-one class="com.wfsc.common.bo.bym.DesignerOrder" column="doId"
-//	 */
-	public DesignerOrder getDesignerOrder() {
+	/*public DesignerOrder getDesignerOrder() {
 		return designerOrder;
 	}
 
 	public void setDesignerOrder(DesignerOrder designerOrder) {
 		this.designerOrder = designerOrder;
-	}
+	}*/
 	/**
 	 * @hibernate.property type="long"
 	 */
@@ -242,6 +262,36 @@ public class QuoteFabricReport implements java.io.Serializable{
 
 	public void setQfId(Long qfId) {
 		this.qfId = qfId;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getCbPrice() {
+		return cbPrice;
+	}
+
+	public void setCbPrice(float cbPrice) {
+		this.cbPrice = cbPrice;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getCbPriceUnit() {
+		return cbPriceUnit;
+	}
+
+	public void setCbPriceUnit(String cbPriceUnit) {
+		this.cbPriceUnit = cbPriceUnit;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getCbQuantity() {
+		return cbQuantity;
+	}
+
+	public void setCbQuantity(float cbQuantity) {
+		this.cbQuantity = cbQuantity;
 	}
 	
 	

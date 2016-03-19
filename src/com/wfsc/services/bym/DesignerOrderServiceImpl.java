@@ -61,4 +61,9 @@ public class DesignerOrderServiceImpl implements IDesignerOrderService {
 	public List<DesignerOrder> getDesignerOrderByOrderNo(String orderNo){
 		return designerOrderDao.getEntitiesByOneProperty("orderNo", orderNo);
 	}
+	@Override
+	public List<DesignerOrder> getDesignerOrderByQuoteId(Long quoteId) {
+		String hql = "from DesignerOrder where quoteId="+quoteId+" order by id desc";
+		return designerOrderDao.getEntityByHql(hql);
+	}
 }

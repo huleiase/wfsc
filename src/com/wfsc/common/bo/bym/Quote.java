@@ -320,7 +320,7 @@ public class Quote implements java.io.Serializable {
 	private String titleCol5;
 
 	private float inputCol5;
-	
+	//量窗费
 	private float lcFre;
 	
 	private String modifyUser;//修改用户

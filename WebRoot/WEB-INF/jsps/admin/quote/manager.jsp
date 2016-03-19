@@ -249,6 +249,10 @@ var basePath = "<%=basePath%>";
 		var url = basePath+"admin/quote_designQuote.Q?id="+id;
 		window.location.href = url;
 	}
+	function designOrder(id){
+		var url = basePath+"admin/quote_designOrder.Q?id="+id;
+		window.open(url);
+	}
 	
 	function cancelQuote(id){
 	art.dialog({
