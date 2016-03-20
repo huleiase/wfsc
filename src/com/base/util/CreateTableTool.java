@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.wfsc.common.bo.bym.Email;
+import com.wfsc.common.bo.bym.QuoteFabricReport;
 
 public class CreateTableTool {
 	/**   
@@ -39,10 +39,10 @@ public class CreateTableTool {
                      sb.append("`" + f.getName() + "` int(10) ,");     
                      sb.append("\n");
                  }else if(type.equals("double") || type.equals("class java.lang.Double")){// double  
-                     sb.append("`" + f.getName() + "` DECIMAL(10,2) ,"); 
+                     sb.append("`" + f.getName() + "` DECIMAL(10,3) DEFAULT 0,"); 
                      sb.append("\n");
                  }else if(type.equals("float") || type.equals("class java.lang.Float")){// float  
-                     sb.append("`" + f.getName() + "` DECIMAL(10,2) ,"); 
+                     sb.append("`" + f.getName() + "` DECIMAL(10,3) DEFAULT 0,"); 
                      sb.append("\n");
                  }else if(type.equals("long") || type.equals("class java.lang.Long")){// long  
                      sb.append("`" + f.getName() + "` bigint(20) ,");     
@@ -88,7 +88,7 @@ public class CreateTableTool {
     	//不需要存储的字段，默认已排除使用 final 和 static修饰的 字段
     	List<String> noCol = new ArrayList<String>();
     	//需要为该实体对象生成建表语句
-    	Email obj = new Email();
+    	QuoteFabricReport obj = new QuoteFabricReport();
     	
     	//表名默认为wf_类名的小写
     	String className = obj.getClass().getName().toLowerCase();

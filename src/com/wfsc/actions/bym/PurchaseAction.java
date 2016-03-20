@@ -785,16 +785,6 @@ public class PurchaseAction extends DispatchPagerAction {
 			//sumMoney = (float) (Math.round((sumMoney) * 10)) / 10;
 			order.setSumMoney(PriceUtil.getTwoDecimalFloat(sumMoney));
 			this.orderService.saveOrUpdateEntity(order);
-			List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(purchase.getQuote().getId());
-			if(deos!=null){
-				for(DesignerOrder deo : deos){
-					if(StringUtils.isEmpty(deo.getOrderNo())){
-						deo.setOrderNo(order.getOrderNo());
-						designerOrderService.saveOrUpdateEntity(deo);
-					}
-					
-				}
-			}
 				Email e = new Email();
 				e.setAction("order");
 				e.setDetail("关于【" + purchase.getQuote().getProjectName() + "】的采购单已经审核！订单号为"+order.getOrderNo()+",请去提交");

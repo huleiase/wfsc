@@ -1,7 +1,9 @@
 package com.wfsc.services.bym.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.base.util.Page;
 import com.wfsc.common.bo.bym.QuoteFabricReport;
 
 
@@ -18,4 +20,8 @@ public interface IQuoteFabricReportService {
 	public void saveOrUpdateAll(List<QuoteFabricReport> list);
 	
 	public List<QuoteFabricReport> getQuoteFabricReportByDoId(Long doId);
+	
+	public Page<QuoteFabricReport> findForPage(Page<QuoteFabricReport> page, Map<String,Object> paramap);
+	
+	public List<QuoteFabricReport> getQuoteFabricReportByPara(Map<String,Object> paramap);
 }

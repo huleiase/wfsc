@@ -34,11 +34,15 @@ import com.wfsc.common.bo.bym.Order;
 import com.wfsc.common.bo.bym.Purchase;
 import com.wfsc.common.bo.bym.Quote;
 import com.wfsc.common.bo.bym.QuoteFabric;
+import com.wfsc.common.bo.bym.QuoteFabricReport;
+import com.wfsc.common.bo.user.Admin;
 import com.wfsc.services.bym.service.ICurrencyConversionService;
 import com.wfsc.services.bym.service.IDesignerExpenseService;
 import com.wfsc.services.bym.service.IDesignerOrderService;
 import com.wfsc.services.bym.service.IOrderService;
+import com.wfsc.services.bym.service.IQuoteFabricReportService;
 import com.wfsc.services.bym.service.IQuoteFabricService;
+import com.wfsc.services.security.ISecurityService;
 import com.wfsc.util.ProPrice;
 
 /**
@@ -52,13 +56,13 @@ import com.wfsc.util.ProPrice;
 public class DesignerOrderAction extends DispatchPagerAction {
 
 	private static final long serialVersionUID = 6840813999299260353L;
-	
-	//下载模板
-	private static final String MODEL_EXCEL_NAME = "designerOrder.xls";
 
 	@Resource(name = "designerOrderService")
 	private IDesignerOrderService designerOrderService;
-	
+	@Resource(name = "securityService")
+	private ISecurityService securityService;
+	@Resource(name = "quoteFabricReportService")
+	private IQuoteFabricReportService quoteFabricReportService;
 	
 	@Resource(name = "orderService")
 	private IOrderService orderService;
@@ -69,67 +73,140 @@ public class DesignerOrderAction extends DispatchPagerAction {
 	@Resource(name = "currencyConversionService")
 	private ICurrencyConversionService currencyConversionService;
 	private DesignerOrder designerOrder;
-
-	public String manager(){
+//1,销售收入表;2,个人销售收入表;3,收款表,4,销售成本表，5.材料明细6，销售收入表dora;
+	public String managerSellIn(){
 		this.setTopMenu();
-		list();
-		return "manager";
+		listSellIn();
+		return "managerSellIn";
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String list(){
+	public String listSellIn(){
 		Page<DesignerOrder> page = new Page<DesignerOrder>();
 		this.setPageParams(page);
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
 		page = designerOrderService.findForPage(page, paramap);
 		List<Integer> li = page.getPageNos();
-		String listUrl = "/wfsc/admin/designerOrder_list.Q";
+		String listUrl = "/wfsc/admin/designerOrder_listSellIn.Q";
 		request.setAttribute("listUrl", listUrl);
 		request.setAttribute("page", page);
 		request.setAttribute("li", li);
-		return "list";
+		return "listSellIn";
+	}
+	public String managerSellInPerson(){
+		this.setTopMenu();
+		listSellInPerson();
+		return "managerSellInPerson";
 	}
 	
-	public String input() {
-		String id = request.getParameter("id");
-		if(StringUtils.isNotBlank(id)){
-			designerOrder = designerOrderService.getDesignerOrderById(Long.valueOf(id));
-		}else{
-			designerOrder = new DesignerOrder();
+	@SuppressWarnings("unchecked")
+	public String listSellInPerson(){
+		Page<DesignerOrder> page = new Page<DesignerOrder>();
+		this.setPageParams(page);
+		page.setPaginationSize(7);
+		Map<String,Object> paramap = handleRequestParameter();
+		String sellman = paramap.get("sellman")==null?"":paramap.get("sellman").toString();
+		if(StringUtils.isBlank(sellman)){
+			List<Integer> li = page.getPageNos();
+			String listUrl = "/wfsc/admin/designerOrder_listSellInPerson.Q";
+			request.setAttribute("listUrl", listUrl);
+			request.setAttribute("page", page);
+			request.setAttribute("li", li);
+			return "listSellInPerson";
 		}
-		request.setAttribute("isView", false);
-		return "input";
+		page = designerOrderService.findForPage(page, paramap);
+		List<Integer> li = page.getPageNos();
+		String listUrl = "/wfsc/admin/designerOrder_listSellInPerson.Q";
+		request.setAttribute("listUrl", listUrl);
+		request.setAttribute("page", page);
+		request.setAttribute("li", li);
+		return "listSellInPerson";
 	}
 	
-	public String detail() {
-		String id = request.getParameter("id");
-		designerOrder = designerOrderService.getDesignerOrderById(Long.valueOf(id));
-		request.setAttribute("isView", true);
-		return "detail";
+	public String managerInCome(){
+		this.setTopMenu();
+		listInCome();
+		return "managerInCome";
 	}
 	
-	
-	public String deleteByIds(){
-		String ids = request.getParameter("ids");
-		String[] idArray = ids.split(",");
-		List<Long> idList = new ArrayList<Long>();
-		for(String id : idArray){
-			idList.add(Long.valueOf(id));
-		}
-		try {
-			designerOrderService.deleteByIds(idList);
-			response.getWriter().write("ok");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+	@SuppressWarnings("unchecked")
+	public String listInCome(){
+		Page<DesignerOrder> page = new Page<DesignerOrder>();
+		this.setPageParams(page);
+		page.setPaginationSize(7);
+		Map<String,Object> paramap = handleRequestParameter();
+		page = designerOrderService.findForPage(page, paramap);
+		List<Integer> li = page.getPageNos();
+		String listUrl = "/wfsc/admin/designerOrder_listInCome.Q";
+		request.setAttribute("listUrl", listUrl);
+		request.setAttribute("page", page);
+		request.setAttribute("li", li);
+		return "listInCome";
+	}
+	public String managerSellCost(){
+		this.setTopMenu();
+		listSellCost();
+		return "managerSellCost";
 	}
 	
-	public String save(){
-		designerOrderService.saveOrUpdateEntity(designerOrder);
-		return "ok";
+	@SuppressWarnings("unchecked")
+	public String listSellCost(){
+		Page<DesignerOrder> page = new Page<DesignerOrder>();
+		this.setPageParams(page);
+		page.setPaginationSize(7);
+		Map<String,Object> paramap = handleRequestParameter();
+		page = designerOrderService.findForPage(page, paramap);
+		List<Integer> li = page.getPageNos();
+		String listUrl = "/wfsc/admin/designerOrder_listSellCost.Q";
+		request.setAttribute("listUrl", listUrl);
+		request.setAttribute("page", page);
+		request.setAttribute("li", li);
+		return "listSellCost";
 	}
+	
+	public String managerMaterial(){
+		this.setTopMenu();
+		listMaterial();
+		return "managerMaterial";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String listMaterial(){
+		Page<QuoteFabricReport> page = new Page<QuoteFabricReport>();
+		this.setPageParams(page);
+		page.setPaginationSize(7);
+		Map<String,Object> paramap = handleRequestParameter();
+		page = quoteFabricReportService.findForPage(page, paramap);
+		List<Integer> li = page.getPageNos();
+		String listUrl = "/wfsc/admin/designerOrder_listMaterial.Q";
+		request.setAttribute("listUrl", listUrl);
+		request.setAttribute("page", page);
+		request.setAttribute("li", li);
+		return "listMaterial";
+	}
+	
+	public String managerDora(){
+		this.setTopMenu();
+		listDora();
+		return "managerDora";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String listDora(){
+		Page<DesignerOrder> page = new Page<DesignerOrder>();
+		this.setPageParams(page);
+		page.setPaginationSize(7);
+		Map<String,Object> paramap = handleRequestParameter();
+		page = designerOrderService.findForPage(page, paramap);
+		List<Integer> li = page.getPageNos();
+		String listUrl = "/wfsc/admin/designerOrder_listDora.Q";
+		request.setAttribute("listUrl", listUrl);
+		request.setAttribute("page", page);
+		request.setAttribute("li", li);
+		return "listDora";
+	}
+	
 	
 	/**
 	 * 封装request请求参数到map中
@@ -140,12 +217,17 @@ public class DesignerOrderAction extends DispatchPagerAction {
 		String beginDate = request.getParameter("beginDate");
 		String endDate = request.getParameter("endDate");
 		
-		String sellman = request.getParameter("designer");
+		String sellman = request.getParameter("sellman");
 		String contractNo = request.getParameter("contractNo");
 		String orderNo = request.getParameter("orderNo");
-		String flag = request.getParameter("flag");// flag=1,销售收入表;2,个人销售收入表;3,销售收入表dora;4,收款表;5,销售成本表
+	//	String flag = request.getParameter("flag");// flag=1,销售收入表;2,个人销售收入表;3,收款表,4,销售成本表，5.材料明细6，销售收入表dora;
 		
 		Map<String,Object> paramap = new HashMap<String,Object>();
+		Admin admin = this.getCurrentAdminUser();
+		boolean isAdminb = securityService.isAbleRole(admin.getUsername(), "管理员");
+		if(!isAdminb){
+			paramap.put("quoteLocal", admin.getArea());
+		}
 		if(StringUtils.isNotEmpty(beginDate)){
 			paramap.put("beginDate", beginDate);
 			request.setAttribute("beginDate", beginDate);
@@ -167,16 +249,13 @@ public class DesignerOrderAction extends DispatchPagerAction {
 			paramap.put("orderNo", orderNo);
 			request.setAttribute("orderNo", orderNo);
 		}
-		if(StringUtils.isNotEmpty(flag)){
+		/*if(StringUtils.isNotEmpty(flag)){
 			paramap.put("flag", flag);
 			request.setAttribute("flag", flag);
-		}
+		}*/
 		return paramap;
 	}
-	public String getDesignerOrderExcelModel(){
-		
-		return super.getExcelModel(MODEL_EXCEL_NAME);
-	}
+	
 	
 	public String exportDesignerOrderData(){
 		List<DesignerOrder> list = null;
@@ -228,7 +307,6 @@ public class DesignerOrderAction extends DispatchPagerAction {
 				}
 			}
 		}
-		String curAdminName = this.getCurrentAdminUser().getUsername();
 		return null;
 	}
 	
@@ -323,23 +401,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					row.getCell(2).setCellValue(de.getContractNo());
 					row.getCell(3).setCellValue(q.getVcAttnName());
 					row.getCell(4).setCellValue(q.getProjectName());
-					String sellsman = "";
-					if (StringUtils.isNotEmpty(de.getVcSalesman())) {
-						sellsman += de.getVcSalesman() + ",";
-					}
-					if (StringUtils.isNotEmpty(de.getVcSalesman1())) {
-						sellsman += de.getVcSalesman1() + ",";
-					}
-					if (StringUtils.isNotEmpty(de.getVcSalesman2())) {
-						sellsman += de.getVcSalesman2() + ",";
-					}
-					if (StringUtils.isNotEmpty(de.getVcSalesman3())) {
-						sellsman += de.getVcSalesman3() + ",";
-					}
-					if (StringUtils.isNotEmpty(de.getVcSalesman4())) {
-						sellsman += de.getVcSalesman4() + ",";
-					}
-					row.getCell(5).setCellValue(sellsman);
+					row.getCell(5).setCellValue(de.getVcSalesman());
 					List<DesignerExpense> des = designerExpenseService.getDesignerExpenseByQuoteId(q.getId());
 					DesignerExpense d = new DesignerExpense();
 					if (des != null && des.size() > 0) {
@@ -723,7 +785,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					row.getCell(2).setCellValue(de.getContractNo());
 					row.getCell(3).setCellValue(q.getVcAttnName());
 					row.getCell(4).setCellValue(q.getProjectName());
-					String sellsman = "";
+					/*String sellsman = "";
 					if (StringUtils.isNotEmpty(de.getVcSalesman())) {
 						sellsman += de.getVcSalesman() + ",";
 					}
@@ -738,8 +800,8 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					}
 					if (StringUtils.isNotEmpty(de.getVcSalesman4())) {
 						sellsman += de.getVcSalesman4() + ",";
-					}
-					row.getCell(5).setCellValue(sellsman);
+					}*/
+					row.getCell(5).setCellValue(de.getVcSalesman());
 					List<DesignerExpense> des = designerExpenseService.getDesignerExpenseByQuoteId(q.getId());
 					DesignerExpense d = new DesignerExpense();
 					if (des != null && des.size() > 0) {
@@ -998,7 +1060,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					row.getCell(3).setCellValue(de.getContractNo());
 					row.getCell(4).setCellValue(q.getVcAttnName());
 					row.getCell(5).setCellValue(q.getProjectName());
-					String sellsman = "";
+					/*String sellsman = "";
 					if (StringUtils.isNotEmpty(de.getVcSalesman())) {
 						sellsman += de.getVcSalesman() + ",";
 					}
@@ -1013,8 +1075,8 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					}
 					if (StringUtils.isNotEmpty(de.getVcSalesman4())) {
 						sellsman += de.getVcSalesman4() + ",";
-					}
-					row.getCell(6).setCellValue(sellsman);
+					}*/
+					row.getCell(6).setCellValue(de.getVcSalesman());
 					List<DesignerExpense> des = designerExpenseService.getDesignerExpenseByQuoteId(q.getId());
 					DesignerExpense d = new DesignerExpense();
 					if (des != null && des.size() > 0) {

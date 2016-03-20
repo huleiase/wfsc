@@ -1192,7 +1192,7 @@ public class OrderAction extends DispatchPagerAction {
 			book.write(response.getOutputStream());
 		}
 		
-		public String saveDesignOrder() throws ParseException {
+		/*public String saveDesignOrder() throws ParseException {
 			String orderNo = request.getParameter("orderNo");
 			String id = request.getParameter("id");
 			Order o = orderService.getOrderById(Long.valueOf(id));
@@ -1250,7 +1250,7 @@ public class OrderAction extends DispatchPagerAction {
 			String curAdminName = this.getCurrentAdminUser().getUsername();
 			saveSystemLog(LogModule.orderLog, curAdminName+"设计了订单"+o.getOrderNo());
 			return "ok";
-		}
+		}*/
 
 		private void saveProStroage(Order o, List<QuoteFabric> qfs) {
 			List<StoreFabric> sfdbList = storeFabricService.getStoreFabricByOrderId(o.getId());

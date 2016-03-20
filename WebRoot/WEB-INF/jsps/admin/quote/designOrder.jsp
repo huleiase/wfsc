@@ -353,7 +353,7 @@ table#quoteFabricTable .label, .badge {
 	          <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">未付余额</label>
 	            <input type="text" id="hasNoApplyTotle" name="designerOrder.hasNoApplyTotle" value="${designerOrder.hasNoApplyTotle }" onclick="setNoApply();" class="span3" >
 	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">余额</label>
-	            <input type="text" value=""  id="yue" onclick="setYuE();" class="span3" >
+	            <input type="text" value="${designerOrder.yue }"  id="yue" onclick="setYuE();" class="span3" name="designerOrder.yue">
 	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">备注</label>
 	            <input name="designerOrder.remark" id="remark" type="text" value="${designerOrder.remark}" class="span3" >
 	         </div>

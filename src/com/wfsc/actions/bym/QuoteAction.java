@@ -1694,7 +1694,7 @@ public class QuoteAction extends DispatchPagerAction {
 	}
 	 
 	 public String designOrder(){
-		 String quoteId = request.getParameter("quoteId");
+		 String quoteId = request.getParameter("id");
 		 List<DesignerOrder>  deos = this.designerOrderService.getDesignerOrderByQuoteId(Long.valueOf(quoteId));
 		 if(deos!=null&&deos.size()>0){
 			 designerOrder = deos.get(0);
@@ -1946,6 +1946,9 @@ public class QuoteAction extends DispatchPagerAction {
 					offsetDeo.setHasApplyTotle(-oldDeo.getHasApplyTotle());
 					offsetDeo.setRealTotel(-oldDeo.getRealTotel());
 					offsetDeo.setSharetotle(-oldDeo.getSharetotle());
+					offsetDeo.setBjTotel(-oldDeo.getBjTotel());
+					offsetDeo.setCbClTotel(-oldDeo.getCbClTotel());
+					offsetDeo.setCbTotel(-oldDeo.getCbTotel());
 					offsetDeo.setOperation("offset");
 					offsetDeo.setCreateDate(new Date());
 					offsetDeo.setId(null);
@@ -1961,6 +1964,8 @@ public class QuoteAction extends DispatchPagerAction {
 							QuoteFabricReport offsetQfr = (QuoteFabricReport)oldQfr.clone();
 							offsetQfr.setOperation("offset");
 							offsetQfr.setDoId(offsetDeo.getId());
+							offsetQfr.setCbTotal(-oldQfr.getCbTotal());
+							offsetQfr.setBjTotal(-oldQfr.getBjTotal());
 							offsetQfr.setId(null);
 							quoteFabricReportService.saveOrUpdateEntity(offsetQfr);
 						}
@@ -1979,11 +1984,112 @@ public class QuoteAction extends DispatchPagerAction {
 			deo.setQuoteLocal(q.getVcQuoteLocal());
 			deo.setSumMoney(q.getSumMoney());
 			deo.setProjectName(q.getProjectName());
-			List<Order> os = this.orderService.getOrderByQuoteId(q.getId());
+			/*List<Order> os = this.orderService.getOrderByQuoteId(q.getId());
 			if(os!=null&&os.size()>0){
 				deo.setOrderNo(os.get(0).getOrderNo());
+				//运费 同一订单号订单运费相加
+				float cbFreight = 0F;
+				for(Order o :os){
+					cbFreight+=o.getFreight();
+				}
+				deo.setCbFreight(cbFreight);
+			}*/
+			/*String saleMan = "";
+			if(StringUtils.isNotBlank(q.getVcSalesman())){
+				saleMan+=q.getVcSalesman()+",";
 			}
-			deo.setVcSalesman(q.getVcSalesman());
+			if(StringUtils.isNotBlank(q.getVcSalesman1())){
+				saleMan+=q.getVcSalesman1()+",";
+			}
+			if(StringUtils.isNotBlank(q.getVcSalesman2())){
+				saleMan+=q.getVcSalesman2()+",";
+			}
+			if(StringUtils.isNotBlank(q.getVcSalesman3())){
+				saleMan+=q.getVcSalesman3()+",";
+			}
+			if(StringUtils.isNotBlank(q.getVcSalesman4())){
+				saleMan+=q.getVcSalesman4()+",";
+			}
+			Set<String> salesMan = q.getSalesman();
+			if(salesMan!=null){
+				for(String sale : salesMan){
+					if(StringUtils.isNotBlank(sale)){
+						saleMan+=sale+",";
+					}
+				}
+			}
+			deo.setVcSalesman(saleMan);*/
+			//报价材料合计。后处理+其它+电机合计+阻燃+5个报价的空
+			float bjClTotel = 0F;
+			if(StringUtils.isNotBlank(q.getVcAftertreatment())){
+				bjClTotel+=Float.valueOf(q.getVcAftertreatment()).floatValue();
+			}
+			if(StringUtils.isNotBlank(q.getVcOther())){
+				bjClTotel+=Float.valueOf(q.getVcOther()).floatValue();
+			}
+			bjClTotel+=q.getEngineTotal()+q.getFlameTotal()+q.getInputCol1()+q.getInputCol2()+q.getInputCol3()+q.getInputCol4()+q.getInputCol5();
+			deo.setBjClTotel(bjClTotel);
+			//加工费。读取报价页面
+			if(StringUtils.isNotBlank(q.getVcProcessFre())){
+				deo.setVcProcessFre(Float.valueOf(q.getVcProcessFre()).floatValue());
+			}
+			//量窗费。读取报价页面
+			deo.setLcFre(q.getLcFre());
+			//安装费。读取报价页面
+			if(StringUtils.isNotBlank(q.getVcInstallFre())){
+				deo.setVcInstallFre(Float.valueOf(q.getVcInstallFre()));
+			}
+			//运费.（各个型号的实际采购数量的值*具体类型的运费，再相加）+最低运费+货到工地运费
+			deo.setBjFreight(freight);
+			//税率
+			deo.setTaxation(q.getContainTax());
+			//报价合计 （材料合计+加工费+量窗费+安装费+运费）*税率
+			/*float bjTotel = (deo.getBjClTotel()+deo.getVcProcessFre()+deo.getLcFre()+deo.getVcInstallFre()+deo.getBjFreight())*deo.getTaxation();
+			deo.setBjTotel(bjTotel);*/
+			/*List<Purchase>  ps = this.purchaseService.getPurchaseByQuoteId(q.getId());
+			if(ps!=null&&ps.size()>0){
+				Purchase p = ps.get(0);
+				//销售成本材料合计.读取采购页面
+				deo.setCbClTotel(p.getClTotal());
+				//加工费.读取采购页面
+				deo.setProcessFee(p.getProcessFee());
+				//安装费 读取采购页面
+				deo.setInstallFee(p.getInstallFee());
+				//差旅费 读取采购页面
+				deo.setTravelExpenses(p.getTravelExpenses());
+				//其他 读取采购页面
+				deo.setOtherFre(p.getOtherFre());
+			}*/
+			
+			
+			//设计师1-3,设计费
+			/*if(CollectionUtils.isNotEmpty(des)){
+				DesignerExpense oldDe = des.get(0);
+				deo.setDesigner1(oldDe.getDesigner1());
+				deo.setDesigner2(oldDe.getDesigner2());
+				deo.setDesigner3(oldDe.getDesigner3());
+				deo.setDesignMony1(oldDe.getDesignMony1());
+				deo.setDesignMony2(oldDe.getDesignMony2());
+				deo.setDesignMony3(oldDe.getDesignMony3());
+				deo.setDesignFre(deo.getDesignMony1()+deo.getDesignMony2()+deo.getDesignMony3());
+			}*/
+			
+			//销售费用合计(加工费+安装费+运费+差旅费+设计费+其他)
+			/*float cbTotel = deo.getProcessFee()+deo.getInstallFee()+deo.getCbFreight()+deo.getTravelExpenses()+deo.getDesignFre()+deo.getOtherFre();
+			deo.setCbTotel(cbTotel);*/
+			//毛利(报价合计-销售成本材料合计-销售费用合计)
+			/*float profit = deo.getBjTotel()-deo.getCbClTotel()-deo.getCbTotel();
+			deo.setProfit(profit);*/
+			//毛利率(毛利/报价合计)
+			/*deo.setProfitRate(deo.getProfit()/deo.getBjTotel());*/
+			//抬头 读取报价单第三行的from
+			deo.setVcFrom(q.getVcFrom());
+			//税费
+			float taxationFee = 0F;
+			if(deo.getTaxation()>0){
+				taxationFee = (deo.getSumMoney()/deo.getTaxation())*(deo.getTaxation()-1);
+			}
+			deo.setTaxationFee(taxationFee);
 			//保存最新的
 			this.designerOrderService.saveOrUpdateEntity(deo);
 			for(QuoteFabric qf :qfs){
@@ -2001,12 +2107,35 @@ public class QuoteAction extends DispatchPagerAction {
 				qfr.setVcBefModel(qf.getVcModelNum());
 				qfr.setVcFactoryCode(qf.getVcFactoryCode());
 				qfr.setVcModelNum(qf.getVcModelNumDisplay());
+				qfr.setContractDate(q.getContractDate());
+				qfr.setContractNo(q.getContractNo());
+				qfr.setCustomerName(q.getVcAttnName());
+				qfr.setProjectName(q.getProjectName());
+				qfr.setSumMoney(q.getSumMoney());
+				qfr.setCreateDate(new Date());
+				qfr.setQuoteLocal(q.getVcQuoteLocal());
+				/*if("1".equals(qf.getIsReplaced())){
+					String str = qf.getReplaceRemark();
+					String newStr = StringUtils.substring(str, 1, -2);
+					qfr.setReplaceNO(newStr);
+				}
+				if("1".equals(qf.getIsHidden())){
+					qfr.setReplaceNO(qf.getReplaceId());
+				}*/
 				qfr.setVcPrice(qf.getVcPrice());
 				qfr.setVcPriceUnit(qf.getVcPriceUnit());
-				qfr.setVcQuantity(0F);
-				qfr.setCbPrice(0F);
-				qfr.setCbPriceUnit("");
-				qfr.setCbQuantity(0F);
+				qfr.setVcQuantity(qf.getVcQuantity());
+				/*qfr.setCbPrice(qf.getShijia());
+				qfr.setCbPriceUnit(qf.getPriceCur());
+				float cbQuantity = 0F;
+				if(StringUtils.isNotBlank(qf.getQuoteNum())){
+					cbQuantity = Float.valueOf(qf.getQuoteNum());
+				}
+				qfr.setCbQuantity(cbQuantity);
+				qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()*qfr.getTaxation());
+				qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity()*qfr.getTaxation());
+				qfr.setSellProfit(qfr.getBjTotal()-qfr.getCbTotal());
+				qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());*/
 				quoteFabricReportService.saveOrUpdateEntity(qfr);
 			}
 		 }
@@ -2073,7 +2202,200 @@ public class QuoteAction extends DispatchPagerAction {
 	//	 if(designerExpense.getFreight()==0){
 			 Long qId = de.getQuoteId();
 			 Quote q = this.quoteService.getQuoteById(qId);
-			 float freight = 0F;
+			 float freight = getFreight(q);
+				//---------老数据没这个值，需要在导出的时候再计算一遍
+				designerExpense.setFreight(freight);
+				//------------ 
+		// }
+		 designerExpenseService.saveOrUpdateEntity(designerExpense);
+		 String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.quoteLog, curAdminName+"设计了报价单"+de.getQuoteNo());
+		 return "ok";
+	 }
+
+	 public String saveDO(){
+		 DesignerOrder deoDb = designerOrderService.getDesignerOrderById(designerOrder.getId());
+		 designerOrder.setContractDate(deoDb.getContractDate());
+		 designerOrder.setContractNo(deoDb.getContractNo());
+		 designerOrder.setCreateDate(deoDb.getCreateDate());
+		 designerOrder.setCustomerName(deoDb.getCustomerName());
+		 designerOrder.setQuoteId(deoDb.getQuoteId());
+		 designerOrder.setOperation(deoDb.getOperation());
+		 designerOrder.setQuoteLocal(deoDb.getQuoteLocal());
+		 designerOrder.setSumMoney(deoDb.getSumMoney());
+		 designerOrder.setProjectName(deoDb.getProjectName());
+		// designerOrder.setVcSalesman(deoDb.getVcSalesman());
+		 designerOrder.setBjClTotel(deoDb.getBjClTotel());
+		 designerOrder.setVcProcessFre(deoDb.getVcProcessFre());
+		 designerOrder.setLcFre(deoDb.getLcFre());
+		 designerOrder.setVcInstallFre(deoDb.getVcInstallFre());
+		 Quote q = this.quoteService.getQuoteById(deoDb.getQuoteId());
+		 float freight = getFreight(q);
+		 designerOrder.setBjFreight(freight);
+		 designerOrder.setVcFrom(deoDb.getVcFrom());
+		 designerOrder.setTaxation(deoDb.getTaxation());
+		 designerOrder.setTaxationFee(deoDb.getTaxationFee());
+		 float bjTotel = (deoDb.getBjClTotel()+deoDb.getVcProcessFre()+deoDb.getLcFre()+deoDb.getVcInstallFre()+deoDb.getBjFreight())*deoDb.getTaxation();
+		 designerOrder.setBjTotel(bjTotel);
+		 String saleMan = ",";
+			if(StringUtils.isNotBlank(q.getVcSalesman())){
+				saleMan+=q.getVcSalesman()+",";
+			}
+			if(StringUtils.isNotBlank(q.getVcSalesman1())){
+				saleMan+=q.getVcSalesman1()+",";
+			}
+			if(StringUtils.isNotBlank(q.getVcSalesman2())){
+				saleMan+=q.getVcSalesman2()+",";
+			}
+			if(StringUtils.isNotBlank(q.getVcSalesman3())){
+				saleMan+=q.getVcSalesman3()+",";
+			}
+			if(StringUtils.isNotBlank(q.getVcSalesman4())){
+				saleMan+=q.getVcSalesman4()+",";
+			}
+			Set<String> salesMan = q.getSalesman();
+			if(salesMan!=null){
+				for(String sale : salesMan){
+					if(StringUtils.isNotBlank(sale)){
+						saleMan+=sale+",";
+					}
+				}
+			}
+			designerOrder.setVcSalesman(saleMan);
+		 List<Order> os = this.orderService.getOrderByQuoteId(q.getId());
+		 Order order = null;
+			if(os!=null&&os.size()>0){
+				order = os.get(0);
+				designerOrder.setOrderNo(os.get(0).getOrderNo());
+				//运费 同一订单号订单运费相加
+				float cbFreight = 0F;
+				for(Order o :os){
+					cbFreight+=o.getFreight();
+				}
+				designerOrder.setCbFreight(cbFreight);
+			}
+			List<Purchase>  ps = this.purchaseService.getPurchaseByQuoteId(q.getId());
+			if(ps!=null&&ps.size()>0){
+				Purchase p = ps.get(0);
+				//销售成本材料合计.读取采购页面
+				designerOrder.setCbClTotel(p.getClTotal());
+				//加工费.读取采购页面
+				designerOrder.setProcessFee(p.getProcessFee());
+				//安装费 读取采购页面
+				designerOrder.setInstallFee(p.getInstallFee());
+				//差旅费 读取采购页面
+				designerOrder.setTravelExpenses(p.getTravelExpenses());
+				//其他 读取采购页面
+				designerOrder.setOtherFre(p.getOtherFre());
+			}
+			List<DesignerExpense> des = this.designerExpenseService.getDesignerExpenseByQuoteId(q.getId());
+			//设计师1-3,设计费
+			if(CollectionUtils.isNotEmpty(des)){
+				DesignerExpense oldDe = des.get(0);
+				designerOrder.setDesigner1(oldDe.getDesigner1());
+				designerOrder.setDesigner2(oldDe.getDesigner2());
+				designerOrder.setDesigner3(oldDe.getDesigner3());
+				designerOrder.setDesignMony1(oldDe.getDesignMony1());
+				designerOrder.setDesignMony2(oldDe.getDesignMony2());
+				designerOrder.setDesignMony3(oldDe.getDesignMony3());
+				designerOrder.setDesignFre(designerOrder.getDesignMony1()+designerOrder.getDesignMony2()+designerOrder.getDesignMony3());
+			}
+			
+			//销售费用合计(加工费+安装费+运费+差旅费+设计费+税费+其他)
+			float cbTotel = designerOrder.getProcessFee()+designerOrder.getInstallFee()+designerOrder.getCbFreight()+designerOrder.getTravelExpenses()+designerOrder.getDesignFre()+designerOrder.getTaxationFee()+designerOrder.getOtherFre();
+			designerOrder.setCbTotel(cbTotel);
+			//毛利(报价合计-销售成本材料合计-销售费用合计)
+			float profit = designerOrder.getBjTotel()-designerOrder.getCbClTotel()-designerOrder.getCbTotel();
+			designerOrder.setProfit(profit);
+			//毛利率(毛利/报价合计)
+			if(designerOrder.getBjTotel()>0){
+				designerOrder.setProfitRate(designerOrder.getProfit()/designerOrder.getBjTotel());
+			}
+			
+			Set<QuoteFabric> qfs = q.getQuoteFabric();
+			List<QuoteFabricReport>  qfrs = this.quoteFabricReportService.getQuoteFabricReportByDoId(deoDb.getId());
+			Map<String,QuoteFabricReport> map = new HashMap<String,QuoteFabricReport>();
+			if(qfrs!=null){
+				for(QuoteFabricReport qfr : qfrs){
+					for(QuoteFabric qf : qfs){
+						if(qfr.getQfId().longValue()==qf.getId().longValue()){
+							if("1".equals(qf.getIsReplaced())){
+								String str = qf.getReplaceRemark();
+								if(str!=null&&str.length()>3){
+									String newStr = StringUtils.substring(str, 1, -2);
+									qfr.setReplaceNO(newStr);
+								}
+								
+							}
+							if("1".equals(qf.getIsHidden())){
+								qfr.setReplaceNO(qf.getReplaceId());
+							}
+							qfr.setCbPrice(qf.getShijia());
+							qfr.setCbPriceUnit(qf.getPriceCur());
+							qfr.setCbQuantity(qf.getVcQuoteNum());
+						}
+					}
+					map.put(qfr.getVcModelNum(), qfr);
+				}
+				for(QuoteFabricReport qfr : qfrs){
+					if("1".equals(qfr.getIsReplaced())){
+						qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()*qfr.getTaxation());
+						QuoteFabricReport hidden = map.get(qfr.getReplaceNO());
+						if(hidden!=null){
+							qfr.setCbModelNum(hidden.getVcFactoryCode()+" "+hidden.getVcBefModel());
+							qfr.setCbTotal(hidden.getCbPrice()*hidden.getCbQuantity()*hidden.getTaxation());
+						}
+					}else if("1".equals(qfr.getIsHidden())){
+						QuoteFabricReport replaced = map.get(qfr.getReplaceNO());
+						if(replaced!=null){
+							qfr.setBjTotal(replaced.getVcPrice()*replaced.getVcQuantity()*replaced.getTaxation());
+						}
+						qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity()*qfr.getTaxation());
+					}else{
+						qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()*qfr.getTaxation());
+						qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity()*qfr.getTaxation());
+					}
+					qfr.setSellProfit(qfr.getBjTotal()-qfr.getCbTotal());
+					if(qfr.getBjTotal()>0){
+						qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());
+					}
+					if(order!=null){
+						qfr.setOrderNo(order.getOrderNo());
+					}
+					quoteFabricReportService.saveOrUpdateEntity(qfr);
+				}
+			}
+			
+			
+		 if (designerOrder.getShareArea1().equals(q.getVcQuoteLocal())) {
+				designerOrder.setRealTotel(designerOrder.getShareMony1());
+				designerOrder.setRealArea(designerOrder.getShareArea1());
+				designerOrder.setRealRate(designerOrder.getShareRate1());
+			} else if (designerOrder.getShareArea2().equals(q.getVcQuoteLocal())) {
+				designerOrder.setRealTotel(designerOrder.getShareMony2());
+				designerOrder.setRealArea(designerOrder.getShareArea2());
+				designerOrder.setRealRate(designerOrder.getShareRate2());
+			} else if (designerOrder.getShareArea3().equals(q.getVcQuoteLocal())) {
+				designerOrder.setRealTotel(designerOrder.getShareMony3());
+				designerOrder.setRealArea(designerOrder.getShareArea3());
+				designerOrder.setRealRate(designerOrder.getShareRate3());
+			} else if (designerOrder.getShareArea4().equals(q.getVcQuoteLocal())) {
+				designerOrder.setRealTotel(designerOrder.getShareMony4());
+				designerOrder.setRealArea(designerOrder.getShareArea4());
+				designerOrder.setRealRate(designerOrder.getShareRate4());
+			} else if (designerOrder.getShareArea5().equals(q.getVcQuoteLocal())) {
+				designerOrder.setRealTotel(designerOrder.getShareMony5());
+				designerOrder.setRealArea(designerOrder.getShareArea5());
+				designerOrder.setRealRate(designerOrder.getShareRate5());
+			} 
+		 designerOrderService.saveOrUpdateEntity(designerOrder);
+		 String curAdminName = this.getCurrentAdminUser().getUsername();
+		saveSystemLog(LogModule.quoteLog, curAdminName+"设计了财务报表"+deoDb.getContractNo());
+		 return "ok";
+	 }
+	 
+	 private float getFreight(Quote q) {
+			float freight = 0F;
 				if("1".equals(q.getIsFreight())){
 					Set<QuoteFabric> qfs = q.getQuoteFabric();
 					for(QuoteFabric qf :qfs){
@@ -2097,46 +2419,8 @@ public class QuoteAction extends DispatchPagerAction {
 				if("3".equals(q.getQuoteFormate())||"4".equals(q.getQuoteFormate())||"5".equals(q.getQuoteFormate())){
 					freight+=q.getUrgentCost();
 				}
-				//---------老数据没这个值，需要在导出的时候再计算一遍
-				designerExpense.setFreight(freight);
-				//------------ 
-		// }
-		 designerExpenseService.saveOrUpdateEntity(designerExpense);
-		 String curAdminName = this.getCurrentAdminUser().getUsername();
-		saveSystemLog(LogModule.quoteLog, curAdminName+"设计了报价单"+de.getQuoteNo());
-		 return "ok";
-	 }
-	 
-	 public String saveDO(){
-		 DesignerOrder deoDb = designerOrderService.getDesignerOrderById(designerOrder.getId());
-		 designerOrder.setContractDate(deoDb.getContractDate());
-		 designerOrder.setContractNo(deoDb.getContractNo());
-		 designerOrder.setCreateDate(deoDb.getCreateDate());
-		 designerOrder.setCustomerName(deoDb.getCustomerName());
-		 designerOrder.setQuoteId(deoDb.getQuoteId());
-		 designerOrder.setOperation(deoDb.getOperation());
-		 designerOrder.setQuoteLocal(deoDb.getQuoteLocal());
-		 designerOrder.setSumMoney(deoDb.getSumMoney());
-		 designerOrder.setProjectName(deoDb.getProjectName());
-		 designerOrder.setOrderNo(deoDb.getOrderNo());
-		 designerOrder.setVcSalesman(deoDb.getVcSalesman());
-		 Quote q = this.quoteService.getQuoteById(deoDb.getQuoteId());
-		 if (designerOrder.getShareArea1().equals(q.getVcQuoteLocal())) {
-				designerOrder.setRealTotel(designerOrder.getShareMony1());
-			} else if (designerOrder.getShareArea2().equals(q.getVcQuoteLocal())) {
-				designerOrder.setRealTotel(designerOrder.getShareMony2());
-			} else if (designerOrder.getShareArea3().equals(q.getVcQuoteLocal())) {
-				designerOrder.setRealTotel(designerOrder.getShareMony3());
-			} else if (designerOrder.getShareArea4().equals(q.getVcQuoteLocal())) {
-				designerOrder.setRealTotel(designerOrder.getShareMony4());
-			} else if (designerOrder.getShareArea5().equals(q.getVcQuoteLocal())) {
-				designerOrder.setRealTotel(designerOrder.getShareMony5());
-			} 
-		 designerOrderService.saveOrUpdateEntity(designerOrder);
-		 String curAdminName = this.getCurrentAdminUser().getUsername();
-		saveSystemLog(LogModule.quoteLog, curAdminName+"设计了财务报表"+deoDb.getContractNo());
-		 return "ok";
-	 }
+			return freight;
+		}
 	 
 	 public String getCounselorRate(){
 		 String codeName = request.getParameter("objValue");

@@ -25,6 +25,8 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	private String quoteLocal;
 	
 	private float realTotel;//实际金额=本地收入
+	private String realArea;//本地
+	private float realRate;//本地
 	/**
 	 * 分摊地（广州）
 	 */
@@ -174,7 +176,7 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	private float processFee;
 	//安装费 读取采购页面
 	private float installFee;
-	//运费 同一订单号订单运费相
+	//运费 同一订单号订单运费相加
 	private float cbFreight;
 	//差旅费 读取采购页面
 	private float travelExpenses;
@@ -200,9 +202,15 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	//抬头 读取报价单第三行的from
 	private String vcFrom;
 	//销售毛利
-	private float sellProfit; 
+	//private float sellProfit; 
 	//销售毛利率
-	private float sellProfitRate;
+	//private float sellProfitRate;
+	//税率
+	private float taxation;
+	//税费
+	private float taxationFee;
+	
+	private float yue;
 	
 	public Object clone() {   
         try {   
@@ -1072,20 +1080,47 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	/**
 	 * @hibernate.property type="float"
 	 */
-	public float getSellProfit() {
-		return sellProfit;
+	public float getTaxation() {
+		return taxation;
 	}
-	public void setSellProfit(float sellProfit) {
-		this.sellProfit = sellProfit;
+	public void setTaxation(float taxation) {
+		this.taxation = taxation;
 	}
 	/**
 	 * @hibernate.property type="float"
 	 */
-	public float getSellProfitRate() {
-		return sellProfitRate;
+	public float getTaxationFee() {
+		return taxationFee;
 	}
-	public void setSellProfitRate(float sellProfitRate) {
-		this.sellProfitRate = sellProfitRate;
+	public void setTaxationFee(float taxationFee) {
+		this.taxationFee = taxationFee;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getRealArea() {
+		return realArea;
+	}
+	public void setRealArea(String realArea) {
+		this.realArea = realArea;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getRealRate() {
+		return realRate;
+	}
+	public void setRealRate(float realRate) {
+		this.realRate = realRate;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getYue() {
+		return yue;
+	}
+	public void setYue(float yue) {
+		this.yue = yue;
 	}
 	
 

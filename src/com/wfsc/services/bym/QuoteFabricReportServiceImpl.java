@@ -1,6 +1,7 @@
 package com.wfsc.services.bym;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -8,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.base.log.LogUtil;
+import com.base.util.Page;
 import com.wfsc.common.bo.bym.QuoteFabricReport;
 import com.wfsc.daos.bym.QuoteFabricReportDao;
 import com.wfsc.services.bym.service.IQuoteFabricReportService;
@@ -44,6 +46,18 @@ public class QuoteFabricReportServiceImpl implements IQuoteFabricReportService {
 	public List<QuoteFabricReport> getQuoteFabricReportByDoId(Long doId) {
 		String hql = "from QuoteFabricReport where doId="+doId+" order by id desc";
 		return quoteFabricReportDao.getEntityByHql(hql);
+	}
+	@Override
+	public Page<QuoteFabricReport> findForPage(Page<QuoteFabricReport> page,
+			Map<String, Object> paramap) {
+		// TODO Auto-generated method stub
+		return quoteFabricReportDao.findForPage(page, paramap);
+	}
+	@Override
+	public List<QuoteFabricReport> getQuoteFabricReportByPara(
+			Map<String, Object> paramap) {
+		// TODO Auto-generated method stub
+		return quoteFabricReportDao.getQuoteFabricReportByPara(paramap);
 	}
 
 }

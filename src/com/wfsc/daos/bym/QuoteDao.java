@@ -44,7 +44,7 @@ public class QuoteDao extends EnhancedHibernateDaoSupport<Quote> {
 					sdate = sf.parse(paramap.get(key).toString());
 					hql.append(" and obj.vcFormDate >= :sdate " );
 					dataMap.put("sdate", sdate);
-					countSql.append(" and DATE_FORMAT(quote.vcFormDate,'%Y%m%d')>='").append(paramap.get(key).toString()+"'");
+					countSql.append(" and DATE_FORMAT(quote.vcFormDate,'%Y-%m-%d')>='").append(paramap.get(key).toString()+"'");
 					continue;
 				}
 				if ("endTime".equals(key)) {
@@ -52,7 +52,7 @@ public class QuoteDao extends EnhancedHibernateDaoSupport<Quote> {
 					edate = sf.parse(paramap.get(key).toString());
 					hql.append(" and obj.vcFormDate <= :edate ");
 					dataMap.put("edate", edate);
-					countSql.append(" and DATE_FORMAT(quote.vcFormDate,'%Y%m%d')<='").append(paramap.get(key).toString()+"'");
+					countSql.append(" and DATE_FORMAT(quote.vcFormDate,'%Y-%m-%d')<='").append(paramap.get(key).toString()+"'");
 					continue;
 				}
 				if ("projectName".equals(key)) {

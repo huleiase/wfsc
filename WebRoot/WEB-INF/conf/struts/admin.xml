@@ -246,11 +246,21 @@
 			<result name="listSellPerson">/WEB-INF/jsps/admin/designerExpense/listSellPerson.jsp</result>
 			<result name="managerSell">/WEB-INF/jsps/admin/designerExpense/managerSell.jsp</result>
 			<result name="listSell">/WEB-INF/jsps/admin/designerExpense/listSell.jsp</result>
-			<!-- 
-			<result name="managerCaiwuPerson">/WEB-INF/jsps/admin/designerExpense/managerCaiwuPerson.jsp</result>
-			<result name="listCaiwuPerson">/WEB-INF/jsps/admin/designerExpense/listCaiwuPerson.jsp</result>
-			<result name="managerCaiwu">/WEB-INF/jsps/admin/designerExpense/managerCaiwu.jsp</result>
-			<result name="listCaiwu">/WEB-INF/jsps/admin/designerExpense/listCaiwu.jsp</result> -->
+		</action>	
+		<action name="designerOrder_*" class="DesignerOrderAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="managerSellIn">/WEB-INF/jsps/admin/designerOrder/managerSellIn.jsp</result>
+			<result name="listSellIn">/WEB-INF/jsps/admin/designerOrder/listSellIn.jsp</result>
+			<result name="managerSellInPerson">/WEB-INF/jsps/admin/designerOrder/managerSellInPerson.jsp</result>
+			<result name="listSellInPerson">/WEB-INF/jsps/admin/designerOrder/listSellInPerson.jsp</result>
+			<result name="managerInCome">/WEB-INF/jsps/admin/designerOrder/managerInCome.jsp</result>
+			<result name="listInCome">/WEB-INF/jsps/admin/designerOrder/listInCome.jsp</result>
+			<result name="managerSellCost">/WEB-INF/jsps/admin/designerOrder/managerSellCost.jsp</result>
+			<result name="listSellCost">/WEB-INF/jsps/admin/designerOrder/listSellCost.jsp</result>
+			<result name="managerMaterial">/WEB-INF/jsps/admin/designerOrder/managerMaterial.jsp</result>
+			<result name="listMaterial">/WEB-INF/jsps/admin/designerOrder/listMaterial.jsp</result>
+			<result name="managerDora">/WEB-INF/jsps/admin/designerOrder/managerDora.jsp</result>
+			<result name="listDora">/WEB-INF/jsps/admin/designerOrder/listDora.jsp</result>
 		</action>	
 	</package>
 	

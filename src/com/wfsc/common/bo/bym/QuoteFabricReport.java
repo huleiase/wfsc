@@ -1,5 +1,7 @@
 package com.wfsc.common.bo.bym;
 
+import java.util.Date;
+
 
 
 /**
@@ -69,6 +71,10 @@ public class QuoteFabricReport implements java.io.Serializable{
 	private String htCode;
 	
 	private Long qfId;
+	/**
+	 * 成本的型号
+	 */
+	private String cbModelNum;
 	
 	/**
 	 * 最终单价 (成本)
@@ -84,6 +90,30 @@ public class QuoteFabricReport implements java.io.Serializable{
 	 * (成本数量)
 	 */
 	private float cbQuantity;
+	//报价合计
+	private float bjTotal;
+	//成本合计
+	private float cbTotal;
+	//销售毛利
+	private float sellProfit; 
+	//销售毛利率
+	private float sellProfitRate;
+	//替代型号
+	private String replaceNO;
+	
+	private Date contractDate;
+	
+	private String contractNo;
+	
+	private String orderNo;
+	//客户名称
+	private String customerName;
+	//项目
+	private String projectName;
+	//合同金额
+	private float sumMoney;
+	private Date createDate;
+	private String quoteLocal;
 	
 	
 	public Object clone() {   
@@ -292,6 +322,148 @@ public class QuoteFabricReport implements java.io.Serializable{
 
 	public void setCbQuantity(float cbQuantity) {
 		this.cbQuantity = cbQuantity;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getBjTotal() {
+		return bjTotal;
+	}
+
+	public void setBjTotal(float bjTotal) {
+		this.bjTotal = bjTotal;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getCbTotal() {
+		return cbTotal;
+	}
+
+	public void setCbTotal(float cbTotal) {
+		this.cbTotal = cbTotal;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getSellProfit() {
+		return sellProfit;
+	}
+
+	public void setSellProfit(float sellProfit) {
+		this.sellProfit = sellProfit;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getSellProfitRate() {
+		return sellProfitRate;
+	}
+
+	public void setSellProfitRate(float sellProfitRate) {
+		this.sellProfitRate = sellProfitRate;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getReplaceNO() {
+		return replaceNO;
+	}
+
+	public void setReplaceNO(String replaceNO) {
+		this.replaceNO = replaceNO;
+	}
+	/**
+	 * @return
+	 * @hibernate.property type="timestamp" column="contractDate"
+	 */
+	public Date getContractDate() {
+		return contractDate;
+	}
+
+	public void setContractDate(Date contractDate) {
+		this.contractDate = contractDate;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getContractNo() {
+		return contractNo;
+	}
+
+	public void setContractNo(String contractNo) {
+		this.contractNo = contractNo;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getSumMoney() {
+		return sumMoney;
+	}
+
+	public void setSumMoney(float sumMoney) {
+		this.sumMoney = sumMoney;
+	}
+	/**
+	 * @return
+	 * @hibernate.property type="timestamp" column="createDate"
+	 */
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getQuoteLocal() {
+		return quoteLocal;
+	}
+
+	public void setQuoteLocal(String quoteLocal) {
+		this.quoteLocal = quoteLocal;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getCbModelNum() {
+		return cbModelNum;
+	}
+
+	public void setCbModelNum(String cbModelNum) {
+		this.cbModelNum = cbModelNum;
 	}
 	
 	
