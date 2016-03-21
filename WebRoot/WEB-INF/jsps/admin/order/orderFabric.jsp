@@ -142,7 +142,7 @@
 					<td>
 						<input type="text" value="<s:date name="outStoreDate" format="yyyy-MM-dd" />"
 							id="outStoreDate${vcCount }" name="quoteFabricList[${vcIndex }].outStoreDate"
-							  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+							  class="widthShort" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
 					</td>
 					<td>
 						<input type="text" value="<s:property value="shipPerson"/>"
@@ -150,11 +150,11 @@
 							class="widthShort" />
 					</td>
 					<td>
-						<input type="text" value="<s:property value="expressNumber"/>"
+						<input type="text" value="<s:property value="expressNumber"/>" class="widthShort"
 							id="expressNumber${vcCount }" name="quoteFabricList[${vcIndex }].expressNumber" />
 					</td>
 					<td>
-						<input type="text" value="<s:property value="expressCompany"/>"
+						<input type="text" value="<s:property value="expressCompany"/>" class="widthShort"
 							id="expressCompany${vcCount }" name="quoteFabricList[${vcIndex }].expressCompany"/>
 					</td>
 					<td>

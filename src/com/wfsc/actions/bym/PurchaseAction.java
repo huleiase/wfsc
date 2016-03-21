@@ -23,7 +23,6 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -37,12 +36,14 @@ import com.wfsc.common.bo.bym.Order;
 import com.wfsc.common.bo.bym.Purchase;
 import com.wfsc.common.bo.bym.Quote;
 import com.wfsc.common.bo.bym.QuoteFabric;
+import com.wfsc.common.bo.bym.QuoteFabricReport;
 import com.wfsc.common.bo.bym.Supplier;
 import com.wfsc.common.bo.user.Admin;
 import com.wfsc.services.bym.service.IDesignerOrderService;
 import com.wfsc.services.bym.service.IEmailService;
 import com.wfsc.services.bym.service.IOrderService;
 import com.wfsc.services.bym.service.IPurchaseService;
+import com.wfsc.services.bym.service.IQuoteFabricReportService;
 import com.wfsc.services.bym.service.IQuoteFabricService;
 import com.wfsc.services.bym.service.IStoreFabricService;
 import com.wfsc.services.bym.service.ISupplierService;
@@ -79,6 +80,9 @@ public class PurchaseAction extends DispatchPagerAction {
 	private IEmailService emailService;
 	@Resource(name = "designerOrderService")
 	private IDesignerOrderService designerOrderService;
+	@Resource(name = "quoteFabricReportService")
+	private IQuoteFabricReportService quoteFabricReportService;
+	
 	private Purchase purchase;
 	private List<QuoteFabric> quoteFabricList = new ArrayList<QuoteFabric>();
 
@@ -785,6 +789,29 @@ public class PurchaseAction extends DispatchPagerAction {
 			//sumMoney = (float) (Math.round((sumMoney) * 10)) / 10;
 			order.setSumMoney(PriceUtil.getTwoDecimalFloat(sumMoney));
 			this.orderService.saveOrUpdateEntity(order);
+            List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(purchase.getQuote().getId());
+            if(deos!=null){
+                for(DesignerOrder deo : deos){
+                    if(StringUtils.isEmpty(deo.getOrderNo())){
+                        deo.setOrderNo(order.getOrderNo());
+                        designerOrderService.saveOrUpdateEntity(deo);
+                        
+                    }
+                    
+                }
+            }
+            List<QuoteFabricReport> qfrs = this.quoteFabricReportService.getQuoteFabricReportByQuoteId(purchase.getQuote().getId());
+            if(qfrs!=null){
+                for(QuoteFabricReport qfr : qfrs){
+                    if(StringUtils.isEmpty(qfr.getOrderNo())){
+                    	qfr.setOrderNo(order.getOrderNo());
+                        quoteFabricReportService.saveOrUpdateEntity(qfr);
+                        
+                    }
+                    
+                }
+            }
+
 				Email e = new Email();
 				e.setAction("order");
 				e.setDetail("关于【" + purchase.getQuote().getProjectName() + "】的采购单已经审核！订单号为"+order.getOrderNo()+",请去提交");

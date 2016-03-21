@@ -59,5 +59,11 @@ public class QuoteFabricReportServiceImpl implements IQuoteFabricReportService {
 		// TODO Auto-generated method stub
 		return quoteFabricReportDao.getQuoteFabricReportByPara(paramap);
 	}
+	
+	@Override
+	public List<QuoteFabricReport> getQuoteFabricReportByQuoteId(Long quoteId) {
+		String hql = "from QuoteFabricReport where quoteId="+quoteId+" order by id desc";
+		return quoteFabricReportDao.getEntityByHql(hql);
+	}
 
 }

@@ -2114,14 +2114,18 @@ public class QuoteAction extends DispatchPagerAction {
 				qfr.setSumMoney(q.getSumMoney());
 				qfr.setCreateDate(new Date());
 				qfr.setQuoteLocal(q.getVcQuoteLocal());
-				/*if("1".equals(qf.getIsReplaced())){
+				qfr.setCbModelNum(qf.getVcFactoryCode()+" "+qf.getVcModelNum());
+				if("1".equals(qf.getIsReplaced())){
 					String str = qf.getReplaceRemark();
-					String newStr = StringUtils.substring(str, 1, -2);
-					qfr.setReplaceNO(newStr);
+					if(str!=null&&str.length()>3){
+						String newStr = StringUtils.substring(str, 1, -2);
+						qfr.setReplaceNO(newStr);
+					}
+					
 				}
 				if("1".equals(qf.getIsHidden())){
 					qfr.setReplaceNO(qf.getReplaceId());
-				}*/
+				}
 				qfr.setVcPrice(qf.getVcPrice());
 				qfr.setVcPriceUnit(qf.getVcPriceUnit());
 				qfr.setVcQuantity(qf.getVcQuantity());

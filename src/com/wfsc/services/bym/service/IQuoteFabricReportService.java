@@ -24,4 +24,5 @@ public interface IQuoteFabricReportService {
 	public Page<QuoteFabricReport> findForPage(Page<QuoteFabricReport> page, Map<String,Object> paramap);
 	
 	public List<QuoteFabricReport> getQuoteFabricReportByPara(Map<String,Object> paramap);
+	public List<QuoteFabricReport> getQuoteFabricReportByQuoteId(Long quoteId);
 }

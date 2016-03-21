@@ -106,7 +106,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 		this.setPageParams(page);
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
-		String sellman = paramap.get("sellman")==null?"":paramap.get("sellman").toString();
+		/*String sellman = paramap.get("sellman")==null?"":paramap.get("sellman").toString();
 		if(StringUtils.isBlank(sellman)){
 			List<Integer> li = page.getPageNos();
 			String listUrl = "/wfsc/admin/designerOrder_listSellInPerson.Q";
@@ -114,7 +114,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 			request.setAttribute("page", page);
 			request.setAttribute("li", li);
 			return "listSellInPerson";
-		}
+		}*/
 		page = designerOrderService.findForPage(page, paramap);
 		List<Integer> li = page.getPageNos();
 		String listUrl = "/wfsc/admin/designerOrder_listSellInPerson.Q";

@@ -43,7 +43,7 @@
 <div class="container-fluid">
       <div class="widget-box">
         <div class="widget-content">
-          <form action="admin/designerOrde_managerSellIn.Q" method="post" id="queryForm">
+          <form action="admin/designerOrder_managerSellIn.Q" method="post" id="queryForm">
           <input name="isSell" type="hidden" value="1">
             <div class="controls">
             	

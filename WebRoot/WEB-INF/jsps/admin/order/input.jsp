@@ -41,6 +41,22 @@
 			$("#otherConsignee").val("");
 		}
 	}
+	function setFreight(){
+		var freight = 0;
+		var expressMoney1 = $("#expressMoney1").val();
+		if(!isNaN(expressMoney1)){
+			freight+=Number(expressMoney1)
+		}
+		var expressMoney2 = $("#expressMoney2").val();
+		if(!isNaN(expressMoney2)){
+			freight+=Number(expressMoney2)
+		}
+		var expressMoney3 = $("#expressMoney3").val();
+		if(!isNaN(expressMoney3)){
+			freight+=Number(expressMoney3)
+		}
+		$("#freight").val(freight);
+	}
 	$(function(){
 		var otherShipAddress = $("#otherShipAddress").val();	
 		if(otherShipAddress){
@@ -241,7 +257,7 @@ table#quoteFabricTable .label, .badge {
 	           <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">码单</label>
 	            <input name="order.madan" id="madan" type="text" class="span3"  value="${ order.madan}">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">运费</label>
-	            <input name="order.freight" id="freight" type="text" class="span3"  value="${ order.freight}">
+	            <input name="order.freight" id="freight" type="text" class="span3"  value="${ order.freight}" onclick="setFreight();">
 	           </div>
 	             <div class="clear"></div>
 	            <div class="controls">
@@ -311,6 +327,8 @@ table#quoteFabricTable .label, .badge {
 					<option value="1" <c:if test="${order.isQC=='1'}">selected</c:if>>是</option>
 					<option value="2" <c:if test="${order.isQC=='2'}">selected</c:if>>QC异常</option>
 	             </select>
+	             <input name="order.qcException" id="qcException" type="text" class="span3"  value="${ order.qcException}">
+	             
 	            </div>
 	          <div class="clear"></div>
 	          <div class="controls">

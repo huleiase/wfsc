@@ -55,7 +55,7 @@
 <div class="container-fluid">
       <div class="widget-box">
         <div class="widget-content">
-          <form action="admin/designerOrde_managerSellInPerson.Q" method="post" id="queryForm">
+          <form action="admin/designerOrder_managerSellInPerson.Q" method="post" id="queryForm">
           <input name="isSell" type="hidden" value="1">
             <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">销售</label>

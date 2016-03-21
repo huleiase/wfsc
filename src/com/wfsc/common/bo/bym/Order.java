@@ -236,7 +236,8 @@ public class Order implements java.io.Serializable {
 	
 	//财务付款完结
 	private String isCaiwuPayOver;
-	
+	//QC异常
+	private String qcException;
 	
 	/**
 	 * @return
@@ -1058,6 +1059,16 @@ public class Order implements java.io.Serializable {
 
 	public void setIsCaiwuPayOver(String isCaiwuPayOver) {
 		this.isCaiwuPayOver = isCaiwuPayOver;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getQcException() {
+		return qcException;
+	}
+
+	public void setQcException(String qcException) {
+		this.qcException = qcException;
 	}
 
 
