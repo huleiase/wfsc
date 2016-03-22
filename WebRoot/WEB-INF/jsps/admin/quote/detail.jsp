@@ -12,6 +12,7 @@
 	var basePath = "<%=basePath%>";
 	function checkForm(){
 		$("#inputForm").submit();
+		$("#saveButton").attr("disabled",true);
 	}
 	function toBack(){
 		window.location.href = basePath+"admin/quote_manager.Q";
@@ -338,7 +339,7 @@ table#quoteFabricTable .label, .badge {
              <button type="button" class="btn btn-success" onclick="checkForm()" id="saveButton">签单</button>&nbsp;&nbsp;
             </s:elseif>
           
-             <button type="button" class="btn btn-success" onclick="window.close();">关闭</button>
+             <button type="button" class="btn btn-success" onclick="toBack();">返回</button>
             </div>
           </form>
         </div>

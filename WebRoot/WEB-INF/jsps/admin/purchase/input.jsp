@@ -25,7 +25,7 @@
 		 }else{
 		 	$("#orderStatus").val(status);
 			$("#inputForm").submit();
-		 	
+		 	$("#saveButton").attr("disabled",true);
 		 }
 		
 	}

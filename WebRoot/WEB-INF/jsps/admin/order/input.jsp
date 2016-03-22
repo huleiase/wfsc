@@ -19,7 +19,7 @@
 		}
 		$("#orderStatus").val(status);
 		$("#inputForm").submit();
-		
+		$("#saveButton").attr("disabled",true);
 	}
 	function toBack(){
 		window.location.href = basePath+"admin/order_manager.Q";
@@ -119,6 +119,10 @@ table#quoteFabricTable .label, .badge {
     line-height: 20px;
     margin-right: 5px;
 }
+table#quoteFabricTable input.widthMidd{
+width: 95px;
+}
+
 
 </style>
 </head>

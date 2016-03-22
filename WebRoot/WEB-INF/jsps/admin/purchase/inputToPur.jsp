@@ -14,6 +14,7 @@
 	function checkForm(orderStatus){
 		$("#orderStatus").val(orderStatus);
 		$("#inputForm").submit();
+		$("#saveButton").attr("disabled",true);
 	}
 	function toBack(){
 		//window.location.href = basePath+"admin/purchase_managerToPur.Q";

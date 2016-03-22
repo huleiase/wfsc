@@ -42,11 +42,13 @@
 						art.dialog({title:"错误",content:"单号"+projectNum+"已存在，请更改单号",ok:true});
 					}else{
 						$("#inputForm").submit();
+						$("#saveButton").attr("disabled",true);
 					}
 				}
 			});
 		}else{
 			$("#inputForm").submit();
+			$("#saveButton").attr("disabled",true);
 		}
 		
 	}

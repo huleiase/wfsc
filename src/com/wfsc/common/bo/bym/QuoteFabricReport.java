@@ -8,7 +8,7 @@ import java.util.Date;
  * 
  * @hibernate.class dynamic-insert="true" dynamic-update="true" table="bym_qf_report" lazy="false"
  */
-public class QuoteFabricReport implements java.io.Serializable{
+public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 
 	private static final long serialVersionUID = 682265456723471L;
 	
@@ -114,6 +114,11 @@ public class QuoteFabricReport implements java.io.Serializable{
 	private float sumMoney;
 	private Date createDate;
 	private String quoteLocal;
+	
+	private String bjColor;
+	private String cbColor;
+	private float orderNum;
+	private float singleMoney;
 	
 	
 	public Object clone() {   
@@ -464,6 +469,46 @@ public class QuoteFabricReport implements java.io.Serializable{
 
 	public void setCbModelNum(String cbModelNum) {
 		this.cbModelNum = cbModelNum;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getBjColor() {
+		return bjColor;
+	}
+
+	public void setBjColor(String bjColor) {
+		this.bjColor = bjColor;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getCbColor() {
+		return cbColor;
+	}
+
+	public void setCbColor(String cbColor) {
+		this.cbColor = cbColor;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(float orderNum) {
+		this.orderNum = orderNum;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getSingleMoney() {
+		return singleMoney;
+	}
+
+	public void setSingleMoney(float singleMoney) {
+		this.singleMoney = singleMoney;
 	}
 	
 	

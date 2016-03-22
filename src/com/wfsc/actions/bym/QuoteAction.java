@@ -341,12 +341,12 @@ public class QuoteAction extends DispatchPagerAction {
 									
 									List<QuoteFabricReport> oldQfrs = this.quoteFabricReportService.getQuoteFabricReportByDoId(oldDeo.getId());
 									if(oldQfrs!=null){
-										for(QuoteFabricReport oldQfr : oldQfrs){
+										for(QuoteFabricReport dbQfr : oldQfrs){
 											//更新旧的
-											oldQfr.setOperation("old");
-											quoteFabricReportService.saveOrUpdateEntity(oldQfr);
+											dbQfr.setOperation("old");
+											quoteFabricReportService.saveOrUpdateEntity(dbQfr);
 											//新增一条抵消的
-											QuoteFabricReport offsetQfr = (QuoteFabricReport)oldQfr.clone();
+											QuoteFabricReport offsetQfr = (QuoteFabricReport)dbQfr.clone();
 											offsetQfr.setOperation("offset");
 											offsetQfr.setDoId(offsetDeo.getId());
 											offsetQfr.setId(null);
@@ -1672,9 +1672,6 @@ public class QuoteAction extends DispatchPagerAction {
 		if (des != null && des.size() > 0) {
 			designerExpense = des.get(0);
 		}
-		if(des != null && des.size() > 1&&designerExpense.getSumMoney()<0){
-			designerExpense = des.get(1);
-		}
 		designerExpense.setRealTotel(PriceUtil.getTwoDecimalFloat((realTotel)));
 		String item = quote.getItem().replaceAll("@", "<br><br>");
 		quote.setItem(item);
@@ -1699,10 +1696,6 @@ public class QuoteAction extends DispatchPagerAction {
 		 if(deos!=null&&deos.size()>0){
 			 designerOrder = deos.get(0);
 		 }
-		 if(deos!=null&&deos.size()>1&&designerOrder.getSumMoney()<0){
-			 designerOrder = deos.get(1);
-		 }
-		
 		 return "designOrder";
 	 }
 	 
@@ -2121,10 +2114,13 @@ public class QuoteAction extends DispatchPagerAction {
 						String newStr = StringUtils.substring(str, 1, -2);
 						qfr.setReplaceNO(newStr);
 					}
-					
-				}
-				if("1".equals(qf.getIsHidden())){
+					qfr.setBjColor(qf.getVcColorNum());
+				}else if("1".equals(qf.getIsHidden())){
 					qfr.setReplaceNO(qf.getReplaceId());
+					qfr.setCbColor(qf.getVcColorNum());
+				}else{
+					qfr.setBjColor(qf.getVcColorNum());
+					qfr.setCbColor(qf.getVcColorNum());
 				}
 				qfr.setVcPrice(qf.getVcPrice());
 				qfr.setVcPriceUnit(qf.getVcPriceUnit());
@@ -2337,6 +2333,14 @@ public class QuoteAction extends DispatchPagerAction {
 							qfr.setCbPrice(qf.getShijia());
 							qfr.setCbPriceUnit(qf.getPriceCur());
 							qfr.setCbQuantity(qf.getVcQuoteNum());
+							float sigMoney = PriceUtil.getTwoDecimalFloat(qf.getSinglePrice() * qf.getVcPurDis());
+							if(sigMoney==0){
+								float vcPurDis = qf.getVcPurDis()==0?1F:qf.getVcPurDis();
+								sigMoney = PriceUtil.getTwoDecimalFloat(qf.getDhjCost() * vcPurDis);
+							}
+							qfr.setSingleMoney(sigMoney);
+							qfr.setOrderNum(qf.getOrderQuantity());
+							
 						}
 					}
 					map.put(qfr.getVcModelNum(), qfr);
@@ -2348,11 +2352,13 @@ public class QuoteAction extends DispatchPagerAction {
 						if(hidden!=null){
 							qfr.setCbModelNum(hidden.getVcFactoryCode()+" "+hidden.getVcBefModel());
 							qfr.setCbTotal(hidden.getCbPrice()*hidden.getCbQuantity()*hidden.getTaxation());
+							qfr.setCbColor(hidden.getCbColor());
 						}
 					}else if("1".equals(qfr.getIsHidden())){
 						QuoteFabricReport replaced = map.get(qfr.getReplaceNO());
 						if(replaced!=null){
 							qfr.setBjTotal(replaced.getVcPrice()*replaced.getVcQuantity()*replaced.getTaxation());
+							qfr.setBjColor(replaced.getBjColor());
 						}
 						qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity()*qfr.getTaxation());
 					}else{

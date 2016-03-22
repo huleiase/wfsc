@@ -1362,6 +1362,32 @@ public class OrderAction extends DispatchPagerAction {
 			}
 			return null;
 		}
+		
+		public String getFreiht(){
+			/*String quoteId = request.getParameter("quoteId");
+			String 
+			List<Order> orders = this.orderService.getOrderByQuoteId(Long.valueOf(quoteId));
+			float freiht = 0F;
+			for(Order o : orders){
+				freiht+=o.getFreight()
+			}
+			String canDo = "1";
+			if("1".equals(status)){//订单未提交，要去提交
+				if(orderStatus>0){
+					canDo = "0";
+				}
+			}else if("2".equals(status)){//待采购单已经提交，要去审核
+				if(orderStatus>2){
+					canDo = "0";
+				}
+			}
+			try {
+				response.getWriter().write(canDo);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}*/
+			return null;
+		}
 		/**
 		 * 获取其它货币对RMB或HKD的汇率
 		 */

@@ -325,7 +325,6 @@ public class QuoteFabric implements java.io.Serializable{
 	private String filePath;
 	
 	private String vcDis;
-	//订单里面的实定量
 	private String quoteNum; 
 	
 	
