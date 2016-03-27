@@ -42,20 +42,48 @@
 		}
 	}
 	function setFreight(){
-		var freight = 0;
+		var orderId = $("#orderId").val();
+		var url = basePath+"admin/order_getFreiht.Q?orderId="+orderId;
+		var expressNumber1 = $("#expressNumber1").val();
 		var expressMoney1 = $("#expressMoney1").val();
-		if(!isNaN(expressMoney1)){
-			freight+=Number(expressMoney1)
+		if(expressNumber1){
+			if(!isNaN(expressMoney1)){
+				url+="&expressNumber1="+expressNumber1+"&expressMoney1="+expressMoney1;
+			}else{
+				alert("快递单号1请正确填写运费");
+				return;
+			}
 		}
+		var expressNumber2 = $("#expressNumber2").val();
 		var expressMoney2 = $("#expressMoney2").val();
-		if(!isNaN(expressMoney2)){
-			freight+=Number(expressMoney2)
+		if(expressNumber2){
+			if(!isNaN(expressMoney2)){
+				url+="&expressNumber2="+expressNumber2+"&expressMoney2="+expressMoney2;
+			}else{
+				alert("快递单号2请正确填写运费");
+				return;
+			}
 		}
+		var expressNumber3 = $("#expressNumber3").val();
 		var expressMoney3 = $("#expressMoney3").val();
-		if(!isNaN(expressMoney3)){
-			freight+=Number(expressMoney3)
+		if(expressNumber3){
+			if(!isNaN(expressMoney3)){
+				url+="&expressNumber3="+expressNumber3+"&expressMoney3="+expressMoney3;
+			}else{
+				alert("快递单号3请正确填写运费");
+				return;
+			}
 		}
-		$("#freight").val(freight);
+		$.ajax({
+			url:url,
+			type : "GET",
+			dataType : "text",
+			success : function(data) {
+				$("#freight").val(data);
+			}
+		});
+		
+		
 	}
 	$(function(){
 		var otherShipAddress = $("#otherShipAddress").val();	
@@ -204,8 +232,8 @@ width: 95px;
 					<option value="关文娟 15031119209" <c:if test="${order.consignee=='关文娟 15031119209'}">selected</c:if>>关文娟 15031119209</option>
 					<option value="江春霞 18930627328" <c:if test="${order.consignee=='江春霞 18930627328'}">selected</c:if>>江春霞 18930627328</option>
 					<option value="吴梦诗 13430771727" <c:if test="${order.consignee=='吴梦诗 13430771727'}">selected</c:if>>吴梦诗 13430771727</option>
-					<option value="张国茵 852-37412235" <c:if test="${order.consignee=='张国茵 852-37412235'}">selected</c:if>>张国茵 852-37412235</option>	
-					
+					<option value="张国茵 852-37412235" <c:if test="${order.consignee=='张国茵 852-37412235'}">selected</c:if>>张国茵 852-37412235</option>
+					<option value="胡良化 15252552806" <c:if test="${order.consignee=='胡良化 15252552806'}">selected</c:if>>胡良化 15252552806</option>	
 					<option value="陈子峰 13610364676" <c:if test="${order.consignee=='陈子峰 13610364676'}">selected</c:if>>陈子峰 13610364676</option>
 					<option value="史国栋 13422215055" <c:if test="${order.consignee=='史国栋 13422215055'}">selected</c:if>>史国栋 13422215055</option>
 					<option value="广州元韵 15018480561" <c:if test="${order.consignee=='广州元韵 15018480561'}">selected</c:if>>广州元韵 15018480561</option>

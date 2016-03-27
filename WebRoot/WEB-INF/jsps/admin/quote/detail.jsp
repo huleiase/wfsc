@@ -222,22 +222,25 @@ table#quoteFabricTable .label, .badge {
 	          <div class="controls">
 	          <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">量窗费</label>
 	            <input disabled="disabled" name="quote.lcFre" id="lcFre" type="text" class="span3"  value="${ quote.lcFre}" >
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">税金</label>
+	            <input disabled="disabled" name="quote.taxes" id="taxes" type="text" class="span3"  value="${ quote.taxes}" >
 	            <input disabled="disabled" class="blankInput" for="inputSuccess" style="" name="quote.titleCol1" value="${ quote.titleCol1}" id="titleCol1" type="text">
 	            <input disabled="disabled" name="quote.inputCol1" id="inputCol1" type="text" class="span3"  value="${ quote.inputCol1}" >
-	             <input disabled="disabled" class="blankInput" for="inputSuccess" style="" name="quote.titleCol2" value="${ quote.titleCol2}" id="titleCol2" type="text">
-	            <input disabled="disabled" name="quote.inputCol2" id="inputCol2" type="text" class="span3"  value="${ quote.inputCol2}" >
-	            
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">
+	          <input disabled="disabled" class="blankInput" for="inputSuccess" style="" name="quote.titleCol2" value="${ quote.titleCol2}" id="titleCol2" type="text">
+	            <input disabled="disabled" name="quote.inputCol2" id="inputCol2" type="text" class="span3"  value="${ quote.inputCol2}" >
 	           <input disabled="disabled" class="blankInput" for="inputSuccess" style="" name="quote.titleCol3" value="${ quote.titleCol3}" id="titleCol3" type="text">
 	            <input disabled="disabled" name="quote.inputCol3" id="inputCol3" type="text" class="span3"  value="${ quote.inputCol3}" >
 	            <input disabled="disabled" class="blankInput" for="inputSuccess" style="" name="quote.titleCol4" value="${ quote.titleCol4}" id="titleCol4" type="text">
 	            <input disabled="disabled" name="quote.inputCol4" id="inputCol4" type="text" class="span3"  value="${ quote.inputCol4}" >
-	             <input disabled="disabled" class="blankInput" for="inputSuccess" style="" name="quote.titleCol5" value="${ quote.titleCol5}" id="titleCol5" type="text">
-	            <input disabled="disabled" name="quote.inputCol5" id="inputCol5" type="text" class="span3"  value="${ quote.inputCol5}" >
-	            
 	         </div>
+	         <div class="clear"></div>
+	          <div class="controls">
+	         <input disabled="disabled" class="blankInput" for="inputSuccess" style="" name="quote.titleCol5" value="${ quote.titleCol5}" id="titleCol5" type="text">
+	            <input disabled="disabled" name="quote.inputCol5" id="inputCol5" type="text" class="span3"  value="${ quote.inputCol5}" >
+	          </div>
 	         <div class="clear"></div>
 	          <div class="controls">
 	          <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">描述</label>

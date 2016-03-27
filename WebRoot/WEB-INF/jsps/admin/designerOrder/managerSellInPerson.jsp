@@ -17,12 +17,12 @@
 		$("#endDate").val("");
 	}
 	function submitForm(){
-		var sellman = $("#sellman").val();
-		if(sellman){
+		//var sellman = $("#sellman").val();
+		//if(sellman){
 			$("#queryForm").submit();
-		}else{
-			art.dialog({content:"请输入要查询的销售",ok:true});
-		}
+		//}else{
+			//art.dialog({content:"请输入要查询的销售",ok:true});
+		//}
 		
 	}
 	function downloadSellPerson(){

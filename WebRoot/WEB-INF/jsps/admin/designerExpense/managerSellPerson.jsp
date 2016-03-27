@@ -17,12 +17,12 @@
 		$("#endDate").val("");
 	}
 	function submitForm(){
-		var designer = $("#designer").val();
-		if(designer){
+		//var designer = $("#designer").val();
+		//if(designer){
 			$("#queryForm").submit();
-		}else{
-			art.dialog({content:"请输入要查询的设计师",ok:true});
-		}
+		//}else{
+		//	art.dialog({content:"请输入要查询的设计师",ok:true});
+		//}
 		
 	}
 	function downloadSellPerson(){
@@ -30,7 +30,8 @@
 		var designer = $("#designer").val();
 		if(designer){
 			 url += "&designer="+designer;
-			 var contractNo = $("#contractNo").val();
+		}
+		var contractNo = $("#contractNo").val();
 			if(contractNo){
 				 url += "&contractNo="+contractNo;
 			}
@@ -43,10 +44,6 @@
 				 url += "&endDate="+endDate;
 			}
 			window.location.href = url;
-			
-		}else{
-			art.dialog({content:"请输入要查询的设计师",ok:true});
-		}
 	}
 </script>
 </head>

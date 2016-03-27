@@ -30,6 +30,7 @@ import org.springframework.stereotype.Controller;
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
 import com.constants.LogModule;
+import com.wfsc.common.bo.bym.DesignerExpense;
 import com.wfsc.common.bo.bym.DesignerOrder;
 import com.wfsc.common.bo.bym.Email;
 import com.wfsc.common.bo.bym.Order;
@@ -39,6 +40,7 @@ import com.wfsc.common.bo.bym.QuoteFabric;
 import com.wfsc.common.bo.bym.QuoteFabricReport;
 import com.wfsc.common.bo.bym.Supplier;
 import com.wfsc.common.bo.user.Admin;
+import com.wfsc.services.bym.service.IDesignerExpenseService;
 import com.wfsc.services.bym.service.IDesignerOrderService;
 import com.wfsc.services.bym.service.IEmailService;
 import com.wfsc.services.bym.service.IOrderService;
@@ -80,8 +82,9 @@ public class PurchaseAction extends DispatchPagerAction {
 	private IEmailService emailService;
 	@Resource(name = "designerOrderService")
 	private IDesignerOrderService designerOrderService;
-	@Resource(name = "quoteFabricReportService")
-	private IQuoteFabricReportService quoteFabricReportService;
+	
+	@Resource(name = "designerExpenseService")
+	private IDesignerExpenseService designerExpenseService;
 	
 	private Purchase purchase;
 	private List<QuoteFabric> quoteFabricList = new ArrayList<QuoteFabric>();
@@ -680,6 +683,7 @@ public class PurchaseAction extends DispatchPagerAction {
 			}
 			
 		}
+		
 		if("3".equals(purchase.getOrderStatus())){
 			saveOrder(purchase,qfSet);
 			return "ok";
@@ -789,25 +793,21 @@ public class PurchaseAction extends DispatchPagerAction {
 			//sumMoney = (float) (Math.round((sumMoney) * 10)) / 10;
 			order.setSumMoney(PriceUtil.getTwoDecimalFloat(sumMoney));
 			this.orderService.saveOrUpdateEntity(order);
+			
             List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(purchase.getQuote().getId());
             if(deos!=null){
                 for(DesignerOrder deo : deos){
-                    if(StringUtils.isEmpty(deo.getOrderNo())){
                         deo.setOrderNo(order.getOrderNo());
+                        deo.setCbClTotel(purchase.getClTotal());
+                        deo.setTravelExpenses(purchase.getTravelExpenses());
+                        deo.setProcessFee(purchase.getProcessFee());
+                        deo.setInstallFee(purchase.getInstallFee());
+                        deo.setOtherFre(purchase.getOtherFre());
+            			if("offset".equals(deo.getOperation())){
+            				deo.setCbClTotel(-Math.abs(deo.getCbClTotel()));
+            			}
                         designerOrderService.saveOrUpdateEntity(deo);
                         
-                    }
-                    
-                }
-            }
-            List<QuoteFabricReport> qfrs = this.quoteFabricReportService.getQuoteFabricReportByQuoteId(purchase.getQuote().getId());
-            if(qfrs!=null){
-                for(QuoteFabricReport qfr : qfrs){
-                    if(StringUtils.isEmpty(qfr.getOrderNo())){
-                    	qfr.setOrderNo(order.getOrderNo());
-                        quoteFabricReportService.saveOrUpdateEntity(qfr);
-                        
-                    }
                     
                 }
             }

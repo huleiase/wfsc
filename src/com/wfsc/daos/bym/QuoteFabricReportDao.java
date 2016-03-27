@@ -70,7 +70,9 @@ public class QuoteFabricReportDao extends EnhancedHibernateDaoSupport<QuoteFabri
 					continue;
 				}
 			}
-			hql.append(" order by obj.id desc,obj.orderNo");
+			hql.append(" and obj.isReplaced='0' ");
+			countSql.append(" and de.isReplaced='0' ");
+			hql.append(" order by obj.id desc ");
 			List<QuoteFabricReport> list = this.findList4PageWithParama(hql.toString(), page
 					.getFirst() - 1, page.getPageSize(),dataMap);
 			page.setData(list);
@@ -127,7 +129,7 @@ public class QuoteFabricReportDao extends EnhancedHibernateDaoSupport<QuoteFabri
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			hql.append(" order by obj.id desc,obj.orderNo");
+			hql.append(" order by obj.id desc");
 			list =  this.findList4PageWithParama(hql.toString(), -1,-1,dataMap);
 		return list;
 	}

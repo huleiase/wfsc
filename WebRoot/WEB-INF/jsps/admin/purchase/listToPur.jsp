@@ -55,8 +55,12 @@
                    <w:permission permissionId="<%=PermissionId.PROCESS_TO_PURCHASE_MGT_PRINTQUOTE%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="printQuote('<s:property value="quote.id"/>');">打印报价单</button>
                   </w:permission>
+                   <w:permission permissionId="<%=PermissionId.PROCESS_TO_PURCHASE_MGT_UPLOAD_ATTACHMENT%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="uploadFile('<s:property value="id"/>');">上传</button>
+                  </w:permission>
+                    <w:permission permissionId="<%=PermissionId.PROCESS_TO_PURCHASE_MGT_DOWNLOAD_ATTACHMENT%>">
                     <button class="label label-info btn btn-primary btn-mini" onclick="downloadFile('<s:property value="id"/>');">下载</button>
+                    </w:permission>
                   </td>
                 </tr>
                </s:iterator>

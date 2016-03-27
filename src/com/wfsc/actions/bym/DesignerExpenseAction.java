@@ -60,36 +60,39 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
 		String designer = paramap.get("designer")==null?"":paramap.get("designer").toString();
-		if(StringUtils.isBlank(designer)){
+		/*if(StringUtils.isBlank(designer)){
 			List<Integer> li = page.getPageNos();
 			String listUrl = "/wfsc/admin/designerExpense_listSellPerson.Q";
 			request.setAttribute("listUrl", listUrl);
 			request.setAttribute("page", page);
 			request.setAttribute("li", li);
 			return "listSellPerson";
-		}
+		}*/
 		page = designerExpenseService.findForPage(page, paramap);
-		for(DesignerExpense de : page.getData()){
-			if(designer.equalsIgnoreCase(de.getDesigner2())){
-				de.setDesigner1(de.getDesigner2());
-				de.setCounselorRate1(de.getCounselorRate2());
-				de.setDesigner1(de.getDesigner2());
-				de.setHasApply1(de.getHasApply2());
-				de.setIsGetAll1(de.getIsGetAll2());
-				de.setIsApply1(de.getIsApply2());
-				de.setApplyDate1(de.getApplyDate2());
-				de.setRemark1(de.getRemark2());
-			}else if(designer.equalsIgnoreCase(de.getDesigner3())){
-				de.setDesigner1(de.getDesigner3());
-				de.setCounselorRate1(de.getCounselorRate3());
-				de.setDesigner1(de.getDesigner3());
-				de.setHasApply1(de.getHasApply3());
-				de.setIsGetAll1(de.getIsGetAll3());
-				de.setIsApply1(de.getIsApply3());
-				de.setApplyDate1(de.getApplyDate3());
-				de.setRemark1(de.getRemark3());
+		if(StringUtils.isBlank(designer)){
+			for(DesignerExpense de : page.getData()){
+				if(designer.equalsIgnoreCase(de.getDesigner2())){
+					de.setDesigner1(de.getDesigner2());
+					de.setCounselorRate1(de.getCounselorRate2());
+					de.setDesigner1(de.getDesigner2());
+					de.setHasApply1(de.getHasApply2());
+					de.setIsGetAll1(de.getIsGetAll2());
+					de.setIsApply1(de.getIsApply2());
+					de.setApplyDate1(de.getApplyDate2());
+					de.setRemark1(de.getRemark2());
+				}else if(designer.equalsIgnoreCase(de.getDesigner3())){
+					de.setDesigner1(de.getDesigner3());
+					de.setCounselorRate1(de.getCounselorRate3());
+					de.setDesigner1(de.getDesigner3());
+					de.setHasApply1(de.getHasApply3());
+					de.setIsGetAll1(de.getIsGetAll3());
+					de.setIsApply1(de.getIsApply3());
+					de.setApplyDate1(de.getApplyDate3());
+					de.setRemark1(de.getRemark3());
+				}
 			}
 		}
+		
 		List<Integer> li = page.getPageNos();
 		String listUrl = "/wfsc/admin/designerExpense_listSellPerson.Q";
 		request.setAttribute("listUrl", listUrl);

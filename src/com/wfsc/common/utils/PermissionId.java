@@ -32,7 +32,8 @@ public abstract class PermissionId {
     public static final String QUOTE_MGT_WRITEPERM = "quote_mgt_writPerm";
     public static final String QUOTE_MGT_PRINT = "quote_mgt_print";
     public static final String QUOTE_MGT_DOWNLOAD = "quote_mgt_download";
-    public static final String QUOTE_MGT_ATTACHMENT = "quote_mgt_attachment";
+    public static final String QUOTE_MGT_UPLOAD_ATTACHMENT = "quote_mgt_upload_attachment";
+    public static final String QUOTE_MGT_DOWNLOAD_ATTACHMENT = "quote_mgt_download_attachment";
     public static final String QUOTE_MGT_DESIGN = "quote_mgt_design";
     //设计费下载（销售）
     public static final String QUOTE_DESIGN_FEE_SALE = "quote_design_fee_sale";
@@ -47,7 +48,8 @@ public abstract class PermissionId {
     public static final String PROCESS_TO_PURCHASE_MGT_AUDIT = "process_to_purchase_mgt_audit";
     public static final String PROCESS_TO_PURCHASE_MGT_PRINT = "process_to_purchase_mgt_print";
     public static final String PROCESS_TO_PURCHASE_MGT_DOWNLOAD = "process_to_purchase_mgt_download";
-    public static final String PROCESS_TO_PURCHASE_MGT_ATTACHMENT = "process_to_purchase_mgt_attachment";
+    public static final String PROCESS_TO_PURCHASE_MGT_UPLOAD_ATTACHMENT = "process_to_purchase_mgt_upload_attachment";
+    public static final String PROCESS_TO_PURCHASE_MGT_DOWNLOAD_ATTACHMENT = "process_to_purchase_mgt_download_attachment";
     public static final String PROCESS_TO_PURCHASE_MGT_PRINTQUOTE = "process_to_purchase_mgt_printQuote";
     
     //采购单管理
@@ -56,7 +58,8 @@ public abstract class PermissionId {
     public static final String PROCESS_PURCHASE_MGT_AUDIT = "process_purchase_mgt_audit";
     public static final String PROCESS_PURCHASE_MGT_PRINT = "process_purchase_mgt_print";
     public static final String PROCESS_PURCHASE_MGT_DOWNLOAD = "process_purchase_mgt_download";
-    public static final String PROCESS_PURCHASE_MGT_ATTACHMENT = "process_purchase_mgt_attachment";
+    public static final String PROCESS_PURCHASE_MGT_UPLOAD_ATTACHMENT = "process_purchase_mgt_upload_attachment";
+    public static final String PROCESS_PURCHASE_MGT_DOWNLOAD_ATTACHMENT = "process_purchase_mgt_download_attachment";
     //订单管理
     public static final String PROCESS_ORDER_MGT = "process_order_mgt";
     public static final String PROCESS_ORDER_MGT_UPDATE = "process_order_mgt_update";
@@ -64,7 +67,8 @@ public abstract class PermissionId {
     public static final String PROCESS_ORDER_MGT_AUDIT = "process_order_mgt_audit";
     public static final String PROCESS_ORDER_MGT_PRINT = "process_order_mgt_print";
     public static final String PROCESS_ORDER_MGT_DOWNLOAD = "process_order_mgt_download";
-    public static final String PROCESS_ORDER_MGT_ATTACHMENT = "process_order_mgt_attachment";
+    public static final String PROCESS_ORDER_MGT_UPLOAD_ATTACHMENT = "process_order_mgt_upload_attachment";
+    public static final String PROCESS_ORDER_MGT_DOWNLOAD_ATTACHMENT = "process_order_mgt_download_attachment";
     public static final String PROCESS_ORDER_MGT_DESIGN = "process_order_mgt_design";
     //库存管理
     public static final String PROCESS_STOCk_MGT = "process_stock_mgt";

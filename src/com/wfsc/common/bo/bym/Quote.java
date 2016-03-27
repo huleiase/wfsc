@@ -334,6 +334,8 @@ public class Quote implements java.io.Serializable {
 	private boolean canUpdate;
 	
 	private Date creatDate;
+	//税金
+	private float taxes;
 	
 	/**
 	 * 关联的报价布匹
@@ -1186,5 +1188,14 @@ public class Quote implements java.io.Serializable {
 	public void setCreatDate(Date creatDate) {
 		this.creatDate = creatDate;
 	}
-	
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getTaxes() {
+		return taxes;
+	}
+
+	public void setTaxes(float taxes) {
+		this.taxes = taxes;
+	}
 }

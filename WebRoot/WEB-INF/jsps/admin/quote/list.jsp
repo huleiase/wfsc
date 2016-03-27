@@ -80,8 +80,10 @@
                  </w:permission>
                  </s:if>
                  
-                 <w:permission permissionId="<%=PermissionId.QUOTE_MGT_ATTACHMENT%>">
+                 <w:permission permissionId="<%=PermissionId.QUOTE_MGT_UPLOAD_ATTACHMENT%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="uploadFile('<s:property value="id"/>');">上传</button>
+                   </w:permission>
+                     <w:permission permissionId="<%=PermissionId.QUOTE_MGT_DOWNLOAD_ATTACHMENT%>">
                   <button class="label label-info btn btn-primary btn-mini" onclick="downloadFile('<s:property value="id"/>');">下载</button>
                   </w:permission>
                   </td>

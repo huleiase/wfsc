@@ -28,12 +28,14 @@ import org.springframework.stereotype.Controller;
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
 import com.constants.LogModule;
+import com.wfsc.common.bo.bym.DesignerExpense;
 import com.wfsc.common.bo.bym.DesignerOrder;
 import com.wfsc.common.bo.bym.Email;
 import com.wfsc.common.bo.bym.Order;
 import com.wfsc.common.bo.bym.Purchase;
 import com.wfsc.common.bo.bym.Quote;
 import com.wfsc.common.bo.bym.QuoteFabric;
+import com.wfsc.common.bo.bym.QuoteFabricReport;
 import com.wfsc.common.bo.bym.Store;
 import com.wfsc.common.bo.bym.StoreFabric;
 import com.wfsc.common.bo.bym.Supplier;
@@ -41,6 +43,7 @@ import com.wfsc.common.bo.user.Admin;
 import com.wfsc.services.bym.service.IDesignerOrderService;
 import com.wfsc.services.bym.service.IEmailService;
 import com.wfsc.services.bym.service.IOrderService;
+import com.wfsc.services.bym.service.IQuoteFabricReportService;
 import com.wfsc.services.bym.service.IQuoteFabricService;
 import com.wfsc.services.bym.service.IStoreFabricService;
 import com.wfsc.services.bym.service.IStoreService;
@@ -78,7 +81,8 @@ public class OrderAction extends DispatchPagerAction {
 	private IStoreFabricService storeFabricService;
 	@Resource(name = "emailService")
 	private IEmailService emailService;
-	
+	@Resource(name = "quoteFabricReportService")
+	private IQuoteFabricReportService quoteFabricReportService;
 	private Order order;
 	private DesignerOrder designerOrder;
 	private List<QuoteFabric> quoteFabricList = new ArrayList<QuoteFabric>();
@@ -480,10 +484,115 @@ public class OrderAction extends DispatchPagerAction {
 			saveSystemLog(LogModule.orderLog, curAdmin.getUsername()+"审核了订单"+order.getOrderNo());
 			this.saveProStroage(order, qfdbList);
 		}
+		updateOrderFreight(order);
+		updateDe(order.getOrderNo(), q.getId());
+		updateQfr(q.getId(), order.getOrderNo(), qfdbList);
+		
 		return "ok";
 	}
 	
+	private void updateDe(String orderNo,Long quoteId){
+		List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(quoteId);
+        if(deos!=null){
+        	List<Order> orders = this.orderService.getOrderByOrderNo(orderNo);
+        	float freight = 0F;
+        	for(Order o : orders){
+        		freight += o.getFreight();
+        	}
+        	
+            for(DesignerOrder deo : deos){
+        			deo.setCbFreight(freight);
+        			//销售费用合计(加工费+安装费+运费+差旅费+设计费+税费+其他)
+        			float cbTotel = deo.getProcessFee()+deo.getInstallFee()+deo.getCbFreight()+deo.getTravelExpenses()+deo.getDesignFre()+deo.getTaxationFee()+deo.getOtherFre();
+        			deo.setCbTotel(cbTotel);
+        			//毛利(报价合计-销售成本材料合计-销售费用合计)
+        			float profit = deo.getBjTotel()-deo.getCbClTotel()-deo.getCbTotel();
+        			deo.setProfit(profit);
+        			//毛利率(毛利/报价合计)
+        			if(deo.getBjTotel()>0){
+        				deo.setProfitRate(deo.getProfit()/deo.getBjTotel());
+        			}
+        			if("offset".equals(deo.getOperation())){
+        				deo.setCbClTotel(-Math.abs(deo.getCbClTotel()));
+        				deo.setCbTotel(-Math.abs(deo.getCbTotel()));
+        				deo.setProfit(-Math.abs(deo.getProfit()));
+        				deo.setProfitRate(-Math.abs(deo.getProfitRate()));
+        			}
+                    designerOrderService.saveOrUpdateEntity(deo);
+                    
+                
+            }
+        }
+	}
 	
+	private void updateQfr(Long quoteId,String orderNo,List<QuoteFabric> qfs){
+		List<QuoteFabricReport>  qfrs = this.quoteFabricReportService.getQuoteFabricReportByQuoteId(quoteId);
+		Map<String,QuoteFabricReport> map = new HashMap<String,QuoteFabricReport>();
+		if(qfrs!=null){
+			for(QuoteFabricReport qfr : qfrs){
+				for(QuoteFabric qf : qfs){
+					if(qfr.getQfId().longValue()==qf.getId().longValue()){
+						if("1".equals(qf.getIsReplaced())){
+							String str = qf.getReplaceRemark();
+							if(str!=null&&str.length()>3){
+								String newStr = StringUtils.substring(str, 1, -2);
+								qfr.setReplaceNO(newStr);
+							}
+							
+						}
+						if("1".equals(qf.getIsHidden())){
+							qfr.setReplaceNO(qf.getReplaceId());
+						}
+						qfr.setCbPrice(qf.getShijia());
+						qfr.setCbPriceUnit(qf.getPriceCur());
+						qfr.setCbQuantity(qf.getVcQuoteNum());
+						float sigMoney = PriceUtil.getTwoDecimalFloat(qf.getSinglePrice() * qf.getVcPurDis());
+						if(sigMoney==0){
+							float vcPurDis = qf.getVcPurDis()==0?1F:qf.getVcPurDis();
+							sigMoney = PriceUtil.getTwoDecimalFloat(qf.getDhjCost() * vcPurDis);
+						}
+						qfr.setSingleMoney(sigMoney);
+						qfr.setOrderNum(qf.getOrderQuantity());
+						
+					}
+				}
+				map.put(qfr.getVcModelNum(), qfr);
+			}
+			for(QuoteFabricReport qfr : qfrs){
+				if("1".equals(qfr.getIsReplaced())){
+					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()+qfr.getTaxes());
+					QuoteFabricReport hidden = map.get(qfr.getReplaceNO());
+					if(hidden!=null){
+						qfr.setCbModelNum(hidden.getVcFactoryCode()+" "+hidden.getVcBefModel());
+						qfr.setCbTotal(hidden.getCbPrice()*hidden.getCbQuantity());
+						qfr.setCbColor(hidden.getCbColor());
+					}
+				}else if("1".equals(qfr.getIsHidden())){
+					QuoteFabricReport replaced = map.get(qfr.getReplaceNO());
+					if(replaced!=null){
+						qfr.setBjTotal(replaced.getVcPrice()*replaced.getVcQuantity()+replaced.getTaxes());
+						qfr.setBjColor(replaced.getBjColor());
+					}
+					qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
+				}else{
+					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()+qfr.getTaxes());
+					qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
+				}
+				qfr.setSellProfit(qfr.getBjTotal()-qfr.getCbTotal());
+				if(qfr.getBjTotal()>0){
+					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());
+				}
+				qfr.setOrderNo(orderNo);
+				if("offset".equals(qfr.getOperation())){
+					qfr.setBjTotal(-Math.abs(qfr.getBjTotal()));
+					qfr.setCbTotal(-Math.abs(qfr.getCbTotal()));
+					qfr.setSellProfit(-Math.abs(qfr.getSellProfit()));
+					qfr.setSellProfitRate(-Math.abs(qfr.getSellProfitRate()));
+				}
+				quoteFabricReportService.saveOrUpdateEntity(qfr);
+			}
+		}
+	}
 	
 	public String toImport(){
 		String orderId = request.getParameter("orderId");
@@ -1364,29 +1473,126 @@ public class OrderAction extends DispatchPagerAction {
 		}
 		
 		public String getFreiht(){
-			/*String quoteId = request.getParameter("quoteId");
-			String 
-			List<Order> orders = this.orderService.getOrderByQuoteId(Long.valueOf(quoteId));
+			
+			String orderId = request.getParameter("orderId");
+			String expressNumber1 = request.getParameter("expressNumber1");
+			String expressMoney1 = request.getParameter("expressMoney1");
+			String expressNumber2 = request.getParameter("expressNumber2");
+			String expressMoney2 = request.getParameter("expressMoney2");
+			String expressNumber3 = request.getParameter("expressNumber3");
+			String expressMoney3 = request.getParameter("expressMoney3");
 			float freiht = 0F;
-			for(Order o : orders){
-				freiht+=o.getFreight()
-			}
-			String canDo = "1";
-			if("1".equals(status)){//订单未提交，要去提交
-				if(orderStatus>0){
-					canDo = "0";
+			Order order = this.orderService.getOrderById(Long.valueOf(orderId));
+			if(StringUtils.isNotBlank(expressNumber1)&&StringUtils.isNotBlank(expressMoney1)){
+				List<Order> orders1 = this.orderService.getOrderByPropertyName("expressNumber1", expressNumber1);
+				boolean exist = false;
+				if(orders1==null){
+					orders1 = new ArrayList<Order>();
+				}else{
+					for(Order o : orders1){
+						if(o.getId().longValue()==order.getId().longValue()){
+							exist = true;
+							break;
+						}
+					}
 				}
-			}else if("2".equals(status)){//待采购单已经提交，要去审核
-				if(orderStatus>2){
-					canDo = "0";
+				if(!exist){
+					orders1.add(order);
 				}
+				
+				freiht+=Float.valueOf(expressMoney1).floatValue()/orders1.size();
 			}
+			if(StringUtils.isNotBlank(expressNumber2)&&StringUtils.isNotBlank(expressMoney2)){
+				List<Order> orders2 = this.orderService.getOrderByPropertyName("expressNumber2", expressNumber2);
+				boolean exist = false;
+				if(orders2==null){
+					orders2 = new ArrayList<Order>();
+				}else{
+					for(Order o : orders2){
+						if(o.getId().longValue()==order.getId().longValue()){
+							exist = true;
+							break;
+						}
+					}
+				}
+				if(!exist){
+					orders2.add(order);
+				}
+				
+				freiht+=Float.valueOf(expressMoney2).floatValue()/orders2.size();
+			}
+			if(StringUtils.isNotBlank(expressNumber3)&&StringUtils.isNotBlank(expressMoney3)){
+				List<Order> orders3 = this.orderService.getOrderByPropertyName("expressNumber3", expressNumber3);
+				boolean exist = false;
+				if(orders3==null){
+					orders3 = new ArrayList<Order>();
+				}else{
+					for(Order o : orders3){
+						if(o.getId().longValue()==order.getId().longValue()){
+							exist = true;
+							break;
+						}
+					}
+				}
+				if(!exist){
+					orders3.add(order);
+				}
+				
+				freiht+=Float.valueOf(expressMoney3).floatValue()/orders3.size();
+			}
+			
 			try {
-				response.getWriter().write(canDo);
+				response.getWriter().write(PriceUtil.getTwoDecimalFloat(freiht)+"");
 			} catch (IOException e) {
 				e.printStackTrace();
-			}*/
+			}
 			return null;
+		}
+		
+		private void updateOrderFreight(Order order){
+			String expressNumber1 = order.getExpressNumber1();
+			float expressMoney1 = order.getExpressMoney1();
+			String expressNumber2 = order.getExpressNumber2();
+			float expressMoney2 = order.getExpressMoney2();
+			String expressNumber3 =order.getExpressNumber3();
+			float expressMoney3 = order.getExpressMoney3();
+			if(StringUtils.isNotBlank(expressNumber1)){
+				List<Order> orders1 = this.orderService.getOrderByPropertyName("expressNumber1", expressNumber1);
+				if(orders1==null){
+					orders1 = new ArrayList<Order>();
+				}
+				float freiht = Float.valueOf(expressMoney1).floatValue()/(orders1.size()+1);
+				for(Order o : orders1){
+					o.setExpressMoney1(freiht);
+					o.setFreight(o.getExpressMoney1()+o.getExpressMoney2()+o.getExpressMoney3());
+					orderService.saveOrUpdateEntity(o);
+				}
+			}
+			if(StringUtils.isNotBlank(expressNumber2)){
+				List<Order> orders2 = this.orderService.getOrderByPropertyName("expressNumber2", expressNumber2);
+				if(orders2==null){
+					orders2 = new ArrayList<Order>();
+				}
+				
+				float freiht = Float.valueOf(expressMoney2).floatValue()/(orders2.size()+1);
+				for(Order o : orders2){
+					o.setExpressMoney2(freiht);
+					o.setFreight(o.getExpressMoney1()+o.getExpressMoney2()+o.getExpressMoney3());
+					orderService.saveOrUpdateEntity(o);
+				}
+			}
+			if(StringUtils.isNotBlank(expressNumber3)){
+				List<Order> orders3 = this.orderService.getOrderByPropertyName("expressNumber3", expressNumber3);
+				if(orders3==null){
+					orders3 = new ArrayList<Order>();
+				}
+				float freiht = Float.valueOf(expressMoney3).floatValue()/(orders3.size()+1);
+				for(Order o : orders3){
+					o.setExpressMoney3(freiht);
+					o.setFreight(o.getExpressMoney1()+o.getExpressMoney2()+o.getExpressMoney3());
+					orderService.saveOrUpdateEntity(o);
+				}
+			}
 		}
 		/**
 		 * 获取其它货币对RMB或HKD的汇率

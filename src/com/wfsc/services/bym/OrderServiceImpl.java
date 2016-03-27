@@ -87,4 +87,8 @@ public class OrderServiceImpl implements IOrderService {
 		orderDao.deleteAllEntities(orders);
 		
 	}
+	@Override
+	public List<Order> getOrderByPropertyName(String propertyName,Object value) {
+		return orderDao.getEntitiesByOneProperty(propertyName, value);
+	}
 }

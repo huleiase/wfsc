@@ -38,4 +38,5 @@ public interface IOrderService {
 	public void deleteByProperty(String name,Object value);
 	public List<Order> getOrderByQuoteId(Long quoteId);
 	public void deleteByEntitys(Collection<Order> orders);
+	public List<Order> getOrderByPropertyName(String propertyName,Object value);
 }

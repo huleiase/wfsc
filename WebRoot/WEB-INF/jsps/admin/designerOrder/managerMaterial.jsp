@@ -12,6 +12,7 @@
 <script type="text/javascript">
 	function resetForm(){
 		$("#contractNo").val("");
+		$("#orderNo").val("");
 		$("#beginDate").val("");
 		$("#endDate").val("");
 	}
@@ -49,6 +50,9 @@
             	
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">合同号</label>
 	            <input name="contractNo" id="contractNo" type="text" class="span2"  value="${contractNo }">
+	            
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">订单号</label>
+	            <input name="orderNo" id="orderNo" type="text" class="span2"  value="${orderNo }">
 	         </div>
 	         <div class="clear"></div>
 	         <div class="controls">

@@ -114,12 +114,16 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	private float sumMoney;
 	private Date createDate;
 	private String quoteLocal;
-	
+	//报价色号
 	private String bjColor;
+	//订单色号
 	private String cbColor;
+	//订货量
 	private float orderNum;
+	//单价
 	private float singleMoney;
-	
+	//税金
+	private float taxes;
 	
 	public Object clone() {   
         try {   
@@ -509,6 +513,16 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 
 	public void setSingleMoney(float singleMoney) {
 		this.singleMoney = singleMoney;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getTaxes() {
+		return taxes;
+	}
+
+	public void setTaxes(float taxes) {
+		this.taxes = taxes;
 	}
 	
 	
