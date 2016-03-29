@@ -65,5 +65,9 @@ public class QuoteFabricServiceImpl implements IQuoteFabricService {
 		// TODO Auto-generated method stub
 		return new ArrayList<QuoteFabric>();
 	}
+	@Override
+	public List<QuoteFabric> getQfByOrderId(Long bymOrderId) {
+		return quoteFabricDao.getEntitiesByOneProperty("bymOrderId", bymOrderId);
+	}
 	
 }

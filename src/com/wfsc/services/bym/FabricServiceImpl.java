@@ -32,10 +32,6 @@ public class FabricServiceImpl implements IFabricService {
 	}
 	public void deleteByIds(List<Long> ids,String isHtCode) {
 		StringBuffer sql = new StringBuffer("delete from bym_fabric where ");
-		/*if("0".equals(isHtCode)){
-			List<Long> htIds = this.getHtFabricIdByIds(ids);
-			ids.addAll(htIds);
-		}*/
 		for(int i=0;i<ids.size();i++){
 			if(i==ids.size()-1){
 				sql.append(" id="+ids.get(i));
@@ -45,7 +41,20 @@ public class FabricServiceImpl implements IFabricService {
 		}
 		System.out.println("deleteByIds==="+sql);
 		int count = this.deleteBySql(sql.toString());
-		System.out.println("删除的记录数==="+count);
+		System.out.println("删除的原厂型号记录数==="+count);
+		if("1".equals(isHtCode)){
+			StringBuffer hbsql = new StringBuffer("delete from bym_fabric where ");
+			for(int i=0;i<ids.size();i++){
+				if(i==ids.size()-1){
+					hbsql.append(" refid="+ids.get(i));
+				}else{
+					hbsql.append(" refid="+ids.get(i)+" or ");
+				}
+			}
+			System.out.println("deleteHbByIds==="+hbsql);
+			int hbcount = this.deleteBySql(hbsql.toString());
+			System.out.println("删除的原厂型号记录数==="+hbcount);
+		}
 	}
 	public void saveOrUpdateEntity(Fabric entity){
 		fabricDao.saveOrUpdateEntity(entity);
@@ -200,5 +209,5 @@ public class FabricServiceImpl implements IFabricService {
 		}
 		
 	}
-
+	
 }

@@ -334,7 +334,7 @@ public class QuoteFabric implements java.io.Serializable{
 	private String expressNumber;//4、快递单号
 	private String expressCompany;//5、快递公司
 	private String arrivalAddress;//6、到货地址
-	
+	private Long bymOrderId;//订单id
 	
 	/**
 	 * @hibernate.property type="string"
@@ -1255,6 +1255,18 @@ public class QuoteFabric implements java.io.Serializable{
 	public void setQuoteNum(String quoteNum) {
 		this.quoteNum = quoteNum;
 	}
+	
+	/**
+	 * @hibernate.property type="long"
+	 */
+	public Long getBymOrderId() {
+		return bymOrderId;
+	}
+
+	public void setBymOrderId(Long bymOrderId) {
+		this.bymOrderId = bymOrderId;
+	}
+	
 	
 	
 	

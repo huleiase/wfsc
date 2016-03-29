@@ -334,6 +334,11 @@ public class QuoteAction extends DispatchPagerAction {
 									offsetDeo.setHasApplyTotle(-oldDeo.getHasApplyTotle());
 									offsetDeo.setRealTotel(-oldDeo.getRealTotel());
 									offsetDeo.setSharetotle(-oldDeo.getSharetotle());
+									offsetDeo.setBjTotel(-oldDeo.getBjTotel());
+									offsetDeo.setCbClTotel(-oldDeo.getCbClTotel());
+									offsetDeo.setCbTotel(-oldDeo.getCbTotel());
+									offsetDeo.setProfit(-oldDeo.getProfit());
+									offsetDeo.setProfitRate(-oldDeo.getProfitRate());
 									offsetDeo.setOperation("offset");
 									offsetDeo.setCreateDate(new Date());
 									offsetDeo.setId(null);
@@ -349,6 +354,13 @@ public class QuoteAction extends DispatchPagerAction {
 											QuoteFabricReport offsetQfr = (QuoteFabricReport)dbQfr.clone();
 											offsetQfr.setOperation("offset");
 											offsetQfr.setDoId(offsetDeo.getId());
+											offsetQfr.setCbTotal(-dbQfr.getCbTotal());
+											offsetQfr.setBjTotal(-dbQfr.getBjTotal());
+											offsetQfr.setSumMoney(-dbQfr.getSumMoney());
+											offsetQfr.setSellProfit(-dbQfr.getSellProfit());
+											offsetQfr.setSellProfitRate(-dbQfr.getSellProfitRate());
+											offsetQfr.setCreateDate(new Date());
+											offsetQfr.setAmountrmb(-dbQfr.getAmountrmb());
 											offsetQfr.setId(null);
 											quoteFabricReportService.saveOrUpdateEntity(offsetQfr);
 										}
@@ -419,6 +431,11 @@ public class QuoteAction extends DispatchPagerAction {
 									offsetDeo.setHasApplyTotle(-oldDeo.getHasApplyTotle());
 									offsetDeo.setRealTotel(-oldDeo.getRealTotel());
 									offsetDeo.setSharetotle(-oldDeo.getSharetotle());
+									offsetDeo.setBjTotel(-oldDeo.getBjTotel());
+									offsetDeo.setCbClTotel(-oldDeo.getCbClTotel());
+									offsetDeo.setCbTotel(-oldDeo.getCbTotel());
+									offsetDeo.setProfit(-oldDeo.getProfit());
+									offsetDeo.setProfitRate(-oldDeo.getProfitRate());
 									offsetDeo.setOperation("offset");
 									offsetDeo.setCreateDate(new Date());
 									offsetDeo.setId(null);
@@ -434,6 +451,13 @@ public class QuoteAction extends DispatchPagerAction {
 											QuoteFabricReport offsetQfr = (QuoteFabricReport)oldQfr.clone();
 											offsetQfr.setOperation("offset");
 											offsetQfr.setDoId(offsetDeo.getId());
+											offsetQfr.setCbTotal(-oldQfr.getCbTotal());
+											offsetQfr.setBjTotal(-oldQfr.getBjTotal());
+											offsetQfr.setSumMoney(-oldQfr.getSumMoney());
+											offsetQfr.setSellProfit(-oldQfr.getSellProfit());
+											offsetQfr.setSellProfitRate(-oldQfr.getSellProfitRate());
+											offsetQfr.setCreateDate(new Date());
+											offsetQfr.setAmountrmb(-oldQfr.getAmountrmb());
 											offsetQfr.setId(null);
 											quoteFabricReportService.saveOrUpdateEntity(offsetQfr);
 										}
@@ -1961,6 +1985,7 @@ public class QuoteAction extends DispatchPagerAction {
 							offsetQfr.setDoId(offsetDeo.getId());
 							offsetQfr.setCbTotal(-oldQfr.getCbTotal());
 							offsetQfr.setBjTotal(-oldQfr.getBjTotal());
+							offsetQfr.setAmountrmb(-oldQfr.getAmountrmb());
 							offsetQfr.setSumMoney(-oldQfr.getSumMoney());
 							offsetQfr.setSellProfit(-oldQfr.getSellProfit());
 							offsetQfr.setSellProfitRate(-oldQfr.getSellProfitRate());
@@ -1995,25 +2020,38 @@ public class QuoteAction extends DispatchPagerAction {
 			}*/
 			String saleMan = "";
 			if(StringUtils.isNotBlank(q.getVcSalesman())){
-				saleMan+=q.getVcSalesman()+",";
+				if(!saleMan.contains(q.getVcSalesman())){
+					saleMan+=q.getVcSalesman()+",";
+				}
+				
 			}
 			if(StringUtils.isNotBlank(q.getVcSalesman1())){
+				if(!saleMan.contains(q.getVcSalesman1())){
 				saleMan+=q.getVcSalesman1()+",";
+				}
 			}
 			if(StringUtils.isNotBlank(q.getVcSalesman2())){
+				if(!saleMan.contains(q.getVcSalesman2())){
 				saleMan+=q.getVcSalesman2()+",";
+				}
 			}
 			if(StringUtils.isNotBlank(q.getVcSalesman3())){
+				if(!saleMan.contains(q.getVcSalesman3())){
 				saleMan+=q.getVcSalesman3()+",";
+				}
 			}
 			if(StringUtils.isNotBlank(q.getVcSalesman4())){
+				if(!saleMan.contains(q.getVcSalesman4())){
 				saleMan+=q.getVcSalesman4()+",";
+				}
 			}
 			Set<String> salesMan = q.getSalesman();
 			if(salesMan!=null){
 				for(String sale : salesMan){
 					if(StringUtils.isNotBlank(sale)){
+						if(!saleMan.contains(sale)){
 						saleMan+=sale+",";
+						}
 					}
 				}
 			}
@@ -2132,6 +2170,8 @@ public class QuoteAction extends DispatchPagerAction {
 				qfr.setVcPriceUnit(qf.getVcPriceUnit());
 				qfr.setVcQuantity(qf.getVcQuantity());
 				qfr.setTaxes(q.getTaxes());
+				qfr.setVcMoney(qf.getVcMoney());
+				qfr.setBjTotal(qf.getVcTotal()+qfr.getTaxes());
 				/*qfr.setCbPrice(qf.getShijia());
 				qfr.setCbPriceUnit(qf.getPriceCur());
 				float cbQuantity = 0F;

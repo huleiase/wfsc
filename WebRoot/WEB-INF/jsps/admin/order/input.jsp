@@ -74,10 +74,12 @@
 				return;
 			}
 		}
+		var curVcQuoteNum = $("#curVcQuoteNum").val();
 		$.ajax({
 			url:url,
 			type : "GET",
 			dataType : "text",
+			data:{"curVcQuoteNum":curVcQuoteNum},
 			success : function(data) {
 				$("#freight").val(data);
 			}
@@ -101,6 +103,7 @@
 		}
 	})
 </script>
+
 <style type="text/css">
 input.span3 {
     float: left;
@@ -163,6 +166,7 @@ width: 95px;
         </div>
         <div class="widget-content nopadding">
           <form action="admin/order_save.Q" method="post" class="form-horizontal" id="inputForm">
+          <input type="hidden" id="curVcQuoteNum" value="${curVcQuoteNum }">
           	<input type="hidden" name="order.id" id="orderId" value="${order.id }">
           	<input type="hidden" name="order.orderStatus" id="orderStatus" value="${order.orderStatus }">
           	 <c:if test="${!isLess}">

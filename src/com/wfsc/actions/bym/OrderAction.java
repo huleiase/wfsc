@@ -40,6 +40,7 @@ import com.wfsc.common.bo.bym.Store;
 import com.wfsc.common.bo.bym.StoreFabric;
 import com.wfsc.common.bo.bym.Supplier;
 import com.wfsc.common.bo.user.Admin;
+import com.wfsc.services.bym.service.ICurrencyConversionService;
 import com.wfsc.services.bym.service.IDesignerOrderService;
 import com.wfsc.services.bym.service.IEmailService;
 import com.wfsc.services.bym.service.IOrderService;
@@ -83,6 +84,8 @@ public class OrderAction extends DispatchPagerAction {
 	private IEmailService emailService;
 	@Resource(name = "quoteFabricReportService")
 	private IQuoteFabricReportService quoteFabricReportService;
+	@Resource(name = "currencyConversionService")
+	private ICurrencyConversionService currencyConversionService;
 	private Order order;
 	private DesignerOrder designerOrder;
 	private List<QuoteFabric> quoteFabricList = new ArrayList<QuoteFabric>();
@@ -192,6 +195,7 @@ public class OrderAction extends DispatchPagerAction {
 		}
 		Set<QuoteFabric> qfSet  = order.getPurchase().getQuote().getQuoteFabric();
 		float sumMoney = 0f;
+		float curVcQuoteNum = 0F;
 		if(qfSet!=null){
 			List<QuoteFabric> qfList =  QuoteFabricUtil.sort(qfSet, "getOrderId", "asc");
 			for(QuoteFabric qf : qfList){
@@ -212,6 +216,7 @@ public class OrderAction extends DispatchPagerAction {
 					qf.setAmountrmb(amountrmb);
 					qf.setRealMonny(qf.getRealMonny() == 0 ? PriceUtil.getTwoDecimalFloat(vcQuoteNum * shijia) : qf.getRealMonny());
 					sumMoney += (vcQuoteNum * shijia);
+					curVcQuoteNum+=vcQuoteNum;
 					//qf.setVcModelNumDisplay(qf.getVcModelNum());
 					if(isLess){
 						if("1".equals(qf.getIsHtCode())){
@@ -232,6 +237,7 @@ public class OrderAction extends DispatchPagerAction {
 		if(order.getSumMoney()>0){
 			sumMoney = order.getSumMoney();
 		}
+		request.setAttribute("curVcQuoteNum", curVcQuoteNum);
 		//sumMoney = (float) (Math.round((sumMoney) * 10)) / 10;
 		order.setSumMoney(PriceUtil.getTwoDecimalFloat(sumMoney));
 		Supplier s = this.supplierService.getSupplierByCode(order.getFactoryCode());
@@ -337,7 +343,7 @@ public class OrderAction extends DispatchPagerAction {
 			qfdb.setExpressNumber(qf.getExpressNumber());
 			qfdb.setExpressCompany(qf.getExpressCompany());
 			qfdb.setArrivalAddress(qf.getArrivalAddress());
-			
+			qfdb.setBymOrderId(order.getId());
 			quoteFabricService.saveOrUpdateEntity(qfdb);
 			qfdbList.add(qfdb);
 		}
@@ -544,7 +550,7 @@ public class OrderAction extends DispatchPagerAction {
 							qfr.setReplaceNO(qf.getReplaceId());
 						}
 						qfr.setCbPrice(qf.getShijia());
-						qfr.setCbPriceUnit(qf.getPriceCur());
+						qfr.setCbPriceUnit(qf.getVcOldPriceUnit());
 						qfr.setCbQuantity(qf.getVcQuoteNum());
 						float sigMoney = PriceUtil.getTwoDecimalFloat(qf.getSinglePrice() * qf.getVcPurDis());
 						if(sigMoney==0){
@@ -553,18 +559,24 @@ public class OrderAction extends DispatchPagerAction {
 						}
 						qfr.setSingleMoney(sigMoney);
 						qfr.setOrderNum(qf.getOrderQuantity());
+						qfr.setPriceCur(qf.getPriceCur());
 						
 					}
 				}
 				map.put(qfr.getVcModelNum(), qfr);
 			}
 			for(QuoteFabricReport qfr : qfrs){
+				float huilv = this.getExchangeRate("1", qfr.getPriceCur());
+				if("HKD".equalsIgnoreCase(qfr.getVcMoney())){
+					huilv = this.getExchangeRate("2", qfr.getPriceCur());
+				}
 				if("1".equals(qfr.getIsReplaced())){
 					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()+qfr.getTaxes());
 					QuoteFabricReport hidden = map.get(qfr.getReplaceNO());
 					if(hidden!=null){
 						qfr.setCbModelNum(hidden.getVcFactoryCode()+" "+hidden.getVcBefModel());
 						qfr.setCbTotal(hidden.getCbPrice()*hidden.getCbQuantity());
+						qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 						qfr.setCbColor(hidden.getCbColor());
 					}
 				}else if("1".equals(qfr.getIsHidden())){
@@ -574,11 +586,13 @@ public class OrderAction extends DispatchPagerAction {
 						qfr.setBjColor(replaced.getBjColor());
 					}
 					qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
+					qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				}else{
 					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()+qfr.getTaxes());
 					qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
+					qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				}
-				qfr.setSellProfit(qfr.getBjTotal()-qfr.getCbTotal());
+				qfr.setSellProfit(qfr.getBjTotal()-qfr.getAmountrmb());
 				if(qfr.getBjTotal()>0){
 					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());
 				}
@@ -586,6 +600,7 @@ public class OrderAction extends DispatchPagerAction {
 				if("offset".equals(qfr.getOperation())){
 					qfr.setBjTotal(-Math.abs(qfr.getBjTotal()));
 					qfr.setCbTotal(-Math.abs(qfr.getCbTotal()));
+					qfr.setAmountrmb(-Math.abs(qfr.getAmountrmb()));
 					qfr.setSellProfit(-Math.abs(qfr.getSellProfit()));
 					qfr.setSellProfitRate(-Math.abs(qfr.getSellProfitRate()));
 				}
@@ -1301,65 +1316,6 @@ public class OrderAction extends DispatchPagerAction {
 			book.write(response.getOutputStream());
 		}
 		
-		/*public String saveDesignOrder() throws ParseException {
-			String orderNo = request.getParameter("orderNo");
-			String id = request.getParameter("id");
-			Order o = orderService.getOrderById(Long.valueOf(id));
-			List<Order> oList = this.orderService.getOrderByOrderNo(orderNo);
-			List<DesignerOrder> dodbList = designerOrderService.getDesignerOrderByOrderNo(orderNo);
-			Map<Long,DesignerOrder> dodbMap = new HashMap<Long,DesignerOrder>();
-			if(CollectionUtils.isNotEmpty(dodbList)){
-				for(DesignerOrder dodb : dodbList){
-					dodbMap.put(dodb.getOrderId(), dodb);
-				}
-			}
-			String gatheringDate = request.getParameter("gatheringDate");
-			if (StringUtils.isNotBlank(gatheringDate)) {
-				designerOrder.setGatheringDate(DateUtil.getDate(gatheringDate));
-			} else {
-				designerOrder.setGatheringDate(null);
-			}
-			Purchase p = o.getPurchase();
-			Quote quote = p.getQuote();
-			designerOrder.setOrderId(o.getId());
-			designerOrder.setOrderNo(o.getOrderNo());
-			designerOrder.setVcSalesman(quote.getVcSalesman());
-			designerOrder.setVcSalesman1(quote.getVcSalesman1());
-			designerOrder.setVcSalesman2(quote.getVcSalesman2());
-			designerOrder.setVcSalesman3(quote.getVcSalesman3());
-			designerOrder.setVcSalesman4(quote.getVcSalesman4());
-			designerOrder.setContractDate(p.getContractDate());
-			designerOrder.setContractNo(p.getContractNo());
-			designerOrder.setQuoteLocal(quote.getVcQuoteLocal());
-			if (designerOrder.getShareArea1().equals(quote.getVcQuoteLocal())) {
-				designerOrder.setRealTotel(designerOrder.getShareMony1());
-			} else if (designerOrder.getShareArea2().equals(quote.getVcQuoteLocal())) {
-				designerOrder.setRealTotel(designerOrder.getShareMony2());
-			} else if (designerOrder.getShareArea3().equals(quote.getVcQuoteLocal())) {
-				designerOrder.setRealTotel(designerOrder.getShareMony3());
-			} else if (designerOrder.getShareArea4().equals(quote.getVcQuoteLocal())) {
-				designerOrder.setRealTotel(designerOrder.getShareMony4());
-			} else if (designerOrder.getShareArea5().equals(quote.getVcQuoteLocal())) {
-				designerOrder.setRealTotel(designerOrder.getShareMony5());
-			} else {
-				designerOrder.setRealTotel(0F);
-			}
-			designerOrder.setHasNoApplyTotle(o.getPurchase().getQuote().getSumMoney() - (designerOrder.getHasApplyTotle()));
-			for(Order entity :oList){
-				DesignerOrder donew = null;
-				DesignerOrder dodb = dodbMap.get(entity.getId());
-				donew = (DesignerOrder)designerOrder.clone();
-				donew.setOrderId(entity.getId());
-				if(dodb != null){
-					donew.setId(dodb.getId());
-				}
-				 
-				designerOrderService.saveOrUpdateEntity(donew);
-			}
-			String curAdminName = this.getCurrentAdminUser().getUsername();
-			saveSystemLog(LogModule.orderLog, curAdminName+"设计了订单"+o.getOrderNo());
-			return "ok";
-		}*/
 
 		private void saveProStroage(Order o, List<QuoteFabric> qfs) {
 			List<StoreFabric> sfdbList = storeFabricService.getStoreFabricByOrderId(o.getId());
@@ -1481,64 +1437,64 @@ public class OrderAction extends DispatchPagerAction {
 			String expressMoney2 = request.getParameter("expressMoney2");
 			String expressNumber3 = request.getParameter("expressNumber3");
 			String expressMoney3 = request.getParameter("expressMoney3");
+			float curVcQuoteNum = Float.valueOf(request.getParameter("curVcQuoteNum"));
 			float freiht = 0F;
-			Order order = this.orderService.getOrderById(Long.valueOf(orderId));
 			if(StringUtils.isNotBlank(expressNumber1)&&StringUtils.isNotBlank(expressMoney1)){
+				float otherVcQuoteNum = 0F;
 				List<Order> orders1 = this.orderService.getOrderByPropertyName("expressNumber1", expressNumber1);
-				boolean exist = false;
-				if(orders1==null){
-					orders1 = new ArrayList<Order>();
-				}else{
+				if(CollectionUtils.isNotEmpty(orders1)){
 					for(Order o : orders1){
-						if(o.getId().longValue()==order.getId().longValue()){
-							exist = true;
-							break;
+						if(!o.getId().toString().equals(orderId)){
+							List<QuoteFabric> qfs = this.quoteFabricService.getQfByOrderId(o.getId());
+							if(CollectionUtils.isNotEmpty(qfs)){
+								for(QuoteFabric qf : qfs){
+									otherVcQuoteNum+=qf.getVcQuoteNum()==0?qf.getOrderQuantity():qf.getVcQuoteNum();
+								}
+							}
 						}
 					}
+					freiht+=Float.valueOf(expressMoney1).floatValue()*curVcQuoteNum/(curVcQuoteNum+otherVcQuoteNum);
+				}else{
+					freiht+=Float.valueOf(expressMoney1).floatValue();
 				}
-				if(!exist){
-					orders1.add(order);
-				}
-				
-				freiht+=Float.valueOf(expressMoney1).floatValue()/orders1.size();
 			}
 			if(StringUtils.isNotBlank(expressNumber2)&&StringUtils.isNotBlank(expressMoney2)){
+				float otherVcQuoteNum = 0F;
 				List<Order> orders2 = this.orderService.getOrderByPropertyName("expressNumber2", expressNumber2);
-				boolean exist = false;
-				if(orders2==null){
-					orders2 = new ArrayList<Order>();
-				}else{
+				if(CollectionUtils.isNotEmpty(orders2)){
 					for(Order o : orders2){
-						if(o.getId().longValue()==order.getId().longValue()){
-							exist = true;
-							break;
+						if(!o.getId().toString().equals(orderId)){
+							List<QuoteFabric> qfs = this.quoteFabricService.getQfByOrderId(o.getId());
+							if(CollectionUtils.isNotEmpty(qfs)){
+								for(QuoteFabric qf : qfs){
+									otherVcQuoteNum+=qf.getVcQuoteNum()==0?qf.getOrderQuantity():qf.getVcQuoteNum();
+								}
+							}
 						}
 					}
+					freiht+=Float.valueOf(expressMoney2).floatValue()*curVcQuoteNum/(curVcQuoteNum+otherVcQuoteNum);
+				}else{
+					freiht+=Float.valueOf(expressMoney2).floatValue();
 				}
-				if(!exist){
-					orders2.add(order);
-				}
-				
-				freiht+=Float.valueOf(expressMoney2).floatValue()/orders2.size();
 			}
 			if(StringUtils.isNotBlank(expressNumber3)&&StringUtils.isNotBlank(expressMoney3)){
+				float otherVcQuoteNum = 0F;
 				List<Order> orders3 = this.orderService.getOrderByPropertyName("expressNumber3", expressNumber3);
-				boolean exist = false;
-				if(orders3==null){
-					orders3 = new ArrayList<Order>();
-				}else{
+				if(CollectionUtils.isNotEmpty(orders3)){
 					for(Order o : orders3){
-						if(o.getId().longValue()==order.getId().longValue()){
-							exist = true;
-							break;
+						if(!o.getId().toString().equals(orderId)){
+							List<QuoteFabric> qfs = this.quoteFabricService.getQfByOrderId(o.getId());
+							if(CollectionUtils.isNotEmpty(qfs)){
+								for(QuoteFabric qf : qfs){
+									otherVcQuoteNum+=qf.getVcQuoteNum()==0?qf.getOrderQuantity():qf.getVcQuoteNum();
+								}
+							}
 						}
 					}
+					freiht+=Float.valueOf(expressMoney3).floatValue()*curVcQuoteNum/(curVcQuoteNum+otherVcQuoteNum);
+				}else{
+					freiht+=Float.valueOf(expressMoney3).floatValue();
 				}
-				if(!exist){
-					orders3.add(order);
-				}
-				
-				freiht+=Float.valueOf(expressMoney3).floatValue()/orders3.size();
 			}
 			
 			try {
@@ -1551,66 +1507,128 @@ public class OrderAction extends DispatchPagerAction {
 		
 		private void updateOrderFreight(Order order){
 			String expressNumber1 = order.getExpressNumber1();
-			float expressMoney1 = order.getExpressMoney1();
 			String expressNumber2 = order.getExpressNumber2();
-			float expressMoney2 = order.getExpressMoney2();
 			String expressNumber3 =order.getExpressNumber3();
-			float expressMoney3 = order.getExpressMoney3();
 			if(StringUtils.isNotBlank(expressNumber1)){
 				List<Order> orders1 = this.orderService.getOrderByPropertyName("expressNumber1", expressNumber1);
-				if(orders1==null){
-					orders1 = new ArrayList<Order>();
-				}
-				float freiht = Float.valueOf(expressMoney1).floatValue()/(orders1.size()+1);
-				for(Order o : orders1){
-					o.setExpressMoney1(freiht);
-					o.setFreight(o.getExpressMoney1()+o.getExpressMoney2()+o.getExpressMoney3());
-					orderService.saveOrUpdateEntity(o);
+				if(CollectionUtils.isNotEmpty(orders1)){
+					float totalVcQuoteNum = 0F;
+					for(Order o : orders1){
+						List<QuoteFabric> qfs = this.quoteFabricService.getQfByOrderId(o.getId());
+						if(CollectionUtils.isNotEmpty(qfs)){
+							for(QuoteFabric qf : qfs){
+								totalVcQuoteNum+=qf.getVcQuoteNum()==0?qf.getOrderQuantity():qf.getVcQuoteNum();
+							}
+						}
+						
+					}
+					for(Order o : orders1){
+						if(o.getId().longValue()!=order.getId().longValue()){
+							List<QuoteFabric> qfs = this.quoteFabricService.getQfByOrderId(o.getId());
+							float curVcQuoteNum = 0F;
+							if(CollectionUtils.isNotEmpty(qfs)){
+								for(QuoteFabric qf : qfs){
+									curVcQuoteNum+=qf.getVcQuoteNum()==0?qf.getOrderQuantity():qf.getVcQuoteNum();
+								}
+							}
+							float f = o.getFreight()-o.getExpressMoney1()+o.getExpressMoney1()*curVcQuoteNum/totalVcQuoteNum;
+							if(f<=0){
+								f = o.getExpressMoney1()*curVcQuoteNum/totalVcQuoteNum+o.getExpressMoney2()+o.getExpressMoney3();
+							}
+							o.setFreight(f);
+							this.orderService.saveOrUpdateEntity(o);
+						}
+					}
 				}
 			}
 			if(StringUtils.isNotBlank(expressNumber2)){
 				List<Order> orders2 = this.orderService.getOrderByPropertyName("expressNumber2", expressNumber2);
-				if(orders2==null){
-					orders2 = new ArrayList<Order>();
-				}
-				
-				float freiht = Float.valueOf(expressMoney2).floatValue()/(orders2.size()+1);
-				for(Order o : orders2){
-					o.setExpressMoney2(freiht);
-					o.setFreight(o.getExpressMoney1()+o.getExpressMoney2()+o.getExpressMoney3());
-					orderService.saveOrUpdateEntity(o);
+				if(CollectionUtils.isNotEmpty(orders2)){
+					float totalVcQuoteNum = 0F;
+					for(Order o : orders2){
+						List<QuoteFabric> qfs = this.quoteFabricService.getQfByOrderId(o.getId());
+						if(CollectionUtils.isNotEmpty(qfs)){
+							for(QuoteFabric qf : qfs){
+								totalVcQuoteNum+=qf.getVcQuoteNum()==0?qf.getOrderQuantity():qf.getVcQuoteNum();
+							}
+						}
+						
+					}
+					for(Order o : orders2){
+						if(o.getId().longValue()!=order.getId().longValue()){
+							List<QuoteFabric> qfs = this.quoteFabricService.getQfByOrderId(o.getId());
+							float curVcQuoteNum = 0F;
+							if(CollectionUtils.isNotEmpty(qfs)){
+								for(QuoteFabric qf : qfs){
+									curVcQuoteNum+=qf.getVcQuoteNum()==0?qf.getOrderQuantity():qf.getVcQuoteNum();
+								}
+							}
+							float f = o.getFreight()-o.getExpressMoney2()+o.getExpressMoney2()*curVcQuoteNum/totalVcQuoteNum;
+							if(f<=0){
+								f = o.getExpressMoney1()+o.getExpressMoney2()*curVcQuoteNum/totalVcQuoteNum+o.getExpressMoney3();
+							}
+							o.setFreight(f);
+							this.orderService.saveOrUpdateEntity(o);
+						}
+					}
 				}
 			}
 			if(StringUtils.isNotBlank(expressNumber3)){
 				List<Order> orders3 = this.orderService.getOrderByPropertyName("expressNumber3", expressNumber3);
-				if(orders3==null){
-					orders3 = new ArrayList<Order>();
-				}
-				float freiht = Float.valueOf(expressMoney3).floatValue()/(orders3.size()+1);
-				for(Order o : orders3){
-					o.setExpressMoney3(freiht);
-					o.setFreight(o.getExpressMoney1()+o.getExpressMoney2()+o.getExpressMoney3());
-					orderService.saveOrUpdateEntity(o);
+				if(CollectionUtils.isNotEmpty(orders3)){
+					float totalVcQuoteNum = 0F;
+					for(Order o : orders3){
+						List<QuoteFabric> qfs = this.quoteFabricService.getQfByOrderId(o.getId());
+						if(CollectionUtils.isNotEmpty(qfs)){
+							for(QuoteFabric qf : qfs){
+								totalVcQuoteNum+=qf.getVcQuoteNum()==0?qf.getOrderQuantity():qf.getVcQuoteNum();
+							}
+						}
+						
+					}
+					for(Order o : orders3){
+						if(o.getId().longValue()!=order.getId().longValue()){
+							List<QuoteFabric> qfs = this.quoteFabricService.getQfByOrderId(o.getId());
+							float curVcQuoteNum = 0F;
+							if(CollectionUtils.isNotEmpty(qfs)){
+								for(QuoteFabric qf : qfs){
+									curVcQuoteNum+=qf.getVcQuoteNum()==0?qf.getOrderQuantity():qf.getVcQuoteNum();
+								}
+							}
+							float f = o.getFreight()-o.getExpressMoney3()+o.getExpressMoney3()*curVcQuoteNum/totalVcQuoteNum;
+							if(f<=0){
+								f = o.getExpressMoney1()+o.getExpressMoney2()+o.getExpressMoney3()*curVcQuoteNum/totalVcQuoteNum;
+							}
+							o.setFreight(f);
+							this.orderService.saveOrUpdateEntity(o);
+						}
+					}
 				}
 			}
 		}
 		/**
 		 * 获取其它货币对RMB或HKD的汇率
 		 */
-		/*private float getExchangeRate(String quoteFormate, String priceCur) {
-
+		public float getExchangeRate(String quoteFormate,String priceCur){
+			
 			float vcExchangeRate = 1;
-			if ("1".equals(quoteFormate)) {
-				if (!"RMB".equals(priceCur) || !"rmb".equals(priceCur)) {// 比如采购时是按美元采购的，这里就是查出美元对人民币的汇率，针对内地报价
-					vcExchangeRate = this.currencyConversionService.getExchangeRate(priceCur,"RMB");
-				}
-			} else if ("2".equals(quoteFormate)) {
-				if (!"HKD".equals(priceCur) || !"hkd".equals(priceCur)) {// 比如采购时是按美元采购的，这里就是查出美元对港币的汇率，针对香港报价
-					vcExchangeRate = this.currencyConversionService.getExchangeRate(priceCur,"HKD");
-				}
+			String defaultPriceCur = "RMB";
+			if("1".equals(quoteFormate)) {
+				defaultPriceCur = "RMB";
+			} else if("2".equals(quoteFormate)) {
+				defaultPriceCur = "HKD";
+			} else if("3".equals(quoteFormate)) {
+				defaultPriceCur = "RMB";
+			} else if("4".equals(quoteFormate)) {
+				defaultPriceCur = "HKD";
+			} else if("5".equals(quoteFormate)) {
+				defaultPriceCur = "RMB";
+			}
+			if(!defaultPriceCur.equals(priceCur.toUpperCase())) {
+				vcExchangeRate = currencyConversionService.getExchangeRate(priceCur,defaultPriceCur);
 			}
 			return vcExchangeRate;
-		}*/
+		}
 	public List<QuoteFabric> getQuoteFabricList() {
 		return quoteFabricList;
 	}

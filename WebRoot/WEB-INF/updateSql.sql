@@ -56,3 +56,27 @@ INSERT INTO bym_temp(fbid) SELECT id FROM bym_fabric WHERE isHtCode='1' AND refi
 UPDATE bym_fabric fb,bym_temp t SET fb.refid = NULL WHERE fb.id=t.fbid;
 
 DROP TABLE bym_temp;
+
+-- 2016.03.29
+alter table bym_qf_report add column priceCur VARCHAR(20);
+alter table bym_qf_report add column vcMoney VARCHAR(20);
+alter table bym_qf_report add column amountrmb DECIMAL(10,3) DEFAULT 0;
+
+
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.cbPriceUnit=qf.vcOldPriceUnit,qfr.priceCur=qf.priceCur,qfr.vcMoney=qf.vcMoney,qfr.amountrmb=qf.amountrmb WHERE qfr.qfId=qf.id;
+UPDATE bym_qf_report SET amountrmb=amountrmb*1.2 WHERE vcMoney='HKD';
+
+UPDATE bym_qf_report SET sumMoney=ABS(sumMoney)+taxes;
+UPDATE bym_qf_report SET sumMoney=-sumMoney WHERE sumMoney>0 AND operation='offset';
+UPDATE bym_qf_report SET bjTotal=vcQuantity*vcPrice+taxes,cbTotal=cbQuantity*cbPrice;
+UPDATE bym_qf_report SET bjTotal=-bjTotal WHERE bjTotal>0 AND operation='offset';
+UPDATE bym_qf_report SET cbTotal=-cbTotal WHERE cbTotal>0 AND operation='offset';
+UPDATE bym_qf_report SET amountrmb=-amountrmb WHERE amountrmb>0 AND operation='offset';
+UPDATE bym_qf_report SET sellProfit=ABS(bjTotal)-ABS(amountrmb);
+UPDATE bym_qf_report SET sellProfitRate=sellProfit/bjTotal;
+UPDATE bym_qf_report SET sellProfit=-sellProfit WHERE sellProfit>0 AND operation='offset';
+
+UPDATE bym_fabric hb,bym_fabric fb SET hb.refid=fb.id WHERE hb.isHtCode='1' AND fb.isHtCode='0' and hb.vcFactoryCode=fb.vcFactoryCode and hb.vcBefModel=fb.vcBefModel;
+
+alter table bym_quote_fabric add column bymOrderId bigint(20);
+update bym_quote_fabric qf ,bym_order o set qf.bymOrderId=o.id where qf.IsReplaced!='1' and qf.VcFactoryNum=o.FactoryNum;

@@ -487,6 +487,15 @@ function setSumMoney(){
 	$("input[name$='vcTotal']:not([isHiddenAttr])").each(function(i){
  		subtotal += Number($(this).val());
 	});
+	
+	
+	var taxes = $("#taxes").val();
+	if(!taxes){
+		taxes=0;
+	} else {
+		taxes = Number(taxes)*Number(ctax);
+	}
+	
 	var urgentCost = $("#urgentCost").val();
 	if(!urgentCost){
 		urgentCost=0;
@@ -556,7 +565,7 @@ function setSumMoney(){
 	
 	subtotal = subtotal + Number(urgentCost) + Number(lowestFreight)+ Number(engineTotal)+ Number(flameTotal)
 			+ Number(arriveTransport)+ Number(inputCol1)+ Number(inputCol2)+ Number(inputCol3)+ Number(inputCol4)
-			+ Number(inputCol5) + Number(lcFre) + Number(vcProcessFre) + Number(vcInstallFre) + Number(vcAftertreatment) + Number(vcOther);
+			+ Number(inputCol5) + Number(lcFre)+ Number(taxes) + Number(vcProcessFre) + Number(vcInstallFre) + Number(vcAftertreatment) + Number(vcOther);
 	$("#subtotal").val(subtotal.toFixed(0));
 	var discountMoney = $("#discountMoney").val();
 	if(!discountMoney){

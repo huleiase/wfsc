@@ -27,7 +27,7 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	private float vcPrice;
 
 	/**
-	 * 最终单价单位（报价）
+	 * 最终单价数量的单位，比如m,yd等（报价）
 	 */
 	private String vcPriceUnit;
 
@@ -82,7 +82,7 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	private float cbPrice;
 
 	/**
-	 * 最终单价单位（成本）
+	 * 最终单价数量单位，比如m,yd等（成本）
 	 */
 	private String cbPriceUnit;
 
@@ -124,6 +124,12 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	private float singleMoney;
 	//税金
 	private float taxes;
+	//报价货币单位，比如RMB，HKD
+	private String vcMoney;
+	//成本货币单位,比如RMB，HKD等
+	private String priceCur;
+	//cbTotal转换成RMB或hkd后的钱
+	private float amountrmb;
 	
 	public Object clone() {   
         try {   
@@ -524,7 +530,36 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	public void setTaxes(float taxes) {
 		this.taxes = taxes;
 	}
-	
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getAmountrmb() {
+		return amountrmb;
+	}
+
+	public void setAmountrmb(float amountrmb) {
+		this.amountrmb = amountrmb;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getVcMoney() {
+		return vcMoney;
+	}
+
+	public void setVcMoney(String vcMoney) {
+		this.vcMoney = vcMoney;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getPriceCur() {
+		return priceCur;
+	}
+
+	public void setPriceCur(String priceCur) {
+		this.priceCur = priceCur;
+	}
 	
 	
 	
