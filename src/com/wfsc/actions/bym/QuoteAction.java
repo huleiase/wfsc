@@ -2152,6 +2152,7 @@ public class QuoteAction extends DispatchPagerAction {
 				qfr.setCreateDate(new Date());
 				qfr.setQuoteLocal(q.getVcQuoteLocal());
 				qfr.setCbModelNum(qf.getVcFactoryCode()+" "+qf.getVcModelNum());
+				qfr.setPriceCur(qf.getPriceCur());
 				if("1".equals(qf.getIsReplaced())){
 					String str = qf.getReplaceRemark();
 					if(str!=null&&str.length()>3){

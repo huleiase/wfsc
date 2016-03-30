@@ -525,8 +525,6 @@ public class OrderAction extends DispatchPagerAction {
         				deo.setProfitRate(-Math.abs(deo.getProfitRate()));
         			}
                     designerOrderService.saveOrUpdateEntity(deo);
-                    
-                
             }
         }
 	}
@@ -534,21 +532,22 @@ public class OrderAction extends DispatchPagerAction {
 	private void updateQfr(Long quoteId,String orderNo,List<QuoteFabric> qfs){
 		List<QuoteFabricReport>  qfrs = this.quoteFabricReportService.getQuoteFabricReportByQuoteId(quoteId);
 		Map<String,QuoteFabricReport> map = new HashMap<String,QuoteFabricReport>();
+		List<QuoteFabricReport>  forUpdateqfrs = new ArrayList<QuoteFabricReport>(); 
 		if(qfrs!=null){
 			for(QuoteFabricReport qfr : qfrs){
 				for(QuoteFabric qf : qfs){
 					if(qfr.getQfId().longValue()==qf.getId().longValue()){
-						if("1".equals(qf.getIsReplaced())){
+						/*if("1".equals(qf.getIsReplaced())){
 							String str = qf.getReplaceRemark();
 							if(str!=null&&str.length()>3){
 								String newStr = StringUtils.substring(str, 1, -2);
 								qfr.setReplaceNO(newStr);
 							}
 							
-						}
-						if("1".equals(qf.getIsHidden())){
+						}*/
+					//	if("1".equals(qf.getIsHidden())){
 							qfr.setReplaceNO(qf.getReplaceId());
-						}
+					//	}
 						qfr.setCbPrice(qf.getShijia());
 						qfr.setCbPriceUnit(qf.getVcOldPriceUnit());
 						qfr.setCbQuantity(qf.getVcQuoteNum());
@@ -560,17 +559,18 @@ public class OrderAction extends DispatchPagerAction {
 						qfr.setSingleMoney(sigMoney);
 						qfr.setOrderNum(qf.getOrderQuantity());
 						qfr.setPriceCur(qf.getPriceCur());
-						
+					//	qfr.setCbModelNum(qf.getVcFactoryCode()+" "+qf.getVcModelNum());
+						forUpdateqfrs.add(qfr);
 					}
 				}
 				map.put(qfr.getVcModelNum(), qfr);
 			}
-			for(QuoteFabricReport qfr : qfrs){
+			for(QuoteFabricReport qfr : forUpdateqfrs){
 				float huilv = this.getExchangeRate("1", qfr.getPriceCur());
 				if("HKD".equalsIgnoreCase(qfr.getVcMoney())){
 					huilv = this.getExchangeRate("2", qfr.getPriceCur());
 				}
-				if("1".equals(qfr.getIsReplaced())){
+				/*if("1".equals(qfr.getIsReplaced())){
 					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()+qfr.getTaxes());
 					QuoteFabricReport hidden = map.get(qfr.getReplaceNO());
 					if(hidden!=null){
@@ -579,20 +579,28 @@ public class OrderAction extends DispatchPagerAction {
 						qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 						qfr.setCbColor(hidden.getCbColor());
 					}
-				}else if("1".equals(qfr.getIsHidden())){
+				}else */if("1".equals(qfr.getIsHidden())){
 					QuoteFabricReport replaced = map.get(qfr.getReplaceNO());
 					if(replaced!=null){
+						qfr.setVcPrice(replaced.getVcPrice());
+						qfr.setVcPriceUnit(replaced.getVcPriceUnit());
+						qfr.setVcQuantity(replaced.getVcQuantity());
+						qfr.setVcMoney(replaced.getVcMoney());
+						qfr.setVcModelNum(replaced.getVcModelNum());
+						qfr.setVcBefModel(replaced.getVcBefModel());
+						qfr.setVcFactoryCode(replaced.getVcFactoryCode());
+						qfr.setTaxes(replaced.getTaxes());
 						qfr.setBjTotal(replaced.getVcPrice()*replaced.getVcQuantity()+replaced.getTaxes());
 						qfr.setBjColor(replaced.getBjColor());
 					}
-					qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
-					qfr.setAmountrmb(qfr.getCbTotal()*huilv);
+					//qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
+					//qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				}else{
 					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()+qfr.getTaxes());
-					qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
-					qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				}
-				qfr.setSellProfit(qfr.getBjTotal()-qfr.getAmountrmb());
+				qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
+				qfr.setAmountrmb(qfr.getCbTotal()*huilv);
+				qfr.setSellProfit(Math.abs(qfr.getBjTotal())-Math.abs(qfr.getAmountrmb()));
 				if(qfr.getBjTotal()>0){
 					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());
 				}
@@ -1624,7 +1632,7 @@ public class OrderAction extends DispatchPagerAction {
 			} else if("5".equals(quoteFormate)) {
 				defaultPriceCur = "RMB";
 			}
-			if(!defaultPriceCur.equals(priceCur.toUpperCase())) {
+			if(priceCur!=null&&!defaultPriceCur.equalsIgnoreCase(priceCur)) {
 				vcExchangeRate = currencyConversionService.getExchangeRate(priceCur,defaultPriceCur);
 			}
 			return vcExchangeRate;
