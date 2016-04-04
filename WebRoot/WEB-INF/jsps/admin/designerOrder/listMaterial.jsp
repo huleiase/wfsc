@@ -11,6 +11,9 @@
                   <th rowspan="2">时间</th>
                   <th rowspan="2">PO号</th>
                   <th rowspan="2">合同号</th>
+                  <c:if test="${isAdmin}">
+                   <th rowspan="2">供应商</th>
+                   </c:if>
                   <th rowspan="2">客户名称</th>
                   <th rowspan="2">项目</th>
                   <th rowspan="2">合同金额</th>
@@ -42,6 +45,9 @@
                   <td> <s:date name="createDate" format="yyyy-MM-dd" /></td>
                   <td><a href="<%=request.getContextPath()%>/admin/order_manager.Q?orderNo=<s:property value="orderNo"/>" target="_blank"> <s:property value="orderNo"/></a></td>
                    <td><s:property value="contractNo"/></td>
+                   <c:if test="${isAdmin}">
+                   <td><s:property value="supplier"/></td>
+                   </c:if>
                     <td><s:property value="customerName"/></td>
                      <td><s:property value="projectName"/></td>
                       <td><s:property value="sumMoney"/></td>

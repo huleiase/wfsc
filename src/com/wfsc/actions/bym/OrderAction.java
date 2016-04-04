@@ -492,7 +492,7 @@ public class OrderAction extends DispatchPagerAction {
 		}
 		updateOrderFreight(order);
 		updateDe(order.getOrderNo(), q.getId());
-		updateQfr(q.getId(), order.getOrderNo(), qfdbList);
+		updateQfr(q.getId(), order, qfdbList);
 		
 		return "ok";
 	}
@@ -512,13 +512,14 @@ public class OrderAction extends DispatchPagerAction {
         			float cbTotel = deo.getProcessFee()+deo.getInstallFee()+deo.getCbFreight()+deo.getTravelExpenses()+deo.getDesignFre()+deo.getTaxationFee()+deo.getOtherFre();
         			deo.setCbTotel(cbTotel);
         			//毛利(报价合计-销售成本材料合计-销售费用合计)
-        			float profit = deo.getBjTotel()-deo.getCbClTotel()-deo.getCbTotel();
+        			float profit = Math.abs(deo.getBjTotel())-Math.abs(deo.getCbClTotel())-Math.abs(deo.getCbTotel());
         			deo.setProfit(profit);
         			//毛利率(毛利/报价合计)
-        			if(deo.getBjTotel()>0){
+        			if(deo.getBjTotel()!=0){
         				deo.setProfitRate(deo.getProfit()/deo.getBjTotel());
         			}
         			if("offset".equals(deo.getOperation())){
+        				deo.setBjTotel(-Math.abs(deo.getBjTotel()));
         				deo.setCbClTotel(-Math.abs(deo.getCbClTotel()));
         				deo.setCbTotel(-Math.abs(deo.getCbTotel()));
         				deo.setProfit(-Math.abs(deo.getProfit()));
@@ -529,7 +530,7 @@ public class OrderAction extends DispatchPagerAction {
         }
 	}
 	
-	private void updateQfr(Long quoteId,String orderNo,List<QuoteFabric> qfs){
+	private void updateQfr(Long quoteId,Order o,List<QuoteFabric> qfs){
 		List<QuoteFabricReport>  qfrs = this.quoteFabricReportService.getQuoteFabricReportByQuoteId(quoteId);
 		Map<String,QuoteFabricReport> map = new HashMap<String,QuoteFabricReport>();
 		List<QuoteFabricReport>  forUpdateqfrs = new ArrayList<QuoteFabricReport>(); 
@@ -604,7 +605,9 @@ public class OrderAction extends DispatchPagerAction {
 				if(qfr.getBjTotal()>0){
 					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());
 				}
-				qfr.setOrderNo(orderNo);
+				qfr.setOrderNo(o.getOrderNo());
+				qfr.setSupplier(o.getSupplier());
+				qfr.setBymOrderId(o.getId());
 				if("offset".equals(qfr.getOperation())){
 					qfr.setBjTotal(-Math.abs(qfr.getBjTotal()));
 					qfr.setCbTotal(-Math.abs(qfr.getCbTotal()));

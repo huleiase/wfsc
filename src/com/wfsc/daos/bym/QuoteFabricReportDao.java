@@ -126,11 +126,15 @@ public class QuoteFabricReportDao extends EnhancedHibernateDaoSupport<QuoteFabri
 					continue;
 				}
 			}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			hql.append(" order by obj.id desc");
+			hql.append(" and obj.isReplaced='0' ");
+			hql.append(" order by obj.id desc ");
 			list =  this.findList4PageWithParama(hql.toString(), -1,-1,dataMap);
+			}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+			
 		return list;
 	}
 }

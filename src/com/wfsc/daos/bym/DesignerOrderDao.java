@@ -55,7 +55,7 @@ public class DesignerOrderDao extends EnhancedHibernateDaoSupport<DesignerOrder>
 					continue;
 				}
 				if ("sellman".equals(key)) {
-					String vcSalesman = ","+paramap.get(key)+",";
+					String vcSalesman = paramap.get(key)+",";
 					hql.append(" and obj.vcSalesman like :vcSalesman");
 					dataMap.put("vcSalesman", vcSalesman);
 					countSql.append(" and de.vcSalesman like '%").append(vcSalesman+"%'");
@@ -119,7 +119,7 @@ public class DesignerOrderDao extends EnhancedHibernateDaoSupport<DesignerOrder>
 					continue;
 				}
 				if ("sellman".equals(key)) {
-					String vcSalesman = ","+paramap.get(key)+",";
+					String vcSalesman = paramap.get(key)+",";
 					hql.append(" and obj.vcSalesman like :vcSalesman");
 					dataMap.put("vcSalesman", vcSalesman);
 					continue;
@@ -139,11 +139,12 @@ public class DesignerOrderDao extends EnhancedHibernateDaoSupport<DesignerOrder>
 					continue;
 				}
 			}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 			hql.append(" order by obj.id desc");
 			list =  this.findList4PageWithParama(hql.toString(), -1,-1,dataMap);
-		return list;
+		
+	}catch(Exception e){
+		e.printStackTrace();
+		}
+	return list;
 	}
 }

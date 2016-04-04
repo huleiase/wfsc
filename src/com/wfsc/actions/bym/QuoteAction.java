@@ -1907,7 +1907,12 @@ public class QuoteAction extends DispatchPagerAction {
 					}else if("4".equals(q.getQuoteFormate())){
 						lowFreight = qf.getDhjHKTransCost();
 					}
-					freight +=qf.getOrderQuantity()*lowFreight;
+					if("yd".equalsIgnoreCase(qf.getVcOldPriceUnit())){
+						freight +=qf.getOrderQuantity()/0.914*lowFreight;
+					}else{
+						freight +=qf.getOrderQuantity()*lowFreight;
+					}
+					
 				}
 			}
 			freight+=q.getLowestFreight();
@@ -2301,27 +2306,39 @@ public class QuoteAction extends DispatchPagerAction {
 		 designerOrder.setTaxationFee(deoDb.getTaxationFee());
 		 float bjTotel = (deoDb.getBjClTotel()+deoDb.getVcProcessFre()+deoDb.getLcFre()+deoDb.getVcInstallFre()+deoDb.getBjFreight())*deoDb.getTaxation();
 		 designerOrder.setBjTotel(bjTotel);
-		 String saleMan = ",";
+		 String saleMan = deoDb.getVcSalesman()==null?"":deoDb.getVcSalesman();
 			if(StringUtils.isNotBlank(q.getVcSalesman())){
-				saleMan+=q.getVcSalesman()+",";
+				if(!saleMan.contains(q.getVcSalesman())){
+					saleMan+=q.getVcSalesman()+",";
+				}
 			}
 			if(StringUtils.isNotBlank(q.getVcSalesman1())){
+				if(!saleMan.contains(q.getVcSalesman1())){
 				saleMan+=q.getVcSalesman1()+",";
+				}
 			}
 			if(StringUtils.isNotBlank(q.getVcSalesman2())){
+				if(!saleMan.contains(q.getVcSalesman2())){
 				saleMan+=q.getVcSalesman2()+",";
+				}
 			}
 			if(StringUtils.isNotBlank(q.getVcSalesman3())){
+				if(!saleMan.contains(q.getVcSalesman3())){
 				saleMan+=q.getVcSalesman3()+",";
+				}
 			}
 			if(StringUtils.isNotBlank(q.getVcSalesman4())){
+				if(!saleMan.contains(q.getVcSalesman4())){
 				saleMan+=q.getVcSalesman4()+",";
+				}
 			}
 			Set<String> salesMan = q.getSalesman();
 			if(salesMan!=null){
 				for(String sale : salesMan){
 					if(StringUtils.isNotBlank(sale)){
+						if(!saleMan.contains(sale)){
 						saleMan+=sale+",";
+						}
 					}
 				}
 			}

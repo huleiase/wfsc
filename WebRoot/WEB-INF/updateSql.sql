@@ -80,3 +80,15 @@ UPDATE bym_fabric hb,bym_fabric fb SET hb.refid=fb.id WHERE hb.isHtCode='1' AND 
 
 alter table bym_quote_fabric add column bymOrderId bigint(20);
 update bym_quote_fabric qf ,bym_order o set qf.bymOrderId=o.id where qf.IsReplaced!='1' and qf.VcFactoryNum=o.FactoryNum;
+
+-- 20160401
+
+alter table bym_qf_report add column bymOrderId bigint(20);
+alter table bym_qf_report add column supplier VARCHAR(100);
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.bymOrderId=qf.bymOrderId WHERE qfr.qfId=qf.id;
+update bym_qf_report qfr ,bym_order o set qfr.supplier=o.supplier where qfr.bymOrderId=o.id;
+UPDATE bym_designerorder SET taxationFee=0 where taxationFee is NULL;
+UPDATE bym_designerorder SET designer1='' where designer1 is NULL;
+UPDATE bym_designerorder SET designer2='' where designer2 is NULL;
+UPDATE bym_designerorder SET designer3='' where designer3 is NULL;
+UPDATE bym_qf_report SET sellProfitRate=0 where sellProfitRate IS NULL;

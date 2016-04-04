@@ -25,16 +25,13 @@
 		//}
 		
 	}
-	function downloadSellPerson(){
-		var url = "<%=basePath%>admin/designerExpense_exportDesignerExpenseData.Q?isSell=1"
-		var sellman = $("#sellman").val();
-		if(sellman){
-			 url += "&sellman="+sellman;
-			 var contractNo = $("#contractNo").val();
+	function downloadSell(){
+		var url = "<%=basePath%>admin/designerOrder_exportDesignerOrderData.Q?flag=2"
+		var contractNo = $("#contractNo").val();
 			if(contractNo){
 				 url += "&contractNo="+contractNo;
 			}
-			 var beginDate = $("#beginDate").val();
+			var beginDate = $("#beginDate").val();
 			if(beginDate){
 				 url += "&beginDate="+beginDate;
 			}
@@ -42,11 +39,12 @@
 			if(endDate){
 				 url += "&endDate="+endDate;
 			}
+			var orderNo = $("#orderNo").val();
+			if(orderNo){
+				 url += "&orderNo="+orderNo;
+			}
 			window.location.href = url;
 			
-		}else{
-			art.dialog({content:"请输入要查询的销售",ok:true});
-		}
 	}
 </script>
 </head>
@@ -79,7 +77,7 @@
         </div>
         <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>个人销售收入</h5>
-            <button class="label label-info btn btn-primary btn-mini" onclick="javascript:void(0);">按条件导出</button>
+            <button class="label label-info btn btn-primary btn-mini" onclick="downloadSell();">按条件导出</button>
          </div>
          <div class="widget-content nopadding" id="listTableDiv">
             <%@include file="listSellInPerson.jsp"%>

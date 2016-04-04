@@ -20,7 +20,7 @@
 		
 	}
 	function downloadSell(){
-		var url = "<%=basePath%>admin/designerOrde_exportDesignerOrdeData.Q?isSell=1"
+		var url = "<%=basePath%>admin/designerOrder_exportDesignerOrderData.Q?flag=1"
 		var contractNo = $("#contractNo").val();
 			if(contractNo){
 				 url += "&contractNo="+contractNo;
@@ -32,6 +32,10 @@
 			var endDate = $("#endDate").val();
 			if(endDate){
 				 url += "&endDate="+endDate;
+			}
+			var orderNo = $("#orderNo").val();
+			if(orderNo){
+				 url += "&orderNo="+orderNo;
 			}
 			window.location.href = url;
 			
@@ -49,6 +53,8 @@
             	
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">合同号</label>
 	            <input name="contractNo" id="contractNo" type="text" class="span2"  value="${contractNo }">
+	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">订单号</label>
+	            <input name="orderNo" id="orderNo" type="text" class="span2"  value="${orderNo }">
 	         </div>
 	         <div class="clear"></div>
 	         <div class="controls">
@@ -66,7 +72,7 @@
         </div>
         <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>销售收入</h5>
-            <button class="label label-info btn btn-primary btn-mini" onclick="javascript:void(0);">按条件导出</button>
+            <button class="label label-info btn btn-primary btn-mini" onclick="downloadSell();">按条件导出</button>
          </div>
          <div class="widget-content nopadding" id="listTableDiv">
             <%@include file="listSellIn.jsp"%>

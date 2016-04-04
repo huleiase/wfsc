@@ -73,7 +73,6 @@ public class DesignerOrderAction extends DispatchPagerAction {
 	@Resource(name = "currencyConversionService")
 	private ICurrencyConversionService currencyConversionService;
 	private DesignerOrder designerOrder;
-//1,销售收入表;2,个人销售收入表;3,收款表,4,销售成本表，5.材料明细6，销售收入表dora;
 	public String managerSellIn(){
 		this.setTopMenu();
 		listSellIn();
@@ -173,6 +172,8 @@ public class DesignerOrderAction extends DispatchPagerAction {
 	
 	@SuppressWarnings("unchecked")
 	public String listMaterial(){
+		boolean isAdmin = securityService.isAbleRole(this.getCurrentAdminUser().getUsername(), "管理员");
+		request.setAttribute("isAdmin", isAdmin);
 		Page<QuoteFabricReport> page = new Page<QuoteFabricReport>();
 		this.setPageParams(page);
 		page.setPaginationSize(7);
@@ -228,7 +229,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 		String sellman = request.getParameter("sellman");
 		String contractNo = request.getParameter("contractNo");
 		String orderNo = request.getParameter("orderNo");
-	//	String flag = request.getParameter("flag");// flag=1,销售收入表;2,个人销售收入表;3,收款表,4,销售成本表，5.材料明细6，销售收入表dora;
+		String flag = request.getParameter("flag");// flag=1,销售收入表;2,个人销售收入表;3,收款表,4,销售成本表，5.销售收入表dora;
 		
 		Map<String,Object> paramap = new HashMap<String,Object>();
 		Admin admin = this.getCurrentAdminUser();
@@ -257,17 +258,18 @@ public class DesignerOrderAction extends DispatchPagerAction {
 			paramap.put("orderNo", orderNo);
 			request.setAttribute("orderNo", orderNo);
 		}
-		/*if(StringUtils.isNotEmpty(flag)){
+		if(StringUtils.isNotEmpty(flag)){
 			paramap.put("flag", flag);
-			request.setAttribute("flag", flag);
-		}*/
+			//request.setAttribute("flag", flag);
+		}
 		return paramap;
 	}
 	
-	
 	public String exportDesignerOrderData(){
+		// flag=1,销售收入表;2,个人销售收入表;3,收款表,4,销售成本表，5.销售收入表dora;
 		List<DesignerOrder> list = null;
-		Map<String,Object> paramap = handleRequestParameter();
+		Map<String,Object> paramap = this.handleRequestParameter();
+		String flg = paramap.get("flag").toString();
 		list = designerOrderService.getDesignerOrderByPara(paramap);
 		OutputStream outputStream = null;
 		response.setContentType("application/vnd.ms-excel");
@@ -276,31 +278,167 @@ public class DesignerOrderAction extends DispatchPagerAction {
 			outputStream = response.getOutputStream();
 			HSSFWorkbook wb = new HSSFWorkbook();
 			HSSFSheet sheet = wb.createSheet("DesignerOrder");
-			String titleStr [] = {"编号", "合作方", "顾问费率"};
+			String[] titleStr = null;
+			if("1".equals(flg)){//销售收入表
+				titleStr = new String[]{"时间","PO号","合同号","客户名称","项目","销售人员","设计师","合同金额","GZ","SH","BJ","SZ","HK"
+						,"分摊合计","实际金额","类型","发票","备注"};
+			}else if("2".equals(flg)){//个人销售收入表
+				titleStr = new String[]{"时间","合同号","客户名称","项目","合同金额","本地比例","本地收入金额","分摊地","分摊比例","分摊地","分摊比例",
+						"分摊地","分摊比例","分摊地","分摊比例","分摊地","分摊比例","设计师1","设计费1","设计师2","设计费2","设计师3","设计费3","备注"};
+			}else if("3".equals(flg)){//收款表
+				titleStr = new String[]{"PO号","收款时间","合同号","客户名称","项目","销售人员","设计师","合同金额","本地比例","本地收入金额","分摊地","分摊比例","分摊金额"
+						,"设计费","税率","是否开具发票","订金","进度款1","进度款2","进度款3","保质金","已付合计","未付余额","是否已付清","收款地","备注"};
+			}else if("4".equals(flg)){//销售成本表,title有跨行.TO DO
+				titleStr = new String[]{"时间","PO号","合同号","客户名称","项目","合同金额","材料合计","加工费","量窗费","安装费","运费","税率","合计"
+						,"材料合计","加工费","安装费","运费","差旅费","设计费","税费","其他","合计","毛利","毛利率"};
+			}else if("5".equals(flg)){//销售收入表dora
+				titleStr = new String[]{"时间","PO号","合同号","客户名称","项目","销售人员","设计师","抬头","合同金额","GZ","SH","BJ","SZ","HK"
+						,"分摊合计","1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月","余款","类型","发票","备注"};
+			}
+			
 			HSSFRow thRow = sheet.createRow(0);//表头行
+			
 			for(int i = 0; i < titleStr.length; i++) {
 				HSSFCell thCell = thRow.createCell( i);
 				thCell.setCellValue(titleStr[i]);
 			}
-			
-			int i = 1;
-			for(DesignerOrder designerOrder : list) {
-				HSSFRow cRow = sheet.createRow(i);
-				Object values[] = {designerOrder.getContractDate(), designerOrder.getContractDate(), designerOrder.getContractDate()};
-				for(int j = 0; j < values.length; j++) {
-					HSSFCell c = cRow.createCell( j);
-					if(values[j] instanceof Float) {
-						c.setCellValue(values[j]==null?0F:(Float)values[j]);
-					} else if(values[j] instanceof Integer) {
-						c.setCellValue(values[j]==null?0:(Integer)values[j]);
-					} else if(values[j] instanceof Date) {
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-						c.setCellValue(values[j]==null?"":sdf.format((Date)values[j]));
-					} else {
-						c.setCellValue(values[j]==null?"":(String)values[j]);
+			float sumMoney = 0F;
+			for(int m=1;m<=list.size()+1;m++) {
+				HSSFRow cRow = sheet.createRow(m);
+				if(m==list.size()+1){
+					HSSFCell c = cRow.createCell(5);
+					c.setCellValue(sumMoney);
+				}else{
+					DesignerOrder de = list.get(m-1);
+					sumMoney+=de.getSumMoney();
+					Object[] values = null;
+					if("1".equals(flg)){//销售收入表
+						values = new Object[]{de.getCreateDate(),de.getOrderNo(),de.getContractNo(),de.getCustomerName(),de.getProjectName(),de.getVcSalesman(),
+								de.getDesigner1()+","+de.getDesigner2()+","+de.getDesigner3(),de.getSumMoney(),de.getShareMony1(),de.getShareMony2(),de.getShareMony3(),
+								de.getShareMony4(),de.getShareMony5(),de.getSharetotle(),de.getRealTotel(),de.getType(),de.getIsInvoice(),de.getRemark()};
+					}else if("2".equals(flg)){//个人销售收入表
+						values = new Object[]{de.getCreateDate(),de.getContractNo(),de.getCustomerName(),de.getProjectName(),de.getSumMoney()
+								,de.getRealRate(),de.getRealTotel(),de.getShareArea1(),de.getShareRate1(),de.getShareArea2(),de.getShareRate2(),
+								de.getShareArea3(),de.getShareRate3(),de.getShareArea4(),de.getShareRate4(),de.getShareArea5(),de.getShareRate5(),
+								de.getDesigner1(),de.getDesignMony1(),de.getDesigner2(),de.getDesignMony2(),de.getDesigner3(),de.getDesignMony3(),
+								de.getRemark()};
+					}else if("3".equals(flg)){//收款表
+						values = new Object[]{de.getOrderNo(),de.getGatheringDate(),de.getContractNo(),de.getCustomerName(),de.getProjectName(),de.getVcSalesman(),
+								de.getDesigner1()+","+de.getDesigner2()+","+de.getDesigner3(),de.getSumMoney()
+								,de.getRealRate(),de.getRealTotel(),de.getShareArea1()+","+de.getShareArea2()+","+de.getShareArea3()+","+de.getShareArea4()+","+de.getShareArea5(),
+								de.getShareRate1()+","+de.getShareRate2()+","+de.getShareRate3()+","+de.getShareRate4()+","+de.getShareRate5(),
+								de.getShareMony1()+","+de.getShareMony2()+","+de.getShareMony3()+","+de.getShareMony4()+","+de.getShareMony5(),
+								de.getDesignFre(),de.getTaxation(),de.getIsInvoice(),de.getFrontMoney(),de.getPlanMoney1(),de.getPlanMoney2(),de.getPlanMoney3(),
+								de.getQualityMoney(),de.getHasApplyTotle(),de.getHasNoApplyTotle(),de.getIsPayTotle(),de.getGatheringArea(),
+								de.getRemark()};
+					}else if("4".equals(flg)){//销售成本表,title有跨行.TO DO
+						values = new Object[]{de.getCreateDate(),de.getOrderNo(),de.getContractNo(),de.getCustomerName(),de.getProjectName(),de.getSumMoney()
+								,de.getBjClTotel(),de.getVcProcessFre(),de.getLcFre(),de.getVcInstallFre(),de.getBjFreight(),de.getTaxation(),
+								de.getBjTotel(),de.getCbClTotel(),de.getProcessFee(),de.getInstallFee(),de.getCbFreight(),de.getTravelExpenses(),
+								de.getDesignFre(),de.getTaxationFee(),de.getOtherFre(),de.getCbTotel(),de.getProfit(),de.getProfitRate()};
+					}else if("5".equals(flg)){//销售收入表dora
+						values = new Object[]{de.getCreateDate(),de.getOrderNo(),de.getContractNo(),de.getCustomerName(),de.getProjectName(),de.getVcSalesman(),
+								de.getDesigner1()+","+de.getDesigner2()+","+de.getDesigner3(),de.getVcFrom(),de.getSumMoney()
+								,de.getShareMony1(),de.getShareMony2(),de.getShareMony3(),de.getShareMony4(),de.getShareMony5(),de.getSharetotle()
+								,de.getMon1(),de.getMon2(),de.getMon3(),de.getMon4(),de.getMon5(),de.getMon6(),de.getMon7(),de.getMon8(),de.getMon9(),
+								de.getMon10(),de.getMon11(),de.getMon12(),de.getHasNoApplyTotle(),de.getType(),de.getIsInvoice(),de.getRemark()};
+					}
+					for(int j = 0; j < values.length; j++) {
+						HSSFCell c = cRow.createCell( j);
+						if(values[j] instanceof Float) {
+							c.setCellValue(values[j]==null?0F:(Float)values[j]);
+						} else if(values[j] instanceof Integer) {
+							c.setCellValue(values[j]==null?0:(Integer)values[j]);
+						} else if(values[j] instanceof Date) {
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+							c.setCellValue(values[j]==null?"":sdf.format((Date)values[j]));
+						} else {
+							c.setCellValue(values[j]==null?"":(String)values[j]);
+						}
 					}
 				}
-				i++;
+			}
+			wb.write(outputStream);
+			outputStream.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			if(outputStream != null) {
+				try {
+					outputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+	
+	public String exportDesignerQFRData(){
+		List<QuoteFabricReport> list = null;
+		Map<String,Object> paramap = this.handleRequestParameter();
+		Object quoteLocal = paramap.get("paramap");
+		list = quoteFabricReportService.getQuoteFabricReportByPara(paramap);
+		OutputStream outputStream = null;
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader("Content-disposition", "attachment;filename=data.xls");
+		try {
+			outputStream = response.getOutputStream();
+			HSSFWorkbook wb = new HSSFWorkbook();
+			HSSFSheet sheet = wb.createSheet("DesignerQFR");
+			String[] titleStr = null;
+			if(quoteLocal!=null){
+				titleStr = new String[]{"时间","PO号","合同号","客户名称","项目","合同金额","型号","色号","数量","单价","税金","合计","型号"
+						,"色号","订货量","实订量","单价","实价","币种合计","合计","毛利","毛利率"};
+			}else{
+				titleStr = new String[]{"时间","PO号","合同号","供应商","客户名称","项目","合同金额","型号","色号","数量","单价","税金","合计","型号"
+						,"色号","订货量","实订量","单价","实价","币种合计","合计","毛利","毛利率"};
+			}
+			HSSFRow thRow = sheet.createRow(0);//表头行
+			
+			for(int i = 0; i < titleStr.length; i++) {
+				HSSFCell thCell = thRow.createCell( i);
+				thCell.setCellValue(titleStr[i]);
+			}
+			float sumMoney = 0F;
+			for(int m=1;m<=list.size()+1;m++) {
+				HSSFRow cRow = sheet.createRow(m);
+				if(m==list.size()+1){
+					HSSFCell c = cRow.createCell(5);
+					c.setCellValue(sumMoney);
+				}else{
+					QuoteFabricReport de = list.get(m-1);
+					sumMoney+=de.getSumMoney();
+					Object[] values = null;
+					if(quoteLocal!=null){
+						values = new Object[]{de.getCreateDate(),de.getOrderNo(),de.getContractNo(),de.getCustomerName(),de.getProjectName(),de.getSumMoney()
+								,de.getVcModelNum(),de.getBjColor(),de.getVcQuantity()+" "+de.getVcPriceUnit(),de.getVcPrice()+" "+de.getVcMoney()
+								,de.getTaxes(),de.getBjTotal()+" "+de.getVcMoney(),
+								de.getCbModelNum(),de.getCbColor(),de.getOrderNum()+" "+de.getCbPriceUnit(),de.getCbQuantity()+" "+de.getCbPriceUnit()
+								,de.getSingleMoney()+" "+de.getPriceCur(),de.getCbPrice()+" "+de.getPriceCur(),de.getCbTotal()+" "+de.getPriceCur(),
+								de.getAmountrmb()+" "+de.getVcMoney(),de.getSellProfit(),de.getSellProfitRate()};
+					}else{
+						values = new Object[]{de.getCreateDate(),de.getOrderNo(),de.getContractNo(),de.getSupplier(),de.getCustomerName(),de.getProjectName(),de.getSumMoney()
+								,de.getVcModelNum(),de.getBjColor(),de.getVcQuantity()+" "+de.getVcPriceUnit(),de.getVcPrice()+" "+de.getVcMoney()
+								,de.getTaxes(),de.getBjTotal()+" "+de.getVcMoney(),
+								de.getCbModelNum(),de.getCbColor(),de.getOrderNum()+" "+de.getCbPriceUnit(),de.getCbQuantity()+" "+de.getCbPriceUnit()
+								,de.getSingleMoney()+" "+de.getPriceCur(),de.getCbPrice()+" "+de.getPriceCur(),de.getCbTotal()+" "+de.getPriceCur(),
+								de.getAmountrmb()+" "+de.getVcMoney(),de.getSellProfit(),de.getSellProfitRate()};
+					}
+					for(int j = 0; j < values.length; j++) {
+						HSSFCell c = cRow.createCell( j);
+						if(values[j] instanceof Float) {
+							c.setCellValue(values[j]==null?0F:(Float)values[j]);
+						} else if(values[j] instanceof Integer) {
+							c.setCellValue(values[j]==null?0:(Integer)values[j]);
+						} else if(values[j] instanceof Date) {
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+							c.setCellValue(values[j]==null?"":sdf.format((Date)values[j]));
+						} else {
+							c.setCellValue(values[j]==null?"":(String)values[j]);
+						}
+					}
+				}
 			}
 			wb.write(outputStream);
 			outputStream.flush();
@@ -328,7 +466,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 	}
 	
 	
-	public void downloadDesignExpense(List<DesignerOrder> list, String sellman, String flag, String area) {
+	/*public void downloadDesignExpense(List<DesignerOrder> list, String sellman, String flag, String area) {
 		String fileUrl = "";
 		FileInputStream in = null;
 		// 1,销售收入表;2,个人销售收入表;3,销售收入表dora;4,收款表;5,销售成本表
@@ -633,7 +771,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					row.getCell(2).setCellValue(q.getVcAttnName());
 					row.getCell(3).setCellValue(q.getProjectName());
 					row.getCell(4).setCellValue(("1".equals(q.getOffsetQuote()) ? -q.getSumMoney() : q.getSumMoney()));
-					/*
+					
 					 * String sellsman = "";
 					 * if(StringUtils.isNotEmpty(de.getVcSalesman())){ sellsman +=
 					 * de.getVcSalesman()+","; }
@@ -646,7 +784,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					 * if(StringUtils.isNotEmpty(de.getVcSalesman4())){ sellsman +=
 					 * de.getVcSalesman4()+","; }
 					 * row.getCell(5).setCellValue(sellsman);
-					 */
+					 
 					if ("GZ".equals(area)) {
 						Float sm1 =  de.getShareMony1();
 						row.getCell(5).setCellValue( de.getShareRate1());
@@ -793,7 +931,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					row.getCell(2).setCellValue(de.getContractNo());
 					row.getCell(3).setCellValue(q.getVcAttnName());
 					row.getCell(4).setCellValue(q.getProjectName());
-					/*String sellsman = "";
+					String sellsman = "";
 					if (StringUtils.isNotEmpty(de.getVcSalesman())) {
 						sellsman += de.getVcSalesman() + ",";
 					}
@@ -808,7 +946,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					}
 					if (StringUtils.isNotEmpty(de.getVcSalesman4())) {
 						sellsman += de.getVcSalesman4() + ",";
-					}*/
+					}
 					row.getCell(5).setCellValue(de.getVcSalesman());
 					List<DesignerExpense> des = designerExpenseService.getDesignerExpenseByQuoteId(q.getId());
 					DesignerExpense d = new DesignerExpense();
@@ -1068,7 +1206,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					row.getCell(3).setCellValue(de.getContractNo());
 					row.getCell(4).setCellValue(q.getVcAttnName());
 					row.getCell(5).setCellValue(q.getProjectName());
-					/*String sellsman = "";
+					String sellsman = "";
 					if (StringUtils.isNotEmpty(de.getVcSalesman())) {
 						sellsman += de.getVcSalesman() + ",";
 					}
@@ -1083,7 +1221,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					}
 					if (StringUtils.isNotEmpty(de.getVcSalesman4())) {
 						sellsman += de.getVcSalesman4() + ",";
-					}*/
+					}
 					row.getCell(6).setCellValue(de.getVcSalesman());
 					List<DesignerExpense> des = designerExpenseService.getDesignerExpenseByQuoteId(q.getId());
 					DesignerExpense d = new DesignerExpense();
@@ -1104,13 +1242,13 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					row.getCell(8).setCellValue(("1".equals(q.getOffsetQuote()) ? -q.getSumMoney() : q.getSumMoney()));
 
 					if ("GZ".equals(area)) {
-						/*
+						
 						 * row.getCell(9).setCellValue(de.getShareMony1()==null?0F:de.getShareMony1());//广州
 						 * row.getCell(10).setCellValue(de.getShareMony3()==null?0F:de.getShareMony3());//北京
 						 * row.getCell(11).setCellValue(de.getShareMony2()==null?0F:de.getShareMony2());//上海
 						 * row.getCell(12).setCellValue(de.getShareMony4()==null?0F:de.getShareMony4());//深圳
 						 * row.getCell(13).setCellValue(de.getShareMony5()==null?0F:de.getShareMony5());//香港
-						 */
+						 
 						Float sm1 =  de.getShareMony1();
 						row.getCell(9).setCellValue(("1".equals(q.getOffsetQuote()) ? -sm1 : sm1));// 广州
 						Float sm3 =  de.getShareMony3();
@@ -1123,13 +1261,13 @@ public class DesignerOrderAction extends DispatchPagerAction {
 						row.getCell(13).setCellValue(("1".equals(q.getOffsetQuote()) ? -sm5 : sm5));// 香港
 					}
 					if ("BJ".equals(area)) {
-						/*
+						
 						 * row.getCell(9).setCellValue(de.getShareMony3()==null?0F:de.getShareMony3());//北京
 						 * row.getCell(10).setCellValue(de.getShareMony1()==null?0F:de.getShareMony1());//广州
 						 * row.getCell(11).setCellValue(de.getShareMony2()==null?0F:de.getShareMony2());//上海
 						 * row.getCell(12).setCellValue(de.getShareMony4()==null?0F:de.getShareMony4());//深圳
 						 * row.getCell(13).setCellValue(de.getShareMony5()==null?0F:de.getShareMony5());//香港
-						 */
+						 
 						Float sm3 = de.getShareMony3();
 						row.getCell(9).setCellValue(("1".equals(q.getOffsetQuote()) ? -sm3 : sm3));// 北京
 						Float sm1 =  de.getShareMony1();
@@ -1408,11 +1546,11 @@ public class DesignerOrderAction extends DispatchPagerAction {
 						// "+listbj.get(i).getVcPriceUnit());
 						// 加工费
 						row.getCell(7).setCellValue(StringUtils.isNotEmpty(q.getVcProcessFre()) ? Float.valueOf(q.getVcProcessFre()) : 0.0f);
-						/*
+						
 						 * if("2".equals(q.getQuoteFormate())){
 						 * row.getCell(7).setCellValue(listbj.get(i).getVcPrice()*this.getExchangeRate("1",
 						 * "HKD")); }else{
-						 */
+						 
 						// row.getCell(8).setCellValue(listbj.get(i).getVcPrice()+"
 						// "+listbj.get(i).getVcMoney());
 						// 量窗费
@@ -1630,11 +1768,11 @@ public class DesignerOrderAction extends DispatchPagerAction {
 						row.getCell(5).setCellValue(("1".equals(q.getOffsetQuote()) ? -q.getSumMoney() : q.getSumMoney()));
 						row.getCell(6).setCellValue(listbj.get(i).getVcModelNum());
 						row.getCell(7).setCellValue(listbj.get(i).getVcQuantity() + " " + listbj.get(i).getVcPriceUnit());
-						/*
+						
 						 * if("2".equals(q.getQuoteFormate())){
 						 * row.getCell(7).setCellValue(listbj.get(i).getVcPrice()*this.getExchangeRate("1",
 						 * "HKD")); }else{
-						 */
+						 
 						row.getCell(8).setCellValue(listbj.get(i).getVcPrice() + " " + listbj.get(i).getVcMoney());
 						// }
 //						String freight = ProPrice.getTwoDecimalFloat((((q.getLowestFreight() == null ? 0F : q.getLowestFreight()) / allQuoteNum) * listbj.get(i).getVcQuantity())) + "";
@@ -1763,7 +1901,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 			}
 		}
 
-	}
+	}*/
 
 	/**
 	 * 获取其它货币对RMB或HKD的汇率

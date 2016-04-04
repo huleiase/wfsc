@@ -266,6 +266,12 @@ br{
 	        <td><div align="center"><s:if test='#request.quote.inputCol5>0'>&yen;&nbsp;${quote.inputCol5}</s:if><s:else>-</s:else></div></td>
 		</tr>
       </c:if>
+      <c:if test="${quote.taxes!=0}">
+      						<tr>
+      							<td height="31" colspan="7"><div align="right">税金: </div></td>
+        						<td><div align="center">&yen;&nbsp;${quote.taxes}</div></td>
+      						</tr>
+      </c:if>
       <!--
       <c:if test="${not empty requestScope.quote.lowestFreight}">
       <tr>

@@ -131,6 +131,11 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	//cbTotal转换成RMB或hkd后的钱
 	private float amountrmb;
 	
+	//供应商
+	private String supplier;
+	//订单id
+	private Long bymOrderId;
+	
 	public Object clone() {   
         try {   
             return super.clone();   
@@ -559,6 +564,26 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 
 	public void setPriceCur(String priceCur) {
 		this.priceCur = priceCur;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
+	}
+	/**
+	 * @hibernate.property type="long"
+	 */
+	public Long getBymOrderId() {
+		return bymOrderId;
+	}
+
+	public void setBymOrderId(Long bymOrderId) {
+		this.bymOrderId = bymOrderId;
 	}
 	
 	

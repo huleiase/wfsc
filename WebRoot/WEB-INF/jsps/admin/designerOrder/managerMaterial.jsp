@@ -21,7 +21,7 @@
 		
 	}
 	function downloadSell(){
-		var url = "<%=basePath%>admin/designerOrde_exportDesignerOrdeData.Q?isSell=1"
+		var url = "<%=basePath%>admin/designerOrder_exportDesignerQFRData.Q?flag=6"
 		var contractNo = $("#contractNo").val();
 			if(contractNo){
 				 url += "&contractNo="+contractNo;
@@ -33,6 +33,10 @@
 			var endDate = $("#endDate").val();
 			if(endDate){
 				 url += "&endDate="+endDate;
+			}
+			var orderNo = $("#orderNo").val();
+			if(orderNo){
+				 url += "&orderNo="+orderNo;
 			}
 			window.location.href = url;
 			
@@ -70,7 +74,7 @@
         </div>
         <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>材料明细</h5>
-            <button class="label label-info btn btn-primary btn-mini" onclick="javascript:void(0);">按条件导出</button>
+            <button class="label label-info btn btn-primary btn-mini" onclick="downloadSell();">按条件导出</button>
          </div>
          <div class="widget-content nopadding" id="listTableDiv">
             <%@include file="listMaterial.jsp"%>
