@@ -92,3 +92,24 @@ UPDATE bym_designerorder SET designer1='' where designer1 is NULL;
 UPDATE bym_designerorder SET designer2='' where designer2 is NULL;
 UPDATE bym_designerorder SET designer3='' where designer3 is NULL;
 UPDATE bym_qf_report SET sellProfitRate=0 where sellProfitRate IS NULL;
+
+-- 20160405
+CREATE TABLE temp (id bigint(20) NOT NULL AUTO_INCREMENT,quote_id BIGINT(20),freight DECIMAL(10,3) DEFAULT 0 ,PRIMARY KEY (id));
+
+INSERT INTO temp(freight,quote_id) SELECT CASE WHEN qf.VcOldPriceUnit='yd' THEN SUM(qf.vcProFre*qf.orderQuantity*0.914)+q.lowestFreight+q.arriveTransport ELSE SUM(qf.vcProFre*qf.orderQuantity)+q.lowestFreight+q.arriveTransport END freight,q.id quoteId FROM bym_quote q,bym_quote_fabric qf WHERE q.id=qf.quoteId AND q.isFreight='1' AND q.isWritPerm='1' AND (q.quoteFormate='1' OR q.quoteFormate='5') AND qf.isHidden!='1' GROUP BY qf.quoteId;
+INSERT INTO temp(freight,quote_id) SELECT CASE WHEN qf.VcOldPriceUnit='yd' THEN SUM(qf.VcRetFre*qf.orderQuantity*0.914)+q.lowestFreight+q.arriveTransport ELSE SUM(qf.VcRetFre*qf.orderQuantity)+q.lowestFreight+q.arriveTransport END freight,q.id quoteId FROM bym_quote q,bym_quote_fabric qf WHERE q.id=qf.quoteId AND q.isFreight='1' AND q.isWritPerm='1' AND q.quoteFormate='2' AND qf.isHidden!='1' GROUP BY qf.quoteId;
+INSERT INTO temp(freight,quote_id) SELECT CASE WHEN qf.VcOldPriceUnit='yd' THEN SUM(qf.DhjInlandTransCost*qf.orderQuantity*0.914)+q.lowestFreight+q.arriveTransport ELSE SUM(qf.DhjInlandTransCost*qf.orderQuantity)+q.lowestFreight+q.arriveTransport END freight,q.id quoteId FROM bym_quote q,bym_quote_fabric qf WHERE q.id=qf.quoteId AND q.isFreight='1' AND q.isWritPerm='1' AND q.quoteFormate='3' AND qf.isHidden!='1' GROUP BY qf.quoteId;
+
+UPDATE bym_designerexpense de , temp t SET de.freight=t.freight WHERE de.quoteId=t.quote_id;
+UPDATE bym_designerorder de , temp t SET de.bjFreight=t.freight WHERE de.quoteId=t.quote_id;
+
+DROP TABLE temp;
+
+UPDATE bym_designerexpense de ,bym_quote q SET de.realTotel=q.sumMoney-IFNULL(q.vcProcessFre,0)-IFNULL(q.vcInstallFre,0)-q.urgentCost-de.freight-de.taxationCost-IFNULL(q.vcAftertreatment,0)-IFNULL(q.vcOther,0) WHERE de.quoteId=q.id;
+UPDATE bym_designerorder SET bjTotel=(bjClTotel+vcProcessFre+lcFre+vcInstallFre+bjFreight)*taxation;
+UPDATE bym_designerorder SET profit=ABS(bjTotel)-ABS(cbClTotel)-ABS(cbTotel);
+UPDATE bym_designerorder SET profitRate=profit/bjTotel;
+UPDATE bym_designerorder SET bjTotel=-bjTotel WHERE bjTotel>0 AND operation='offset';
+UPDATE bym_designerorder SET profit=-profit WHERE profit>0 AND operation='offset';
+UPDATE bym_designerorder SET profitRate=-profitRate WHERE profitRate>0 AND operation='offset';
+UPDATE bym_designerorder SET profitRate=0 WHERE profitRate IS NULL;

@@ -133,7 +133,7 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 		String isSell = request.getParameter("isSell");//销售的设计费：1；财务的设计费：2
 		String contractNo = request.getParameter("contractNo");
 		String quoteNo = request.getParameter("quoteNo");
-		
+		String isPerson = request.getParameter("isPerson");
 		Map<String,Object> paramap = new HashMap<String,Object>();
 		
 		Admin admin = this.getCurrentAdminUser();
@@ -171,12 +171,16 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 			paramap.put("contractNo", contractNo);
 			request.setAttribute("contractNo", contractNo);
 		}
+		if(StringUtils.isNotEmpty(isPerson)){
+			paramap.put("isPerson", isPerson);
+		}
 		return paramap;
 	}
 	
 	public String exportDesignerExpenseData(){
 		List<DesignerExpense> list = null;
 		Map<String,Object> paramap = this.handleRequestParameter();
+		String designer = paramap.get("designer")==null?"":paramap.get("designer").toString();
 		list = designerExpenseService.getDesignerExpenseByPara(paramap);
 		OutputStream outputStream = null;
 		response.setContentType("application/vnd.ms-excel");
@@ -186,7 +190,7 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 			HSSFWorkbook wb = new HSSFWorkbook();
 			HSSFSheet sheet = wb.createSheet("DesignerExpense");
 			String[] titleStr = null;
-			if(paramap.get("designer")==null){//非个人
+			if(paramap.get("isPerson")==null){//非个人
 				titleStr = new String[]{"时间","报价单号","合同号","客户名称","项目","合同金额","加工费","安装费","加急费","运费","税费","后处理","其它"
 						,"实际金额","设计师","比例","设计费金额","已付金额","未付金额","支付时间","备注","设计师","比例","设计费金额","已付金额","未付金额","支付时间","备注"
 						,"设计师","比例","设计费金额","已付金额","未付金额","支付时间","备注","总设计费"};
@@ -210,7 +214,7 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 					DesignerExpense de = list.get(m-1);
 					sumMoney+=de.getSumMoney();
 					Object[] values = null;
-					if(paramap.get("designer")==null){//非个人
+					if(paramap.get("isPerson")==null){//非个人
 						values = new Object[]{de.getCreateDate(),de.getQuoteNo(),de.getContractNo(),de.getCustomerName(),de.getProjectName(),de.getSumMoney()
 								,de.getVcProcessFre(),de.getVcInstallFre(),de.getUrgentCost(),de.getFreight(),de.getTaxationCost(),
 								de.getVcAftertreatment(),de.getVcOther(),de.getRealTotel(),de.getDesigner1(),de.getCounselorRate1(),
@@ -218,7 +222,7 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 								de.getDesignMony2(),de.getHasApply2(),de.getHasNoApply2(),de.getApplyDate2(),de.getRemark2(),de.getDesigner3(),de.getCounselorRate3(),
 								de.getDesignMony3(),de.getHasApply3(),de.getHasNoApply3(),de.getApplyDate3(),de.getRemark3(),de.getDesignTotelMoney()};
 					}else{
-						if(paramap.get("designer").toString().equalsIgnoreCase(de.getDesigner2())){
+						if(designer.equalsIgnoreCase(de.getDesigner2())){
 							de.setDesigner1(de.getDesigner2());
 							de.setCounselorRate1(de.getCounselorRate2());
 							de.setDesigner1(de.getDesigner2());
@@ -227,7 +231,7 @@ public class DesignerExpenseAction extends DispatchPagerAction {
 							de.setIsApply1(de.getIsApply2());
 							de.setApplyDate1(de.getApplyDate2());
 							de.setRemark1(de.getRemark2());
-						}else if(paramap.get("designer").toString().equalsIgnoreCase(de.getDesigner3())){
+						}else if(designer.equalsIgnoreCase(de.getDesigner3())){
 							de.setDesigner1(de.getDesigner3());
 							de.setCounselorRate1(de.getCounselorRate3());
 							de.setDesigner1(de.getDesigner3());

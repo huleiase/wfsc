@@ -1891,9 +1891,9 @@ public class QuoteAction extends DispatchPagerAction {
 			de.setVcProcessFre(StringUtils.isBlank(q.getVcProcessFre())?0F:Float.valueOf(q.getVcProcessFre()));
 			de.setVcInstallFre(StringUtils.isBlank(q.getVcInstallFre())?0F:Float.valueOf(q.getVcInstallFre()));
 			de.setUrgentCost(q.getUrgentCost());
-			float freight = 0F;
+			float freight = this.getFreight(q);
 			Set<QuoteFabric> qfs = q.getQuoteFabric();
-			if("1".equals(q.getIsFreight())){
+			/*if("1".equals(q.getIsFreight())){
 				for(QuoteFabric qf :qfs){
 					if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay())||"1".equals(qf.getIsHidden()))continue;
 					float lowFreight = 0F;
@@ -1908,7 +1908,7 @@ public class QuoteAction extends DispatchPagerAction {
 						lowFreight = qf.getDhjHKTransCost();
 					}
 					if("yd".equalsIgnoreCase(qf.getVcOldPriceUnit())){
-						freight +=qf.getOrderQuantity()/0.914*lowFreight;
+						freight +=qf.getOrderQuantity()*lowFreight*0.914;
 					}else{
 						freight +=qf.getOrderQuantity()*lowFreight;
 					}
@@ -1919,7 +1919,7 @@ public class QuoteAction extends DispatchPagerAction {
 			freight+=q.getArriveTransport();
 			if("3".equals(q.getQuoteFormate())||"4".equals(q.getQuoteFormate())||"5".equals(q.getQuoteFormate())){
 				freight+=q.getUrgentCost();
-			}
+			}*/
 			//---------老数据没这个值，需要在导出的时候再计算一遍
 			de.setFreight(freight);
 			//------------
@@ -1947,7 +1947,7 @@ public class QuoteAction extends DispatchPagerAction {
 				other = new Float(vcOther);
 			}
 			float realTotel = q.getSumMoney() - processFre - installFre - q.getUrgentCost()
-					- q.getLowestFreight() - de.getTaxationCost() - aftertreatment - other;
+					- freight - de.getTaxationCost() - aftertreatment - other;
 			de.setRealTotel(realTotel);
 			//保存最新的
 			this.designerExpenseService.saveOrUpdateEntity(de);
@@ -2246,7 +2246,7 @@ public class QuoteAction extends DispatchPagerAction {
 		 designerExpense.setVcProcessFre(de.getVcProcessFre());
 		 designerExpense.setVcInstallFre(de.getVcInstallFre());
 		 designerExpense.setUrgentCost(de.getUrgentCost());
-		 designerExpense.setFreight(de.getFreight());
+		// designerExpense.setFreight(de.getFreight());
 		 designerExpense.setTaxationCost(de.getTaxationCost());
 		 designerExpense.setVcAftertreatment(de.getVcAftertreatment());
 		 designerExpense.setVcOther(de.getVcOther());
@@ -2260,6 +2260,29 @@ public class QuoteAction extends DispatchPagerAction {
 				designerExpense.setFreight(freight);
 				//------------ 
 		// }
+				String vcProcessFre = q.getVcProcessFre();
+				float processFre = 0F;
+				if(StringUtils.isNotEmpty(vcProcessFre)){
+					processFre = new Float(vcProcessFre);
+				}
+				String vcInstallFre = q.getVcInstallFre();
+				float installFre = 0F;
+				if(StringUtils.isNotEmpty(vcInstallFre)){
+					installFre = new Float(vcInstallFre);
+				}
+				String vcAftertreatment = q.getVcAftertreatment();
+				float aftertreatment = 0F;
+				if(StringUtils.isNotEmpty(vcAftertreatment)){
+					aftertreatment = new Float(vcAftertreatment);
+				}
+				String vcOther = q.getVcOther();
+				float other = 0F;
+				if(StringUtils.isNotEmpty(vcOther)){
+					other = new Float(vcOther);
+				}
+		float realTotel = q.getSumMoney() - processFre - installFre - q.getUrgentCost()
+					- freight - de.getTaxationCost() - aftertreatment - other;
+			de.setRealTotel(realTotel);
 		 designerExpenseService.saveOrUpdateEntity(designerExpense);
 		 
 		 List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(qId);
@@ -2304,7 +2327,7 @@ public class QuoteAction extends DispatchPagerAction {
 		 designerOrder.setVcFrom(deoDb.getVcFrom());
 		 designerOrder.setTaxation(deoDb.getTaxation());
 		 designerOrder.setTaxationFee(deoDb.getTaxationFee());
-		 float bjTotel = (deoDb.getBjClTotel()+deoDb.getVcProcessFre()+deoDb.getLcFre()+deoDb.getVcInstallFre()+deoDb.getBjFreight())*deoDb.getTaxation();
+		 float bjTotel = (deoDb.getBjClTotel()+deoDb.getVcProcessFre()+deoDb.getLcFre()+deoDb.getVcInstallFre()+freight)*deoDb.getTaxation();
 		 designerOrder.setBjTotel(bjTotel);
 		 String saleMan = deoDb.getVcSalesman()==null?"":deoDb.getVcSalesman();
 			if(StringUtils.isNotBlank(q.getVcSalesman())){
@@ -2485,7 +2508,7 @@ public class QuoteAction extends DispatchPagerAction {
 		 return "ok";
 	 }
 	 
-	 private float getFreight(Quote q) {
+	private float getFreight(Quote q) {
 			float freight = 0F;
 				if("1".equals(q.getIsFreight())){
 					Set<QuoteFabric> qfs = q.getQuoteFabric();
@@ -2502,7 +2525,11 @@ public class QuoteAction extends DispatchPagerAction {
 						}else if("4".equals(q.getQuoteFormate())){
 							lowFreight = qf.getDhjHKTransCost();
 						}
-						freight +=qf.getOrderQuantity()*lowFreight;
+						if("yd".equalsIgnoreCase(qf.getVcOldPriceUnit())){
+							freight +=qf.getOrderQuantity()*lowFreight*0.914;
+						}else{
+							freight +=qf.getOrderQuantity()*lowFreight;
+						}
 					}
 				}
 				freight+=q.getLowestFreight();

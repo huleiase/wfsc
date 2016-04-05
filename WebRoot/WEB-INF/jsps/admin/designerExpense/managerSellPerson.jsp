@@ -15,6 +15,8 @@
 		$("#contractNo").val("");
 		$("#beginDate").val("");
 		$("#endDate").val("");
+		$("#quoteNo").val("");
+		
 	}
 	function submitForm(){
 		//var designer = $("#designer").val();
@@ -26,12 +28,16 @@
 		
 	}
 	function downloadSellPerson(){
-		var url = "<%=basePath%>admin/designerExpense_exportDesignerExpenseData.Q?isSell=1"
+		var url = "<%=basePath%>admin/designerExpense_exportDesignerExpenseData.Q?isSell=1&isPerson=1"
 		var designer = $("#designer").val();
 		if(designer){
 			 url += "&designer="+designer;
 		}
-		var contractNo = $("#contractNo").val();
+		var quoteNo = $("#quoteNo").val();
+			if(quoteNo){
+				 url += "&quoteNo="+quoteNo;
+			}
+			var contractNo = $("#contractNo").val();
 			if(contractNo){
 				 url += "&contractNo="+contractNo;
 			}
@@ -62,6 +68,8 @@
 	         </div>
 	         <div class="clear"></div>
 	         <div class="controls">
+	         <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">报价单号</label>
+	            <input name="quoteNo" id="quoteNo" type="text" class="span2"  value="${quoteNo }">
 	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">日期</label>
 	             <input type="text" id="beginDate" name="beginDate"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${beginDate}" class="span2" />
 		                  	&nbsp;&nbsp;<span class="span1" style="width: 20px;margin-left: 10px;">至</span>&nbsp;&nbsp;

@@ -306,8 +306,23 @@ public class DesignerOrderAction extends DispatchPagerAction {
 			for(int m=1;m<=list.size()+1;m++) {
 				HSSFRow cRow = sheet.createRow(m);
 				if(m==list.size()+1){
-					HSSFCell c = cRow.createCell(5);
-					c.setCellValue(sumMoney);
+					if("1".equals(flg)){//销售收入表
+						HSSFCell c = cRow.createCell(7);
+						c.setCellValue(sumMoney);
+					}else if("2".equals(flg)){//个人销售收入表
+						HSSFCell c = cRow.createCell(4);
+						c.setCellValue(sumMoney);
+					}else if("3".equals(flg)){//收款表
+						HSSFCell c = cRow.createCell(7);
+						c.setCellValue(sumMoney);
+					}else if("4".equals(flg)){//销售成本表,title有跨行.TO DO
+						HSSFCell c = cRow.createCell(5);
+						c.setCellValue(sumMoney);
+					}else if("5".equals(flg)){//销售收入表dora
+						HSSFCell c = cRow.createCell(8);
+						c.setCellValue(sumMoney);
+					}
+					
 				}else{
 					DesignerOrder de = list.get(m-1);
 					sumMoney+=de.getSumMoney();
@@ -404,7 +419,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 			for(int m=1;m<=list.size()+1;m++) {
 				HSSFRow cRow = sheet.createRow(m);
 				if(m==list.size()+1){
-					HSSFCell c = cRow.createCell(5);
+					HSSFCell c = cRow.createCell(6);
 					c.setCellValue(sumMoney);
 				}else{
 					QuoteFabricReport de = list.get(m-1);
