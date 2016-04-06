@@ -1662,35 +1662,10 @@ public class QuoteAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(vcOther)){
 			other = new Float(vcOther);
 		}
-		float containFre = (quote.getSumMoney() / quote.getContainTax()) * (quote.getContainTax() - 1);
-		float freight = 0F;
-		if("1".equals(quote.getIsFreight())){
-			Set<QuoteFabric> qfs = quote.getQuoteFabric();
-			for(QuoteFabric qf :qfs){
-				if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay())||"1".equals(qf.getIsHidden()))continue;
-				float lowFreight = 0F;
-				//quoteFormate==1内地报价,quoteFormate==2香港报价,quoteFormate==3大货价内地报价,quoteFormate==4大货价香港报价,quoteFormate==5零售报价
-				if("1".equals(quote.getQuoteFormate())||"5".equals(quote.getQuoteFormate())){
-					lowFreight = qf.getVcProFre();
-				}else if("2".equals(quote.getQuoteFormate())){
-					lowFreight = qf.getVcRetFre();
-				}else if("3".equals(quote.getQuoteFormate())){
-					lowFreight = qf.getDhjInlandTransCost();
-				}else if("4".equals(quote.getQuoteFormate())){
-					lowFreight = qf.getDhjHKTransCost();
-				}
-				freight +=qf.getOrderQuantity()*lowFreight;
-			}
-		}
-		freight+=quote.getLowestFreight();
-		freight+=quote.getArriveTransport();
-		if("3".equals(quote.getQuoteFormate())||"4".equals(quote.getQuoteFormate())||"5".equals(quote.getQuoteFormate())){
-			freight+=quote.getUrgentCost();
-		}
-		float realTotel = quote.getSumMoney() - freight - containFre - aftertreatment - other-processFre-installFre;
-		//request.setAttribute("realTotel",PriceUtil.getTwoDecimalFloat(realTotel));
-		//DesignerExpense de = null;
-		
+		float containFre = (quote.getSumMoney() / quote.getContainTax())*(quote.getContainTax() - 1);
+		float freight = this.getFreight(quote);
+		float realTotel = quote.getSumMoney() - processFre - installFre - quote.getUrgentCost()
+		- freight - containFre - aftertreatment - other;
 		List<DesignerExpense> des = designerExpenseService
 				.getDesignerExpenseByQuoteId(Long.valueOf(id));
 		if (des != null && des.size() > 0) {
@@ -2207,7 +2182,9 @@ public class QuoteAction extends DispatchPagerAction {
 		//	String contractPrefix = "C"+q.getVcQuoteLocal();
 		//	String contractNo = contractPrefix + q.getVcQuoteNum();
 			purchase.setContractNo(q.getContractNo());
-			purchase.setTbYearMonth(DateUtil.getYearMonthStr());
+			if(StringUtils.isEmpty(purchase.getTbYearMonth())){
+				purchase.setTbYearMonth(DateUtil.getYearMonthStr());
+			}
 			purchase.setContractDate(q.getContractDate());// 下单时间
 			purchase.setQuote(q);
 			purchase.setArea(q.getVcQuoteLocal());

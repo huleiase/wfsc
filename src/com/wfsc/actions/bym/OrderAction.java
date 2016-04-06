@@ -344,6 +344,7 @@ public class OrderAction extends DispatchPagerAction {
 			qfdb.setExpressCompany(qf.getExpressCompany());
 			qfdb.setArrivalAddress(qf.getArrivalAddress());
 			qfdb.setBymOrderId(order.getId());
+			qfdb.setOrderNo(order.getOrderNo());
 			quoteFabricService.saveOrUpdateEntity(qfdb);
 			qfdbList.add(qfdb);
 		}
@@ -491,13 +492,13 @@ public class OrderAction extends DispatchPagerAction {
 			this.saveProStroage(order, qfdbList);
 		}
 		updateOrderFreight(order);
-		updateDe(order.getOrderNo(), q.getId());
+		updateDe(order.getOrderNo(),order.getId(), q.getId());
 		updateQfr(q.getId(), order, qfdbList);
 		
 		return "ok";
 	}
 	
-	private void updateDe(String orderNo,Long quoteId){
+	private void updateDe(String orderNo,Long orderId,Long quoteId){
 		List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(quoteId);
         if(deos!=null){
         	List<Order> orders = this.orderService.getOrderByOrderNo(orderNo);
@@ -507,6 +508,8 @@ public class OrderAction extends DispatchPagerAction {
         	}
         	
             for(DesignerOrder deo : deos){
+            	deo.setOrderId(orderId);
+            	deo.setOrderNo(orderNo);
         			deo.setCbFreight(freight);
         			//销售费用合计(加工费+安装费+运费+差旅费+设计费+税费+其他)
         			float cbTotel = deo.getProcessFee()+deo.getInstallFee()+deo.getCbFreight()+deo.getTravelExpenses()+deo.getDesignFre()+deo.getTaxationFee()+deo.getOtherFre();

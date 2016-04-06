@@ -113,3 +113,8 @@ UPDATE bym_designerorder SET bjTotel=-bjTotel WHERE bjTotel>0 AND operation='off
 UPDATE bym_designerorder SET profit=-profit WHERE profit>0 AND operation='offset';
 UPDATE bym_designerorder SET profitRate=-profitRate WHERE profitRate>0 AND operation='offset';
 UPDATE bym_designerorder SET profitRate=0 WHERE profitRate IS NULL;
+
+
+-- 20160405
+UPDATE bym_order SET tbYearMonth='201603' WHERE id IN (1472,1490,1491,1492,1493,1494,1495);
+UPDATE bym_designerorder de ,bym_qf_report qfr SET de.orderId=qfr.bymOrderId WHERE de.id=qfr.doId;
