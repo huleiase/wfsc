@@ -86,7 +86,7 @@
             <h5>个人设计费</h5>
             <button class="label label-info btn btn-primary btn-mini" onclick="downloadSellPerson();">按条件导出</button>
          </div>
-         <div class="widget-content nopadding" id="listTableDiv">
+         <div class="widget-content nopadding" id="listTableDiv" style="overflow: scroll">
             <%@include file="listSellPerson.jsp"%>
       </div>
 </div>

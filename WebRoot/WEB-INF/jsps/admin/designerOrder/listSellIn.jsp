@@ -4,7 +4,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="c" uri="/WEB-INF/c.tld"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-            <table class="table table-bordered table-striped with-check" style="background-color: #f9f9f9;">
+            <table class="table table-bordered" style="max-width: none;width:200%;">
               <thead>
                 <tr>
                 <th>时间</th>

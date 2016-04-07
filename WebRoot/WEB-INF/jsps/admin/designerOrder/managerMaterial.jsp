@@ -76,7 +76,7 @@
             <h5>材料明细</h5>
             <button class="label label-info btn btn-primary btn-mini" onclick="downloadSell();">按条件导出</button>
          </div>
-         <div class="widget-content nopadding" id="listTableDiv">
+         <div class="widget-content nopadding" id="listTableDiv" style="overflow: scroll">
             <%@include file="listMaterial.jsp"%>
       </div>
 </div>

@@ -186,7 +186,7 @@
             <button class="label label-info btn btn-primary btn-mini" onclick="exportExcel();">导出</button> 
             </w:permission>
          </div>
-         <div class="widget-content nopadding" id="listTableDiv">
+         <div class="widget-content nopadding" id="listTableDiv" style="overflow: scroll">
          <s:if test="#request.permission==0">
             <%@include file="lesslist.jsp"%>
             </s:if>

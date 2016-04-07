@@ -2025,7 +2025,7 @@ public class QuoteAction extends DispatchPagerAction {
 				saleMan+=q.getVcSalesman4()+",";
 				}
 			}
-			Set<String> salesMan = q.getSalesman();
+			/*Set<String> salesMan = q.getSalesman();
 			if(salesMan!=null){
 				for(String sale : salesMan){
 					if(StringUtils.isNotBlank(sale)){
@@ -2034,7 +2034,7 @@ public class QuoteAction extends DispatchPagerAction {
 						}
 					}
 				}
-			}
+			}*/
 			deo.setVcSalesman(saleMan);
 			//报价材料合计。后处理+其它+电机合计+阻燃+5个报价的空
 			float bjClTotel = 0F;
@@ -2332,7 +2332,7 @@ public class QuoteAction extends DispatchPagerAction {
 				saleMan+=q.getVcSalesman4()+",";
 				}
 			}
-			Set<String> salesMan = q.getSalesman();
+			/*Set<String> salesMan = q.getSalesman();
 			if(salesMan!=null){
 				for(String sale : salesMan){
 					if(StringUtils.isNotBlank(sale)){
@@ -2341,7 +2341,7 @@ public class QuoteAction extends DispatchPagerAction {
 						}
 					}
 				}
-			}
+			}*/
 			designerOrder.setVcSalesman(saleMan);
 		 List<Order> os = this.orderService.getOrderByQuoteId(q.getId());
 		 Order order = null;

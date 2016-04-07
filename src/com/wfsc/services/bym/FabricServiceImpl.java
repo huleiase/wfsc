@@ -42,8 +42,8 @@ public class FabricServiceImpl implements IFabricService {
 		System.out.println("deleteByIds==="+sql);
 		int count = this.deleteBySql(sql.toString());
 		System.out.println("删除的原厂型号记录数==="+count);
-		if("1".equals(isHtCode)){
-			StringBuffer hbsql = new StringBuffer("delete from bym_fabric where ");
+		if("0".equals(isHtCode)){
+			StringBuffer hbsql = new StringBuffer("update bym_fabric set refid=NULL where ");
 			for(int i=0;i<ids.size();i++){
 				if(i==ids.size()-1){
 					hbsql.append(" refid="+ids.get(i));
@@ -53,7 +53,7 @@ public class FabricServiceImpl implements IFabricService {
 			}
 			System.out.println("deleteHbByIds==="+hbsql);
 			int hbcount = this.deleteBySql(hbsql.toString());
-			System.out.println("删除的原厂型号记录数==="+hbcount);
+			System.out.println("因为删除原厂型号而更新的HB型号记录数==="+hbcount);
 		}
 	}
 	public void saveOrUpdateEntity(Fabric entity){
