@@ -7,7 +7,8 @@
             <table class="table table-bordered" 
             	style="
             		background-color: #f9f9f9;
-            		max-width: auto;"
+            		max-width: none;
+            		width:300%;"
             	>
               <thead>
                 <tr>
