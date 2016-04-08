@@ -179,14 +179,14 @@ public class DesignerOrderAction extends DispatchPagerAction {
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
 		page = quoteFabricReportService.findForPage(page, paramap);
-		List<QuoteFabricReport> qfrsDb = page.getData();
+		/*List<QuoteFabricReport> qfrsDb = page.getData();
 		List<QuoteFabricReport> qfrs = new ArrayList<QuoteFabricReport>();
 		for(QuoteFabricReport qfr : qfrsDb){
 			if(!"1".equals(qfr.getIsHidden())){
 				qfrs.add(qfr);
 			}
 		}
-		page.setData(qfrs);
+		page.setData(qfrs);*/
 		List<Integer> li = page.getPageNos();
 		String listUrl = "/wfsc/admin/designerOrder_listMaterial.Q";
 		request.setAttribute("listUrl", listUrl);
