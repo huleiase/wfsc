@@ -79,7 +79,7 @@ public class DesignerOrderDao extends EnhancedHibernateDaoSupport<DesignerOrder>
 					continue;
 				}
 			}
-			hql.append(" order by obj.createDate desc");
+			hql.append(" order by obj.createDate desc,obj.id desc");
 			List<DesignerOrder> list = this.findList4PageWithParama(hql.toString(), page
 					.getFirst() - 1, page.getPageSize(),dataMap);
 			page.setData(list);
@@ -139,7 +139,7 @@ public class DesignerOrderDao extends EnhancedHibernateDaoSupport<DesignerOrder>
 					continue;
 				}
 			}
-			hql.append(" order by obj.createDate desc");
+			hql.append(" order by obj.createDate desc,obj.id desc");
 			list =  this.findList4PageWithParama(hql.toString(), -1,-1,dataMap);
 		
 	}catch(Exception e){

@@ -15,6 +15,7 @@
 		$("#orderNo").val("");
 		$("#beginDate").val("");
 		$("#endDate").val("");
+		$("#supplier").val("");
 	}
 	function submitForm(){
 			$("#queryForm").submit();
@@ -26,10 +27,17 @@
 			if(contractNo){
 				 url += "&contractNo="+contractNo;
 			}
+			
+			var supplier = $("#supplier").val();
+			if(supplier){
+				 url += "&supplier="+supplier;
+			}
+			
 			var beginDate = $("#beginDate").val();
 			if(beginDate){
 				 url += "&beginDate="+beginDate;
 			}
+			
 			var endDate = $("#endDate").val();
 			if(endDate){
 				 url += "&endDate="+endDate;
@@ -57,6 +65,9 @@
 	            
 	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">订单号</label>
 	            <input name="orderNo" id="orderNo" type="text" class="span2"  value="${orderNo }">
+	            
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">供应商</label>
+	            <input name="supplier" id="supplier" type="text" class="span2"  value="${supplier }">
 	         </div>
 	         <div class="clear"></div>
 	         <div class="controls">

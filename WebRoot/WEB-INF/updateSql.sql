@@ -118,3 +118,44 @@ UPDATE bym_designerorder SET profitRate=0 WHERE profitRate IS NULL;
 -- 20160405
 UPDATE bym_order SET tbYearMonth='201603' WHERE id IN (1472,1490,1491,1492,1493,1494,1495);
 UPDATE bym_designerorder de ,bym_qf_report qfr SET de.orderId=qfr.bymOrderId WHERE de.id=qfr.doId;
+
+-- 20160413
+
+UPDATE bym_quote_fabric SET SigMoney=SinglePrice * VcPurDis ;
+UPDATE bym_quote_fabric SET SigMoney=DhjCost * VcPurDis WHERE SigMoney=0;
+
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.orderNum=qf.OrderQuantity WHERE qfr.qfId=qf.id AND qfr.orderNum=0 ;
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.singleMoney=qf.SigMoney WHERE qfr.qfId=qf.id AND qfr.singleMoney=0 ;
+
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.cbPriceUnit=qf.VcOldPriceUnit WHERE qfr.qfId=qf.id AND qfr.cbPriceUnit IS NULL;
+
+UPDATE bym_qf_report SET cbQuantity=orderNum WHERE cbQuantity=0;
+UPDATE bym_qf_report SET cbPrice=singleMoney WHERE cbPrice=0;
+UPDATE bym_qf_report SET cbTotal=cbQuantity*cbPrice WHERE cbTotal=0;
+
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.amountrmb=qf.amountrmb WHERE qfr.qfId=qf.id AND qfr.amountrmb=0;
+
+UPDATE bym_quote_fabric SET amountrmb=vcQuoteNum * shijia * exchangeRate WHERE amountrmb=0;
+UPDATE bym_quote_fabric SET amountrmb=OrderQuantity * SigMoney * exchangeRate WHERE amountrmb=0;
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.amountrmb=qf.amountrmb WHERE qfr.qfId=qf.id AND qfr.amountrmb=0;
+UPDATE bym_qf_report SET amountrmb=amountrmb*1.2 WHERE vcMoney='HKD';
+UPDATE bym_qf_report SET amountrmb=cbTotal WHERE priceCur='RMB';
+
+
+UPDATE bym_qf_report SET cbTotal=-cbTotal WHERE cbTotal>0 AND operation='offset';
+UPDATE bym_qf_report SET amountrmb=-amountrmb WHERE amountrmb>0 AND operation='offset';
+UPDATE bym_qf_report SET sellProfit=ABS(bjTotal)-ABS(amountrmb);
+UPDATE bym_qf_report SET sellProfitRate=sellProfit/bjTotal;
+UPDATE bym_qf_report SET sellProfit=-sellProfit WHERE sellProfit>0 AND operation='offset';
+
+
+
+
+
+
+
+
+
+
+
+

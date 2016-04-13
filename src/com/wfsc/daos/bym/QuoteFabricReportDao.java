@@ -69,10 +69,17 @@ public class QuoteFabricReportDao extends EnhancedHibernateDaoSupport<QuoteFabri
 					countSql.append(" and de.quoteLocal = '").append(paramap.get(key).toString()+"'");
 					continue;
 				}
+				
+				if ("supplier".equals(key)) {
+					hql.append(" and obj.supplier like :supplier");
+					dataMap.put("supplier", paramap.get(key));
+					countSql.append(" and de.supplier like '%").append(paramap.get(key).toString()+"%'");
+					continue;
+				}
 			}
 			hql.append(" and obj.isReplaced='0' ");
 			countSql.append(" and de.isReplaced='0' ");
-			hql.append(" order by obj.createDate desc ");
+			hql.append(" order by obj.createDate desc ,obj.id desc");
 			List<QuoteFabricReport> list = this.findList4PageWithParama(hql.toString(), page
 					.getFirst() - 1, page.getPageSize(),dataMap);
 			page.setData(list);
@@ -126,9 +133,14 @@ public class QuoteFabricReportDao extends EnhancedHibernateDaoSupport<QuoteFabri
 					hql.append(" and obj.quoteLocal='"+paramap.get(key)+"'");
 					continue;
 				}
+				if ("supplier".equals(key)) {
+					hql.append(" and obj.supplier like :supplier");
+					dataMap.put("supplier", paramap.get(key));
+					continue;
+				}
 			}
 			hql.append(" and obj.isReplaced='0' ");
-			hql.append(" order by obj.createDate desc ");
+			hql.append(" order by obj.createDate desc ,obj.id desc");
 			list =  this.findList4PageWithParama(hql.toString(), -1,-1,dataMap);
 			}
 		

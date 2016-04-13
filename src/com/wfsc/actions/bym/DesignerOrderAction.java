@@ -225,7 +225,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 		
 		String beginDate = request.getParameter("beginDate");
 		String endDate = request.getParameter("endDate");
-		
+		String supplier = request.getParameter("supplier");
 		String sellman = request.getParameter("sellman");
 		String contractNo = request.getParameter("contractNo");
 		String orderNo = request.getParameter("orderNo");
@@ -261,6 +261,12 @@ public class DesignerOrderAction extends DispatchPagerAction {
 		if(StringUtils.isNotEmpty(flag)){
 			paramap.put("flag", flag);
 			//request.setAttribute("flag", flag);
+		}
+		
+		
+		if(StringUtils.isNotEmpty(supplier)){
+			paramap.put("supplier", supplier);
+			request.setAttribute("supplier", supplier);
 		}
 		return paramap;
 	}

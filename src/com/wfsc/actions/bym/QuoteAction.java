@@ -595,6 +595,12 @@ public class QuoteAction extends DispatchPagerAction {
 			}
 			qf.setQuoteNum(quote.getProjectNum());
 			qf.setQuote(quote);
+			float sigMoney = PriceUtil.getTwoDecimalFloat(qf.getSinglePrice() * qf.getVcPurDis());
+			if(sigMoney==0){
+				float vcPurDis = qf.getVcPurDis()==0?1F:qf.getVcPurDis();
+				sigMoney = PriceUtil.getTwoDecimalFloat(qf.getDhjCost() * vcPurDis);
+			}
+			qf.setSigMoney(sigMoney);
 		}
 		quote.setQuoteFabric(qfset);
 		quoteService.saveOrUpdateEntity(quote);
@@ -1671,7 +1677,10 @@ public class QuoteAction extends DispatchPagerAction {
 		if (des != null && des.size() > 0) {
 			designerExpense = des.get(0);
 		}
-		designerExpense.setRealTotel(PriceUtil.getTwoDecimalFloat((realTotel)));
+		if(designerExpense.getRealTotel()==0){
+			designerExpense.setRealTotel(PriceUtil.getTwoDecimalFloat((realTotel)));
+		}
+		
 		String item = quote.getItem().replaceAll("@", "<br><br>");
 		quote.setItem(item);
 		// 该报价单相关联的产品
@@ -2237,7 +2246,7 @@ public class QuoteAction extends DispatchPagerAction {
 				designerExpense.setFreight(freight);
 				//------------ 
 		// }
-				String vcProcessFre = q.getVcProcessFre();
+				/*String vcProcessFre = q.getVcProcessFre();
 				float processFre = 0F;
 				if(StringUtils.isNotEmpty(vcProcessFre)){
 					processFre = new Float(vcProcessFre);
@@ -2256,10 +2265,10 @@ public class QuoteAction extends DispatchPagerAction {
 				float other = 0F;
 				if(StringUtils.isNotEmpty(vcOther)){
 					other = new Float(vcOther);
-				}
-		float realTotel = q.getSumMoney() - processFre - installFre - q.getUrgentCost()
+				}*/
+		/*float realTotel = q.getSumMoney() - processFre - installFre - q.getUrgentCost()
 					- freight - de.getTaxationCost() - aftertreatment - other;
-			de.setRealTotel(realTotel);
+			de.setRealTotel(realTotel);*/
 		 designerExpenseService.saveOrUpdateEntity(designerExpense);
 		 
 		 List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(qId);
