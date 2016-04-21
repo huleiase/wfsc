@@ -209,6 +209,8 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	private float taxation;
 	//税费
 	private float taxationFee;
+	//税金
+	private float taxes;
 	
 	private float yue;
 	
@@ -1121,6 +1123,15 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	}
 	public void setYue(float yue) {
 		this.yue = yue;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getTaxes() {
+		return taxes;
+	}
+	public void setTaxes(float taxes) {
+		this.taxes = taxes;
 	}
 	
 

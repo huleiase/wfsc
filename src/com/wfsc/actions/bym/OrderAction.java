@@ -512,7 +512,7 @@ public class OrderAction extends DispatchPagerAction {
             	deo.setOrderNo(orderNo);
         			deo.setCbFreight(freight);
         			//销售费用合计(加工费+安装费+运费+差旅费+设计费+税费+其他)
-        			float cbTotel = deo.getProcessFee()+deo.getInstallFee()+deo.getCbFreight()+deo.getTravelExpenses()+deo.getDesignFre()+deo.getTaxationFee()+deo.getOtherFre();
+        			float cbTotel = deo.getProcessFee()+deo.getInstallFee()+deo.getCbFreight()+deo.getTravelExpenses()+deo.getDesignFre()+deo.getOtherFre();
         			deo.setCbTotel(cbTotel);
         			//毛利(报价合计-销售成本材料合计-销售费用合计)
         			float profit = Math.abs(deo.getBjTotel())-Math.abs(deo.getCbClTotel())-Math.abs(deo.getCbTotel());

@@ -2045,16 +2045,16 @@ public class QuoteAction extends DispatchPagerAction {
 				}
 			}*/
 			deo.setVcSalesman(saleMan);
-			//报价材料合计。后处理+其它+电机合计+阻燃+5个报价的空
+			//报价材料合计=材料明细表里同一合同号的所有型号的产品报价的合计总和
 			float bjClTotel = 0F;
-			if(StringUtils.isNotBlank(q.getVcAftertreatment())){
+			/*if(StringUtils.isNotBlank(q.getVcAftertreatment())){
 				bjClTotel+=Float.valueOf(q.getVcAftertreatment()).floatValue();
 			}
 			if(StringUtils.isNotBlank(q.getVcOther())){
 				bjClTotel+=Float.valueOf(q.getVcOther()).floatValue();
 			}
 			bjClTotel+=q.getEngineTotal()+q.getFlameTotal()+q.getInputCol1()+q.getInputCol2()+q.getInputCol3()+q.getInputCol4()+q.getInputCol5();
-			deo.setBjClTotel(bjClTotel);
+			deo.setBjClTotel(bjClTotel);*/
 			//加工费。读取报价页面
 			if(StringUtils.isNotBlank(q.getVcProcessFre())){
 				deo.setVcProcessFre(Float.valueOf(q.getVcProcessFre()).floatValue());
@@ -2069,6 +2069,8 @@ public class QuoteAction extends DispatchPagerAction {
 			deo.setBjFreight(freight);
 			//税率
 			deo.setTaxation(q.getContainTax());
+			//税金
+			deo.setTaxes(q.getTaxes());
 			//报价合计 （材料合计+加工费+量窗费+安装费+运费）*税率
 			float bjTotel = (deo.getBjClTotel()+deo.getVcProcessFre()+deo.getLcFre()+deo.getVcInstallFre()+deo.getBjFreight())*deo.getTaxation();
 			deo.setBjTotel(bjTotel);
@@ -2149,19 +2151,21 @@ public class QuoteAction extends DispatchPagerAction {
 						qfr.setReplaceNO(newStr);
 					}
 					qfr.setBjColor(qf.getVcColorNum());
+					bjClTotel+=qf.getVcTotal();
 				}else if("1".equals(qf.getIsHidden())){
 					qfr.setReplaceNO(qf.getReplaceId());
 					qfr.setCbColor(qf.getVcColorNum());
 				}else{
 					qfr.setBjColor(qf.getVcColorNum());
 					qfr.setCbColor(qf.getVcColorNum());
+					bjClTotel+=qf.getVcTotal();
 				}
 				qfr.setVcPrice(qf.getVcPrice());
 				qfr.setVcPriceUnit(qf.getVcPriceUnit());
 				qfr.setVcQuantity(qf.getVcQuantity());
 				qfr.setTaxes(q.getTaxes());
 				qfr.setVcMoney(qf.getVcMoney());
-				qfr.setBjTotal(qf.getVcTotal()+qfr.getTaxes());
+				qfr.setBjTotal(qf.getVcTotal());
 				/*qfr.setCbPrice(qf.getShijia());
 				qfr.setCbPriceUnit(qf.getPriceCur());
 				float cbQuantity = 0F;
@@ -2175,6 +2179,8 @@ public class QuoteAction extends DispatchPagerAction {
 				qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());*/
 				quoteFabricReportService.saveOrUpdateEntity(qfr);
 			}
+			deo.setBjClTotel(bjClTotel);
+			this.designerOrderService.saveOrUpdateEntity(deo);
 		 }
 		 return "ok";
 	 }
@@ -2312,7 +2318,9 @@ public class QuoteAction extends DispatchPagerAction {
 		 designerOrder.setBjFreight(freight);
 		 designerOrder.setVcFrom(deoDb.getVcFrom());
 		 designerOrder.setTaxation(deoDb.getTaxation());
+		 designerOrder.setTaxes(deoDb.getTaxes());
 		 designerOrder.setTaxationFee(deoDb.getTaxationFee());
+		 designerOrder.setCbClTotel(deoDb.getCbClTotel());
 		 float bjTotel = (deoDb.getBjClTotel()+deoDb.getVcProcessFre()+deoDb.getLcFre()+deoDb.getVcInstallFre()+freight)*deoDb.getTaxation();
 		 designerOrder.setBjTotel(bjTotel);
 		 String saleMan = deoDb.getVcSalesman()==null?"":deoDb.getVcSalesman();
@@ -2368,7 +2376,7 @@ public class QuoteAction extends DispatchPagerAction {
 			if(ps!=null&&ps.size()>0){
 				Purchase p = ps.get(0);
 				//销售成本材料合计.读取采购页面
-				designerOrder.setCbClTotel(p.getClTotal());
+			//	designerOrder.setCbClTotel(p.getClTotal());
 				//加工费.读取采购页面
 				designerOrder.setProcessFee(p.getProcessFee());
 				//安装费 读取采购页面
@@ -2392,7 +2400,7 @@ public class QuoteAction extends DispatchPagerAction {
 			}
 			
 			//销售费用合计(加工费+安装费+运费+差旅费+设计费+税费+其他)
-			float cbTotel = designerOrder.getProcessFee()+designerOrder.getInstallFee()+designerOrder.getCbFreight()+designerOrder.getTravelExpenses()+designerOrder.getDesignFre()+designerOrder.getTaxationFee()+designerOrder.getOtherFre();
+			float cbTotel = designerOrder.getProcessFee()+designerOrder.getInstallFee()+designerOrder.getCbFreight()+designerOrder.getTravelExpenses()+designerOrder.getDesignFre()+designerOrder.getOtherFre();
 			designerOrder.setCbTotel(cbTotel);
 			//毛利(报价合计-销售成本材料合计-销售费用合计)
 			float profit = designerOrder.getBjTotel()-designerOrder.getCbClTotel()-designerOrder.getCbTotel();
@@ -2437,7 +2445,7 @@ public class QuoteAction extends DispatchPagerAction {
 				}
 				for(QuoteFabricReport qfr : qfrs){
 					if("1".equals(qfr.getIsReplaced())){
-						qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()+qfr.getTaxes());
+						qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity());
 						QuoteFabricReport hidden = map.get(qfr.getReplaceNO());
 						if(hidden!=null){
 							qfr.setCbModelNum(hidden.getVcFactoryCode()+" "+hidden.getVcBefModel());
@@ -2447,12 +2455,12 @@ public class QuoteAction extends DispatchPagerAction {
 					}else if("1".equals(qfr.getIsHidden())){
 						QuoteFabricReport replaced = map.get(qfr.getReplaceNO());
 						if(replaced!=null){
-							qfr.setBjTotal(replaced.getVcPrice()*replaced.getVcQuantity()+replaced.getTaxes());
+							qfr.setBjTotal(replaced.getVcPrice()*replaced.getVcQuantity());
 							qfr.setBjColor(replaced.getBjColor());
 						}
 						qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
 					}else{
-						qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()+qfr.getTaxes());
+						qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity());
 						qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
 					}
 					qfr.setSellProfit(qfr.getBjTotal()-qfr.getCbTotal());

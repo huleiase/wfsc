@@ -26,7 +26,7 @@
                   <th>量窗费</th>
                   <th>安装费</th>
                   <th>运费</th>
-                  <th>税率</th>
+                  <th>税金</th>
                   <th>合计</th>
                   <th>材料合计</th>
                   <th>加工费</th>
@@ -34,7 +34,6 @@
                   <th>运费</th>
                    <th>差旅费</th>
                    <th>设计费</th>
-                  <th>税费</th>
                   <th>其他</th>
                   <th>合计</th>
                 </tr>
@@ -54,15 +53,14 @@
                        <td><s:property value="lcFre"/></td> 
                         <td><s:property value="vcInstallFre"/></td> 
                          <td><s:property value="bjFreight"/></td>  
-                         <td><s:property value="taxation"/></td> 
-                          <td><s:property value="bjTotel"/></td>
+                         <td><s:property value="taxes"/></td> 
+                          <td><s:property value="sumMoney"/></td>
                           <td><s:property value="cbClTotel"/></td> 
                           <td><s:property value="processFee"/></td> 
                           <td><s:property value="installFee"/></td> 
                           <td><s:property value="cbFreight"/></td> 
                           <td><s:property value="travelExpenses"/></td> 
                           <td><s:property value="designFre"/></td> 
-                          <td><s:property value="taxationFee"/></td> 
                           <td><s:property value="otherFre"/></td> 
                           <td><s:property value="cbTotel"/></td>  
                           <td><s:property value="profit"/></td> 

@@ -150,7 +150,9 @@ UPDATE bym_qf_report SET sellProfit=-sellProfit WHERE sellProfit>0 AND operation
 
 
 
+-- 20130421
 
+alter table bym_designerorder add column taxes decimal(10,3) DEFAULT 0;
 
 
 

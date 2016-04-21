@@ -799,11 +799,17 @@ public class PurchaseAction extends DispatchPagerAction {
 			order.setSumMoney(PriceUtil.getTwoDecimalFloat(sumMoney));
 			this.orderService.saveOrUpdateEntity(order);
 			
+			float cbClTotel = 0F;
+			 List<QuoteFabricReport>  qfrs = this.quoteFabricReportService.getQuoteFabricReportByQuoteId(purchase.getQuote().getId());
+	            if(qfrs!=null &&qfrs.size()>0){
+	            	cbClTotel = updateQfr(purchase.getQuote().getId(), order, qfSet,qfrs);
+	            }
+			
             List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(purchase.getQuote().getId());
             if(deos!=null){
                 for(DesignerOrder deo : deos){
                         deo.setOrderNo(order.getOrderNo());
-                        deo.setCbClTotel(purchase.getClTotal());
+                        deo.setCbClTotel(cbClTotel);
                         deo.setTravelExpenses(purchase.getTravelExpenses());
                         deo.setProcessFee(purchase.getProcessFee());
                         deo.setInstallFee(purchase.getInstallFee());
@@ -817,10 +823,7 @@ public class PurchaseAction extends DispatchPagerAction {
                 }
             }
             
-            List<QuoteFabricReport>  qfrs = this.quoteFabricReportService.getQuoteFabricReportByQuoteId(purchase.getQuote().getId());
-            if(qfrs!=null &&qfrs.size()>0){
-            	updateQfr(purchase.getQuote().getId(), order, qfSet,qfrs);
-            }
+           
 
 				Email e = new Email();
 				e.setAction("order");
@@ -841,7 +844,8 @@ public class PurchaseAction extends DispatchPagerAction {
 		
 	}
 	
-	private void updateQfr(Long quoteId,Order o,Set<QuoteFabric> qfs,List<QuoteFabricReport>  qfrs){
+	private float updateQfr(Long quoteId,Order o,Set<QuoteFabric> qfs,List<QuoteFabricReport>  qfrs){
+		float cbClTotel = 0F;
 		Map<String,QuoteFabricReport> map = new HashMap<String,QuoteFabricReport>();
 		List<QuoteFabricReport>  forUpdateqfrs = new ArrayList<QuoteFabricReport>(); 
 		if(qfrs!=null){
@@ -911,6 +915,7 @@ public class PurchaseAction extends DispatchPagerAction {
 				}
 				qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
 				qfr.setAmountrmb(qfr.getCbTotal()*huilv);
+				cbClTotel+=qfr.getAmountrmb();
 				qfr.setSellProfit(Math.abs(qfr.getBjTotal())-Math.abs(qfr.getAmountrmb()));
 				if(qfr.getBjTotal()>0){
 					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());
@@ -928,6 +933,7 @@ public class PurchaseAction extends DispatchPagerAction {
 				quoteFabricReportService.saveOrUpdateEntity(qfr);
 			}
 		}
+		return cbClTotel;
 	}
 	
 	/**

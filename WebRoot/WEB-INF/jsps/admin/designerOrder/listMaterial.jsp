@@ -26,7 +26,6 @@
                  <th>色号</th>
                   <th>数量</th>
                   <th>单价</th>
-                  <th>税金</th>
                   <th>合计</th>
                  <th>型号</th>
                   <th>色号</th>
@@ -55,7 +54,6 @@
                       <td><s:property value="bjColor"/></td> 
                       <td><s:property value="vcQuantity"/><s:property value="vcPriceUnit"/></td> 
                        <td><s:property value="vcPrice"/><s:property value="vcMoney"/></td> 
-                        <td><s:property value="taxes"/></td> 
                          <td><s:property value="bjTotal"/><s:property value="vcMoney"/></td>  
                          <td><s:property value="cbModelNum"/></td> 
                          <td><s:property value="cbColor"/></td> 
