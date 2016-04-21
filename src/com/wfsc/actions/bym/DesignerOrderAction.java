@@ -295,7 +295,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 				titleStr = new String[]{"PO号","收款时间","合同号","客户名称","项目","销售人员","设计师","合同金额","本地比例","本地收入金额","分摊地","分摊比例","分摊金额"
 						,"设计费","税率","是否开具发票","订金","进度款1","进度款2","进度款3","保质金","已付合计","未付余额","是否已付清","收款地","备注"};
 			}else if("4".equals(flg)){//销售成本表,title有跨行.TO DO
-				titleStr = new String[]{"时间","PO号","合同号","客户名称","项目","合同金额","材料合计","加工费","量窗费","安装费","运费","税率","合计"
+				titleStr = new String[]{"时间","PO号","合同号","客户名称","项目","合同金额","材料合计","加工费","量窗费","安装费","运费","税金","合计"
 						,"材料合计","加工费","安装费","运费","差旅费","设计费","其他","合计","毛利","毛利率"};
 			}else if("5".equals(flg)){//销售收入表dora
 				titleStr = new String[]{"时间","PO号","合同号","客户名称","项目","销售人员","设计师","抬头","合同金额","GZ","SH","BJ","SZ","HK"
@@ -355,7 +355,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					}else if("4".equals(flg)){//销售成本表,title有跨行.TO DO
 						values = new Object[]{de.getCreateDate(),de.getOrderNo(),de.getContractNo(),de.getCustomerName(),de.getProjectName(),de.getSumMoney()
 								,de.getBjClTotel(),de.getVcProcessFre(),de.getLcFre(),de.getVcInstallFre(),de.getBjFreight(),de.getTaxes(),
-								de.getSumMoney(),de.getCbClTotel(),de.getProcessFee(),de.getInstallFee(),de.getCbFreight(),de.getTravelExpenses(),
+								de.getBjTotel(),de.getCbClTotel(),de.getProcessFee(),de.getInstallFee(),de.getCbFreight(),de.getTravelExpenses(),
 								de.getDesignFre(),de.getOtherFre(),de.getCbTotel(),de.getProfit(),de.getProfitRate()};
 					}else if("5".equals(flg)){//销售收入表dora
 						values = new Object[]{de.getCreateDate(),de.getOrderNo(),de.getContractNo(),de.getCustomerName(),de.getProjectName(),de.getVcSalesman(),

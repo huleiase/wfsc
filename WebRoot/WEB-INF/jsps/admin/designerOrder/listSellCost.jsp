@@ -16,7 +16,7 @@
                   <th rowspan="2">合同金额</th>
                   <th colspan="7">产品报价</th>
                   <th>销售成本</th>
-                  <th colspan="8">销售费用</th>
+                  <th colspan="7">销售费用</th>
                   <th rowspan="2">毛利</th>
                   <th rowspan="2">毛利率</th>
                 </tr>
@@ -54,7 +54,7 @@
                         <td><s:property value="vcInstallFre"/></td> 
                          <td><s:property value="bjFreight"/></td>  
                          <td><s:property value="taxes"/></td> 
-                          <td><s:property value="sumMoney"/></td>
+                          <td><s:property value="bjTotel"/></td>
                           <td><s:property value="cbClTotel"/></td> 
                           <td><s:property value="processFee"/></td> 
                           <td><s:property value="installFee"/></td> 

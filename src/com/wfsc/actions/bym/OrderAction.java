@@ -511,7 +511,7 @@ public class OrderAction extends DispatchPagerAction {
             	deo.setOrderId(orderId);
             	deo.setOrderNo(orderNo);
         			deo.setCbFreight(freight);
-        			//销售费用合计(加工费+安装费+运费+差旅费+设计费+税费+其他)
+        			//销售费用合计(加工费+安装费+运费+差旅费+设计费+其他)
         			float cbTotel = deo.getProcessFee()+deo.getInstallFee()+deo.getCbFreight()+deo.getTravelExpenses()+deo.getDesignFre()+deo.getOtherFre();
         			deo.setCbTotel(cbTotel);
         			//毛利(报价合计-销售成本材料合计-销售费用合计)
@@ -594,18 +594,18 @@ public class OrderAction extends DispatchPagerAction {
 						qfr.setVcBefModel(replaced.getVcBefModel());
 						qfr.setVcFactoryCode(replaced.getVcFactoryCode());
 						qfr.setTaxes(replaced.getTaxes());
-						qfr.setBjTotal(replaced.getVcPrice()*replaced.getVcQuantity()+replaced.getTaxes());
+						qfr.setBjTotal(replaced.getVcPrice()*replaced.getVcQuantity());
 						qfr.setBjColor(replaced.getBjColor());
 					}
 					//qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
 					//qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				}else{
-					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()+qfr.getTaxes());
+					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity());
 				}
 				qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
 				qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				qfr.setSellProfit(Math.abs(qfr.getBjTotal())-Math.abs(qfr.getAmountrmb()));
-				if(qfr.getBjTotal()>0){
+				if(qfr.getBjTotal()!=0){
 					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());
 				}
 				qfr.setOrderNo(o.getOrderNo());

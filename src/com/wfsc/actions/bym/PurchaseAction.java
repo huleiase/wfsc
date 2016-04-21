@@ -905,19 +905,19 @@ public class PurchaseAction extends DispatchPagerAction {
 						qfr.setVcBefModel(replaced.getVcBefModel());
 						qfr.setVcFactoryCode(replaced.getVcFactoryCode());
 						qfr.setTaxes(replaced.getTaxes());
-						qfr.setBjTotal(replaced.getVcPrice()*replaced.getVcQuantity()+replaced.getTaxes());
+						qfr.setBjTotal(replaced.getVcPrice()*replaced.getVcQuantity());
 						qfr.setBjColor(replaced.getBjColor());
 					}
 					//qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
 					//qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				}else{
-					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()+qfr.getTaxes());
+					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity());
 				}
 				qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
 				qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				cbClTotel+=qfr.getAmountrmb();
 				qfr.setSellProfit(Math.abs(qfr.getBjTotal())-Math.abs(qfr.getAmountrmb()));
-				if(qfr.getBjTotal()>0){
+				if(qfr.getBjTotal()!=0){
 					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());
 				}
 				qfr.setOrderNo(o.getOrderNo());

@@ -2072,44 +2072,9 @@ public class QuoteAction extends DispatchPagerAction {
 			//税金
 			deo.setTaxes(q.getTaxes());
 			//报价合计 （材料合计+加工费+量窗费+安装费+运费）*税率
-			float bjTotel = (deo.getBjClTotel()+deo.getVcProcessFre()+deo.getLcFre()+deo.getVcInstallFre()+deo.getBjFreight())*deo.getTaxation();
-			deo.setBjTotel(bjTotel);
-			/*List<Purchase>  ps = this.purchaseService.getPurchaseByQuoteId(q.getId());
-			if(ps!=null&&ps.size()>0){
-				Purchase p = ps.get(0);
-				//销售成本材料合计.读取采购页面
-				deo.setCbClTotel(p.getClTotal());
-				//加工费.读取采购页面
-				deo.setProcessFee(p.getProcessFee());
-				//安装费 读取采购页面
-				deo.setInstallFee(p.getInstallFee());
-				//差旅费 读取采购页面
-				deo.setTravelExpenses(p.getTravelExpenses());
-				//其他 读取采购页面
-				deo.setOtherFre(p.getOtherFre());
-			}*/
+		//	float bjTotel = (deo.getBjClTotel()+deo.getVcProcessFre()+deo.getLcFre()+deo.getVcInstallFre()+deo.getBjFreight())*deo.getTaxation();
+			deo.setBjTotel(deo.getSumMoney());
 			
-			
-			//设计师1-3,设计费
-			/*if(CollectionUtils.isNotEmpty(des)){
-				DesignerExpense oldDe = des.get(0);
-				deo.setDesigner1(oldDe.getDesigner1());
-				deo.setDesigner2(oldDe.getDesigner2());
-				deo.setDesigner3(oldDe.getDesigner3());
-				deo.setDesignMony1(oldDe.getDesignMony1());
-				deo.setDesignMony2(oldDe.getDesignMony2());
-				deo.setDesignMony3(oldDe.getDesignMony3());
-				deo.setDesignFre(deo.getDesignMony1()+deo.getDesignMony2()+deo.getDesignMony3());
-			}*/
-			
-			//销售费用合计(加工费+安装费+运费+差旅费+设计费+其他)
-			/*float cbTotel = deo.getProcessFee()+deo.getInstallFee()+deo.getCbFreight()+deo.getTravelExpenses()+deo.getDesignFre()+deo.getOtherFre();
-			deo.setCbTotel(cbTotel);*/
-			//毛利(报价合计-销售成本材料合计-销售费用合计)
-			/*float profit = deo.getBjTotel()-deo.getCbClTotel()-deo.getCbTotel();
-			deo.setProfit(profit);*/
-			//毛利率(毛利/报价合计)
-			/*deo.setProfitRate(deo.getProfit()/deo.getBjTotel());*/
 			//抬头 读取报价单第三行的from
 			deo.setVcFrom(q.getVcFrom());
 			//税费
@@ -2308,7 +2273,6 @@ public class QuoteAction extends DispatchPagerAction {
 		 designerOrder.setQuoteLocal(deoDb.getQuoteLocal());
 		 designerOrder.setSumMoney(deoDb.getSumMoney());
 		 designerOrder.setProjectName(deoDb.getProjectName());
-		// designerOrder.setVcSalesman(deoDb.getVcSalesman());
 		 designerOrder.setBjClTotel(deoDb.getBjClTotel());
 		 designerOrder.setVcProcessFre(deoDb.getVcProcessFre());
 		 designerOrder.setLcFre(deoDb.getLcFre());
@@ -2321,8 +2285,8 @@ public class QuoteAction extends DispatchPagerAction {
 		 designerOrder.setTaxes(deoDb.getTaxes());
 		 designerOrder.setTaxationFee(deoDb.getTaxationFee());
 		 designerOrder.setCbClTotel(deoDb.getCbClTotel());
-		 float bjTotel = (deoDb.getBjClTotel()+deoDb.getVcProcessFre()+deoDb.getLcFre()+deoDb.getVcInstallFre()+freight)*deoDb.getTaxation();
-		 designerOrder.setBjTotel(bjTotel);
+		// float bjTotel = (deoDb.getBjClTotel()+deoDb.getVcProcessFre()+deoDb.getLcFre()+deoDb.getVcInstallFre()+freight)*deoDb.getTaxation();
+		 designerOrder.setBjTotel(deoDb.getSumMoney());
 		 String saleMan = deoDb.getVcSalesman()==null?"":deoDb.getVcSalesman();
 			if(StringUtils.isNotBlank(q.getVcSalesman())){
 				if(!saleMan.contains(q.getVcSalesman())){

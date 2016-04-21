@@ -68,7 +68,7 @@ UPDATE bym_qf_report SET amountrmb=amountrmb*1.2 WHERE vcMoney='HKD';
 
 UPDATE bym_qf_report SET sumMoney=ABS(sumMoney)+taxes;
 UPDATE bym_qf_report SET sumMoney=-sumMoney WHERE sumMoney>0 AND operation='offset';
-UPDATE bym_qf_report SET bjTotal=vcQuantity*vcPrice+taxes,cbTotal=cbQuantity*cbPrice;
+UPDATE bym_qf_report SET bjTotal=vcQuantity*vcPrice,cbTotal=cbQuantity*cbPrice;
 UPDATE bym_qf_report SET bjTotal=-bjTotal WHERE bjTotal>0 AND operation='offset';
 UPDATE bym_qf_report SET cbTotal=-cbTotal WHERE cbTotal>0 AND operation='offset';
 UPDATE bym_qf_report SET amountrmb=-amountrmb WHERE amountrmb>0 AND operation='offset';
@@ -153,11 +153,28 @@ UPDATE bym_qf_report SET sellProfit=-sellProfit WHERE sellProfit>0 AND operation
 -- 20130421
 
 alter table bym_designerorder add column taxes decimal(10,3) DEFAULT 0;
+update bym_designerorder bd,bym_quote bq set bd.taxes=bq.taxes where bd.quoteId=bq.id;
 
+UPDATE bym_qf_report SET bjTotal=vcQuantity*vcPrice;
+UPDATE bym_qf_report SET bjTotal=-bjTotal WHERE bjTotal>0 AND operation='offset';
+UPDATE bym_qf_report SET sellProfit=ABS(bjTotal)-ABS(amountrmb);
+UPDATE bym_qf_report SET sellProfitRate=sellProfit/bjTotal;
+UPDATE bym_qf_report SET sellProfit=-sellProfit WHERE sellProfit>0 AND operation='offset';
+UPDATE bym_qf_report SET sellProfitRate=0 WHERE sellProfitRate IS NULL;
 
+DROP TABLE temp;
+CREATE TABLE temp (id bigint(20) NOT NULL AUTO_INCREMENT,doId BIGINT(20),bjTotal DECIMAL(10,3) DEFAULT 0,cbTotal DECIMAL(10,3) DEFAULT 0 ,PRIMARY KEY (id));
+INSERT INTO temp(doId,bjTotal,cbTotal) SELECT doId,SUM(bjTotal),SUM(amountrmb) from bym_qf_report WHERE isReplaced='0' GROUP BY doId;
+UPDATE bym_designerorder bd ,temp t SET bd.bjClTotel=t.bjTotal,bd.cbClTotel=t.cbTotal WHERE bd.id=t.doId;
+DROP TABLE temp;
 
+update bym_designerorder set bjTotel=sumMoney;
+update bym_designerorder set CbTotel=ProcessFee+InstallFee+CbFreight+TravelExpenses+DesignFre+OtherFre;
+UPDATE bym_designerorder SET CbTotel=-CbTotel WHERE CbTotel>0 AND operation='offset';
 
-
-
-
-
+UPDATE bym_designerorder SET profit=ABS(bjTotel)-ABS(cbClTotel)-ABS(cbTotel);
+UPDATE bym_designerorder SET profitRate=profit/bjTotel;
+UPDATE bym_designerorder SET profit=-profit WHERE profit>0 AND operation='offset';
+UPDATE bym_designerorder SET profitRate=0 WHERE profitRate IS NULL;
+UPDATE bym_qf_report bqr,bym_quote_fabric bqf SET bqr.bymOrderId=bqf.bymOrderId WHERE bqr.qfId=bqf.id;
+UPDATE bym_qf_report bqr,bym_order bo SET bqr.supplier=bo.supplier WHERE bqr.bymOrderId=bo.id;

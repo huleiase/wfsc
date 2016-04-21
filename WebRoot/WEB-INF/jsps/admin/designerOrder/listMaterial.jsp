@@ -17,7 +17,7 @@
                   <th rowspan="2">客户名称</th>
                   <th rowspan="2">项目</th>
                   <th rowspan="2">合同金额</th>
-                  <th colspan="6">产品报价</th>
+                  <th colspan="5">产品报价</th>
                   <th colspan="8">销售成本</th>
                   <th rowspan="2">毛利</th>
                   <th rowspan="2">毛利率</th>
