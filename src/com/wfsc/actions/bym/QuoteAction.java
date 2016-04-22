@@ -2131,6 +2131,7 @@ public class QuoteAction extends DispatchPagerAction {
 				qfr.setTaxes(q.getTaxes());
 				qfr.setVcMoney(qf.getVcMoney());
 				qfr.setBjTotal(qf.getVcTotal());
+				qfr.setVcFactoryNum(qf.getVcFactoryNum());
 				/*qfr.setCbPrice(qf.getShijia());
 				qfr.setCbPriceUnit(qf.getPriceCur());
 				float cbQuantity = 0F;

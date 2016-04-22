@@ -135,6 +135,8 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	private String supplier;
 	//订单id
 	private Long bymOrderId;
+	//
+	private String vcFactoryNum;
 	
 	public Object clone() {   
         try {   
@@ -584,6 +586,16 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 
 	public void setBymOrderId(Long bymOrderId) {
 		this.bymOrderId = bymOrderId;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getVcFactoryNum() {
+		return vcFactoryNum;
+	}
+
+	public void setVcFactoryNum(String vcFactoryNum) {
+		this.vcFactoryNum = vcFactoryNum;
 	}
 	
 	
