@@ -387,11 +387,14 @@ public class FabricAction extends DispatchPagerAction {
 			boolean isDHJOnly = false;
 			Fabric s = fabricService.getFabricByCode(vcFactoryCode, vcBefModel);
 			String addOrUpdate = "update";
+			List<Long> hbIds = null;
 			if(s!=null){
 				isNew = false;
 				if(s.getDhjCost()>0&&s.getVcOldPrice()<1){
 					isDHJOnly = true;
 				}
+				hbIds = fabricService.getHbIdByCode(vcFactoryCode, vcBefModel);
+				fabricService.updateRefIdByHtId(hbIds, s.getId());
 			}else{
 				addOrUpdate = "add";
 				s = new Fabric();
@@ -1176,7 +1179,7 @@ public class FabricAction extends DispatchPagerAction {
 			outputStream = response.getOutputStream();
 			HSSFWorkbook wb = new HSSFWorkbook();
 			HSSFSheet sheet = wb.createSheet("Fabric");
-			String titleStr [] = {"工厂代码","供应商名称", "原厂型号","色号", "HT型号","书号","幅宽", "原始进价", "进价单位","进价货币", "内地价格", "大陆二次出价", "香港价格", "香港二次出价", "工程运费","零售运费","国内最低运费","香港最低运费","采购折扣", "状态","成分","备注1"};
+			String titleStr [] = {"工厂代码","供应商名称", "原厂型号","色号", "HT型号","书号","幅宽", "原始进价", "进价单位","进价货币", "内地价格", "大陆二次出价", "香港价格", "香港二次出价", "工程运费","零售运费","国内最低运费","香港最低运费","采购折扣", "状态","成分","备注1","品牌"};
 			HSSFRow thRow = sheet.createRow(0);//表头行
 			for(int i = 0; i < titleStr.length; i++) {
 				HSSFCell thCell = thRow.createCell( i);
@@ -1199,7 +1202,7 @@ public class FabricAction extends DispatchPagerAction {
 						fabric.getHkPrice(),
 						fabric.getHkSecPrice(),
 						fabric.getVcProFre(),fabric.getVcRetFre(),homeLowTransportCost,hkLowTransportCost,fabric.getVcPurDis(),
-						fabric.getVcDis(),fabric.getVcComposition(),fabric.getVcRemark1()};
+						fabric.getVcDis(),fabric.getVcComposition(),fabric.getVcRemark1(),fabric.getBrand()};
 				for(int j = 0; j < values.length; j++) {
 					HSSFCell c = cRow.createCell( j);
 					if(values[j] instanceof Float) {

@@ -59,4 +59,8 @@ public interface IFabricService {
 	public Page<Fabric> findHTForQuotePage(Page<Fabric> page, String htCode);
 	
 	public int updateVcdis();
+	
+	public List<Long> getHbIdByCode(String vcFactoryCode,String vcBefModel);
+	
+	public int updateRefIdByHtId(List<Long> ids,Long fbid);
 }

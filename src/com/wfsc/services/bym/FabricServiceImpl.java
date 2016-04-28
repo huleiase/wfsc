@@ -210,4 +210,23 @@ public class FabricServiceImpl implements IFabricService {
 		
 	}
 	
+	public List<Long> getHbIdByCode(String vcFactoryCode,String vcBefModel){
+		String sql = "select id from bym_fabric where vcFactoryCode='"+vcFactoryCode+"' and vcBefModel='"+vcBefModel+"' and isHtCode='1' ";
+		return fabricDao.getHtFabricIdByIds(sql.toString());
+	}
+	
+	public int updateRefIdByHtId(List<Long> ids,Long fbid){
+		StringBuffer hbsql = new StringBuffer("update bym_fabric set refid=");
+		hbsql.append(fbid).append(" where ");
+		for(int i=0;i<ids.size();i++){
+			if(i==ids.size()-1){
+				hbsql.append(" id="+ids.get(i));
+			}else{
+				hbsql.append(" id="+ids.get(i)+" or ");
+			}
+		}
+		int hbcount = this.deleteBySql(hbsql.toString());
+		return hbcount;
+	}
+	
 }
