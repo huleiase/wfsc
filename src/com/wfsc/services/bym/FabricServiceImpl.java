@@ -225,6 +225,7 @@ public class FabricServiceImpl implements IFabricService {
 				hbsql.append(" id="+ids.get(i)+" or ");
 			}
 		}
+		System.out.println("aaaaaaaaa="+hbsql.toString());
 		int hbcount = this.deleteBySql(hbsql.toString());
 		return hbcount;
 	}

@@ -394,7 +394,10 @@ public class FabricAction extends DispatchPagerAction {
 					isDHJOnly = true;
 				}
 				hbIds = fabricService.getHbIdByCode(vcFactoryCode, vcBefModel);
-				fabricService.updateRefIdByHtId(hbIds, s.getId());
+				if(hbIds.size()>0){
+					fabricService.updateRefIdByHtId(hbIds, s.getId());
+				}
+				
 			}else{
 				addOrUpdate = "add";
 				s = new Fabric();

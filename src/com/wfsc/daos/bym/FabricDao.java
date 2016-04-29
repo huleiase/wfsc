@@ -385,11 +385,11 @@ public class FabricDao extends EnhancedHibernateDaoSupport<Fabric> {
 		Session s = null;
 		try {
 			s = this.getSession();
-			List<Object[]> list = s.createSQLQuery(sql).addScalar("id", Hibernate.LONG).list();
+			List<Object> list = s.createSQLQuery(sql).addScalar("id", Hibernate.LONG).list();
 			if(CollectionUtils.isNotEmpty(list)){
-				for(Object[] obj : list){
-					if(obj!=null&&obj.length==1){
-						ids.add((Long)obj[0]);
+				for(Object obj : list){
+					if(obj!=null){
+						ids.add((Long)obj);
 					}
 				}
 			}
