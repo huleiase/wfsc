@@ -178,3 +178,7 @@ UPDATE bym_designerorder SET profit=-profit WHERE profit>0 AND operation='offset
 UPDATE bym_designerorder SET profitRate=0 WHERE profitRate IS NULL;
 UPDATE bym_qf_report bqr,bym_quote_fabric bqf SET bqr.bymOrderId=bqf.bymOrderId WHERE bqr.qfId=bqf.id;
 UPDATE bym_qf_report bqr,bym_order bo SET bqr.supplier=bo.supplier WHERE bqr.bymOrderId=bo.id;
+
+
+-- 20160503
+UPDATE bym_fabric hf,bym_fabric bf SET hf.refid=bf.id WHERE hf.vcFactoryCode=bf.vcFactoryCode AND hf.vcBefModel=bf.vcBefModel AND hf.isHtCode='1' AND bf.isHtCode='0';

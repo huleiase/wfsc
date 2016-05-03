@@ -214,7 +214,7 @@ br{
         <td><div align="center">&nbsp;<s:property value='vcWidth'/>&nbsp;<s:property value='vcWidthUnit'/></div></td>
         <td><div align="center"><s:if test='vcMoney=="RMB"||vcMoney=="rmb"'>&yen;</s:if><s:if test='vcMoney=="HKD"||vcMoney=="hkd"'>HKD</s:if>&nbsp;<s:property value='vcPrice'/>&nbsp;/<s:property value='vcPriceUnit'/></div></td>
         <td><div align="center">&nbsp;<s:if test='vcQuantity!=0.0'><s:property value='vcQuantity'/>&nbsp;<s:property value='vcPriceUnit'/></s:if><s:else>-</s:else></div></td>
-        <td><div align="center">&nbsp;<s:if test='vcTotal!=0'><s:if test='vcMoney=="RMB"||vcMoney=="rmb"'>&yen;</s:if><s:if test='vcMoney=="HKD"||vcMoney=="hkd"'>HKD</s:if>&nbsp;<fmt:formatNumber value="${vcTotal}" pattern="0.00"/></s:if><s:else>-</s:else></div></td>
+        <td><div align="center">&nbsp;<s:if test='vcTotal!=0'><s:if test='vcMoney=="RMB"||vcMoney=="rmb"'>&yen;</s:if><s:if test='vcMoney=="HKD"||vcMoney=="hkd"'>HKD</s:if>&nbsp;${vcTotalStr}</s:if><s:else>-</s:else></div></td>
       </tr>
       </s:iterator>
       <c:if test="${!empty quote.engineTotal && quote.engineTotal!=0}">
@@ -305,12 +305,12 @@ br{
 		<td height="36" colspan="7">
 			<div align="right">Subtotal:</div>
 		</td>
-		<td><div align="center"><s:if test='#request.quote.subtotal!=0&&#request.quote.subtotal!=""'>&yen;&nbsp;<fmt:formatNumber value="${quote.subtotal}" pattern="0.00"/></s:if><s:else>-</s:else></div></td>
+		<td><div align="center"><s:if test='#request.quote.subtotal!=0&&#request.quote.subtotal!=""'>&yen;&nbsp;${quote.subtotalStr}</s:if><s:else>-</s:else></div></td>
       </tr>
       <tr>
         <td height="36" colspan="6"><div align="center">&nbsp;</div></td>
         <td><div align="right">Total Amount:</div></td>
-        <td><div align="center"><s:if test='#request.quote.sumMoney!=0&&#request.quote.sumMoney!=""'>&yen;&nbsp;<fmt:formatNumber value="${quote.sumMoney}" pattern="0.00"/></s:if><s:else>-</s:else></div></td>
+        <td><div align="center"><s:if test='#request.quote.sumMoney!=0&&#request.quote.sumMoney!=""'>&yen;&nbsp;${quote.sumMoneyStr}</s:if><s:else>-</s:else></div></td>
       </tr><!--
       <tr>
         <td height="31" colspan="9"><div align="left">备注: ${quote.remk}</div></td>

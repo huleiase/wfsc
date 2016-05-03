@@ -423,8 +423,8 @@ width: 95px;
 	         <div class="controls">
 	         	 <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">付款方式</label>
 	           	<select name="order.payment" id="payment" style="width:202px;float: left;" class="span3">
+	           	<option value="汇款" <c:if test="${order.payment=='汇款'}">selected</c:if>>汇款</option>
 					<option value="预付款" <c:if test="${order.payment=='预付款'}">selected</c:if>>预付款</option>
-					<option value="汇款" <c:if test="${order.payment=='汇款'}">selected</c:if>>汇款</option>
 					<option value="月结" <c:if test="${order.payment=='月结'}">selected</c:if>>月结</option>
 	             </select>
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:120px;">收货地址</label>

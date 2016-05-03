@@ -142,7 +142,7 @@
 			     <td><div style="width:100px;"><input type="text" onkeyup="changeCustomerUnit(${vcCount },1);" value="<s:property value="orderQuantity"/>" id="orderQuantity${vcCount }" name="quoteFabricList[${vcIndex }].orderQuantity"  class="widthShort"/>&nbsp;<span><s:property value="vcOldPriceUnit"/></span>&nbsp;</div></td>
 			     <td><input type="text" readonly="readonly" value="<s:property value="vcLeastNum"/>" id="vcLeastNum${vcCount }" name="quoteFabricList[${vcIndex }].vcLeastNum"  class="widthShort"/></td>
 			     <td><input type="text" onkeyup="setVcPrice(${vcCount });" value="<s:property value="vcDiscount"/>" id="vcDiscount${vcCount }" name="quoteFabricList[${vcIndex }].vcDiscount"  class="widthShort"/></td>
-			     <td><input type="text" onclick="setTrVcTotal(${vcCount });" value="<s:property value="vcTotal"/>" id="vcTotal${vcCount }" readonly="readonly" name="quoteFabricList[${vcIndex }].vcTotal"  class="widthShort"/></td>
+			     <td><input type="text" onclick="setTrVcTotal(${vcCount });" value="<s:property value="vcTotalStr"/>" id="vcTotal${vcCount }" readonly="readonly" name="quoteFabricList[${vcIndex }].vcTotal"  class="widthShort"/></td>
 			     <td><input type="text" value="<s:property value="vcRmk"/>" id="vcRmk${vcCount }" name="quoteFabricList[${vcIndex }].vcRmk" /></td>
 			     <td><input type="text" value="<s:property value="remark2"/>" id="remark2${vcCount }" name="quoteFabricList[${vcIndex }].remark2" /></td>
 			     <td><input type="text" value="<s:property value="quoteRemark"/>" id="quoteRemark${vcCount }" name="quoteFabricList[${vcIndex }].quoteRemark" /></td>

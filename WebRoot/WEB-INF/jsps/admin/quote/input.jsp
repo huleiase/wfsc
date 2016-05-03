@@ -370,14 +370,14 @@ table#quoteFabricTable .label, .badge {
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">所含税率</label>
 	            <input name="quote.containTax" id="containTax" type="text" class="span3"  value="${ quote.containTax}" onkeyup="setPriceByFre2()">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">小计</label>
-	            <input name="quote.subtotal" id="subtotal" type="text" class="span3"  value="${ quote.subtotal}" readonly="readonly">
+	            <input name="quote.subtotal" id="subtotal" type="text" class="span3"  value="${ quote.subtotalStr}" readonly="readonly">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">优惠金额</label>
 	            <input name="quote.discountMoney" id="discountMoney" type="text" class="span3"  value="${quote.discountMoney }"  onkeyup="setPriceByDisMoney(this.value);">
 	         </div>
 	         <div class="clear"></div>
 	          <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">总金额</label>
-	            <input name="quote.sumMoney" id="sumMoney" type="text" class="span3"  value="${ quote.sumMoney}" readonly="readonly">
+	            <input name="quote.sumMoney" id="sumMoney" type="text" class="span3"  value="${ quote.sumMoneyStr}" readonly="readonly">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">总金额备注</label>
 	            <input name="quote.sumMoneyRemark" id="sumMoneyRemark" type="text" class="span6"  value="${ quote.sumMoneyRemark}" >
 	            

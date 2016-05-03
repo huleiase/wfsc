@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -210,6 +211,7 @@ public class QuoteAction extends DispatchPagerAction {
 			Set<QuoteFabric> qfSet = quote.getQuoteFabric();
 			quoteFabricList = QuoteFabricUtil.sort(qfSet,"getOrderId","asc");
 			for(QuoteFabric qf : quoteFabricList){
+				qf.setVcTotalStr(cancelGroupingUsed(qf.getVcTotal()));
 				if(StringUtils.isBlank(qf.getVcProject())){
 					qf.setVcProject(qf.getOrderId()+"");
 				}
@@ -256,6 +258,8 @@ public class QuoteAction extends DispatchPagerAction {
 							"1、请贵方务必在本报价表上签字（盖章）并回传我司，作为最终确认。@"+" \n"+
 							"2、货款请汇入由我司盖章确认的帐号方为有效，否则我司将概不负责由此引起的一切责任。@");
 		}
+		quote.setSumMoneyStr(cancelGroupingUsed(quote.getSumMoney()));
+		quote.setSubtotalStr(cancelGroupingUsed(quote.getSubtotal()));
 		List<Admin> localsellmanList = securityService.getUsersByRoleAndArea("销售", local);
 		request.setAttribute("localsellmanList", localsellmanList);
 		return "input";
@@ -272,7 +276,12 @@ public class QuoteAction extends DispatchPagerAction {
 		if (quote.getQuoteFabric() != null) {
 			Set<QuoteFabric> qfSet = quote.getQuoteFabric();
 			quoteFabricList = QuoteFabricUtil.sort(qfSet,"getOrderId", "asc");
+			for(QuoteFabric qf : quoteFabricList){
+				qf.setVcTotalStr(cancelGroupingUsed(qf.getVcTotal()));
+			}
 		}
+		quote.setSumMoneyStr(cancelGroupingUsed(quote.getSumMoney()));
+		quote.setSubtotalStr(cancelGroupingUsed(quote.getSubtotal()));
 		request.setAttribute("oper", oper);
 		return "detail";
 	}
@@ -2514,6 +2523,12 @@ public class QuoteAction extends DispatchPagerAction {
 			return null;
 	}
 	 
+	 private String cancelGroupingUsed(double d){
+		 NumberFormat nf = NumberFormat.getInstance();
+		 nf.setGroupingUsed(false);
+		 return nf.format(Math.round(d));
+	 }
+	 
 	public String printQuote(){
 		quote = this.quoteService.getQuoteById(Long.valueOf(request.getParameter("id")));
 		String item = quote.getItem()==null?"":quote.getItem().replaceAll("@", "<br>");
@@ -2524,6 +2539,7 @@ public class QuoteAction extends DispatchPagerAction {
 		}
 		List<QuoteFabric> listQF = new ArrayList<QuoteFabric>();
 		for(QuoteFabric qf : quoteFabricList){
+			qf.setVcTotalStr(cancelGroupingUsed(qf.getVcTotal()));
 			if(!"1".equals(qf.getIsHidden())){//不是隐藏型号的才打印
 				if(StringUtils.isBlank(qf.getVcProject())){
 					qf.setVcProject(qf.getOrderId()+"");
@@ -2549,6 +2565,8 @@ public class QuoteAction extends DispatchPagerAction {
 		quote.setVcInstallFre(Math.round(VcInstallFre*quote.getContainTax())+"");
 		float VcAftertreatment = Float.valueOf(StringUtils.isBlank(quote.getVcAftertreatment())?"0":quote.getVcAftertreatment());
 		quote.setVcAftertreatment(Math.round(VcAftertreatment*quote.getContainTax())+"");
+		quote.setSumMoneyStr(cancelGroupingUsed(quote.getSumMoney()));
+		quote.setSubtotalStr(cancelGroupingUsed(quote.getSubtotal()));
 		String local =  request.getParameter("local");
 		request.setAttribute("local", local);
 		if("hk".equals(local)){

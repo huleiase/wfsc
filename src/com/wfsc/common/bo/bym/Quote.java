@@ -337,6 +337,10 @@ public class Quote implements java.io.Serializable {
 	//税金
 	private float taxes;
 	
+	private String sumMoneyStr;
+	
+	private String subtotalStr;
+	
 	/**
 	 * 关联的报价布匹
 	 */
@@ -1198,4 +1202,22 @@ public class Quote implements java.io.Serializable {
 	public void setTaxes(float taxes) {
 		this.taxes = taxes;
 	}
+
+	public String getSumMoneyStr() {
+		return sumMoneyStr;
+	}
+
+	public void setSumMoneyStr(String sumMoneyStr) {
+		this.sumMoneyStr = sumMoneyStr;
+	}
+
+	public String getSubtotalStr() {
+		return subtotalStr;
+	}
+
+	public void setSubtotalStr(String subtotalStr) {
+		this.subtotalStr = subtotalStr;
+	}
+	
+	
 }
