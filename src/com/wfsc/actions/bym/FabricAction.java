@@ -387,17 +387,11 @@ public class FabricAction extends DispatchPagerAction {
 			boolean isDHJOnly = false;
 			Fabric s = fabricService.getFabricByCode(vcFactoryCode, vcBefModel);
 			String addOrUpdate = "update";
-			List<Long> hbIds = null;
 			if(s!=null){
 				isNew = false;
 				if(s.getDhjCost()>0&&s.getVcOldPrice()<1){
 					isDHJOnly = true;
 				}
-				hbIds = fabricService.getHbIdByCode(vcFactoryCode, vcBefModel);
-				if(hbIds.size()>0){
-					fabricService.updateRefIdByHtId(hbIds, s.getId());
-				}
-				
 			}else{
 				addOrUpdate = "add";
 				s = new Fabric();
@@ -745,7 +739,12 @@ public class FabricAction extends DispatchPagerAction {
 			if(CollectionUtils.isEmpty(errorList)){
 				//Collection<Fabric> ssList = excelMap.values();
 				for(String key : excelMap.keySet()){
-					fabricService.saveOrUpdateEntity(excelMap.get(key));
+					Fabric f = excelMap.get(key);
+					fabricService.saveOrUpdateEntity(f);
+					List<Long> hbIds = fabricService.getHbIdByCode(f.getVcFactoryCode(), f.getVcBefModel());
+					if(hbIds!=null&&hbIds.size()>0&&f.getId()!=null&&f.getId().longValue()>0){
+						fabricService.updateRefIdByHtId(hbIds, f.getId());
+					}
 				}
 				//fabricService.saveOrUpdateAll(ssList);
 				request.setAttribute("successMsg", "数据导入成功!");
@@ -1095,7 +1094,7 @@ public class FabricAction extends DispatchPagerAction {
 			outputStream = response.getOutputStream();
 			HSSFWorkbook wb = new HSSFWorkbook();
 			HSSFSheet sheet = wb.createSheet("Fabric");
-			String titleStr [] = {"工厂代码","供应商名称","类型", "原厂型号", "幅宽", "卷长","起订量", "最小分格", "成份",
+			String titleStr [] = {"工厂代号","供应商名称","类型", "原厂型号", "幅宽", "卷长","起订量", "最小分格", "成份",
 					"密度","回位","定高宽", "收缩","耐磨度","阻燃","环保","防污","色牢度","洗涤","用途","原始进价",
 					"进价单位","进价货币", "工程系数", "分销系数","工程运费","零售运费","采购折扣","国内最低运费",
 					"香港最低运费","内地面价","香港面价","零售面价", "状态","备注1","备注2","备注3"};
@@ -1182,7 +1181,7 @@ public class FabricAction extends DispatchPagerAction {
 			outputStream = response.getOutputStream();
 			HSSFWorkbook wb = new HSSFWorkbook();
 			HSSFSheet sheet = wb.createSheet("Fabric");
-			String titleStr [] = {"工厂代码","供应商名称", "原厂型号","色号", "HT型号","书号","幅宽", "原始进价", "进价单位","进价货币", "内地价格", "大陆二次出价", "香港价格", "香港二次出价", "工程运费","零售运费","国内最低运费","香港最低运费","采购折扣", "状态","成分","备注1","品牌"};
+			String titleStr [] = {"工厂代号","供应商名称", "原厂型号","色号", "HT型号","书号","幅宽", "原始进价", "进价单位","进价货币", "内地价格", "大陆二次出价", "香港价格", "香港二次出价", "工程运费","零售运费","国内最低运费","香港最低运费","采购折扣", "状态","成分","备注1","品牌"};
 			HSSFRow thRow = sheet.createRow(0);//表头行
 			for(int i = 0; i < titleStr.length; i++) {
 				HSSFCell thCell = thRow.createCell( i);

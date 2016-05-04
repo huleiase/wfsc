@@ -182,3 +182,13 @@ UPDATE bym_qf_report bqr,bym_order bo SET bqr.supplier=bo.supplier WHERE bqr.bym
 
 -- 20160503
 UPDATE bym_fabric hf,bym_fabric bf SET hf.refid=bf.id WHERE hf.vcFactoryCode=bf.vcFactoryCode AND hf.vcBefModel=bf.vcBefModel AND hf.isHtCode='1' AND bf.isHtCode='0';
+
+-- 20160504
+alter table bym_quote MODIFY sumMoney decimal(15,2);
+alter table bym_quote MODIFY subtotal decimal(15,2); 
+alter table bym_designerexpense MODIFY sumMoney decimal(15,2);
+alter table bym_designerorder MODIFY sumMoney decimal(15,2);
+alter table bym_designerorder MODIFY bjTotel decimal(15,2);
+alter table bym_qf_report MODIFY sumMoney decimal(15,2);
+alter table bym_order MODIFY sumMoney decimal(15,2);
+

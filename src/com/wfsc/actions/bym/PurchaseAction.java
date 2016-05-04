@@ -851,7 +851,7 @@ public class PurchaseAction extends DispatchPagerAction {
 		if(qfrs!=null){
 			for(QuoteFabricReport qfr : qfrs){
 				for(QuoteFabric qf : qfs){
-					if(qfr.getQfId().longValue()==qf.getId().longValue()){
+					if(qfr.getQfId().longValue()==qf.getId().longValue()&& qf.getVcFactoryNum().equals(o.getFactoryNum())){
 						float sigMoney = PriceUtil.getTwoDecimalFloat(qf.getSinglePrice() * qf.getVcPurDis());
 						if(sigMoney==0){
 							float vcPurDis = qf.getVcPurDis()==0?1F:qf.getVcPurDis();
