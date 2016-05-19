@@ -139,9 +139,9 @@ public class OrderAction extends DispatchPagerAction {
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
 		if(!isAdmin&&!isPurManager&&!isPurMan){
-			if(!(isCaiwu&&"GZ".equalsIgnoreCase(admin.getArea()))){
+			//if(!(isCaiwu&&"GZ".equalsIgnoreCase(admin.getArea()))){
 				paramap.put("area", admin.getArea());
-			}
+			//}
 			if(isSale&&!isSaleManager){
 				paramap.put("saleName", admin.getUsername());
 			}
@@ -204,9 +204,7 @@ public class OrderAction extends DispatchPagerAction {
 					if(sigMoney==0){
 						float vcPurDis = qf.getVcPurDis()==0?1F:qf.getVcPurDis();
 						sigMoney = PriceUtil.getTwoDecimalFloat(qf.getDhjCost() * vcPurDis);
-						//sigMoney = qf.get
 					}
-					//sigMoney = (float) (Math.round((sigMoney) * 10)) / 10;
 					qf.setSigMoney(sigMoney);
 					float vcQuoteNum = qf.getVcQuoteNum() == 0 ? qf.getOrderQuantity() : qf.getVcQuoteNum();
 					float shijia = qf.getShijia() == 0 ? qf.getSigMoney() : qf.getShijia();
