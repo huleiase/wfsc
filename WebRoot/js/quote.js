@@ -11,7 +11,8 @@
 			}
 			var dhjVcOldPrice = $("#dhjVcOldPrice"+lineNo).val();
 			var dhjVcHKPrice = $("#dhjVcHKPrice"+lineNo).val();
-			if((!dhjVcOldPrice&&quoteFormate==1) || (!dhjVcHKPrice&&dhjVcHKPrice)){
+			var dhjCost = $("#dhjCost"+lineNo).val();
+			if(0==dhjCost){
 				art.dialog({content:"没有大货价",okVal:"确定",ok:true});
 				return;
 			}
@@ -49,7 +50,8 @@
 				return;
 			}
 			 var oldPrice = $("#vcOldPrice"+lineNo).val();
-			 if(!oldPrice){
+			 var singlePrice = $("#singlePrice"+lineNo).val();
+			 if(0==singlePrice){
 			 	art.dialog({content:"没有常规价",okVal:"确定",ok:true});
 				return;
 			 }

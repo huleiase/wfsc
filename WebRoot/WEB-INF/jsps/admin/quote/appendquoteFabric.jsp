@@ -11,7 +11,7 @@
                  	<input type="hidden" value="<s:property value="id"/>" id="quoteFabricId${vcCount }" name="quoteFabricList[${vcIndex }].id"/>
                  	<input type="hidden" value="<s:property value="dhjVcOldPrice"/>" id="dhjVcOldPrice${vcCount }" />
 	                 <input type="hidden" value="<s:property value="dhjVcHKPrice"/>" id="dhjVcHKPrice${vcCount }" />
-	                 <input type="hidden" value="<s:property value="isCgbj"/>" id="isCgbj${vcCount }" />
+	                 <input type="hidden" value="<s:property value="isCgbj"/>" id="isCgbj${vcCount }"  name="quoteFabricList[${vcIndex }].isCgbj"/>
 	                 <!-- <input type="hidden" value="<s:property value="qfId"/>" id="qfId${vcCount }" name="quoteFabricList[${vcIndex }].qfId" />
 	                --><input type="hidden" value="<s:property value="vcIndex"/>" id="vcIndex${vcCount }" name="quoteFabricList[${vcIndex }].vcIndex" />
 	                 <input type="hidden" value="<s:property value="iscopy"/>" id="iscopy${vcCount }" name="quoteFabricList[${vcIndex }].copy" />

@@ -1221,7 +1221,9 @@ public class QuoteFabric implements java.io.Serializable{
 	public void setVcModelNumDisplay(String vcModelNumDisplay) {
 		this.vcModelNumDisplay = vcModelNumDisplay;
 	}
-
+	/**
+	 * @hibernate.property type="string"
+	 */
 	public String getIsCgbj() {
 		return isCgbj;
 	}

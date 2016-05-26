@@ -389,6 +389,13 @@ table#quoteFabricTable .label, .badge {
 	            <input disabled="disabled" name="quote.lowestFreightRmk" id="lowestFreightRmk" type="text" class="span11"  value="${ quote.lowestFreightRmk}" >
 	          </div>
 	         <div class="clear"></div>
+	         
+	         <div class="controls">
+	          <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">内部备注</label>
+	            <input disabled="disabled" name="quote.innerRmk" id="innerRmk" type="text" class="span11"  value="${ quote.innerRmk}" >
+	          </div>
+	         <div class="clear"></div>
+	         
 	          <div class="controls">
 	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">所含税率</label>
 	            <input disabled="disabled" name="quote.containTax" id="containTax" type="text" class="span3"  value="${ quote.containTax}" >

@@ -340,7 +340,8 @@ public class Quote implements java.io.Serializable {
 	private String sumMoneyStr;
 	
 	private String subtotalStr;
-	
+	//报价员内部备注
+	private String innerRmk;
 	/**
 	 * 关联的报价布匹
 	 */
@@ -1217,6 +1218,16 @@ public class Quote implements java.io.Serializable {
 
 	public void setSubtotalStr(String subtotalStr) {
 		this.subtotalStr = subtotalStr;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getInnerRmk() {
+		return innerRmk;
+	}
+
+	public void setInnerRmk(String innerRmk) {
+		this.innerRmk = innerRmk;
 	}
 	
 	

@@ -1015,6 +1015,7 @@ public class QuoteAction extends DispatchPagerAction {
 			float oldPrice = 0F;
 			// 最终单价
 			float vcPrice = 0F;
+			qf.setIsCgbj("1");
 			if ("1".equals(quoteFormate)) {// 内地报价
 				//计算公式：面价= 原始进价*采购折扣*汇率*工程系数
 				oldPrice = PriceUtil.getCommonFacePrice(f.getVcOldPrice(), f.getVcPurDis(), vcExchangeRate, f.getVcProRatio());
