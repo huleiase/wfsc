@@ -105,7 +105,7 @@
 			    //所含税率
 			    var ctax = $("#containTax").val();
 			    if(!ctax || ctax==0){
-			    	ctax = 1.06
+			    	ctax = 1.08
 			    }
 			    // 报价折扣
 			    var vcdiscount = $("#vcDiscount"+lineNo).val();
@@ -483,7 +483,7 @@
 function setSumMoney(){
 	var ctax = document.getElementById("containTax").value;
 	if(!ctax || ctax==0){
-		ctax = 1.06;
+		ctax = 1.08;
 	}
 	var subtotal = 0;
 	$("input[name$='vcTotal']:not([isHiddenAttr])").each(function(i){
@@ -580,7 +580,7 @@ function setSumMoney(){
 function setUrgentCost(){
 	var ctax = document.getElementById("containTax").value;
 	if(!ctax || ctax==0){
-		ctax = 1.06
+		ctax = 1.08
 	}
 	var urgentCost = $("#urgentCost").val();
 	if(!urgentCost){
@@ -594,7 +594,7 @@ function setUrgentCost(){
 			  function setLowestFreight(){
 			  var ctax = document.getElementById("containTax").value;
 			    if(!ctax || ctax==0){
-			    	ctax = 1.06
+			    	ctax = 1.08
 			    }
 			    var lowestFreight = $("#lowestFreight").val();
 				if(!lowestFreight){

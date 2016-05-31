@@ -233,8 +233,8 @@ public class QuoteAction extends DispatchPagerAction {
 			quote.setCurUserName(this.getCurrentAdminUser().getUsername());
 			quote.setVcQuoteNum(quoteNum);
 			quote.setVcFormDate(new Date());
-			quote.setContainTax(1.06F);
-			quote.setSumMoneyRemark("以上报价含国内普通税金6%，含国内运费。");
+			quote.setContainTax(1.08F);
+			quote.setSumMoneyRemark("以上报价含国内普通税金8%，含国内运费。");
 			quote.setIsFreight("1");
 			quote.setProjectLPSellInverse(0F);
 			quote.setDesignLPSelllnverse(100F);
@@ -871,7 +871,7 @@ public class QuoteAction extends DispatchPagerAction {
 	public String ajaxQuoteFabric() {
 		response.setContentType("text/html;charset=utf-8");
 		// 税率
-		float ctax = 1.06f;
+		float ctax = 1.08f;
 		String ctaxStr = request.getParameter("ctax");
 		if (StringUtils.isNotBlank(ctaxStr)) {
 			ctax = Float.valueOf(ctaxStr);
