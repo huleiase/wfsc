@@ -470,7 +470,7 @@
 		   			vcQuantity = 0;
 		   		}
 		   		var trtotal = Number(vcPrice)*Number(vcQuantity)
-		   		$("#vcTotal"+index).val(Math.ceil(trtotal));
+		   		$("#vcTotal"+index).val(Math.round(trtotal));
 		   		var isHidden = $("#isHidden"+index).val();
 		   		if(1==isHidden){//如果是隐藏型号就不去累加小计
 		   		}else{
@@ -568,13 +568,13 @@ function setSumMoney(){
 	subtotal = subtotal + Number(urgentCost) + Number(lowestFreight)+ Number(engineTotal)+ Number(flameTotal)
 			+ Number(arriveTransport)+ Number(inputCol1)+ Number(inputCol2)+ Number(inputCol3)+ Number(inputCol4)
 			+ Number(inputCol5) + Number(lcFre)+ Number(taxes) + Number(vcProcessFre) + Number(vcInstallFre) + Number(vcAftertreatment) + Number(vcOther);
-	$("#subtotal").val(Math.ceil(subtotal));
+	$("#subtotal").val(Math.round(subtotal));
 	var discountMoney = $("#discountMoney").val();
 	if(!discountMoney){
 		discountMoney=0;
 	}
 	var sumMoney = subtotal-Number(discountMoney);
-	$("#sumMoney").val(Math.ceil(sumMoney));
+	$("#sumMoney").val(Math.round(sumMoney));
 }
 
 function setUrgentCost(){

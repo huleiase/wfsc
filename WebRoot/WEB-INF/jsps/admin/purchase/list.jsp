@@ -50,7 +50,7 @@
                   <button class="label label-info btn btn-primary btn-mini" onclick="operPurchase('<s:property value="id"/>',4);">打印</button>
                   </w:permission>
                    <w:permission permissionId="<%=PermissionId.PROCESS_PURCHASE_MGT_DOWNLOAD%>">
-                   <button class="label label-info btn btn-primary btn-mini" onclick="downloadPurchase('<s:property value="id"/>');">下载采购单</button>
+                   <button <s:if test="#obj.voucher=='加工单'">style='color:yellow;'</s:if> class="label label-info btn btn-primary btn-mini" onclick="downloadPurchase('<s:property value="id"/>');">下载采购单</button>
                    </w:permission>
                   </s:if>
                    <w:permission permissionId="<%=PermissionId.PROCESS_PURCHASE_MGT_UPLOAD_ATTACHMENT%>">

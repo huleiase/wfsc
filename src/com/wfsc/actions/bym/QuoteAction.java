@@ -508,43 +508,7 @@ public class QuoteAction extends DispatchPagerAction {
 			quote.setCreatDate(oldQuote.getCreatDate());//创建时间
 			quote.setCurUserName(oldQuote.getCurUserName());//创建人
 			Set<QuoteFabric> oldQfSet = oldQuote.getQuoteFabric();
-			//增加一条抵消设计费记录，原来的还保留
-			/*List<DesignerExpense> des = this.designerExpenseService.getDesignerExpenseByQuoteId(quote.getId());
-			DesignerExpense oldDe = new DesignerExpense();
-			if(CollectionUtils.isNotEmpty(des)){
-				oldDe = des.get(0);
-				oldDe.setOperation("old");
-				designerExpenseService.saveOrUpdateEntity(oldDe);
-			}
-			DesignerExpense offsetDe = (DesignerExpense)oldDe.clone();
-			offsetDe.setId(null);
-			offsetDe.setOperation("offset");
-			offsetDe.setSumMoney(-oldDe.getSumMoney());
-			designerExpenseService.saveOrUpdateEntity(offsetDe);*/
-			//设计费处理结束
 			
-			//开始处理设计订单，因为这时候不确定还有没有订单，所以先把型号的改变记录先保存下来，后面再根据订单的quoteId
-			//与QuoteFabricReport的quoteId联系起来
-			/*List<QuoteFabricReport> qfrList = this.commonService.getByQuoteId(quote.getId());
-			List<QuoteFabricReport> qfrOffList = new ArrayList<QuoteFabricReport>();
-			if(CollectionUtils.isNotEmpty(qfrList)){
-				for(QuoteFabricReport qfr : qfrList){
-					qfr.setOperation("old");
-					QuoteFabricReport qfrOff = new QuoteFabricReport();
-					qfrOff.setIsHidden(qfr.getIsHidden());
-					qfrOff.setIsReplaced(qfr.getIsReplaced());
-					qfrOff.setOperation("offset");
-					qfrOff.setQuoteId(qfr.getQuoteId());
-					qfrOff.setTaxation(qfr.getTaxation());
-					qfrOff.setVcModelNum(qfr.getVcModelNum());
-					qfrOff.setVcPrice(qfr.getVcPrice());
-					qfrOff.setVcPriceUnit(qfr.getVcPriceUnit());
-					qfrOff.setVcQuantity(qfr.getVcQuantity());
-					qfrOffList.add(qfrOff);
-				}
-				qfrList.addAll(qfrOffList);
-				commonService.saveOrUpdateAllQFR(qfrOffList);
-			}*/
 			//比较数据库中与当前的qf，数据库中有而当前没有，说明是删除了该qf，那么就要执行删除方法，因为页面上的删除只是dom上的删除
 			for(QuoteFabric oldqf : oldQfSet){
 				int compareCount = 0;
@@ -613,48 +577,7 @@ public class QuoteAction extends DispatchPagerAction {
 		}
 		quote.setQuoteFabric(qfset);
 		quoteService.saveOrUpdateEntity(quote);
-		//增加一条设计费记录
-		/*DesignerExpense de = new DesignerExpense();
-		de.setQuoteId(quote.getId());
-		de.setOperation("add");
-		de.setQuoteLocal(quote.getVcQuoteLocal());
-		de.setQuoteNo(quote.getProjectNum());
-		de.setSumMoney(quote.getSumMoney());
-		de.setCustomerName(quote.getVcAttnName());
-		de.setProjectName(quote.getProjectName());
-		de.setVcProcessFre(StringUtils.isBlank(quote.getVcProcessFre())?0F:Float.valueOf(quote.getVcProcessFre()));
-		de.setVcInstallFre(StringUtils.isBlank(quote.getVcInstallFre())?0F:Float.valueOf(quote.getVcInstallFre()));
-		de.setUrgentCost(quote.getUrgentCost());
-		for(QuoteFabric qf :quoteFabricList){
-			if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay()))continue;
-			String lowFreight = qf.getLowFreight();
-			freight+=qf.getOrderQuantity()*(StringUtils.isEmpty(lowFreight)?0:Float.valueOf(lowFreight));
-		}
-		freight+=quote.getLowestFreight();
-		freight+=quote.getArriveTransport();
-		de.setFreight(freight);
-		de.setTaxationCost((quote.getSumMoney() / quote.getContainTax())*(quote.getContainTax() - 1));
-		de.setVcAftertreatment(StringUtils.isBlank(quote.getVcAftertreatment())?0F:Float.valueOf(quote.getVcAftertreatment()));
-		de.setVcOther(StringUtils.isBlank(quote.getVcOther())?0F:Float.valueOf(quote.getVcOther()));
-		this.designerExpenseService.saveOrUpdateEntity(de);*/
-		//设计费增加结束
-		//增加设计订单记录
-		/*List<QuoteFabricReport> qfrs = new ArrayList<QuoteFabricReport>();
-		for(QuoteFabric qf : qfset){
-			if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay()))continue;
-			QuoteFabricReport qfr = new QuoteFabricReport();
-			qfr.setIsHidden(qf.getIsHidden());
-			qfr.setIsReplaced(qf.getIsReplaced());
-			qfr.setTaxation(quote.getContainTax());
-			qfr.setVcModelNum(qf.getVcModelNumDisplay());
-			qfr.setVcPrice(qf.getVcPrice());
-			qfr.setVcPriceUnit(qf.getVcPriceUnit());
-			qfr.setVcQuantity(qf.getVcQuantity());
-			qfr.setQuoteId(quote.getId());
-			qfr.setOperation("add");
-			qfrs.add(qfr);
-		}
-		this.commonService.saveOrUpdateAllQFR(qfrs);*/
+		
 		List<Admin> saleManegers = this.securityService.getUsersByRoleAndArea("销售经理", curAdmin.getArea());
 		if(CollectionUtils.isNotEmpty(saleManegers)){
 			for(Admin admin : saleManegers){
@@ -1139,14 +1062,14 @@ public class QuoteAction extends DispatchPagerAction {
          bufferImg = ImageIO.read(new File(request.getRealPath(imgUrl)));     
          ImageIO.write(bufferImg, "jpg", byteArrayOut); 
          String fileUrl = "/model/quote1.xls";
-         if(!"1".equals(quoteFormate)){
+         if("2".equals(quoteFormate)||"4".equals(quoteFormate)){
         	 fileUrl = "/model/quote2.xls";
          }
 		 FileInputStream in = new FileInputStream(request.getRealPath(fileUrl));
          HSSFWorkbook book = new HSSFWorkbook(in);
          HSSFSheet sheet = book.getSheetAt(0);
          HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
-         HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 715, 120,(short) 0, 0, (short) 5, 6);
+         HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 715, 120,(short) 0, 0, (short) 6, 6);
          anchor.setAnchorType(3); 
          patriarch.createPicture(anchor, book.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));   
         //坐标从0开始
@@ -1161,8 +1084,8 @@ public class QuoteAction extends DispatchPagerAction {
         	if(cell4!=null){
         		cell4.setCellValue(entity.getVcAttnTel());
         	}
-        	HSSFCell cell6 = row8.getCell(5);
-        	if(cell6!=null){
+        	HSSFCell cell6 = row8.getCell(6);
+        	if(cell6!=null){        
         		cell6.setCellValue(entity.getVcAttnFax());
         	}
         }
@@ -1176,7 +1099,7 @@ public class QuoteAction extends DispatchPagerAction {
         	if(cell4!=null){
         		cell4.setCellValue(entity.getVcAttnPhone());
         	}
-        	HSSFCell cell6 = row9.getCell(5);
+        	HSSFCell cell6 = row9.getCell(6);
         	if(cell6!=null){
         		cell6.setCellValue(entity.getVcAttnEmail());
         	}
@@ -1191,7 +1114,7 @@ public class QuoteAction extends DispatchPagerAction {
         	if(cell4!=null){
         		cell4.setCellValue(entity.getVcFormTel());
         	}
-        	HSSFCell cell6 = row10.getCell(5);
+        	HSSFCell cell6 = row10.getCell(6);
         	if(cell6!=null){
         		cell6.setCellValue(entity.getVcFormFax());
         	}
@@ -1206,7 +1129,7 @@ public class QuoteAction extends DispatchPagerAction {
         	if(cell4!=null){
         		cell4.setCellValue(entity.getVcFormPhone());
         	}
-        	HSSFCell cell6 = row11.getCell(5);
+        	HSSFCell cell6 = row11.getCell(6);
         	if(cell6!=null){
         		String dateStr = DateUtil.getShortDate(entity.getVcFormDate());
         		cell6.setCellValue(dateStr);
@@ -1229,7 +1152,7 @@ public class QuoteAction extends DispatchPagerAction {
         		}
         		cell4.setCellValue(quoteFormateDis);
         	}
-        	HSSFCell cell6 = row12.getCell(5);
+        	HSSFCell cell6 = row12.getCell(6);
         	if(cell6!=null){
         		cell6.setCellValue(entity.getProjectNum());
         	}
@@ -1337,9 +1260,9 @@ public class QuoteAction extends DispatchPagerAction {
         	sheet.shiftRows(shifStartRow + rows + 2 + rowcount,  sheet.getLastRowNum(), 1, true, false);
         }
         
-        short mergeCol = 6;
+        short mergeCol = 7;
         if("2".equals(quoteFormateFlag)) {
-        	mergeCol = 5;
+        	mergeCol = 6;
         }
         
         HSSFCellStyle style = book.createCellStyle();     
@@ -1351,19 +1274,21 @@ public class QuoteAction extends DispatchPagerAction {
 		style.setBorderRight((short)1);
 		
 		HSSFRow row = sheet.getRow(shifStartRow);
-		this.createCell(row, 8);
+		this.createCell(row, 9);
 		row.getCell(0).setCellStyle(style);
 		row.getCell(1).setCellStyle(style);
 		row.getCell(2).setCellStyle(style);
 		row.getCell(3).setCellStyle(style);
 		row.getCell(4).setCellStyle(style);
 		row.getCell(5).setCellStyle(style);
+		row.getCell(6).setCellStyle(style);
 		row.getCell(0).setCellValue("Items");
 		row.getCell(1).setCellValue("Description");
 		row.getCell(2).setCellValue("Model number");
-		row.getCell(3).setCellValue("width");
-		row.getCell(4).setCellValue("Unit price");
-		row.getCell(5).setCellValue("Quantity");
+		row.getCell(3).setCellValue("color");
+		row.getCell(4).setCellValue("width");
+		row.getCell(5).setCellValue("Unit price");
+		row.getCell(6).setCellValue("Quantity");
 
 		if("2".equals(quoteFormateFlag)) {
 			HSSFFont font = (HSSFFont) book.createFont();
@@ -1378,7 +1303,7 @@ public class QuoteAction extends DispatchPagerAction {
 			style1.setBorderLeft((short)1);
 			style1.setBorderRight((short)1);
 			
-			row.getCell(6).setCellValue("Total");
+			row.getCell(7).setCellValue("Total");
 			row.getCell(0).setCellStyle(style1);
 			row.getCell(1).setCellStyle(style1);
 			row.getCell(2).setCellStyle(style1);
@@ -1386,11 +1311,12 @@ public class QuoteAction extends DispatchPagerAction {
 			row.getCell(4).setCellStyle(style1);
 			row.getCell(5).setCellStyle(style1);
 			row.getCell(6).setCellStyle(style1);
+			row.getCell(6).setCellStyle(style1);
 		} else {
-			row.getCell(6).setCellStyle(style);
-			row.getCell(6).setCellValue("Note");
 			row.getCell(7).setCellStyle(style);
-			row.getCell(7).setCellValue("Total");
+			row.getCell(7).setCellValue("Note");
+			row.getCell(8).setCellStyle(style);
+			row.getCell(8).setCellValue("Total");
 		}
         
       //  HSSFCellStyle rowStyle = row.getRowStyle();
@@ -1412,29 +1338,34 @@ public class QuoteAction extends DispatchPagerAction {
 	        String vcModelNumDisplay = isHtCode.equals("0")?qfList.get(i).getVcFactoryCode()+" "+qfList.get(i).getVcModelNum():qfList.get(i).getHtCode();//显示的型号
 	        c3.setCellStyle(style);
         	c3.setCellValue(vcModelNumDisplay);
+        	
         	HSSFCell c4 = r.createCell(3);
         	c4.setCellStyle(style);
-        	c4.setCellValue(qfList.get(i).getVcWidth()+" "+qfList.get(i).getVcWidthUnit());
+        	c4.setCellValue(qfList.get(i).getVcColorNum());
+        	
         	HSSFCell c5 = r.createCell(4);
         	c5.setCellStyle(style);
-        	c5.setCellValue(qfList.get(i).getVcPrice()+" "+qfList.get(i).getVcMoney());
+        	c5.setCellValue(qfList.get(i).getVcWidth()+" "+qfList.get(i).getVcWidthUnit());
         	HSSFCell c6 = r.createCell(5);
         	c6.setCellStyle(style);
-        	c6.setCellValue(qfList.get(i).getVcQuantity()+" "+qfList.get(i).getVcPriceUnit());
+        	c6.setCellValue(qfList.get(i).getVcPrice()+" "+qfList.get(i).getVcMoney());
+        	HSSFCell c7 = r.createCell(6);
+        	c7.setCellStyle(style);
+        	c7.setCellValue(qfList.get(i).getVcQuantity()+" "+qfList.get(i).getVcPriceUnit());
         	
         	if("2".equals(quoteFormateFlag)){
-        		HSSFCell c7 = r.createCell(6);
-        		String vctotle = ProPrice.getTwoDecimalFloat(qfList.get(i).getVcTotal())+"";
-        		c7.setCellStyle(style);
-            	c7.setCellValue(vctotle);
-        	} else {
-        		HSSFCell c7 = r.createCell(6);
-        		c7.setCellStyle(style);
-        		c7.setCellValue("无".equals(qfList.get(i).getReplaceRemark())?"":qfList.get(i).getReplaceRemark());
         		HSSFCell c8 = r.createCell(7);
         		String vctotle = ProPrice.getTwoDecimalFloat(qfList.get(i).getVcTotal())+"";
         		c8.setCellStyle(style);
-        		c8.setCellValue(vctotle);
+            	c8.setCellValue(vctotle);
+        	} else {
+        		HSSFCell c8 = r.createCell(7);
+        		c8.setCellStyle(style);
+        		c8.setCellValue("无".equals(qfList.get(i).getReplaceRemark())?"":qfList.get(i).getReplaceRemark());
+        		HSSFCell c9 = r.createCell(8);
+        		String vctotle = ProPrice.getTwoDecimalFloat(qfList.get(i).getVcTotal())+"";
+        		c9.setCellStyle(style);
+        		c9.setCellValue(vctotle);
         	}
         }
         
@@ -1610,7 +1541,7 @@ public class QuoteAction extends DispatchPagerAction {
         		}
         		
         	}
-        	HSSFCell cell2 = lastRow.getCell(4);
+        	HSSFCell cell2 = lastRow.getCell(5);
         	if(cell2!=null){
         		cell2.setCellValue(entity.getDeputyName());
         	}
@@ -1887,33 +1818,7 @@ public class QuoteAction extends DispatchPagerAction {
 			de.setUrgentCost(q.getUrgentCost());
 			float freight = this.getFreight(q);
 			Set<QuoteFabric> qfs = q.getQuoteFabric();
-			/*if("1".equals(q.getIsFreight())){
-				for(QuoteFabric qf :qfs){
-					if(qf==null||StringUtils.isBlank(qf.getVcModelNumDisplay())||"1".equals(qf.getIsHidden()))continue;
-					float lowFreight = 0F;
-					//quoteFormate==1内地报价,quoteFormate==2香港报价,quoteFormate==3大货价内地报价,quoteFormate==4大货价香港报价,quoteFormate==5零售报价
-					if("1".equals(q.getQuoteFormate())||"5".equals(q.getQuoteFormate())){
-						lowFreight = qf.getVcProFre();
-					}else if("2".equals(q.getQuoteFormate())){
-						lowFreight = qf.getVcRetFre();
-					}else if("3".equals(q.getQuoteFormate())){
-						lowFreight = qf.getDhjInlandTransCost();
-					}else if("4".equals(q.getQuoteFormate())){
-						lowFreight = qf.getDhjHKTransCost();
-					}
-					if("yd".equalsIgnoreCase(qf.getVcOldPriceUnit())){
-						freight +=qf.getOrderQuantity()*lowFreight*0.914;
-					}else{
-						freight +=qf.getOrderQuantity()*lowFreight;
-					}
-					
-				}
-			}
-			freight+=q.getLowestFreight();
-			freight+=q.getArriveTransport();
-			if("3".equals(q.getQuoteFormate())||"4".equals(q.getQuoteFormate())||"5".equals(q.getQuoteFormate())){
-				freight+=q.getUrgentCost();
-			}*/
+			
 			//---------老数据没这个值，需要在导出的时候再计算一遍
 			de.setFreight(freight);
 			//------------
@@ -2007,16 +1912,7 @@ public class QuoteAction extends DispatchPagerAction {
 			deo.setQuoteLocal(q.getVcQuoteLocal());
 			deo.setSumMoney(q.getSumMoney());
 			deo.setProjectName(q.getProjectName());
-			/*List<Order> os = this.orderService.getOrderByQuoteId(q.getId());
-			if(os!=null&&os.size()>0){
-				deo.setOrderNo(os.get(0).getOrderNo());
-				//运费 同一订单号订单运费相加
-				float cbFreight = 0F;
-				for(Order o :os){
-					cbFreight+=o.getFreight();
-				}
-				deo.setCbFreight(cbFreight);
-			}*/
+			
 			String saleMan = "";
 			if(StringUtils.isNotBlank(q.getVcSalesman())){
 				if(!saleMan.contains(q.getVcSalesman())){
@@ -2044,16 +1940,7 @@ public class QuoteAction extends DispatchPagerAction {
 				saleMan+=q.getVcSalesman4()+",";
 				}
 			}
-			/*Set<String> salesMan = q.getSalesman();
-			if(salesMan!=null){
-				for(String sale : salesMan){
-					if(StringUtils.isNotBlank(sale)){
-						if(!saleMan.contains(sale)){
-						saleMan+=sale+",";
-						}
-					}
-				}
-			}*/
+			
 			deo.setVcSalesman(saleMan);
 			//报价材料合计=材料明细表里同一合同号的所有型号的产品报价的合计总和
 			float bjClTotel = 0F;

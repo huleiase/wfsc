@@ -30,7 +30,6 @@ import org.springframework.stereotype.Controller;
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
 import com.constants.LogModule;
-import com.wfsc.common.bo.bym.DesignerExpense;
 import com.wfsc.common.bo.bym.DesignerOrder;
 import com.wfsc.common.bo.bym.Email;
 import com.wfsc.common.bo.bym.Order;
@@ -917,7 +916,10 @@ public class PurchaseAction extends DispatchPagerAction {
 				}
 				qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
 				qfr.setAmountrmb(qfr.getCbTotal()*huilv);
-				cbClTotel+=qfr.getAmountrmb();
+				if("add".equals(qfr.getOperation())){
+					cbClTotel+=qfr.getAmountrmb();
+				}
+//				System.out.println("qfr.getCbModelNum()"+qfr.getCbModelNum()+"qfr.getOperation()=="+qfr.getOperation()+"-->qfr.getAmountrmb()=="+qfr.getAmountrmb());
 				qfr.setSellProfit(Math.abs(qfr.getBjTotal())-Math.abs(qfr.getAmountrmb()));
 				if(qfr.getBjTotal()!=0){
 					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());
