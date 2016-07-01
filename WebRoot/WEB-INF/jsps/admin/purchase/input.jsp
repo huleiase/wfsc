@@ -209,7 +209,7 @@ table#quoteFabricTable .label, .badge {
                 	<option value="广州市越秀区东风中路268号广州交易广场1501-1502" <c:if test="${purchase.address=='广州市越秀区东风中路268号广州交易广场1501-1502'}">selected</c:if> >广州市越秀区东风中路268号广州交易广场1501-1502</option>
                 	<option value="广州市海珠区江泰路康泰街9号首层" <c:if test="${purchase.address=='广州市海珠区江泰路康泰街9号首层'}">selected</c:if> >广州市海珠区江泰路康泰街9号首层</option>
                 	<option value="上海市闸北区中山北路470号3号楼2楼202-208室" <c:if test="${purchase.address=='上海市闸北区中山北路470号3号楼2楼202-208室'}">selected</c:if> >上海市闸北区中山北路470号3号楼2楼202-208室</option>
-                	<option value="深圳市福田区泰然七路苍松大厦北座1501A" <c:if test="${purchase.address=='深圳市福田区泰然七路苍松大厦北座1501A'}">selected</c:if> >深圳市福田区泰然七路苍松大厦北座1501A</option>
+                	<option value="深圳市福田区天安高尔夫花园三期珑园4栋6B" <c:if test="${purchase.address=='深圳市福田区天安高尔夫花园三期珑园4栋6B'}">selected</c:if> >深圳市福田区天安高尔夫花园三期珑园4栋6B</option>
                 	<option value="北京市朝阳区东柏街9号天之骄子5号楼2单元202室" <c:if test="${purchase.address=='北京市朝阳区东柏街9号天之骄子5号楼2单元202室'}">selected</c:if> >北京市朝阳区东柏街9号天之骄子5号楼2单元202室</option>
                 	<option value="香港北角英皇道338號華懋交易廣場1909室" <c:if test="${purchase.address=='香港北角英皇道338號華懋交易廣場1909室'}">selected</c:if> >香港北角英皇道338號華懋交易廣場1909室</option>
                 	<option value="其他地址" <c:if test="${purchase.address=='其他地址'}">selected</c:if> >其他地址</option>
