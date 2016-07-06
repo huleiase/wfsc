@@ -762,6 +762,8 @@ public class PurchaseAction extends DispatchPagerAction {
 					order.setOrderNo(ordersdb.get(0).getOrderNo());// 用原来的单号
 				}
 				order.setOrderDate(new Date());
+				order.setModifyDate(new Date());
+				order.setModifyUser(curAdmin.getUsername());
 				order.setTbYearMonth(purchase.getTbYearMonth());
 				order.setVcfromTel("080-83309415");
 				order.setVcfromFax("02083309428");

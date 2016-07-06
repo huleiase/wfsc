@@ -238,6 +238,7 @@ public class Order implements java.io.Serializable {
 	private String isCaiwuPayOver;
 	//QC异常
 	private String qcException;
+	private String modifyUser;
 	
 	/**
 	 * @return
@@ -1069,6 +1070,16 @@ public class Order implements java.io.Serializable {
 
 	public void setQcException(String qcException) {
 		this.qcException = qcException;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getModifyUser() {
+		return modifyUser;
+	}
+
+	public void setModifyUser(String modifyUser) {
+		this.modifyUser = modifyUser;
 	}
 
 

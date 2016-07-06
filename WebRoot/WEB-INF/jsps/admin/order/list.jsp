@@ -27,6 +27,8 @@
                    <c:if test="${!isLess}">
                   <th>总金额</th>
                   </c:if>
+                  <th>最后修改时间</th>
+                  <th>修改人</th>
                   <th>基本操作</th>
                 </tr>
               </thead>
@@ -71,6 +73,8 @@
                    <c:if test="${!isLess}">
                    <td><s:property value="sumMoney"/> <s:property value="hbUnit"/></td>
                    </c:if>
+                   <td> <s:date name="modifyDate" format="yyyy-MM-dd HH:mm" /></td>
+                   <td><s:property value="modifyUser"/></td>
                   <td>
                   <w:permission permissionId="<%=PermissionId.PROCESS_ORDER_MGT_UPDATE%>">
                   <s:if test="#obj.orderStatus!=3||#request.isAdmin||#request.isPurManager">

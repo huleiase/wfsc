@@ -317,6 +317,7 @@ public class OrderAction extends DispatchPagerAction {
 		order.setFactoryNum(odb.getFactoryNum());
 		order.setHbUnit(odb.getHbUnit());
 		order.setModifyDate(new Date());
+		order.setModifyUser(curAdmin.getUsername());
 		if(3==order.getOrderStatus()){
 			order.setAuditor(curAdmin.getUsername());
 		}
