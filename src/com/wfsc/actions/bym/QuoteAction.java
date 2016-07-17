@@ -2432,6 +2432,10 @@ public class QuoteAction extends DispatchPagerAction {
 				if(StringUtils.isBlank(qf.getVcProject())){
 					qf.setVcProject(qf.getOrderId()+"");
 				}
+				Attachment attr = commonService.getOnlyAttachmentByKey(qf.getVcFactoryCode()+"_"+qf.getVcModelNum());
+				if(attr!=null){
+					qf.setFilePath(attr.getAttachPath());
+				}
 				listQF.add(qf);
 			}
 		}
@@ -2520,6 +2524,9 @@ public class QuoteAction extends DispatchPagerAction {
 	}
 	
 	public String getQuoteStatus(){
+		if(StringUtils.isBlank(request.getParameter("quoteId"))){
+			return null;
+		}
 		String emailId = request.getParameter("emailId");
 		if(StringUtils.isNotBlank(emailId)){
 			Email e = this.emailService.getEmailById(Long.valueOf(emailId));

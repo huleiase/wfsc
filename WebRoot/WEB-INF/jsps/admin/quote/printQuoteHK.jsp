@@ -186,6 +186,7 @@ br{
         		<th width="77">
         			<font style="font-size:14;">Description</font>
         		</th>
+        		<th><font style="font-size:14;">Picture</font></th>
         		<th width="137">
         			<font style="font-size:14;">Model number</font>
         		</th>
@@ -209,6 +210,15 @@ br{
       <tr>
         <td height="38"><div align="center">&nbsp;<s:property value='vcProject'/></div></td>
         <td><div align="center">&nbsp;<s:property value='vcDes'/></div></td>
+        <td>
+        							<div align="center">
+        							<s:if test="filePath!=null">
+	        						<a target="_blank" title="点击查看图片" href='<s:property value="filePath"/>' rel="attachment" class="tip-bottom" style="display: inline-block; width: 60px;">
+							     		<img width="50" height="35" alt="暂无图片" src='<s:property value="filePath"/>' /> 
+							     	</a>
+							     	</s:if>
+        							</div>
+        						</td>
         <td><div align="center"><s:if test="#request.isHtCode==0"><s:property value='vcFactoryCode'/>&nbsp;<s:property value='vcModelNum'/></s:if><s:if test="#request.isHtCode==1"><s:property value='htCode'/></s:if></div></td>
         <td><div align="center"><s:if test="#request.isHtCode==0"><s:property value='vcColorNum'/></s:if></div></td>
         <td><div align="center">&nbsp;<s:property value='vcWidth'/>&nbsp;<s:property value='vcWidthUnit'/></div></td>
@@ -219,56 +229,56 @@ br{
       </s:iterator>
       <c:if test="${!empty quote.engineTotal && quote.engineTotal!=0}">
       	<tr>
-      		<td height="31" colspan="7"><div align="right">电机合计: </div></td>
+      		<td height="31" colspan="8"><div align="right">电机合计: </div></td>
         	<td><div align="center"><s:if test='#request.quote.engineTotal>0'>&yen;&nbsp;${quote.engineTotal}</s:if><s:else>-</s:else></div></td>
       	</tr>
       </c:if>
       					
       <c:if test="${!empty quote.flameTotal && quote.flameTotal!=0}">
       	<tr>
-      		<td height="31" colspan="7"><div align="right">阻燃: </div></td>
+      		<td height="31" colspan="8"><div align="right">阻燃: </div></td>
         	<td><div align="center"><s:if test='#request.quote.flameTotal>0'>&yen;&nbsp;${quote.flameTotal}</s:if><s:else>-</s:else></div></td>
       	</tr>
       </c:if>
       <c:if test="${!empty quote.arriveTransport && quote.arriveTransport!=0}">
       	<tr>
-      		<td height="31" colspan="7"><div align="right">货到工地运费: </div></td>
+      		<td height="31" colspan="8"><div align="right">货到工地运费: </div></td>
         	<td><div align="center"><s:if test='#request.quote.arriveTransport>0'>&yen;&nbsp;${quote.arriveTransport}</s:if><s:else>-</s:else></div></td>
       	</tr>
       </c:if>
       <c:if test="${!empty quote.titleCol1}">
 		<tr>
-	      	<td height="31" colspan="7"><div align="right">${quote.titleCol1}: </div></td>
+	      	<td height="31" colspan="8"><div align="right">${quote.titleCol1}: </div></td>
 	        <td><div align="center"><s:if test='#request.quote.inputCol1>0'>&yen;&nbsp;${quote.inputCol1}</s:if><s:else>-</s:else></div></td>
 		</tr>
       </c:if>
       <c:if test="${!empty quote.titleCol2}">
 	    <tr>
-	      	<td height="31" colspan="7"><div align="right">${quote.titleCol2}: </div></td>
+	      	<td height="31" colspan="8"><div align="right">${quote.titleCol2}: </div></td>
 	        <td><div align="center"><s:if test='#request.quote.inputCol2>0'>&yen;&nbsp;${quote.inputCol2}</s:if><s:else>-</s:else></div></td>
 		</tr>
       </c:if>
       <c:if test="${!empty quote.titleCol3}">
 		<tr>
-			<td height="31" colspan="7"><div align="right">${quote.titleCol3}: </div></td>
+			<td height="31" colspan="8"><div align="right">${quote.titleCol3}: </div></td>
 	        <td><div align="center"><s:if test='#request.quote.inputCol3>0'>&yen;&nbsp;${quote.inputCol3}</s:if><s:else>-</s:else></div></td>
 		</tr>
 	  </c:if>
       <c:if test="${!empty quote.titleCol4}">
 		<tr>
-	      	<td height="31" colspan="7"><div align="right">${quote.titleCol4}: </div></td>
+	      	<td height="31" colspan="8"><div align="right">${quote.titleCol4}: </div></td>
 			<td><div align="center"><s:if test='#request.quote.inputCol4>0'>&yen;&nbsp;${quote.inputCol4}</s:if><s:else>-</s:else></div></td>
 		</tr>
       </c:if>
       <c:if test="${!empty quote.titleCol5}">
 		<tr>
-	      	<td height="31" colspan="7"><div align="right">${quote.titleCol5}: </div></td>
+	      	<td height="31" colspan="8"><div align="right">${quote.titleCol5}: </div></td>
 	        <td><div align="center"><s:if test='#request.quote.inputCol5>0'>&yen;&nbsp;${quote.inputCol5}</s:if><s:else>-</s:else></div></td>
 		</tr>
       </c:if>
       <c:if test="${quote.taxes!=0}">
       						<tr>
-      							<td height="31" colspan="7"><div align="right">税金: </div></td>
+      							<td height="31" colspan="8"><div align="right">税金: </div></td>
         						<td><div align="center">&yen;&nbsp;${quote.taxes}</div></td>
       						</tr>
       </c:if>
@@ -282,12 +292,12 @@ br{
       -->
       <c:if test="${!empty quote.urgentCost && quote.urgentCost!=0}">
       <tr>
-        <td height="31" colspan="7"><div align="right">${quote.urgentCostRmk}Emergency fee: </div></td>
+        <td height="31" colspan="8"><div align="right">${quote.urgentCostRmk}Emergency fee: </div></td>
         <td><div align="center"><s:if test='#request.quote.urgentCost>0'>&yen;&nbsp;${quote.urgentCost}</s:if><s:else>-</s:else></div></td>
       </tr>
       </c:if>
       <tr>
-		<td height="36" colspan="7">
+		<td height="36" colspan="8">
         	<div align="right">Freight charge:</div>
 		</td>
        <td><div align="center"><s:if test='#request.quote.lowestFreight>0'>&nbsp;${quote.lowestFreight}</s:if><s:else>-</s:else></div></td>
@@ -302,13 +312,13 @@ br{
       </s:if>
       -->
       <tr>
-		<td height="36" colspan="7">
+		<td height="36" colspan="8">
 			<div align="right">Subtotal:</div>
 		</td>
 		<td><div align="center"><s:if test='#request.quote.subtotal!=0&&#request.quote.subtotal!=""'>&yen;&nbsp;${quote.subtotalStr}</s:if><s:else>-</s:else></div></td>
       </tr>
       <tr>
-        <td height="36" colspan="6"><div align="center">&nbsp;</div></td>
+        <td height="36" colspan="7"><div align="center">&nbsp;</div></td>
         <td><div align="right">Total Amount:</div></td>
         <td><div align="center"><s:if test='#request.quote.sumMoney!=0&&#request.quote.sumMoney!=""'>&yen;&nbsp;${quote.sumMoneyStr}</s:if><s:else>-</s:else></div></td>
       </tr><!--

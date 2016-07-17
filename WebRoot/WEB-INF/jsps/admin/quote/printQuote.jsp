@@ -192,6 +192,7 @@ var basePath = "<%=basePath%>";
       					<tr>
         					<th width="79">项目<br>Items</th>
         					<th width="77">描述<br>Description</th>
+        					<th>图片<br>Picture</th>
         					<th width="137">型号<br>Model number</th>
         					<th width="90">色号<br>Colour</th>
         					<th width="113">幅宽<br>width</th>
@@ -199,10 +200,19 @@ var basePath = "<%=basePath%>";
         					<th width="89">数量<br>Quantity</th>
         					<th width="90">金额<br>Total</th>
       					</tr>
-      					<s:iterator value="%{#request.listQF}" status="column">
+      					<s:iterator value="%{#request.listQF}" status="column" var="qf">
       						<tr>
         						<td height="38"><div align="center">&nbsp;<s:property value='vcProject'/></div></td>
         						<td><div align="center">&nbsp;<s:property value='vcDes'/></div></td>
+        						<td>
+        							<div align="center">
+        							<s:if test="filePath!=null">
+	        						<a target="_blank" title="点击查看图片" href='<s:property value="filePath"/>' rel="attachment" class="tip-bottom" style="display: inline-block; width: 60px;">
+							     		<img width="50" height="35" alt="暂无图片" src='<s:property value="filePath"/>' /> 
+							     	</a>
+							     	</s:if>
+        							</div>
+        						</td>
         						<td><div align="center"><s:if test="#request.isHtCode==0"><s:property value='vcFactoryCode'/>&nbsp;<s:property value='vcModelNum'/></s:if><s:if test="#request.isHtCode==1"><s:property value='htCode'/></s:if></div></td>
         						<td><div align="center"><s:if test="#request.isHtCode==0"><s:property value='vcColorNum'/></s:if></div></td>
         						<td><div align="center">&nbsp;<s:property value='vcWidth'/>&nbsp;<s:property value='vcWidthUnit'/></div></td>
@@ -213,19 +223,19 @@ var basePath = "<%=basePath%>";
       					</s:iterator>
       					<c:if test="${quote.vcProcessFre!='0'}">
       						<tr>
-      							<td height="31" colspan="7"><div align="right">加工费: </div></td>
+      							<td height="31" colspan="8"><div align="right">加工费: </div></td>
         						<td><div align="center">&yen;&nbsp;${quote.vcProcessFre}</div></td>
       						</tr>
       					</c:if>
       					<c:if test="${quote.vcInstallFre!='0'}">
       						<tr>
-      							<td height="31" colspan="7"><div align="right">安装费: </div></td>
+      							<td height="31" colspan="8"><div align="right">安装费: </div></td>
         						<td><div align="center">&yen;&nbsp;${quote.vcInstallFre}</div></td>
       						</tr>
       					</c:if>
       					<c:if test="${quote.vcAftertreatment!='0'}">
       						<tr>
-      							<td height="31" colspan="7"><div align="right">后处理费: </div></td>
+      							<td height="31" colspan="8"><div align="right">后处理费: </div></td>
         						<td><div align="center">&yen;&nbsp;${quote.vcAftertreatment}</div></td>
       						</tr>
       					</c:if>
@@ -233,27 +243,27 @@ var basePath = "<%=basePath%>";
       					
       					<c:if test="${quote.engineTotal!=0}">
       						<tr>
-      							<td height="31" colspan="7"><div align="right">电机合计: </div></td>
+      							<td height="31" colspan="8"><div align="right">电机合计: </div></td>
         						<td><div align="center"><s:if test='#request.quote.engineTotal!=0'>&yen;&nbsp;${quote.engineTotal}</s:if><s:else>-</s:else></div></td>
       						</tr>
       					</c:if>
       					
       					<c:if test="${quote.flameTotal!=0}">
       					<tr>
-      						<td height="31" colspan="7"><div align="right">阻燃: </div></td>
+      						<td height="31" colspan="8"><div align="right">阻燃: </div></td>
         					<td><div align="center"><s:if test='#request.quote.flameTotal!=0'>&yen;&nbsp;${quote.flameTotal}</s:if><s:else>-</s:else></div></td>
       					</tr>
       					</c:if>
       					<c:if test="${quote.arriveTransport!=0}">
       					<tr>
-      						<td height="31" colspan="7"><div align="right">货到工地运费: </div></td>
+      						<td height="31" colspan="8"><div align="right">货到工地运费: </div></td>
         					<td><div align="center"><s:if test='#request.quote.arriveTransport!=0'>&yen;&nbsp;${quote.arriveTransport}</s:if><s:else>-</s:else></div></td>
       					</tr>
       					</c:if>
       					
       					<c:if test="${quote.lowestFreight!=0}">
       					<tr>
-      						<td height="31" colspan="7">
+      						<td height="31" colspan="8">
       							<div align="right">${quote.lowestFreightRmk} </div>
 	        					<div align="right">最低运费: </div>
       						</td>
@@ -262,7 +272,7 @@ var basePath = "<%=basePath%>";
       					</c:if>
       					<c:if test="${quote.urgentCost!=0}">
       					<tr>
-     	 					<td height="31" colspan="7">
+     	 					<td height="31" colspan="8">
      	 						<div align="right">${quote.urgentCostRmk}</div>
 	        					<div align="right">加急费: </div>
      	 					</td>
@@ -272,7 +282,7 @@ var basePath = "<%=basePath%>";
       					
       					<c:if test="${!empty quote.titleCol1}">
 	      					<tr>
-	      						<td height="31" colspan="7"><div align="right">${quote.titleCol1}: </div></td>
+	      						<td height="31" colspan="8"><div align="right">${quote.titleCol1}: </div></td>
 	        					<td><div align="center"><s:if test='#request.quote.inputCol1!=0'>&yen;&nbsp;${quote.inputCol1}</s:if><s:else>-</s:else></div></td>
 	      					</tr>
       					</c:if>
@@ -284,49 +294,49 @@ var basePath = "<%=basePath%>";
       					</c:if>
       					<c:if test="${!empty quote.titleCol3}">
 	      					<tr>
-	      						<td height="31" colspan="7"><div align="right">${quote.titleCol3}: </div></td>
+	      						<td height="31" colspan="8"><div align="right">${quote.titleCol3}: </div></td>
 	        					<td><div align="center"><s:if test='#request.quote.inputCol3!=0'>&yen;&nbsp;${quote.inputCol3}</s:if><s:else>-</s:else></div></td>
 	      					</tr>
       					</c:if>
       					<c:if test="${!empty quote.titleCol4}">
 	      					<tr>
-	      						<td height="31" colspan="7"><div align="right">${quote.titleCol4}: </div></td>
+	      						<td height="31" colspan="8"><div align="right">${quote.titleCol4}: </div></td>
 	        					<td><div align="center"><s:if test='#request.quote.inputCol4!=0'>&yen;&nbsp;${quote.inputCol4}</s:if><s:else>-</s:else></div></td>
 	      					</tr>
       					</c:if>
       					<c:if test="${!empty quote.titleCol5}">
 	      					<tr>
-	      						<td height="31" colspan="7"><div align="right">${quote.titleCol5}: </div></td>
+	      						<td height="31" colspan="8"><div align="right">${quote.titleCol5}: </div></td>
 	        					<td><div align="center"><s:if test='#request.quote.inputCol5!=0'>&yen;&nbsp;${quote.inputCol5}</s:if><s:else>-</s:else></div></td>
 	      					</tr>
       					</c:if>
       					<c:if test="${quote.taxes!=0}">
       						<tr>
-      							<td height="31" colspan="7"><div align="right">税金: </div></td>
+      							<td height="31" colspan="8"><div align="right">税金: </div></td>
         						<td><div align="center">&yen;&nbsp;${quote.taxes}</div></td>
       						</tr>
       					</c:if>
       					<tr>
-					        <td height="36" colspan="7">
+					        <td height="36" colspan="8">
 					        	<div align="right">小计:</div>
 					        </td>
 					        <td><div align="center"><s:if test='#request.quote.subtotal!=0&&#request.quote.subtotal!=""'>&yen;&nbsp;${quote.subtotalStr} </s:if><s:else>-</s:else></div></td>
       					</tr>
       					<s:if test='#request.quote.discountMoney>0' >
       						<tr>
-						        <td height="36" colspan="7">
+						        <td height="36" colspan="8">
 						        	<div align="right">优惠金额:</div>
 						        </td>
 						        <td><div align="center" id="discountMoney"><s:if test='#request.quote.discountMoney!=0&&#request.quote.discountMoney!=""'>&yen;&nbsp;${quote.discountMoney}</s:if><s:else>-</s:else></div></td>
       						</tr>
       					</s:if>
       					<tr>
-					        <td height="36" colspan="6"><div align="center">&nbsp;${quote.sumMoneyRemark}</div></td>
+					        <td height="36" colspan="7"><div align="center">&nbsp;${quote.sumMoneyRemark}</div></td>
 					        <td><div align="right">总金额:</div></td>
 					        <td><div align="center"><s:if test='#request.quote.sumMoney!=0&&#request.quote.sumMoney!=""'>&yen;&nbsp;${quote.sumMoneyStr}</s:if><s:else>-</s:else></div></td>
       					</tr>
       					<tr>
-        					<td height="31" colspan="9"><div align="left">备注: ${quote.remk}</div></td>
+        					<td height="31" colspan="10"><div align="left">备注: ${quote.remk}</div></td>
       					</tr>
     				</table>
     			</td>
