@@ -8,6 +8,7 @@
                  <c:set value='${obj.vcIndex+1 }' var="vcCount"/>
                   <tr id="tr${vcCount }">
                  <td>
+                 <input type="hidden" value="<s:property value="amountrmb"/>" id="amountrmb${vcCount }" name="quoteFabricList[${vcIndex }].amountrmb"/>
                  	<input type="hidden" value="<s:property value="id"/>" id="quoteFabricId${vcCount }" name="quoteFabricList[${vcIndex }].id"/>
                  	<input type="hidden" value="<s:property value="dhjVcOldPrice"/>" id="dhjVcOldPrice${vcCount }" />
 	                 <input type="hidden" value="<s:property value="dhjVcHKPrice"/>" id="dhjVcHKPrice${vcCount }" />

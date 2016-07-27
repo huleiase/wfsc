@@ -192,3 +192,60 @@ alter table bym_designerorder MODIFY bjTotel decimal(15,2);
 alter table bym_qf_report MODIFY sumMoney decimal(15,2);
 alter table bym_order MODIFY sumMoney decimal(15,2);
 
+-- 20160728
+
+DELETE FROM wf_syslog WHERE id<79613;
+
+ALTER TABLE bym_qf_report ADD COLUMN vcFre DECIMAL(10,2) DEFAULT 0.00;
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.vcFre=IFNULL(qf.vcProFre,0)  WHERE qfr.qfId=qf.id AND (qf.quoteFormate='1' OR qf.quoteFormate='3');
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.vcFre=qf.vcRetFre*1.2 WHERE qfr.qfId=qf.id AND (qf.quoteFormate='2' OR qf.quoteFormate='4'  OR qf.quoteFormate='5');
+UPDATE bym_qf_report qfr,bym_quote q SET qfr.vcFre=qfr.vcFre*IFNULL(q.containTax,0) WHERE qfr.quoteId=q.id;
+
+ALTER TABLE bym_qf_report ADD COLUMN vcSpecialExp DECIMAL(10,2) DEFAULT 0.00;
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.vcSpecialExp=IFNULL(qf.vcSpecialExp,0) WHERE qfr.qfId=qf.id;
+UPDATE bym_qf_report qfr,bym_quote q SET qfr.vcSpecialExp=qfr.vcSpecialExp*IFNULL(q.containTax,0) WHERE qfr.quoteId=q.id;
+
+ALTER TABLE bym_qf_report ADD COLUMN vcOldPrice DECIMAL(10,2) DEFAULT 0.00;
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.vcOldPrice=qf.vcOldPrice*IFNULL(qf.vcDiscount,0) WHERE qfr.qfId=qf.id;
+UPDATE bym_qf_report qfr,bym_quote q SET qfr.vcOldPrice=qfr.vcOldPrice*IFNULL(q.containTax,0) WHERE qfr.quoteId=q.id;
+
+ALTER TABLE bym_qf_report ADD COLUMN vcOldPriceTotal DECIMAL(10,2) DEFAULT 0.00;
+UPDATE bym_qf_report SET vcOldPriceTotal=IFNULL(vcQuantity,0)*IFNULL(vcOldPrice,0);
+UPDATE bym_qf_report SET vcOldPriceTotal=-vcOldPriceTotal WHERE vcOldPriceTotal>0 AND operation='offset';
+
+UPDATE bym_quote_fabric SET amountrmb=IFNULL(vcQuoteNum,0) * IFNULL(shijia,0) * IFNULL(exchangeRate,0) WHERE amountrmb=0;
+UPDATE bym_quote_fabric SET amountrmb=IFNULL(OrderQuantity,0) * IFNULL(SigMoney,0) * IFNULL(exchangeRate,0) WHERE amountrmb=0;
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.amountrmb=qf.amountrmb WHERE qfr.qfId=qf.id AND qfr.amountrmb=0;
+UPDATE bym_qf_report SET amountrmb=amountrmb*1.2 WHERE vcMoney='HKD';
+UPDATE bym_qf_report SET amountrmb=cbTotal WHERE priceCur='RMB';
+UPDATE bym_qf_report SET amountrmb=-amountrmb WHERE amountrmb>0 AND operation='offset';
+UPDATE bym_quote_fabric SET amountrmb=0 WHERE amountrmb IS NULL;
+UPDATE bym_qf_report SET amountrmb=0 WHERE amountrmb IS NULL;
+
+
+UPDATE bym_qf_report SET sellProfit=ABS(vcOldPriceTotal)-ABS(amountrmb);
+UPDATE bym_qf_report SET sellProfitRate=sellProfit/vcOldPriceTotal;
+UPDATE bym_qf_report SET sellProfit=-sellProfit WHERE sellProfit>0 AND operation='offset';
+UPDATE bym_qf_report SET sellProfit=0 WHERE sellProfit IS NULL;
+UPDATE bym_qf_report SET sellProfitRate=0 WHERE sellProfitRate IS NULL;
+
+ALTER TABLE bym_designerorder ADD COLUMN bjOldPriceTatol DECIMAL(10,2) DEFAULT 0.00;
+CREATE TABLE temp (id bigint(20) NOT NULL AUTO_INCREMENT,doId BIGINT(20),vcOldPriceTotal DECIMAL(10,3) DEFAULT 0,cbTotal DECIMAL(10,3) DEFAULT 0 ,PRIMARY KEY (id));
+INSERT INTO temp(doId,vcOldPriceTotal,cbTotal) SELECT doId,SUM(vcOldPriceTotal),SUM(amountrmb) from bym_qf_report WHERE isReplaced='0' GROUP BY doId;
+UPDATE bym_designerorder bd ,temp t SET bd.bjOldPriceTatol=IFNULL(t.vcOldPriceTotal,0),bd.cbClTotel=IFNULL(t.cbTotal,0) WHERE bd.id=t.doId;
+DROP TABLE temp;
+
+UPDATE bym_designerorder SET profit=ABS(bjTotel)-ABS(cbClTotel)-ABS(cbTotel);
+UPDATE bym_designerorder SET profitRate=profit/bjTotel;
+UPDATE bym_designerorder SET profit=-profit WHERE profit>0 AND operation='offset';
+UPDATE bym_designerorder SET profit=0 WHERE profit IS NULL;
+UPDATE bym_designerorder SET profitRate=0 WHERE profitRate IS NULL;
+
+
+
+
+
+
+
+
+

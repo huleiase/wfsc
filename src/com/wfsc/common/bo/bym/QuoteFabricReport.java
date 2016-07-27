@@ -77,7 +77,7 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	private String cbModelNum;
 	
 	/**
-	 * 最终单价 (成本)
+	 * 最终单价 (成本) 实价
 	 */
 	private float cbPrice;
 
@@ -87,12 +87,12 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	private String cbPriceUnit;
 
 	/**
-	 * (成本数量)
+	 * 实订量(成本数量)
 	 */
 	private float cbQuantity;
 	//报价合计
 	private float bjTotal;
-	//成本合计
+	//成本合计（币种合计）
 	private float cbTotal;
 	//销售毛利
 	private float sellProfit; 
@@ -128,7 +128,7 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	private String vcMoney;
 	//成本货币单位,比如RMB，HKD等
 	private String priceCur;
-	//cbTotal转换成RMB或hkd后的钱
+	//合计 cbTotal转换成RMB或hkd后的钱
 	private float amountrmb;
 	
 	//供应商
@@ -138,6 +138,23 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	//
 	private String vcFactoryNum;
 	
+	//新加
+
+	/**
+	 *  计算后的工程运费/零售运费
+	 */
+	private float vcFre;
+	/**
+	 * 计算后的特殊费用
+	 */
+	private float vcSpecialExp;
+	/**
+	 * 计算后的面价
+	 */
+	private float vcOldPrice;
+	
+	//不包含运费和特殊费用的总价(即计算后的面价*数量)
+	private float vcOldPriceTotal;
 	public Object clone() {   
         try {   
             return super.clone();   
@@ -596,6 +613,48 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 
 	public void setVcFactoryNum(String vcFactoryNum) {
 		this.vcFactoryNum = vcFactoryNum;
+	}
+	
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getVcSpecialExp() {
+		return vcSpecialExp;
+	}
+
+	public void setVcSpecialExp(float vcSpecialExp) {
+		this.vcSpecialExp = vcSpecialExp;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getVcOldPrice() {
+		return vcOldPrice;
+	}
+
+	public void setVcOldPrice(float vcOldPrice) {
+		this.vcOldPrice = vcOldPrice;
+	}
+	
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getVcOldPriceTotal() {
+		return vcOldPriceTotal;
+	}
+
+	public void setVcOldPriceTotal(float vcOldPriceTotal) {
+		this.vcOldPriceTotal = vcOldPriceTotal;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getVcFre() {
+		return vcFre;
+	}
+
+	public void setVcFre(float vcFre) {
+		this.vcFre = vcFre;
 	}
 	
 	

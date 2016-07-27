@@ -818,7 +818,12 @@ public class PurchaseAction extends DispatchPagerAction {
                         deo.setInstallFee(purchase.getInstallFee());
                         deo.setOtherFre(purchase.getOtherFre());
             			if("offset".equals(deo.getOperation())){
+            				deo.setBjTotel(-Math.abs(deo.getBjTotel()));
             				deo.setCbClTotel(-Math.abs(deo.getCbClTotel()));
+            				deo.setCbTotel(-Math.abs(deo.getCbTotel()));
+            				deo.setProfit(-Math.abs(deo.getProfit()));
+            				deo.setProfitRate(-Math.abs(deo.getProfitRate()));
+            				deo.setBjOldPriceTatol(-Math.abs(deo.getBjOldPriceTatol()));
             			}
                         designerOrderService.saveOrUpdateEntity(deo);
                         
@@ -935,6 +940,7 @@ public class PurchaseAction extends DispatchPagerAction {
 					qfr.setAmountrmb(-Math.abs(qfr.getAmountrmb()));
 					qfr.setSellProfit(-Math.abs(qfr.getSellProfit()));
 					qfr.setSellProfitRate(-Math.abs(qfr.getSellProfitRate()));
+					qfr.setVcOldPriceTotal(-Math.abs(qfr.getVcOldPriceTotal()));
 				}
 				quoteFabricReportService.saveOrUpdateEntity(qfr);
 			}

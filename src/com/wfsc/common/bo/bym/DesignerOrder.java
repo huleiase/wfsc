@@ -213,6 +213,8 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	private float taxes;
 	
 	private float yue;
+	//计算后面价的合计
+	private float bjOldPriceTatol;
 	
 	public Object clone() {   
         try {   
@@ -1132,6 +1134,15 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	}
 	public void setTaxes(float taxes) {
 		this.taxes = taxes;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getBjOldPriceTatol() {
+		return bjOldPriceTatol;
+	}
+	public void setBjOldPriceTatol(float bjOldPriceTatol) {
+		this.bjOldPriceTatol = bjOldPriceTatol;
 	}
 	
 

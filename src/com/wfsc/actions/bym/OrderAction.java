@@ -2,7 +2,6 @@ package com.wfsc.actions.bym;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Controller;
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
 import com.constants.LogModule;
-import com.wfsc.common.bo.bym.DesignerExpense;
 import com.wfsc.common.bo.bym.DesignerOrder;
 import com.wfsc.common.bo.bym.Email;
 import com.wfsc.common.bo.bym.Order;
@@ -526,6 +524,7 @@ public class OrderAction extends DispatchPagerAction {
         				deo.setCbTotel(-Math.abs(deo.getCbTotel()));
         				deo.setProfit(-Math.abs(deo.getProfit()));
         				deo.setProfitRate(-Math.abs(deo.getProfitRate()));
+        				deo.setBjOldPriceTatol(-Math.abs(deo.getBjOldPriceTatol()));
         			}
                     designerOrderService.saveOrUpdateEntity(deo);
             }
@@ -603,9 +602,9 @@ public class OrderAction extends DispatchPagerAction {
 				}
 				qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
 				qfr.setAmountrmb(qfr.getCbTotal()*huilv);
-				qfr.setSellProfit(Math.abs(qfr.getBjTotal())-Math.abs(qfr.getAmountrmb()));
+				qfr.setSellProfit(Math.abs(qfr.getVcOldPriceTotal())-Math.abs(qfr.getAmountrmb()));
 				if(qfr.getBjTotal()!=0){
-					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());
+					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getVcOldPriceTotal());
 				}
 				qfr.setOrderNo(o.getOrderNo());
 				qfr.setSupplier(o.getSupplier());
@@ -616,6 +615,7 @@ public class OrderAction extends DispatchPagerAction {
 					qfr.setAmountrmb(-Math.abs(qfr.getAmountrmb()));
 					qfr.setSellProfit(-Math.abs(qfr.getSellProfit()));
 					qfr.setSellProfitRate(-Math.abs(qfr.getSellProfitRate()));
+					qfr.setVcOldPriceTotal(-Math.abs(qfr.getVcOldPriceTotal()));
 				}
 				quoteFabricReportService.saveOrUpdateEntity(qfr);
 			}

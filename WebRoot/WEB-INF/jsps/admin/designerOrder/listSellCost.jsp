@@ -48,7 +48,7 @@
                     <td><s:property value="customerName"/></td>
                      <td><s:property value="projectName"/></td>
                       <td><s:property value="sumMoney"/></td>
-                     <td><s:property value="bjClTotel"/></td> 
+                     <td><s:property value="bjOldPriceTatol"/></td> 
                       <td><s:property value="vcProcessFre"/></td> 
                        <td><s:property value="lcFre"/></td> 
                         <td><s:property value="vcInstallFre"/></td> 

@@ -288,7 +288,7 @@ var basePath = "<%=basePath%>";
       					</c:if>
       					<c:if test="${!empty quote.titleCol2}">
 	      					<tr>
-	      						<td height="31" colspan="7"><div align="right">${quote.titleCol2}: </div></td>
+	      						<td height="31" colspan="8"><div align="right">${quote.titleCol2}: </div></td>
 	        					<td><div align="center"><s:if test='#request.quote.inputCol2!=0'>&yen;&nbsp;${quote.inputCol2}</s:if><s:else>-</s:else></div></td>
 	      					</tr>
       					</c:if>

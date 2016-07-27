@@ -868,7 +868,6 @@ public class QuoteAction extends DispatchPagerAction {
 			qf.setPriceCur(priceCur);
 			// 进价货币对RMB或港币的汇率，根据报价方式决定
 			float vcExchangeRate = this.getExchangeRate(quoteFormate, priceCur);
-			
 			// 进价货币对RMB的汇率
 			float other2rmb = this.getExchangeRate("1", priceCur);
 			qf.setExchangeRate(other2rmb);
@@ -1875,6 +1874,7 @@ public class QuoteAction extends DispatchPagerAction {
 					offsetDeo.setOperation("offset");
 					offsetDeo.setCreateDate(new Date());
 					offsetDeo.setId(null);
+					offsetDeo.setBjOldPriceTatol(-oldDeo.getBjOldPriceTatol());
 					designerOrderService.saveOrUpdateEntity(offsetDeo);
 					
 					List<QuoteFabricReport> oldQfrs = this.quoteFabricReportService.getQuoteFabricReportByDoId(oldDeo.getId());
@@ -1895,6 +1895,7 @@ public class QuoteAction extends DispatchPagerAction {
 							offsetQfr.setSellProfitRate(-oldQfr.getSellProfitRate());
 							offsetQfr.setCreateDate(new Date());
 							offsetQfr.setId(null);
+							offsetQfr.setVcOldPriceTotal(-oldQfr.getVcOldPriceTotal());
 							quoteFabricReportService.saveOrUpdateEntity(offsetQfr);
 						}
 					}
@@ -1944,6 +1945,8 @@ public class QuoteAction extends DispatchPagerAction {
 			deo.setVcSalesman(saleMan);
 			//报价材料合计=材料明细表里同一合同号的所有型号的产品报价的合计总和
 			float bjClTotel = 0F;
+			//不包含运费和特殊费用的总价(即计算后的面价*数量)
+			float bjOldPriceTatol = 0F;
 			/*if(StringUtils.isNotBlank(q.getVcAftertreatment())){
 				bjClTotel+=Float.valueOf(q.getVcAftertreatment()).floatValue();
 			}
@@ -2006,6 +2009,15 @@ public class QuoteAction extends DispatchPagerAction {
 				qfr.setQuoteLocal(q.getVcQuoteLocal());
 				qfr.setCbModelNum(qf.getVcFactoryCode()+" "+qf.getVcModelNum());
 				qfr.setPriceCur(qf.getPriceCur());
+				
+				if("1".equals(qf.getQuoteFormate())||"3".equals(qf.getQuoteFormate())){
+					qfr.setVcFre(qf.getVcProFre()*q.getContainTax());
+				}else{
+					qfr.setVcFre(qf.getVcRetFre()*this.getExchangeRate("2", "RMB")*q.getContainTax());
+				}
+				qfr.setVcSpecialExp(qf.getVcSpecialExp()*q.getContainTax());
+				qfr.setVcOldPrice(qf.getVcOldPrice()*qf.getVcDiscount()*q.getContainTax());
+				qfr.setVcOldPriceTotal(qfr.getVcOldPrice()*qf.getVcQuantity());
 				if("1".equals(qf.getIsReplaced())){
 					String str = qf.getReplaceRemark();
 					if(str!=null&&str.length()>3){
@@ -2014,6 +2026,7 @@ public class QuoteAction extends DispatchPagerAction {
 					}
 					qfr.setBjColor(qf.getVcColorNum());
 					bjClTotel+=qf.getVcTotal();
+					bjOldPriceTatol+=qfr.getVcOldPriceTotal();
 				}else if("1".equals(qf.getIsHidden())){
 					qfr.setReplaceNO(qf.getReplaceId());
 					qfr.setCbColor(qf.getVcColorNum());
@@ -2021,6 +2034,7 @@ public class QuoteAction extends DispatchPagerAction {
 					qfr.setBjColor(qf.getVcColorNum());
 					qfr.setCbColor(qf.getVcColorNum());
 					bjClTotel+=qf.getVcTotal();
+					bjOldPriceTatol+=qfr.getVcOldPriceTotal();
 				}
 				qfr.setVcPrice(qf.getVcPrice());
 				qfr.setVcPriceUnit(qf.getVcPriceUnit());
@@ -2029,6 +2043,7 @@ public class QuoteAction extends DispatchPagerAction {
 				qfr.setVcMoney(qf.getVcMoney());
 				qfr.setBjTotal(qf.getVcTotal());
 				qfr.setVcFactoryNum(qf.getVcFactoryNum());
+				
 				/*qfr.setCbPrice(qf.getShijia());
 				qfr.setCbPriceUnit(qf.getPriceCur());
 				float cbQuantity = 0F;
@@ -2043,6 +2058,7 @@ public class QuoteAction extends DispatchPagerAction {
 				quoteFabricReportService.saveOrUpdateEntity(qfr);
 			}
 			deo.setBjClTotel(bjClTotel);
+			deo.setBjOldPriceTatol(bjOldPriceTatol);
 			this.designerOrderService.saveOrUpdateEntity(deo);
 		 }
 		 return "ok";
