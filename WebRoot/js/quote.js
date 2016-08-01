@@ -1218,3 +1218,22 @@ function autoFill2(){
 		}
 		$("#projectNum").val(vcQuoteLocal+"-"+vcSalesman+"-"+vcQuoteNum);
 	}
+	
+	function addRmk(lineNum){
+		var addRmkOld = $("#addRmk"+lineNum).val();
+		if(!addRmkOld){
+			addRmkOld = '';
+		}
+		var addRmkHtml = "<textarea class=\"span6\" id=\"addRmkArea\">"+addRmkOld+"</textarea>";
+		art.dialog({
+				    title: '请填写相关信息',
+				    content: addRmkHtml,
+				    ok: function () {
+				        var addRmkVal = $('#addRmkArea').val();
+			    		$("#addRmk"+lineNum).val(addRmkVal);
+			    		art.dialog.tips('添加成功');
+				        return true;
+				    }
+				});
+	
+	}

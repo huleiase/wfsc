@@ -128,6 +128,9 @@
 			     <td><input disabled="disabled" type="text" value="<s:property value="quoteRemark"/>" id="quoteRemark${vcCount }" name="quoteFabricList[${vcIndex }].quoteRemark" /></td>
 			     <td><input disabled="disabled" type="text" readonly="readOnly" value="<s:property value="replaceRemark"/>" id="replaceRemark${vcCount }" name="quoteFabricList[${vcIndex }].replaceRemark" /></td>
                 </tr>
+                <s:if test="addRmk!=''&&addRmk!=null">
+                <tr><td colspan="30"><input style="width:100%" disabled="disabled" type="text" readonly="readOnly" value="<s:property value="addRmk"/>" id="addRmk${vcCount }" name="quoteFabricList[${vcIndex }].addRmk" /></td> </tr>
+                </s:if>
                </s:iterator>
                </s:if>
                

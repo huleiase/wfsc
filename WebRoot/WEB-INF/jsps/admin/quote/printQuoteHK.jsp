@@ -226,6 +226,9 @@ br{
         <td><div align="center">&nbsp;<s:if test='vcQuantity!=0.0'><s:property value='vcQuantity'/>&nbsp;<s:property value='vcPriceUnit'/></s:if><s:else>-</s:else></div></td>
         <td><div align="center">&nbsp;<s:if test='vcTotal!=0'><s:if test='vcMoney=="RMB"||vcMoney=="rmb"'>&yen;</s:if><s:if test='vcMoney=="HKD"||vcMoney=="hkd"'>HKD</s:if>&nbsp;${vcTotalStr}</s:if><s:else>-</s:else></div></td>
       </tr>
+      <s:if test="addRmk!=''&&addRmk!=null">
+				                <tr><td colspan="10"><div align="center"><s:property value='addRmk'/></div></td> </tr>
+				             </s:if>
       </s:iterator>
       <c:if test="${!empty quote.engineTotal && quote.engineTotal!=0}">
       	<tr>

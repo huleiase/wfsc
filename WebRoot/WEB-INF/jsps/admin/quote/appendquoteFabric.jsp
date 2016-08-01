@@ -8,6 +8,7 @@
                  <c:set value='${obj.vcIndex+1 }' var="vcCount"/>
                   <tr id="tr${vcCount }">
                  <td>
+                 <input type="hidden" value="<s:property value="addRmk"/>" id="addRmk${vcCount }" name="quoteFabricList[${vcIndex }].addRmk" />
                  <input type="hidden" value="<s:property value="amountrmb"/>" id="amountrmb${vcCount }" name="quoteFabricList[${vcIndex }].amountrmb"/>
                  	<input type="hidden" value="<s:property value="id"/>" id="quoteFabricId${vcCount }" name="quoteFabricList[${vcIndex }].id"/>
                  	<input type="hidden" value="<s:property value="dhjVcOldPrice"/>" id="dhjVcOldPrice${vcCount }" />
@@ -51,6 +52,7 @@
 	                 <div style="width:85px;">
 	                 <span class="label label-info btn btn-primary btn-mini" id="copy${vcCount }" onclick="copyFabric2(${vcCount });">复制</span>
 	                 <span class="label label-info btn btn-primary btn-mini" id="remove${vcCount }" onclick="delFabric2(${vcCount });">删除</span>
+	                 <span class="label label-info btn btn-primary btn-mini" id="addRmkButtn${vcCount }" onclick="addRmk(${vcCount });">加注</span>
 	                 </div>
                  </td>
                  <td><input type="text" value="<s:property value="orderId"/>" id="orderId${vcCount }" name="quoteFabricList[${vcIndex }].orderId" class="widthShort"/></td><!--

@@ -337,6 +337,8 @@ public class QuoteFabric implements java.io.Serializable{
 	private Long bymOrderId;//订单id
 	
 	private String vcTotalStr;
+	
+	private String addRmk;
 	/**
 	 * @hibernate.property type="string"
 	 */
@@ -1277,5 +1279,16 @@ public class QuoteFabric implements java.io.Serializable{
 	public void setVcTotalStr(String vcTotalStr) {
 		this.vcTotalStr = vcTotalStr;
 	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getAddRmk() {
+		return addRmk;
+	}
+
+	public void setAddRmk(String addRmk) {
+		this.addRmk = addRmk;
+	}
+	
 	
 }
