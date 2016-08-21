@@ -40,7 +40,7 @@
                 <s:iterator value="#request.page.data" var="obj">
                  <tr>
                   <td><s:property value="orderNo"/></td>
-                  <td> <s:date name="gatheringDate" format="yyyy-MM-dd" /></td>
+                  <td> <s:date name="gatheringDate" format="yyyy-MM-dd HH:mm:ss" /></td>
                    <td><s:property value="contractNo"/></td>
                     <td><s:property value="customerName"/></td>
                      <td><s:property value="projectName"/></td>

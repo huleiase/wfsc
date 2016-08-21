@@ -43,7 +43,7 @@
               <s:if test="#request.page.data.size>0">
                 <s:iterator value="#request.page.data" var="obj">
                  <tr>
-                  <td> <s:date name="createDate" format="yyyy-MM-dd" /></td>
+                  <td> <s:date name="createDate" format="yyyy-MM-dd HH:mm:ss" /></td>
                   <td><a href="<%=request.getContextPath()%>/admin/order_manager.Q?orderNo=<s:property value="orderNo"/>" target="_blank"> <s:property value="orderNo"/></a></td>
                    <td><s:property value="contractNo"/></td>
                    <c:if test="${isAdmin}">

@@ -10,7 +10,7 @@
 				return;
 			}
 			var dhjVcOldPrice = $("#dhjVcOldPrice"+lineNo).val();
-			var dhjVcHKPrice = $("#dhjVcHKPrice"+lineNo).val();
+			var dhjHKVcPrice = $("#dhjHKVcPrice"+lineNo).val();
 			var dhjCost = $("#dhjCost"+lineNo).val();
 			if(0==dhjCost){
 				art.dialog({content:"没有大货价",okVal:"确定",ok:true});
@@ -34,8 +34,8 @@
 				$("#vcOldPrice"+lineNo).val(dhjVcOldPrice);
 				$("#dhjVcOldPrice"+lineNo).val(oldPrice);
 			}else if(quoteFormate==2){
-				$("#vcOldPrice"+lineNo).val(dhjVcHKPrice);
-				$("#dhjVcHKPrice"+lineNo).val(oldPrice);
+				$("#vcOldPrice"+lineNo).val(dhjHKVcPrice);
+				$("#dhjHKVcPrice"+lineNo).val(oldPrice);
 			}
 			setVcPrice(lineNo);
 		}
@@ -69,13 +69,13 @@
 			
 			
 			 var dhjVcOldPrice = $("#dhjVcOldPrice"+lineNo).val();
-			var dhjVcHKPrice = $("#dhjVcHKPrice"+lineNo).val();
+			var dhjHKVcPrice = $("#dhjHKVcPrice"+lineNo).val();
 			if(quoteFormate==1){
 				$("#vcOldPrice"+lineNo).val(dhjVcOldPrice);
 				$("#dhjVcOldPrice"+lineNo).val(oldPrice);
 			}else if(quoteFormate==2){
-				$("#vcOldPrice"+lineNo).val(dhjVcHKPrice);
-				$("#dhjVcHKPrice"+lineNo).val(oldPrice);
+				$("#vcOldPrice"+lineNo).val(dhjHKVcPrice);
+				$("#dhjHKVcPrice"+lineNo).val(oldPrice);
 			}
 			setVcPrice(lineNo);
 		}
@@ -190,7 +190,7 @@
 			//		width = dhjWidth;
 			//	}
 			//	if(isCgbj==0 && quoteFormate==2 ){
-			//		oldPrice = $("#dhjVcHKPrice"+lineNo).val();
+			//		oldPrice = $("#dhjHKVcPrice"+lineNo).val();
 			//		width = dhjWidth;
 			//	}
 			 
