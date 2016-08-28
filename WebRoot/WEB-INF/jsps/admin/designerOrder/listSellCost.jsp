@@ -53,7 +53,7 @@
                        <td><s:property value="lcFre"/></td> 
                         <td><s:property value="vcInstallFre"/></td> 
                          <td><s:property value="bjFreight"/></td>  
-                         <td><s:property value="taxes"/></td> 
+                         <td><s:property value="taxationFee"/></td> 
                           <td><s:property value="bjTotel"/></td>
                           <td><s:property value="cbClTotel"/></td> 
                           <td><s:property value="processFee"/></td> 

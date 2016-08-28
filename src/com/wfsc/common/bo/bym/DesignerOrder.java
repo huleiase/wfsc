@@ -14,14 +14,13 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	private static final long serialVersionUID = 6845454567871L;
 	
 	private Long id;
-	private Long orderId;
-	
+	//订单号
 	private String orderNo;
-	
+	//合同日期
 	private Date contractDate;
-	
+	//合同号
 	private String contractNo;
-	
+	//报价地
 	private String quoteLocal;
 	
 	private float realTotel;//实际金额=本地收入
@@ -201,10 +200,6 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 	private float designMony3;
 	//抬头 读取报价单第三行的from
 	private String vcFrom;
-	//销售毛利
-	//private float sellProfit; 
-	//销售毛利率
-	//private float sellProfitRate;
 	//税率
 	private float taxation;
 	//税费
@@ -234,18 +229,6 @@ public class DesignerOrder implements java.io.Serializable, Cloneable{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	/**
-	 * @hibernate.property type="long"
-	 */
-	public Long getOrderId() {
-		return orderId;
-	}
-
-
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
 	}
 
 	/**

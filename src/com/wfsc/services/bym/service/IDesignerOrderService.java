@@ -28,4 +28,6 @@ public interface IDesignerOrderService {
 	
 	public List<DesignerOrder> getDesignerOrderByQuoteId(Long quoteId);
 	
+	public DesignerOrder getDOByQuoteIdAndOperation(Long quoteId,String operation);
+	
 }

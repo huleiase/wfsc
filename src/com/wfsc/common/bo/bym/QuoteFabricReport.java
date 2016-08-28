@@ -141,19 +141,19 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	//新加
 
 	/**
-	 *  计算后的工程运费/零售运费
+	 *  工程运费/零售运费
 	 */
 	private float vcFre;
 	/**
-	 * 计算后的特殊费用
+	 * 特殊费用
 	 */
 	private float vcSpecialExp;
 	/**
-	 * 计算后的面价
+	 * 面价
 	 */
 	private float vcOldPrice;
 	
-	//不包含运费和特殊费用的总价(即计算后的面价*数量)
+	//不包含运费和特殊费用的总价(面价*数量)
 	private float vcOldPriceTotal;
 	public Object clone() {   
         try {   

@@ -505,13 +505,13 @@ width: 95px;
 					<option value="7" <c:if test="${order.shippingService=='7'}">selected</c:if>>To be advised</option>
 					<option value="8" <c:if test="${order.shippingService=='8'}">selected</c:if>>DHL on our A/C 967947655</option>
 					<option value="9" <c:if test="${order.shippingService=='9'}">selected</c:if>>UPS Saver on our A/C E8838F</option>
-					
+					<option value="10" <c:if test="${order.shippingService=='10'}">selected</c:if>>UPS EXPRESS ON OUR A/C E8838F</option>
 	             </select>
 	            </div>
 	          <div class="clear"></div>
-	          <div class="widget-title" style="width:996px;"> 
+	          <div class="widget-title" style="width:100%;"> 
 	          </div>
-	         <div class="widget-content nopadding" id="orderFabricDiv" style="overflow-x:auto;width:996px;">
+	         <div class="widget-content nopadding" id="orderFabricDiv" style="overflow-x:auto;width:100%;">
             	<%@include file="orderFabric.jsp"%>
       		</div>
       		 <div class="clear"></div>

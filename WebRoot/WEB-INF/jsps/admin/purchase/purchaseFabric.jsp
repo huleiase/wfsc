@@ -17,11 +17,12 @@
                   <th>幅宽</th>
                   <th>订货数量</th>
                   <th>报价数量</th>
+                  <th>类型</th>
+                  <th>备注</th>
                   <th>分段铺量</th>
                   <th>实际到货</th>
                   <th>出货数明细</th>
-                   <th>类型</th>
-                  <th>备注</th>
+                   
                 
                 </tr>
               </thead>
@@ -68,11 +69,12 @@
                   	<s:property value="vcPriceUnit"/>
      			  </div>
      			  </td>
+     			   <td><input type="text" value="<s:property value="vcType"/>" id="vcType${vcCount }" name="quoteFabricList[${vcIndex }].vcType"  class="widthShort"/></td>
+			     <td><input type="text" value="<s:property value="vcPurchaseRmk"/>" id="vcPurchaseRmk${vcCount }" name="quoteFabricList[${vcIndex }].vcPurchaseRmk" /></td>
      			 <td><input type="text" value="<s:property value="vcSubLay"/>" id="vcSubLay${vcCount }" name="quoteFabricList[${vcIndex }].vcSubLay"  class="widthShort"/></td>
 			     <td><input type="text" value="<s:property value="vcRealityAog"/>" id="vcRealityAog${vcCount }" name="quoteFabricList[${vcIndex }].vcRealityAog"  class="widthShort"/></td>
 			     <td><input type="text" value="<s:property value="vcShipmentNum"/>" id="vcShipmentNum${vcCount }" name="quoteFabricList[${vcIndex }].vcShipmentNum"  class="widthShort"/></td>
-			     <td><input type="text" value="<s:property value="vcType"/>" id="vcType${vcCount }" name="quoteFabricList[${vcIndex }].vcType"  class="widthShort"/></td>
-			     <td><input type="text" value="<s:property value="vcPurchaseRmk"/>" id="vcPurchaseRmk${vcCount }" name="quoteFabricList[${vcIndex }].vcPurchaseRmk" /></td>
+			    
                 
                 </tr>
                </s:iterator>

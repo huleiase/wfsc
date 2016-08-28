@@ -23,6 +23,28 @@
 				幅宽
 			</th>
 			<th>
+				备注
+			</th>
+			<th>
+				订货量
+			</th>
+			<th>
+				实订量
+			</th>
+			<c:if test="${!isLess}">
+			<th>
+				单价
+			</th>
+			<th>
+				实价
+			</th>
+			<th>
+				金额
+			</th>
+			<th>
+				折算RMB
+			</th>
+			<th>
 				分段铺量
 			</th>
 			<th>
@@ -54,28 +76,7 @@
 				到货地址
 			</th>
 			
-			<th>
-				备注
-			</th>
-			<th>
-				订货量
-			</th>
-			<th>
-				实订量
-			</th>
-			<c:if test="${!isLess}">
-			<th>
-				单价
-			</th>
-			<th>
-				实价
-			</th>
-			<th>
-				金额
-			</th>
-			<th>
-				折算RMB
-			</th>
+			
 			</c:if>
 		</tr>
 	</thead>
@@ -110,6 +111,55 @@
 							&nbsp;&nbsp;
 							<s:property value="vcWidthUnit" />
 						</div>
+					</td>
+					<td>
+						<input type="text" value="<s:property value="vcPurchaseRmk"/>"
+							id="vcPurchaseRmk${vcCount }"
+							name="quoteFabricList[${vcIndex }].vcPurchaseRmk" />
+					</td>
+
+					<td>
+						<div style="width: 100px;">
+							<s:property value="orderQuantity" />
+							&nbsp;&nbsp;
+							<s:property value="vcOldPriceUnit" />
+						</div>
+					</td>
+					<td>
+						<div style="width: 112px;">
+							<input id="vcQuoteNum${vcCount }"
+								name="quoteFabricList[${vcIndex }].vcQuoteNum"
+								value="<s:property value="vcQuoteNum" />"
+								onkeyup="setOrderAmount(${ vcCount})" class="widthShort" />
+								&nbsp;&nbsp;
+							<s:property value="vcOldPriceUnit" />
+						</div>
+					</td>
+					<c:if test="${!isLess}">
+					<td>
+						<div style="width: 90px;">
+							<s:property value="sigMoney" />
+							&nbsp;&nbsp;
+							<s:property value="priceCur" />
+						</div>
+					</td>
+					<td>
+						<div style="width: 120px;">
+							<input id="shijia${vcCount }" class="widthShort"
+								name="quoteFabricList[${vcIndex }].shijia"
+								value="<s:property value="shijia"/>"
+								onkeyup="setOrderAmount(${vcCount })">
+								&nbsp;&nbsp;
+							<s:property value="priceCur" />
+						</div>
+					</td>
+					<td>
+						<input type="text" name="quoteFabricList[${vcIndex }].realMonny" class="widthShort"
+							id="realMonny${vcCount }" value="<s:property value="realMonny"/>" />
+					</td>
+					<td>
+						<input type="text" name="quoteFabricList[${vcIndex }].amountrmb"
+							id="amountrmb${vcCount }" value="<s:property value="amountrmb"/>" />
 					</td>
 					<td>
 						<input type="text" value="<s:property value="vcSubLay"/>"
@@ -162,55 +212,7 @@
 							id="arrivalAddress${vcCount }" name="quoteFabricList[${vcIndex }].arrivalAddress" />
 					</td>
 					
-					<td>
-						<input type="text" value="<s:property value="vcPurchaseRmk"/>"
-							id="vcPurchaseRmk${vcCount }"
-							name="quoteFabricList[${vcIndex }].vcPurchaseRmk" />
-					</td>
-
-					<td>
-						<div style="width: 100px;">
-							<s:property value="orderQuantity" />
-							&nbsp;&nbsp;
-							<s:property value="vcOldPriceUnit" />
-						</div>
-					</td>
-					<td>
-						<div style="width: 112px;">
-							<input id="vcQuoteNum${vcCount }"
-								name="quoteFabricList[${vcIndex }].vcQuoteNum"
-								value="<s:property value="vcQuoteNum" />"
-								onkeyup="setOrderAmount(${ vcCount})" class="widthShort" />
-								&nbsp;&nbsp;
-							<s:property value="vcOldPriceUnit" />
-						</div>
-					</td>
-					<c:if test="${!isLess}">
-					<td>
-						<div style="width: 90px;">
-							<s:property value="sigMoney" />
-							&nbsp;&nbsp;
-							<s:property value="priceCur" />
-						</div>
-					</td>
-					<td>
-						<div style="width: 120px;">
-							<input id="shijia${vcCount }" class="widthShort"
-								name="quoteFabricList[${vcIndex }].shijia"
-								value="<s:property value="shijia"/>"
-								onkeyup="setOrderAmount(${vcCount })">
-								&nbsp;&nbsp;
-							<s:property value="priceCur" />
-						</div>
-					</td>
-					<td>
-						<input type="text" name="quoteFabricList[${vcIndex }].realMonny" class="widthShort"
-							id="realMonny${vcCount }" value="<s:property value="realMonny"/>" />
-					</td>
-					<td>
-						<input type="text" name="quoteFabricList[${vcIndex }].amountrmb"
-							id="amountrmb${vcCount }" value="<s:property value="amountrmb"/>" />
-					</td>
+					
 					</c:if>
 				</tr>
 			</s:iterator>

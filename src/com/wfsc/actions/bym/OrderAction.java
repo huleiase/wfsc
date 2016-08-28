@@ -489,13 +489,13 @@ public class OrderAction extends DispatchPagerAction {
 			this.saveProStroage(order, qfdbList);
 		}
 		updateOrderFreight(order);
-		updateDe(order.getOrderNo(),order.getId(), q.getId());
+		updateDe(order.getOrderNo(), q.getId());
 		updateQfr(q.getId(), order, qfdbList);
 		
 		return "ok";
 	}
 	
-	private void updateDe(String orderNo,Long orderId,Long quoteId){
+	private void updateDe(String orderNo,Long quoteId){
 		List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(quoteId);
         if(deos!=null){
         	List<Order> orders = this.orderService.getOrderByOrderNo(orderNo);
@@ -505,28 +505,27 @@ public class OrderAction extends DispatchPagerAction {
         	}
         	
             for(DesignerOrder deo : deos){
-            	deo.setOrderId(orderId);
             	deo.setOrderNo(orderNo);
-        			deo.setCbFreight(freight);
-        			//销售费用合计(加工费+安装费+运费+差旅费+设计费+其他)
-        			float cbTotel = deo.getProcessFee()+deo.getInstallFee()+deo.getCbFreight()+deo.getTravelExpenses()+deo.getDesignFre()+deo.getOtherFre();
-        			deo.setCbTotel(cbTotel);
-        			//毛利(报价合计-销售成本材料合计-销售费用合计)
-        			float profit = Math.abs(deo.getBjTotel())-Math.abs(deo.getCbClTotel())-Math.abs(deo.getCbTotel());
-        			deo.setProfit(profit);
-        			//毛利率(毛利/报价合计)
-        			if(deo.getBjTotel()!=0){
-        				deo.setProfitRate(deo.getProfit()/deo.getBjTotel());
-        			}
-        			if("offset".equals(deo.getOperation())){
-        				deo.setBjTotel(-Math.abs(deo.getBjTotel()));
-        				deo.setCbClTotel(-Math.abs(deo.getCbClTotel()));
-        				deo.setCbTotel(-Math.abs(deo.getCbTotel()));
-        				deo.setProfit(-Math.abs(deo.getProfit()));
-        				deo.setProfitRate(-Math.abs(deo.getProfitRate()));
-        				deo.setBjOldPriceTatol(-Math.abs(deo.getBjOldPriceTatol()));
-        			}
-                    designerOrderService.saveOrUpdateEntity(deo);
+        		deo.setCbFreight(freight);
+        		//销售费用合计(加工费+安装费+运费+差旅费+设计费+其他)
+        		float cbTotel = deo.getProcessFee()+deo.getInstallFee()+deo.getCbFreight()+deo.getTravelExpenses()+deo.getDesignFre()+deo.getOtherFre();
+        		deo.setCbTotel(cbTotel);
+        		//毛利(报价合计-销售成本材料合计-销售费用合计)
+        		float profit = Math.abs(deo.getBjTotel())-Math.abs(deo.getCbClTotel())-Math.abs(deo.getCbTotel());
+        		deo.setProfit(profit);
+        		//毛利率(毛利/报价合计)
+        		if(deo.getBjTotel()!=0){
+        			deo.setProfitRate(deo.getProfit()/deo.getBjTotel());
+        		}
+        		if("offset".equals(deo.getOperation())){
+        			deo.setBjTotel(-Math.abs(deo.getBjTotel()));
+        			deo.setCbClTotel(-Math.abs(deo.getCbClTotel()));
+        			deo.setCbTotel(-Math.abs(deo.getCbTotel()));
+        			deo.setProfit(-Math.abs(deo.getProfit()));
+        			deo.setProfitRate(-Math.abs(deo.getProfitRate()));
+        			deo.setBjOldPriceTatol(-Math.abs(deo.getBjOldPriceTatol()));
+        		}
+                designerOrderService.saveOrUpdateEntity(deo);
             }
         }
 	}
@@ -539,17 +538,7 @@ public class OrderAction extends DispatchPagerAction {
 			for(QuoteFabricReport qfr : qfrs){
 				for(QuoteFabric qf : qfs){
 					if(qfr.getQfId().longValue()==qf.getId().longValue()){
-						/*if("1".equals(qf.getIsReplaced())){
-							String str = qf.getReplaceRemark();
-							if(str!=null&&str.length()>3){
-								String newStr = StringUtils.substring(str, 1, -2);
-								qfr.setReplaceNO(newStr);
-							}
-							
-						}*/
-					//	if("1".equals(qf.getIsHidden())){
-							qfr.setReplaceNO(qf.getReplaceId());
-					//	}
+						qfr.setReplaceNO(qf.getReplaceId());
 						qfr.setCbPrice(qf.getShijia());
 						qfr.setCbPriceUnit(qf.getVcOldPriceUnit());
 						qfr.setCbQuantity(qf.getVcQuoteNum());
@@ -561,7 +550,6 @@ public class OrderAction extends DispatchPagerAction {
 						qfr.setSingleMoney(sigMoney);
 						qfr.setOrderNum(qf.getOrderQuantity());
 						qfr.setPriceCur(qf.getPriceCur());
-					//	qfr.setCbModelNum(qf.getVcFactoryCode()+" "+qf.getVcModelNum());
 						forUpdateqfrs.add(qfr);
 					}
 				}
@@ -572,16 +560,7 @@ public class OrderAction extends DispatchPagerAction {
 				if("HKD".equalsIgnoreCase(qfr.getVcMoney())){
 					huilv = this.getExchangeRate("2", qfr.getPriceCur());
 				}
-				/*if("1".equals(qfr.getIsReplaced())){
-					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()+qfr.getTaxes());
-					QuoteFabricReport hidden = map.get(qfr.getReplaceNO());
-					if(hidden!=null){
-						qfr.setCbModelNum(hidden.getVcFactoryCode()+" "+hidden.getVcBefModel());
-						qfr.setCbTotal(hidden.getCbPrice()*hidden.getCbQuantity());
-						qfr.setAmountrmb(qfr.getCbTotal()*huilv);
-						qfr.setCbColor(hidden.getCbColor());
-					}
-				}else */if("1".equals(qfr.getIsHidden())){
+				if("1".equals(qfr.getIsHidden())){
 					QuoteFabricReport replaced = map.get(qfr.getReplaceNO());
 					if(replaced!=null){
 						qfr.setVcPrice(replaced.getVcPrice());
@@ -595,15 +574,14 @@ public class OrderAction extends DispatchPagerAction {
 						qfr.setBjTotal(replaced.getVcPrice()*replaced.getVcQuantity());
 						qfr.setBjColor(replaced.getBjColor());
 					}
-					//qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
-					//qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				}else{
 					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity());
 				}
 				qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
 				qfr.setAmountrmb(qfr.getCbTotal()*huilv);
+				//
 				qfr.setSellProfit(Math.abs(qfr.getVcOldPriceTotal())-Math.abs(qfr.getAmountrmb()));
-				if(qfr.getBjTotal()!=0){
+				if(qfr.getVcOldPriceTotal()!=0){
 					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getVcOldPriceTotal());
 				}
 				qfr.setOrderNo(o.getOrderNo());
@@ -1162,6 +1140,8 @@ public class OrderAction extends DispatchPagerAction {
 						note = "DHL on our A/C 967947655";
 					}else if ("9".equals(shippingService)) {
 						note = "UPS Saver on our A/C E8838F";
+					}else if ("10".equals(shippingService)) {
+						note = "UPS EXPRESS ON OUR A/C E8838F";
 					}
 					cell4.setCellValue(note);
 				}

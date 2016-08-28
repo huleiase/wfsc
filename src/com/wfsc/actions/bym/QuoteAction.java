@@ -1623,6 +1623,8 @@ public class QuoteAction extends DispatchPagerAction {
 		
 		String item = quote.getItem().replaceAll("@", "<br><br>");
 		quote.setItem(item);
+		quote.setSumMoneyStr(cancelGroupingUsed(quote.getSumMoney()));
+		quote.setSubtotalStr(cancelGroupingUsed(quote.getSubtotal()));
 		// 该报价单相关联的产品
 		if (quote.getQuoteFabric() != null) {
 			Set<QuoteFabric> qfSet = quote.getQuoteFabric();
@@ -1782,23 +1784,19 @@ public class QuoteAction extends DispatchPagerAction {
 			saveSystemLog(LogModule.quoteLog, curAdminName+"签单了报价单"+q.getProjectNum());
 			
 			DesignerExpense de = new DesignerExpense();
-			List<DesignerExpense> des = this.designerExpenseService.getDesignerExpenseByQuoteId(q.getId());
-			if(CollectionUtils.isNotEmpty(des)){
-				DesignerExpense oldDe = des.get(0);
-				//一般情况下最后一条数据肯定是 add，但是作废或删除报价单的时候最后一条是offset，当再签单的时候就不需要更新之前的和添加一条抵消的
-				if("add".equals(oldDe.getOperation())){
-					oldDe.setOperation("old");
-					//更新旧的
-					designerExpenseService.saveOrUpdateEntity(oldDe);
-					//新增一条抵消的
-					DesignerExpense offsetDe = (DesignerExpense)oldDe.clone();
-					offsetDe.setSumMoney(-oldDe.getSumMoney());
-					offsetDe.setOperation("offset");
-					offsetDe.setCreateDate(new Date());
-					offsetDe.setId(null);
-					//保存抵消的
-					designerExpenseService.saveOrUpdateEntity(offsetDe);
-				}
+			DesignerExpense oldDe = this.designerExpenseService.getDEByQuoteIdAndOperation(q.getId(),"add");
+			if(oldDe!=null){
+				oldDe.setOperation("old");
+				//更新旧的
+				designerExpenseService.saveOrUpdateEntity(oldDe);
+				//新增一条抵消的
+				DesignerExpense offsetDe = (DesignerExpense)oldDe.clone();
+				offsetDe.setSumMoney(-oldDe.getSumMoney());
+				offsetDe.setOperation("offset");
+				offsetDe.setCreateDate(new Date());
+				offsetDe.setId(null);
+				//保存抵消的
+				designerExpenseService.saveOrUpdateEntity(offsetDe);
 				de = (DesignerExpense)oldDe.clone();
 				de.setId(null);
 			}
@@ -1852,55 +1850,50 @@ public class QuoteAction extends DispatchPagerAction {
 			
 			
 			DesignerOrder deo = new DesignerOrder();
-			List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(q.getId());
-			if(CollectionUtils.isNotEmpty(deos)){
-				DesignerOrder oldDeo = deos.get(0);
-				//一般情况下最后一条数据肯定是 add，但是作废或删除报价单的时候最后一条是offset，当再签单的时候就不需要更新之前的和添加一条抵消的
-				if("add".equals(oldDeo.getOperation())){
-					//更新旧的
-					oldDeo.setOperation("old");
-					designerOrderService.saveOrUpdateEntity(oldDeo);
-					//新增一条抵消的
-					DesignerOrder offsetDeo = (DesignerOrder)oldDeo.clone();
-					offsetDeo.setSumMoney(-oldDeo.getSumMoney());
-					offsetDeo.setHasApplyTotle(-oldDeo.getHasApplyTotle());
-					offsetDeo.setRealTotel(-oldDeo.getRealTotel());
-					offsetDeo.setSharetotle(-oldDeo.getSharetotle());
-					offsetDeo.setBjTotel(-oldDeo.getBjTotel());
-					offsetDeo.setCbClTotel(-oldDeo.getCbClTotel());
-					offsetDeo.setCbTotel(-oldDeo.getCbTotel());
-					offsetDeo.setProfit(-oldDeo.getProfit());
-					offsetDeo.setProfitRate(-oldDeo.getProfitRate());
-					offsetDeo.setOperation("offset");
-					offsetDeo.setCreateDate(new Date());
-					offsetDeo.setId(null);
-					offsetDeo.setBjOldPriceTatol(-oldDeo.getBjOldPriceTatol());
-					designerOrderService.saveOrUpdateEntity(offsetDeo);
-					
-					List<QuoteFabricReport> oldQfrs = this.quoteFabricReportService.getQuoteFabricReportByDoId(oldDeo.getId());
-					if(oldQfrs!=null){
-						for(QuoteFabricReport oldQfr : oldQfrs){
-							//更新旧的
-							oldQfr.setOperation("old");
-							quoteFabricReportService.saveOrUpdateEntity(oldQfr);
-							//新增一条抵消的
-							QuoteFabricReport offsetQfr = (QuoteFabricReport)oldQfr.clone();
-							offsetQfr.setOperation("offset");
-							offsetQfr.setDoId(offsetDeo.getId());
-							offsetQfr.setCbTotal(-oldQfr.getCbTotal());
-							offsetQfr.setBjTotal(-oldQfr.getBjTotal());
-							offsetQfr.setAmountrmb(-oldQfr.getAmountrmb());
-							offsetQfr.setSumMoney(-oldQfr.getSumMoney());
-							offsetQfr.setSellProfit(-oldQfr.getSellProfit());
-							offsetQfr.setSellProfitRate(-oldQfr.getSellProfitRate());
-							offsetQfr.setCreateDate(new Date());
-							offsetQfr.setId(null);
-							offsetQfr.setVcOldPriceTotal(-oldQfr.getVcOldPriceTotal());
-							quoteFabricReportService.saveOrUpdateEntity(offsetQfr);
-						}
+			DesignerOrder oldDeo = this.designerOrderService.getDOByQuoteIdAndOperation(q.getId(), "add");
+			if(oldDeo!=null){
+				//更新旧的
+				oldDeo.setOperation("old");
+				designerOrderService.saveOrUpdateEntity(oldDeo);
+				//新增一条抵消的
+				DesignerOrder offsetDeo = (DesignerOrder)oldDeo.clone();
+				offsetDeo.setSumMoney(-oldDeo.getSumMoney());
+				offsetDeo.setHasApplyTotle(-oldDeo.getHasApplyTotle());
+				offsetDeo.setRealTotel(-oldDeo.getRealTotel());
+				offsetDeo.setSharetotle(-oldDeo.getSharetotle());
+				offsetDeo.setBjTotel(-oldDeo.getBjTotel());
+				offsetDeo.setCbClTotel(-oldDeo.getCbClTotel());
+				offsetDeo.setCbTotel(-oldDeo.getCbTotel());
+				offsetDeo.setProfit(-oldDeo.getProfit());
+				offsetDeo.setProfitRate(-oldDeo.getProfitRate());
+				offsetDeo.setOperation("offset");
+				offsetDeo.setCreateDate(new Date());
+				offsetDeo.setId(null);
+				offsetDeo.setBjOldPriceTatol(-oldDeo.getBjOldPriceTatol());
+				designerOrderService.saveOrUpdateEntity(offsetDeo);
+				List<QuoteFabricReport> oldQfrs = this.quoteFabricReportService.getQuoteFabricReportByDoId(oldDeo.getId());
+				if(oldQfrs!=null){
+					for(QuoteFabricReport oldQfr : oldQfrs){
+						//更新旧的
+						oldQfr.setOperation("old");
+						quoteFabricReportService.saveOrUpdateEntity(oldQfr);
+						//新增一条抵消的
+						QuoteFabricReport offsetQfr = (QuoteFabricReport)oldQfr.clone();
+						offsetQfr.setOperation("offset");
+						offsetQfr.setDoId(offsetDeo.getId());
+						offsetQfr.setCbTotal(-oldQfr.getCbTotal());
+						offsetQfr.setBjTotal(-oldQfr.getBjTotal());
+						offsetQfr.setAmountrmb(-oldQfr.getAmountrmb());
+						offsetQfr.setSumMoney(-oldQfr.getSumMoney());
+						offsetQfr.setSellProfit(-oldQfr.getSellProfit());
+						offsetQfr.setSellProfitRate(-oldQfr.getSellProfitRate());
+						offsetQfr.setCreateDate(new Date());
+						offsetQfr.setId(null);
+						offsetQfr.setVcOldPriceTotal(-oldQfr.getVcOldPriceTotal());
+						quoteFabricReportService.saveOrUpdateEntity(offsetQfr);
 					}
-					
 				}
+					
 				deo = (DesignerOrder)oldDeo.clone();
 				deo.setId(null);
 			}
@@ -1945,16 +1938,8 @@ public class QuoteAction extends DispatchPagerAction {
 			deo.setVcSalesman(saleMan);
 			//报价材料合计=材料明细表里同一合同号的所有型号的产品报价的合计总和
 			float bjClTotel = 0F;
-			//不包含运费和特殊费用的总价(即计算后的面价*数量)
+			//不包含运费和特殊费用的总价(面价*数量)
 			float bjOldPriceTatol = 0F;
-			/*if(StringUtils.isNotBlank(q.getVcAftertreatment())){
-				bjClTotel+=Float.valueOf(q.getVcAftertreatment()).floatValue();
-			}
-			if(StringUtils.isNotBlank(q.getVcOther())){
-				bjClTotel+=Float.valueOf(q.getVcOther()).floatValue();
-			}
-			bjClTotel+=q.getEngineTotal()+q.getFlameTotal()+q.getInputCol1()+q.getInputCol2()+q.getInputCol3()+q.getInputCol4()+q.getInputCol5();
-			deo.setBjClTotel(bjClTotel);*/
 			//加工费。读取报价页面
 			if(StringUtils.isNotBlank(q.getVcProcessFre())){
 				deo.setVcProcessFre(Float.valueOf(q.getVcProcessFre()).floatValue());
@@ -1965,24 +1950,19 @@ public class QuoteAction extends DispatchPagerAction {
 			if(StringUtils.isNotBlank(q.getVcInstallFre())){
 				deo.setVcInstallFre(Float.valueOf(q.getVcInstallFre()));
 			}
-			//运费.（各个型号的实际采购数量的值*具体类型的运费，再相加）+最低运费+货到工地运费
+			//运费=各个型号的实际采购数量的值*具体类型的运费)+(实际采购数量的值*特殊费用)+自填框费用+最低运费+货到工地运费+加急费
 			deo.setBjFreight(freight);
 			//税率
 			deo.setTaxation(q.getContainTax());
 			//税金
 			deo.setTaxes(q.getTaxes());
-			//报价合计 （材料合计+加工费+量窗费+安装费+运费）*税率
-		//	float bjTotel = (deo.getBjClTotel()+deo.getVcProcessFre()+deo.getLcFre()+deo.getVcInstallFre()+deo.getBjFreight())*deo.getTaxation();
+			//报价合计=合同金额
 			deo.setBjTotel(deo.getSumMoney());
 			
 			//抬头 读取报价单第三行的from
 			deo.setVcFrom(q.getVcFrom());
 			//税费
-			float taxationFee = 0F;
-			if(deo.getTaxation()>0){
-				taxationFee = (deo.getSumMoney()/deo.getTaxation())*(deo.getTaxation()-1);
-			}
-			deo.setTaxationFee(taxationFee);
+			deo.setTaxationFee(q.getSumMoney()*(q.getContainTax()-1));
 			//保存最新的
 			this.designerOrderService.saveOrUpdateEntity(deo);
 			for(QuoteFabric qf :qfs){
@@ -2011,13 +1991,13 @@ public class QuoteAction extends DispatchPagerAction {
 				qfr.setPriceCur(qf.getPriceCur());
 				
 				if("1".equals(qf.getQuoteFormate())||"3".equals(qf.getQuoteFormate())){
-					qfr.setVcFre(qf.getVcProFre()*q.getContainTax());
+					qfr.setVcFre(qf.getVcProFre());
 				}else{
-					qfr.setVcFre(qf.getVcRetFre()*this.getExchangeRate("2", "RMB")*q.getContainTax());
+					qfr.setVcFre(qf.getVcRetFre()*this.getExchangeRate("2", "RMB"));
 				}
-				qfr.setVcSpecialExp(qf.getVcSpecialExp()*q.getContainTax());
-				qfr.setVcOldPrice(qf.getVcOldPrice()*qf.getVcDiscount()*q.getContainTax());
-				qfr.setVcOldPriceTotal(qfr.getVcOldPrice()*qf.getVcQuantity());
+				qfr.setVcSpecialExp(qf.getVcSpecialExp());
+				qfr.setVcOldPrice(qf.getVcOldPrice());
+				qfr.setVcOldPriceTotal(qfr.getVcOldPrice()*qf.getVcQuantity()*qf.getVcDiscount());
 				if("1".equals(qf.getIsReplaced())){
 					String str = qf.getReplaceRemark();
 					if(str!=null&&str.length()>3){
@@ -2043,18 +2023,6 @@ public class QuoteAction extends DispatchPagerAction {
 				qfr.setVcMoney(qf.getVcMoney());
 				qfr.setBjTotal(qf.getVcTotal());
 				qfr.setVcFactoryNum(qf.getVcFactoryNum());
-				
-				/*qfr.setCbPrice(qf.getShijia());
-				qfr.setCbPriceUnit(qf.getPriceCur());
-				float cbQuantity = 0F;
-				if(StringUtils.isNotBlank(qf.getQuoteNum())){
-					cbQuantity = Float.valueOf(qf.getQuoteNum());
-				}
-				qfr.setCbQuantity(cbQuantity);
-				qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()*qfr.getTaxation());
-				qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity()*qfr.getTaxation());
-				qfr.setSellProfit(qfr.getBjTotal()-qfr.getCbTotal());
-				qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());*/
 				quoteFabricReportService.saveOrUpdateEntity(qfr);
 			}
 			deo.setBjClTotel(bjClTotel);
@@ -2379,7 +2347,7 @@ public class QuoteAction extends DispatchPagerAction {
 		saveSystemLog(LogModule.quoteLog, curAdminName+"设计了财务报表"+deoDb.getContractNo());
 		 return "ok";
 	 }
-	 
+	 //运费=各个型号的实际采购数量的值*具体类型的运费)+(实际采购数量的值*特殊费用)+自填框费用+最低运费+货到工地运费+加急费
 	private float getFreight(Quote q) {
 			float freight = 0F;
 				if("1".equals(q.getIsFreight())){
@@ -2397,6 +2365,7 @@ public class QuoteAction extends DispatchPagerAction {
 						}else if("4".equals(q.getQuoteFormate())){
 							lowFreight = qf.getDhjHKTransCost();
 						}
+						lowFreight+=qf.getVcSpecialExp();
 						if("yd".equalsIgnoreCase(qf.getVcOldPriceUnit())){
 							freight +=qf.getOrderQuantity()*lowFreight*0.914;
 						}else{
@@ -2404,11 +2373,7 @@ public class QuoteAction extends DispatchPagerAction {
 						}
 					}
 				}
-				freight+=q.getLowestFreight();
-				freight+=q.getArriveTransport();
-				if("3".equals(q.getQuoteFormate())||"4".equals(q.getQuoteFormate())||"5".equals(q.getQuoteFormate())){
-					freight+=q.getUrgentCost();
-				}
+				freight+=q.getLowestFreight()+q.getArriveTransport()+q.getUrgentCost()+q.getInputCol1()+q.getInputCol2()+q.getInputCol3()+q.getInputCol4()+q.getInputCol5();
 			return freight;
 		}
 	 

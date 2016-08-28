@@ -700,12 +700,6 @@ public class PurchaseAction extends DispatchPagerAction {
 	
 	private void saveOrder(Purchase purchase,Set<QuoteFabric> qfSet){
 		Admin curAdmin = this.getCurrentAdminUser();
-		/*List<String> caigouyuan = new ArrayList<String>();
-		for(QuoteFabric qf : qfSet){
-			if(StringUtils.isNotBlank(qf.getVcAssignAutor())){
-				caigouyuan.add(qf.getVcAssignAutor());
-			}
-		}*/
 		List<Supplier> ss = this.supplierService.getAll();
 		Map<String,String> ssMap = new HashMap<String,String>();
 		Map<String,String> ssMap2 = new HashMap<String,String>();
@@ -734,6 +728,7 @@ public class PurchaseAction extends DispatchPagerAction {
 		List<Order> ordersdb = this.orderService.getOrderByPurchaseId(purchase.getId());
 		Map<String,Order> orderMap = new HashMap<String,Order>();
 		if(CollectionUtils.isNotEmpty(ordersdb)){
+			orderNo = ordersdb.get(0).getOrderNo();
 			for(Order o : ordersdb){
 				orderMap.put(o.getFactoryNum(), o);
 			}
@@ -742,25 +737,18 @@ public class PurchaseAction extends DispatchPagerAction {
 		for(QuoteFabric qf : qfSet){
 				ssMap2.put(qf.getVcFactoryNum(), qf.getVcFactoryCode());
 				Order order = orderMap.get(qf.getVcFactoryNum());
-				if(order==null){
-					qf.setOrderNo(orderNo);
-				}else{
-					qf.setOrderNo(order.getOrderNo());
-				}
+				qf.setOrderNo(orderNo);
 				map.put(qf.getVcFactoryNum(),qf);
 				quoteFabricService.saveOrUpdateEntity(qf);
 			
 		}
+		
+		float cbClTotel = 0F;
 		for(String fnum : map.keySet()){
 			Order order = orderMap.get(fnum);
 			if(order==null){
 				order = new Order();
-				if(orderMap.size()==0){//第一次由采购单生成订单
-					order.setOrderNo(orderNo);// 新的单号
-					
-				}else{//修改报价单后新增了报价布匹，而且这个新增的报价布匹之前没有生成对应的订单
-					order.setOrderNo(ordersdb.get(0).getOrderNo());// 用原来的单号
-				}
+				order.setOrderNo(orderNo);
 				order.setOrderDate(new Date());
 				order.setModifyDate(new Date());
 				order.setModifyUser(curAdmin.getUsername());
@@ -796,59 +784,49 @@ public class PurchaseAction extends DispatchPagerAction {
 					sumMoney += (vcQuoteNum * shijia);
 				}
 			}
-			/*if(order.getSumMoney()>0){
-				sumMoney = order.getSumMoney();
-			}*/
 			order.setSumMoney(PriceUtil.getTwoDecimalFloat(sumMoney));
 			this.orderService.saveOrUpdateEntity(order);
+			List<QuoteFabricReport>  qfrs = this.quoteFabricReportService.getQuoteFabricReportByQuoteId(purchase.getQuote().getId());
+	        if(qfrs!=null &&qfrs.size()>0){
+	            cbClTotel += updateQfr(purchase.getQuote().getId(), order, qfSet,qfrs);
+	           }
 			
-			float cbClTotel = 0F;
-			 List<QuoteFabricReport>  qfrs = this.quoteFabricReportService.getQuoteFabricReportByQuoteId(purchase.getQuote().getId());
-	            if(qfrs!=null &&qfrs.size()>0){
-	            	cbClTotel = updateQfr(purchase.getQuote().getId(), order, qfSet,qfrs);
-	            }
-			
-            List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(purchase.getQuote().getId());
-            if(deos!=null){
-                for(DesignerOrder deo : deos){
-                        deo.setOrderNo(order.getOrderNo());
-                        deo.setCbClTotel(cbClTotel);
-                        deo.setTravelExpenses(purchase.getTravelExpenses());
-                        deo.setProcessFee(purchase.getProcessFee());
-                        deo.setInstallFee(purchase.getInstallFee());
-                        deo.setOtherFre(purchase.getOtherFre());
-            			if("offset".equals(deo.getOperation())){
-            				deo.setBjTotel(-Math.abs(deo.getBjTotel()));
-            				deo.setCbClTotel(-Math.abs(deo.getCbClTotel()));
-            				deo.setCbTotel(-Math.abs(deo.getCbTotel()));
-            				deo.setProfit(-Math.abs(deo.getProfit()));
-            				deo.setProfitRate(-Math.abs(deo.getProfitRate()));
-            				deo.setBjOldPriceTatol(-Math.abs(deo.getBjOldPriceTatol()));
-            			}
-                        designerOrderService.saveOrUpdateEntity(deo);
-                        
-                    
-                }
-            }
-            
-           
-
-				Email e = new Email();
-				e.setAction("order");
-				e.setDetail("关于【" + purchase.getQuote().getProjectName() + "】的采购单已经审核！订单号为"+order.getOrderNo()+",请去提交");
-				e.setQuoteId(purchase.getQuote().getId());
-				e.setQuoteNo(purchase.getQuote().getProjectNum());
-				e.setPurchaseId(purchase.getId());
-				e.setPurchaseNo(purchase.getContractNo());
-				e.setSender(curAdmin.getUsername());
-				e.setSendTime(new Date());
-				e.setState("1");
-				e.setUsername(formUser);
-				e.setStatus("1");
-				e.setOrderId(order.getId());
-				e.setOrderNo(order.getOrderNo());
-				this.emailService.saveOrUpdateEntity(e);
+			Email e = new Email();
+			e.setAction("order");
+			e.setDetail("关于【" + purchase.getQuote().getProjectName() + "】的采购单已经审核！订单号为"+order.getOrderNo()+",请去提交");
+			e.setQuoteId(purchase.getQuote().getId());
+			e.setQuoteNo(purchase.getQuote().getProjectNum());
+			e.setPurchaseId(purchase.getId());
+			e.setPurchaseNo(purchase.getContractNo());
+			e.setSender(curAdmin.getUsername());
+			e.setSendTime(new Date());
+			e.setState("1");
+			e.setUsername(formUser);
+			e.setStatus("1");
+			e.setOrderId(order.getId());
+			e.setOrderNo(order.getOrderNo());
+			this.emailService.saveOrUpdateEntity(e);
 		}
+		List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(purchase.getQuote().getId());
+        if(deos!=null){
+             for(DesignerOrder deo : deos){
+               deo.setOrderNo(orderNo);
+               deo.setCbClTotel(cbClTotel);
+               deo.setTravelExpenses(purchase.getTravelExpenses());
+               deo.setProcessFee(purchase.getProcessFee());
+               deo.setInstallFee(purchase.getInstallFee());
+               deo.setOtherFre(purchase.getOtherFre());
+               if("offset".equals(deo.getOperation())){
+         			deo.setBjTotel(-Math.abs(deo.getBjTotel()));
+         			deo.setCbClTotel(-Math.abs(deo.getCbClTotel()));
+         			deo.setCbTotel(-Math.abs(deo.getCbTotel()));
+         			deo.setProfit(-Math.abs(deo.getProfit()));
+         			deo.setProfitRate(-Math.abs(deo.getProfitRate()));
+         			deo.setBjOldPriceTatol(-Math.abs(deo.getBjOldPriceTatol()));
+         		}
+                designerOrderService.saveOrUpdateEntity(deo);
+             }
+         }
 		
 	}
 	
@@ -882,7 +860,6 @@ public class PurchaseAction extends DispatchPagerAction {
 						qfr.setSingleMoney(sigMoney);
 						qfr.setOrderNum(qf.getOrderQuantity());
 						qfr.setPriceCur(qf.getPriceCur());
-					//	qfr.setCbModelNum(qf.getVcFactoryCode()+" "+qf.getVcModelNum());
 						forUpdateqfrs.add(qfr);
 					}
 				}
@@ -893,16 +870,7 @@ public class PurchaseAction extends DispatchPagerAction {
 				if("HKD".equalsIgnoreCase(qfr.getVcMoney())){
 					huilv = this.getExchangeRate("2", qfr.getPriceCur());
 				}
-				/*if("1".equals(qfr.getIsReplaced())){
-					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity()+qfr.getTaxes());
-					QuoteFabricReport hidden = map.get(qfr.getReplaceNO());
-					if(hidden!=null){
-						qfr.setCbModelNum(hidden.getVcFactoryCode()+" "+hidden.getVcBefModel());
-						qfr.setCbTotal(hidden.getCbPrice()*hidden.getCbQuantity());
-						qfr.setAmountrmb(qfr.getCbTotal()*huilv);
-						qfr.setCbColor(hidden.getCbColor());
-					}
-				}else */if("1".equals(qfr.getIsHidden())){
+				if("1".equals(qfr.getIsHidden())){
 					QuoteFabricReport replaced = map.get(qfr.getReplaceNO());
 					if(replaced!=null){
 						qfr.setVcPrice(replaced.getVcPrice());
@@ -916,8 +884,6 @@ public class PurchaseAction extends DispatchPagerAction {
 						qfr.setBjTotal(replaced.getVcPrice()*replaced.getVcQuantity());
 						qfr.setBjColor(replaced.getBjColor());
 					}
-					//qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
-					//qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				}else{
 					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity());
 				}
@@ -926,10 +892,9 @@ public class PurchaseAction extends DispatchPagerAction {
 				if("add".equals(qfr.getOperation())){
 					cbClTotel+=qfr.getAmountrmb();
 				}
-//				System.out.println("qfr.getCbModelNum()"+qfr.getCbModelNum()+"qfr.getOperation()=="+qfr.getOperation()+"-->qfr.getAmountrmb()=="+qfr.getAmountrmb());
-				qfr.setSellProfit(Math.abs(qfr.getBjTotal())-Math.abs(qfr.getAmountrmb()));
-				if(qfr.getBjTotal()!=0){
-					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getBjTotal());
+				qfr.setSellProfit(Math.abs(qfr.getVcOldPriceTotal())-Math.abs(qfr.getAmountrmb()));
+				if(qfr.getVcOldPriceTotal()!=0){
+					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getVcOldPriceTotal());
 				}
 				qfr.setOrderNo(o.getOrderNo());
 				qfr.setSupplier(o.getSupplier());

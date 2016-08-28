@@ -33,4 +33,6 @@ public interface IDesignerExpenseService {
 	
 	public List<DesignerExpense> getDesignerExpenseByQuoteId(Long quoteId);
 	
+	public DesignerExpense getDEByQuoteIdAndOperation(Long quoteId,String operation);
+	
 }
