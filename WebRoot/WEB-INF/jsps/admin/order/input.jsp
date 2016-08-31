@@ -506,6 +506,8 @@ width: 95px;
 					<option value="8" <c:if test="${order.shippingService=='8'}">selected</c:if>>DHL on our A/C 967947655</option>
 					<option value="9" <c:if test="${order.shippingService=='9'}">selected</c:if>>UPS Saver on our A/C E8838F</option>
 					<option value="10" <c:if test="${order.shippingService=='10'}">selected</c:if>>UPS EXPRESS ON OUR A/C E8838F</option>
+					<option value="11" <c:if test="${order.shippingService=='11'}">selected</c:if>>UPS Worldwide Express</option>
+					<option value="12" <c:if test="${order.shippingService=='12'}">selected</c:if>>UPS Worldwide Saver</option>
 	             </select>
 	            </div>
 	          <div class="clear"></div>

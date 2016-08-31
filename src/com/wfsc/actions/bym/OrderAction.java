@@ -1142,6 +1142,10 @@ public class OrderAction extends DispatchPagerAction {
 						note = "UPS Saver on our A/C E8838F";
 					}else if ("10".equals(shippingService)) {
 						note = "UPS EXPRESS ON OUR A/C E8838F";
+					}else if ("11".equals(shippingService)) {
+						note = "UPS Worldwide Express";
+					}else if ("12".equals(shippingService)) {
+						note = "UPS Worldwide Saver";
 					}
 					cell4.setCellValue(note);
 				}
