@@ -210,8 +210,8 @@ var basePath = "<%=basePath%>";
         						<td>
         							<div align="center">
         							<s:if test="filePath!=null">
-	        						<a target="_blank" title="点击查看图片" href='<s:property value="filePath"/>' rel="attachment" class="tip-bottom" style="display: inline-block; width: 60px;">
-							     		<img width="50" height="35" alt="暂无图片" src='<s:property value="filePath"/>' /> 
+	        						<a target="_blank" title="点击查看图片" href='<s:property value="filePath"/>' rel="attachment" class="tip-bottom" style="display: inline-block; width: 150px;">
+							     		<img width="150px" height="80px" alt="暂无图片" src='<s:property value="filePath"/>' /> 
 							     	</a>
 							     	</s:if>
         							</div>
