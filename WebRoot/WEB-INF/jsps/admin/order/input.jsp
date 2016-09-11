@@ -232,7 +232,7 @@ width: 95px;
 	             <select name="order.consignee" id="consignee" style="width:202px;float: left;" class="span3" onchange="setConsignee(this.value);">
 	            	 <option value="范燕清 13450229299" <c:if test="${order.consignee=='范燕清 13450229299'}">selected</c:if>>范燕清 13450229299</option>
 					 <option value="招永聪 15018480561" <c:if test="${order.consignee=='招永聪 15018480561'}">selected</c:if>>招永聪 15018480561</option>
-					<option value="陈楚虹 13580389912" <c:if test="${order.consignee=='陈楚虹 13580389912'}">selected</c:if>>陈楚虹 13580389912</option>
+					<option value="陈楚虹 15622158228" <c:if test="${order.consignee=='陈楚虹 15622158228'}">selected</c:if>>陈楚虹 15622158228</option>
 					<option value="关文娟 15031119209" <c:if test="${order.consignee=='关文娟 15031119209'}">selected</c:if>>关文娟 15031119209</option>
 					<option value="江春霞 18930627328" <c:if test="${order.consignee=='江春霞 18930627328'}">selected</c:if>>江春霞 18930627328</option>
 					<option value="吴梦诗 13430771727" <c:if test="${order.consignee=='吴梦诗 13430771727'}">selected</c:if>>吴梦诗 13430771727</option>
@@ -242,7 +242,7 @@ width: 95px;
 					<option value="史国栋 13422215055" <c:if test="${order.consignee=='史国栋 13422215055'}">selected</c:if>>史国栋 13422215055</option>
 					<option value="广州元韵 15018480561" <c:if test="${order.consignee=='广州元韵 15018480561'}">selected</c:if>>广州元韵 15018480561</option>
 					<option value="广州元韵 13450229299" <c:if test="${order.consignee=='广州元韵 13450229299'}">selected</c:if>>广州元韵 13450229299</option>
-					<option value="广州元韵 13580389912" <c:if test="${order.consignee=='广州元韵 13580389912'}">selected</c:if>>广州元韵 13580389912</option>
+					<option value="广州元韵 15622158228" <c:if test="${order.consignee=='广州元韵 15622158228'}">selected</c:if>>广州元韵 15622158228</option>
 					<option value="其他" <c:if test="${order.consignee=='其他'}">selected</c:if>>其他</option>
 	             </select>
 	            <input name="order.otherConsignee" id="otherConsignee" type="text" class="span3"  value="${ order.otherConsignee}">

@@ -19,8 +19,8 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -940,12 +940,7 @@ public class OrderAction extends DispatchPagerAction {
 			ct1_2.setCellStyle(style);
 			HSSFCell ct1_3 = row.getCell(3);
 			ct1_3.setCellStyle(style);
-			sheet.addMergedRegion(new CellRangeAddress(shifStartRow, // first row
-																		// (0-based)
-					shifStartRow, // last row (0-based)
-					1, // first column (0-based)
-					3 // last column (0-based)
-					));
+			sheet.addMergedRegion(new CellRangeAddress(shifStartRow,shifStartRow, 1, 3 ));
 			HSSFCell ct2 = row.getCell(4);
 			ct2.setCellStyle(style);
 			ct2.setCellValue("数量");
@@ -957,22 +952,9 @@ public class OrderAction extends DispatchPagerAction {
 			ct4.setCellValue("备注");
 			HSSFCell ct4_7 = row.getCell(7);
 			ct4_7.setCellStyle(style);
-			sheet.addMergedRegion(new CellRangeAddress(shifStartRow, // first row
-																		// (0-based)
-					shifStartRow, // last row (0-based)
-					6, // first column (0-based)
-					7 // last column (0-based)
-					));
-			/*
-			 * row.getCell(0).setCellValue("序号");
-			 * row.getCell(1).setCellValue("订货型号");
-			 * row.getCell(2).setCellValue("数量"); row.getCell(3).setCellValue("幅宽");
-			 * row.getCell(4).setCellValue("备注");
-			 */
-			// HSSFCellStyle rowStyle = row.getRowStyle();
+			sheet.addMergedRegion(new CellRangeAddress(shifStartRow,shifStartRow, 6, 7 ));
 			for (int i = 0; i < rows; i++) {
 				HSSFRow r = sheet.createRow(shifStartRow + i + 1);
-				// r.setRowStyle(rowStyle);
 				HSSFCell c1 = r.createCell(0);// 序号
 				c1.setCellStyle(style);
 				c1.setCellValue(qfList.get(i).getOrderId());
@@ -994,13 +976,7 @@ public class OrderAction extends DispatchPagerAction {
 				c1_2.setCellStyle(style);
 				HSSFCell c1_3 = r.createCell(3);
 				c1_3.setCellStyle(style);
-				sheet.addMergedRegion(new CellRangeAddress(shifStartRow + i + 1, // first
-																					// row
-																					// (0-based)
-						shifStartRow + i + 1, // last row (0-based)
-						1, // first column (0-based)
-						3 // last column (0-based)
-						));
+				sheet.addMergedRegion(new CellRangeAddress(shifStartRow + i + 1, shifStartRow + i + 1,1,3 ));
 				HSSFCell c3 = r.createCell(4);// 实订货量
 				c3.setCellStyle(style);
 				c3.setCellValue(qfList.get(i).getVcQuoteNum() + " " + qfList.get(i).getVcOldPriceUnit());
@@ -1012,14 +988,63 @@ public class OrderAction extends DispatchPagerAction {
 				c5.setCellValue(qfList.get(i).getVcPurchaseRmk());
 				HSSFCell c5_7 = r.createCell(7);
 				c5_7.setCellStyle(style);
-				sheet.addMergedRegion(new CellRangeAddress(shifStartRow + i + 1, // first
-																					// row
-																					// (0-based)
-						shifStartRow + i + 1, // last row (0-based)
-						6, // first column (0-based)
-						7 // last column (0-based)
-						));
+				sheet.addMergedRegion(new CellRangeAddress(shifStartRow + i + 1,shifStartRow + i + 1, 6,7));
 			}
+			
+			HSSFSheet sheet1 = book.getSheetAt(1);
+			HSSFRow row3 = sheet1.getRow(2);
+			row3.getCell(0).setCellValue("地址："+order.getShipAddress());
+			sheet1.addMergedRegion(new CellRangeAddress(2,2, 0,4 ));
+			
+			
+			int shifStartRow1 = 6;
+			sheet1.shiftRows(shifStartRow1, sheet1.getLastRowNum(), rows, true, false);
+			HSSFRow row1 = sheet1.getRow(shifStartRow1);
+			this.createCell(row1, 5);
+
+			HSSFCell ct01 = row1.getCell(0);
+			ct01.setCellStyle(style);
+			ct01.setCellValue("序号");
+			HSSFCell ct11 = row1.getCell(1);
+			ct11.setCellStyle(style);
+			ct11.setCellValue("订货型号");
+			HSSFCell ct1_21 = row1.getCell(2);
+			ct1_21.setCellStyle(style);
+			ct1_21.setCellValue("数量");
+			HSSFCell ct31 = row1.getCell(3);
+			ct31.setCellStyle(style);
+			ct31.setCellValue("码单");
+			HSSFCell ct41 = row1.getCell(4);
+			ct41.setCellStyle(style);
+			ct41.setCellValue("备注");
+			for (int i = 0; i < rows; i++) {
+				HSSFRow r = sheet1.createRow(shifStartRow1 + i + 1);
+				HSSFCell c1 = r.createCell(0);// 序号
+				c1.setCellStyle(style);
+				c1.setCellValue(qfList.get(i).getOrderId());
+				if(isLess){
+					if("1".equals(qfList.get(i).getIsHtCode())){
+						qfList.get(i).setVcColorNum("");
+					}
+				}else{
+					qfList.get(i).setVcModelNumDisplay(qfList.get(i).getVcModelNum());
+				}
+				HSSFCell c2 = r.createCell(1);// 型号
+				c2.setCellStyle(style);
+				String cv = qfList.get(i).getVcModelNumDisplay();
+				if (StringUtils.isNotEmpty(qfList.get(i).getVcColorNum())) {
+					cv += "-" + qfList.get(i).getVcColorNum();
+				}
+				c2.setCellValue(cv);
+				HSSFCell c3 = r.createCell(2);// 实订货量
+				c3.setCellStyle(style);
+				c3.setCellValue(qfList.get(i).getVcQuoteNum() + " " + qfList.get(i).getVcOldPriceUnit());
+				HSSFCell c4 = r.createCell(3);// 码单
+				c4.setCellStyle(style);
+				HSSFCell c5 = r.createCell(4);// 备注
+				c5.setCellStyle(style);
+			}
+			
 			String curAdminName = this.getCurrentAdminUser().getUsername();
 			saveSystemLog(LogModule.orderLog, curAdminName+"下载了订单"+order.getOrderNo());
 			String excelName = "order";

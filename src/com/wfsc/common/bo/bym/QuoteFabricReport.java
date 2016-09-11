@@ -153,8 +153,12 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	 */
 	private float vcOldPrice;
 	
-	//不包含运费和特殊费用的总价(面价*数量)
+	//不包含运费和特殊费用的总价
 	private float vcOldPriceTotal;
+	
+	//单价调整
+	private float priceAdjust;
+	
 	public Object clone() {   
         try {   
             return super.clone();   
@@ -655,6 +659,16 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 
 	public void setVcFre(float vcFre) {
 		this.vcFre = vcFre;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getPriceAdjust() {
+		return priceAdjust;
+	}
+
+	public void setPriceAdjust(float priceAdjust) {
+		this.priceAdjust = priceAdjust;
 	}
 	
 	

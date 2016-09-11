@@ -126,6 +126,13 @@ public class QuoteDao extends EnhancedHibernateDaoSupport<Quote> {
 					countSql.append(" and quote.vcAudit = '").append(paramap.get(key)).append("' ");
 					continue;
 				}
+				if("projectType".equals(key)){
+					hql.append(" and obj.projectType = '").append(paramap.get(key)).append("' ");
+					countSql.append(" and quote.projectType = '").append(paramap.get(key)).append("' ");
+					continue;
+				}
+				
+				
 				
 				
 			}

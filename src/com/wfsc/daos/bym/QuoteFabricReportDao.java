@@ -32,8 +32,8 @@ public class QuoteFabricReportDao extends EnhancedHibernateDaoSupport<QuoteFabri
 	//	Date sdate = null;
 	//	Date edate = null;
 		Session s = null;
-		StringBuffer hql = new StringBuffer("select distinct obj from QuoteFabricReport as obj where 1=1 ");
-		StringBuffer countSql = new StringBuffer("SELECT count(DISTINCT(de.id)) AS countId from bym_qf_report de where 1=1 ");
+		StringBuffer hql = new StringBuffer("select distinct obj from QuoteFabricReport as obj where obj.operation='add' ");
+		StringBuffer countSql = new StringBuffer("SELECT count(DISTINCT(de.id)) AS countId from bym_qf_report de where de.operation='add' ");
 		try {
 			for (String key : paramap.keySet()) {
 				if ("beginDate".equals(key)) {
@@ -102,7 +102,7 @@ public class QuoteFabricReportDao extends EnhancedHibernateDaoSupport<QuoteFabri
 	//	Date sdate = null;
 	//	Date edate = null;
 		List<QuoteFabricReport> list = null;
-		StringBuffer hql = new StringBuffer("select distinct obj from QuoteFabricReport as obj where 1=1 ");
+		StringBuffer hql = new StringBuffer("select distinct obj from QuoteFabricReport as obj where obj.operation='add' ");
 		try {
 			for (String key : paramap.keySet()) {
 				if ("beginDate".equals(key)) {

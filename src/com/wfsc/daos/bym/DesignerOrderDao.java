@@ -34,8 +34,8 @@ public class DesignerOrderDao extends EnhancedHibernateDaoSupport<DesignerOrder>
 	//	Date sdate = null;
 	//	Date edate = null;
 		Session s = null;
-		StringBuffer hql = new StringBuffer("select distinct obj from DesignerOrder as obj where 1=1 ");
-		StringBuffer countSql = new StringBuffer("SELECT count(DISTINCT(de.id)) AS countId from bym_designerorder de where 1=1 ");
+		StringBuffer hql = new StringBuffer("select distinct obj from DesignerOrder as obj where obj.operation='add' ");
+		StringBuffer countSql = new StringBuffer("SELECT count(DISTINCT(de.id)) AS countId from bym_designerorder de where de.operation='add' ");
 		try {
 			for (String key : paramap.keySet()) {
 				if ("beginDate".equals(key)) {
@@ -101,7 +101,7 @@ public class DesignerOrderDao extends EnhancedHibernateDaoSupport<DesignerOrder>
 	//	Date sdate = null;
 	//	Date edate = null;
 		List<DesignerOrder> list = null;
-		StringBuffer hql = new StringBuffer("select distinct obj from DesignerOrder as obj where 1=1 ");
+		StringBuffer hql = new StringBuffer("select distinct obj from DesignerOrder as obj where obj.operation='add' ");
 		try {
 			for (String key : paramap.keySet()) {
 				if ("beginDate".equals(key)) {

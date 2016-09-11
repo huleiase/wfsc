@@ -117,6 +117,13 @@
 			     if(!vcSpecialExp){
 			    	vcSpecialExp = 0
 			    }
+			    
+			     //单价调整
+			    var priceAdjust = $("#priceAdjust"+lineNo).val();
+			     if(!priceAdjust){
+			    	priceAdjust = 0
+			    }
+			    
 			    //面价
 			    var oldPrice = $("#vcOldPrice"+lineNo).val();
 			    //幅宽
@@ -203,127 +210,127 @@
 			   		var transCost = ('3'==quoteFormate || isCgbj==0) ? dhjInlandTransCost : proFre;
 			   		if(oldPriceUnit=="㎡" && vcPriceUnit=="sf" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))/10.764*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))/10.764*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))/10.764*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))/10.764*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("sf");
 			   		}else if((oldPriceUnit=="sf" || oldPriceUnit=="SF") && vcPriceUnit=="㎡" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*10.764*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*10.764*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*10.764*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*10.764*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("㎡");
 			   		}else if((oldPriceUnit=="yd" || oldPriceUnit=="YD") && vcPriceUnit=="㎡" ){
 			   			if(1==isFre){
 			   				
-			   					price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))/width*100*Number(ctax);
+			   					price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))/width*100*Number(ctax);
 			   				
 			   					
 			   				
 			   				
 			   			}else{
-			   				prcice = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(vcSpecialExp))/width*100*Number(ctax);
+			   				prcice = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))/width*100*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("㎡");
 			   		}else if((oldPriceUnit=="m" || oldPriceUnit=="M") && vcPriceUnit=="㎡" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))/width*100*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))/width*100*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))/width*100*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))/width*100*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("㎡");
 			   		}else if((oldPriceUnit=="yd" || oldPriceUnit=="YD") && vcPriceUnit=="m" ){
 			   			if(1==isFre){
 			   				
-			   					price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   					price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   				
 			   				
 			   			}else{
-			   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("m");
 			   		}else if((oldPriceUnit=="m" || oldPriceUnit=="M") && vcPriceUnit=="yd" ){
 			   			if(1==isFre){
 			   				if('1'==quoteFormate){
-			   					price = (Number(oldPrice)*0.914*Number(vcdiscount)+Number(transCost)*0.914+Number(vcSpecialExp))*Number(ctax);
+			   					price = (Number(oldPrice)*0.914*Number(vcdiscount)+Number(transCost)*0.914+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   				}else{
-			   					price = (Number(oldPrice)*0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   					price = (Number(oldPrice)*0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   				}
 			   				
 			   			}else{
-			   				price = (Number(oldPrice)*0.914*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*0.914*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("yd");
 			   		}else if((oldPriceUnit=="roll" || oldPriceUnit=="ROLL") && vcPriceUnit=="roll" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("roll");
 			   		}else if((oldPriceUnit=="m" || oldPriceUnit=="M") && vcPriceUnit=="m" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("m");
 			   		}else if((oldPriceUnit=="sf" || oldPriceUnit=="SF") && vcPriceUnit=="sf" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("sf");
 			   		}else if(oldPriceUnit=="㎡" && vcPriceUnit=="㎡" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("㎡");
 			   		}else if((oldPriceUnit=="yd" || oldPriceUnit=="YD") && vcPriceUnit=="yd" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)*0.914+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)*0.914+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("yd");
 			   		}else if(oldPriceUnit=="㎡" && vcPriceUnit=="m" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(width)/100*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(width)/100*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(width)/100*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(width)/100*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("m");
 			   		}else if((oldPriceUnit=="pc" || oldPriceUnit=="PC") && vcPriceUnit=="pc" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("pc");
 			   		}else if((oldPriceUnit=="set" || oldPriceUnit=="SET") && vcPriceUnit=="set" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("set");
 			   		}else if((oldPriceUnit=="unit" || oldPriceUnit=="UNIT") && vcPriceUnit=="unit" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("unit");
 			   		}else if((oldPriceUnit=="pair" || oldPriceUnit=="PAIR") && vcPriceUnit=="pair" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("pair");
 			   		}
@@ -331,125 +338,125 @@
 			   		var transCost = ('4'==quoteFormate || isCgbj==0) ? dhjHKTransCost : retFre;
 			   		if(oldPriceUnit=="㎡" && vcPriceUnit=="sf" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))/10.764*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))/10.764*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))/10.764*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))/10.764*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("sf");
 			   		}else if((oldPriceUnit=="sf" || oldPriceUnit=="SF") && vcPriceUnit=="㎡" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*10.764*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*10.764*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*10.764*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*10.764*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("㎡");
 			   		}else if((oldPriceUnit=="yd" || oldPriceUnit=="YD") && vcPriceUnit=="㎡" ){
 			   			if(1==isFre){
 			   				
-			   					price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))/width*100*Number(ctax);
+			   					price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))/width*100*Number(ctax);
 			   				
 			   				
 			   			}else{
-			   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(vcSpecialExp))/width*100*Number(ctax);
+			   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))/width*100*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("㎡");
 			   		}else if((oldPriceUnit=="m" || oldPriceUnit=="M") && vcPriceUnit=="㎡" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))/width*100*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))/width*100*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))/width*100*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))/width*100*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("㎡");
 			   		}else if((oldPriceUnit=="yd" || oldPriceUnit=="YD") && vcPriceUnit=="m" ){
 			   			if(1==isFre){
 				   			
-				   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+				   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 				   			
 			   				
 			   			}else{
-			   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)/0.914*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("m");
 			   		}else if((oldPriceUnit=="m" || oldPriceUnit=="M") && vcPriceUnit=="yd" ){
 			   			if(1==isFre){
 			   				if('2'==quoteFormate){
-			   					price = (Number(oldPrice)*0.914*Number(vcdiscount)+Number(transCost)*0.914+Number(vcSpecialExp))*Number(ctax);
+			   					price = (Number(oldPrice)*0.914*Number(vcdiscount)+Number(transCost)*0.914+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   				}else{
-			   					price = (Number(oldPrice)*0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   					price = (Number(oldPrice)*0.914*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   				}
 			   				
 			   			}else{
-			   				price = (Number(oldPrice)*0.914*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*0.914*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("yd");
 			   		}else if((oldPriceUnit=="m" || oldPriceUnit=="M") && vcPriceUnit=="m" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("m");
 			   		}else if((oldPriceUnit=="roll" || oldPriceUnit=="ROLL") && vcPriceUnit=="roll" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("roll");
 			   		}else if((oldPriceUnit=="sf" || oldPriceUnit=="SF") && vcPriceUnit=="sf" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("sf");
 			   		}else if(oldPriceUnit=="㎡" && vcPriceUnit=="㎡" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("㎡");
 			   		}else if((oldPriceUnit=="yd" || oldPriceUnit=="YD") && vcPriceUnit=="yd" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)*0.914+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)*0.914+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("yd");
 			   		}else if((oldPriceUnit=="㎡") && vcPriceUnit=="m" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(width)/100*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(width)/100*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(width)/100*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(width)/100*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("m");
 			   		}else if((oldPriceUnit=="pc" || oldPriceUnit=="PC") && vcPriceUnit=="pc" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("pc");
 			   		}else if((oldPriceUnit=="set" || oldPriceUnit=="SET") && vcPriceUnit=="set" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("set");
 			   		}else if((oldPriceUnit=="unit" || oldPriceUnit=="UNIT") && vcPriceUnit=="unit" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("unit");
 			   		}else if((oldPriceUnit=="pair" || oldPriceUnit=="PAIR") && vcPriceUnit=="pair" ){
 			   			if(1==isFre){
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(transCost)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}else{
-			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp))*Number(ctax);
+			   				price = (Number(oldPrice)*Number(vcdiscount)+Number(vcSpecialExp)+Number(priceAdjust))*Number(ctax);
 			   			}
 			   			$("#qUnit"+lineNo).html("pair");
 			   		}
@@ -774,6 +781,8 @@ function setUrgentCost(){
 			//$("#vcSpecialExp"+newLastIndex).removeAttr("onkeyup");
 			$("#vcSpecialExp"+newLastIndex).bind("keyup",{'index':newLastIndex,'type':'vcSpecialExp'},toHandle);
 			
+			$("#priceAdjust"+newLastIndex).bind("keyup",{'index':newLastIndex,'type':'priceAdjust'},toHandle);
+			
 			//$("#vcDiscount"+newLastIndex).removeAttr("onkeyup");
 			$("#vcDiscount"+newLastIndex).bind("keyup",{'index':newLastIndex,'type':'vcDiscount'},toHandle);
 			
@@ -813,7 +822,7 @@ function setUrgentCost(){
 			var type = e.data.type;
 			if("copy"==type){
 				copyFabric2(vcindex);
-			}else if("vcPriceUnit"==type || "vcSpecialExp"==type || "vcDiscount"==type){
+			}else if("vcPriceUnit"==type || "vcSpecialExp"==type || "vcDiscount"==type || "priceAdjust"==type){
 				setVcPrice(vcindex);
 			}else if("vcQuantity"==type){
 				setTrVcTotal(vcindex);

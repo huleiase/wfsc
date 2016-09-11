@@ -329,6 +329,17 @@ table#quoteFabricTable .label, .badge {
 	          <div class="controls">
 	          <input disabled="disabled" class="blankInput" for="inputSuccess" style="" name="quote.titleCol5" value="${ quote.titleCol5}" id="titleCol5" type="text">
 	            <input disabled="disabled" name="quote.inputCol5" id="inputCol5" type="text" class="span3"  value="${ quote.inputCol5}" >
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:93px;">项目性质</label>
+	            <select name="quote.projectType" id="projectType" style="width:204px;float: left;" class="span3" disabled="disabled">
+	             	<option value="">请选择</option>
+	             	<option value="酒店样版间" <s:if test="#request.quote.projectType=='酒店样版间'">selected</s:if> >酒店样版间</option>
+	             	<option value="酒店大货" <s:if test="#request.quote.projectType=='酒店大货'">selected</s:if> >酒店大货</option>
+	             	<option value="精装房样板间" <s:if test="#request.quote.projectType=='精装房样板间'">selected</s:if> >精装房样板间</option>
+	             	<option value="示范单位" <s:if test="#request.quote.projectType=='示范单位'">selected</s:if> >示范单位</option>
+	             	<option value="私宅" <s:if test="#request.quote.projectType=='私宅'">selected</s:if> >私宅</option>
+	             	<option value="会所" <s:if test="#request.quote.projectType=='会所'">selected</s:if> >会所</option>
+	             	<option value="商业机构" <s:if test="#request.quote.projectType=='商业机构'">selected</s:if> >商业机构</option>
+	             </select>
 	          </div>
 	         <div class="clear"></div>
 	          <div class="controls">

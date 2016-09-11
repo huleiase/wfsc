@@ -243,7 +243,10 @@ UPDATE bym_designerorder SET profitRate=0 WHERE profitRate IS NULL;
 
 
 
-
+-- 20160911
+ALTER TABLE bym_quote ADD COLUMN projectType VARCHAR(100);
+ALTER TABLE bym_quote_fabric ADD COLUMN priceAdjust DECIMAL(10,2) DEFAULT 0;
+ALTER TABLE bym_qf_report ADD COLUMN priceAdjust DECIMAL(10,2) DEFAULT 0;
 
 
 

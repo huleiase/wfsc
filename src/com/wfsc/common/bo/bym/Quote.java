@@ -342,6 +342,8 @@ public class Quote implements java.io.Serializable {
 	private String subtotalStr;
 	//报价员内部备注
 	private String innerRmk;
+	//项目性质
+	private String projectType;
 	/**
 	 * 关联的报价布匹
 	 */
@@ -1228,6 +1230,16 @@ public class Quote implements java.io.Serializable {
 
 	public void setInnerRmk(String innerRmk) {
 		this.innerRmk = innerRmk;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getProjectType() {
+		return projectType;
+	}
+
+	public void setProjectType(String projectType) {
+		this.projectType = projectType;
 	}
 	
 	

@@ -122,6 +122,7 @@
 			     <td><input type="text" readonly="readonly" value="<s:property value="vcProduceLocal"/>" id="vcProduceLocal${vcCount }" name="quoteFabricList[${vcIndex }].vcProduceLocal"  class="widthShort"/></td>
 			     <td><input type="text" readonly="readonly" value="<s:property value="vcFactoryNum"/>" id="vcFactoryNum${vcCount }" name="quoteFabricList[${vcIndex }].vcFactoryNum"  class="widthShort"/></td>
 			     <td class="vcSpecialExp"><input type="text" onkeyup="setVcPrice(${vcCount });" value="<s:property value="vcSpecialExp"/>" id="vcSpecialExp${vcCount }" name="quoteFabricList[${vcIndex }].vcSpecialExp"  class="widthShort"/></td>
+			     <td class="vcSpecialExp"><input type="text" onkeyup="setVcPrice(${vcCount });" value="<s:property value="priceAdjust"/>" id="priceAdjust${vcCount }" name="quoteFabricList[${vcIndex }].priceAdjust"  class="widthShort"/></td>
 			     <td><div style="width:100px;"><input type="text" value="<s:property value="vcQuantity"/>" id="vcQuantity${vcCount }" name="quoteFabricList[${vcIndex }].vcQuantity"  class="widthShort"/>&nbsp;<span id="qUnit${vcCount }"><s:property value="vcPriceUnit"/></span></div></td>
 			     <td>
 			     <div style="width:160px;">

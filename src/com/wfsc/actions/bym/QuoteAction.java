@@ -660,6 +660,7 @@ public class QuoteAction extends DispatchPagerAction {
 		String isWritPerm = request.getParameter("isWritPerm");
 		String htCode = request.getParameter("htCode");
 		String vcAudit = request.getParameter("vcAudit");
+		String projectType = request.getParameter("projectType");
 		if(StringUtils.isNotEmpty(startTime)){
 			paramap.put("startTime", startTime);
 			request.setAttribute("startTime", startTime);
@@ -712,6 +713,11 @@ public class QuoteAction extends DispatchPagerAction {
 			paramap.put("vcAudit", vcAudit);
 			request.setAttribute("vcAudit", vcAudit);
 		}
+		if(StringUtils.isNotEmpty(projectType)){
+			paramap.put("projectType", projectType);
+			request.setAttribute("projectType", projectType);
+		}
+		
 		return paramap;
 	}
 	
@@ -1997,7 +2003,8 @@ public class QuoteAction extends DispatchPagerAction {
 				}
 				qfr.setVcSpecialExp(qf.getVcSpecialExp());
 				qfr.setVcOldPrice(qf.getVcOldPrice());
-				qfr.setVcOldPriceTotal(qfr.getVcOldPrice()*qf.getVcQuantity()*qf.getVcDiscount());
+				qfr.setPriceAdjust(qf.getPriceAdjust());
+				qfr.setVcOldPriceTotal((qfr.getVcOldPrice()*qf.getVcDiscount()+qfr.getPriceAdjust())*qf.getVcQuantity());
 				if("1".equals(qf.getIsReplaced())){
 					String str = qf.getReplaceRemark();
 					if(str!=null&&str.length()>3){

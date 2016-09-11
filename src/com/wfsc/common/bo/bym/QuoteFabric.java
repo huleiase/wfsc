@@ -80,7 +80,7 @@ public class QuoteFabric implements java.io.Serializable{
 	private String vcProduceLocal;
 
 	/**
-	 * 特殊费用
+	 * 特殊费用（工地运费）
 	 */
 	private float vcSpecialExp;
 
@@ -339,6 +339,8 @@ public class QuoteFabric implements java.io.Serializable{
 	private String vcTotalStr;
 	
 	private String addRmk;
+	//单价调整
+	private float priceAdjust;
 	/**
 	 * @hibernate.property type="string"
 	 */
@@ -1288,6 +1290,16 @@ public class QuoteFabric implements java.io.Serializable{
 
 	public void setAddRmk(String addRmk) {
 		this.addRmk = addRmk;
+	}
+	/**
+	 * @hibernate.property type="float"
+	 */
+	public float getPriceAdjust() {
+		return priceAdjust;
+	}
+
+	public void setPriceAdjust(float priceAdjust) {
+		this.priceAdjust = priceAdjust;
 	}
 	
 	

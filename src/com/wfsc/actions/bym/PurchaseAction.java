@@ -700,11 +700,11 @@ public class PurchaseAction extends DispatchPagerAction {
 	
 	private void saveOrder(Purchase purchase,Set<QuoteFabric> qfSet){
 		Admin curAdmin = this.getCurrentAdminUser();
-		List<Supplier> ss = this.supplierService.getAll();
-		Map<String,String> ssMap = new HashMap<String,String>();
-		Map<String,String> ssMap2 = new HashMap<String,String>();
-		for(Supplier s : ss){
-			ssMap.put(s.getVcFactoryNum(), s.getVcFactoryName());
+		List<Supplier> sList = this.supplierService.getAll();
+		Map<String,String> sNumAndNameMap = new HashMap<String,String>();
+		Map<String,String> sNumAndCodeMap = new HashMap<String,String>();
+		for(Supplier s : sList){
+			sNumAndNameMap.put(s.getVcFactoryNum(), s.getVcFactoryName());
 		}
 		// 根据地区和年月查询订单数
 		long num = orderService.getCurrentOrderNum(purchase.getArea(), purchase.getTbYearMonth());
@@ -725,27 +725,26 @@ public class PurchaseAction extends DispatchPagerAction {
 				+ String.format("%03d", (num + 1));
 		
 		
-		List<Order> ordersdb = this.orderService.getOrderByPurchaseId(purchase.getId());
-		Map<String,Order> orderMap = new HashMap<String,Order>();
-		if(CollectionUtils.isNotEmpty(ordersdb)){
-			orderNo = ordersdb.get(0).getOrderNo();
-			for(Order o : ordersdb){
-				orderMap.put(o.getFactoryNum(), o);
+		List<Order> orderdbList = this.orderService.getOrderByPurchaseId(purchase.getId());
+		Map<String,Order> sNumAndOrderDbMap = new HashMap<String,Order>();
+		if(CollectionUtils.isNotEmpty(orderdbList)){
+			orderNo = orderdbList.get(0).getOrderNo();
+			for(Order o : orderdbList){
+				sNumAndOrderDbMap.put(o.getFactoryNum(), o);
 			}
 		}
-		Map<String,QuoteFabric> map = new HashMap<String,QuoteFabric>();
+		Map<String,QuoteFabric> sNumAndQFmap = new HashMap<String,QuoteFabric>();
 		for(QuoteFabric qf : qfSet){
-				ssMap2.put(qf.getVcFactoryNum(), qf.getVcFactoryCode());
-				Order order = orderMap.get(qf.getVcFactoryNum());
+				sNumAndCodeMap.put(qf.getVcFactoryNum(), qf.getVcFactoryCode());
 				qf.setOrderNo(orderNo);
-				map.put(qf.getVcFactoryNum(),qf);
+				sNumAndQFmap.put(qf.getVcFactoryNum(),qf);
 				quoteFabricService.saveOrUpdateEntity(qf);
 			
 		}
 		
 		float cbClTotel = 0F;
-		for(String fnum : map.keySet()){
-			Order order = orderMap.get(fnum);
+		for(String fnum : sNumAndQFmap.keySet()){
+			Order order = sNumAndOrderDbMap.get(fnum);
 			if(order==null){
 				order = new Order();
 				order.setOrderNo(orderNo);
@@ -757,8 +756,8 @@ public class PurchaseAction extends DispatchPagerAction {
 				order.setVcfromFax("02083309428");
 				order.setArea(purchase.getArea());// 地区
 				order.setPurchase(purchase);
-				order.setSupplier(ssMap.get(fnum));
-				order.setFactoryCode(ssMap2.get(fnum));
+				order.setSupplier(sNumAndNameMap.get(fnum));
+				order.setFactoryCode(sNumAndCodeMap.get(fnum));
 				order.setFactoryNum(fnum);
 				// 报价单号
 				order.setQuantation(purchase.getQuote().getProjectNum());
@@ -766,10 +765,10 @@ public class PurchaseAction extends DispatchPagerAction {
 			}
 			purchase.setOrderNo(order.getOrderNo());
 			this.purchaseService.saveOrUpdateEntity(purchase);
-			String formUser = map.get(fnum).getVcAssignAutor();
+			String formUser = sNumAndQFmap.get(fnum).getVcAssignAutor();
 			order.setOrderStatus(0);
 			order.setVcfrom(formUser);
-			order.setHbUnit(map.get(fnum).getPriceCur());
+			order.setHbUnit(sNumAndQFmap.get(fnum).getPriceCur());
 			float sumMoney = 0f;
 			for(QuoteFabric qf : qfSet){
 				if(!"1".equals(qf.getIsReplaced()) && qf.getVcFactoryNum().equals(order.getFactoryNum())){

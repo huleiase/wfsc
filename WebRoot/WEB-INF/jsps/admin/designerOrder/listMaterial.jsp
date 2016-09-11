@@ -17,7 +17,7 @@
                   <th rowspan="2">客户名称</th>
                   <th rowspan="2">项目</th>
                   <th rowspan="2">合同金额</th>
-                  <th colspan="7">产品报价</th>
+                  <th colspan="8">产品报价</th>
                   <th colspan="8">销售成本</th>
                   <th rowspan="2">毛利</th>
                   <th rowspan="2">毛利率</th>
@@ -28,7 +28,8 @@
                   <th>单价</th>
                   <th>合计</th>
                   <th>运费</th>
-                  <th>特殊费用</th>
+                  <th>工地运费</th>
+                  <th>单价调整</th>
                  <th>型号</th>
                   <th>色号</th>
                   <th>订货量</th>
@@ -59,6 +60,7 @@
                          <td><s:property value="vcOldPriceTotal"/><s:property value="vcMoney"/></td>  
                          <td><s:property value="vcFre"/></td> 
                          <td><s:property value="vcSpecialExp"/></td> 
+                         <td><s:property value="priceAdjust"/></td> 
                          <td><s:property value="cbModelNum"/></td> 
                          <td><s:property value="cbColor"/></td> 
                          <td><s:property value="orderNum"/><s:property value="cbPriceUnit"/></td>
@@ -74,7 +76,7 @@
                </s:if>
                 <s:else>
 					<tr>
-						<td colspan="33">
+						<td colspan="34">
 							 <div class="alert alert-block"> 
 				               <h4 align="center" class="alert-heading">暂时没有符合条件的记录！</h4>
 				             </div>

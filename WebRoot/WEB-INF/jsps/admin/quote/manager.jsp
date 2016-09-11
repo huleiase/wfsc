@@ -23,6 +23,7 @@ var basePath = "<%=basePath%>";
 		$("#vcBefModel").val("");
 		$("#curUserName").val("");
 		$("#htCode").val("");
+		$("#projectType").val("");
 	}
 	function addQuote(){
 		var url = basePath+"admin/quote_input.Q";
@@ -348,6 +349,20 @@ var basePath = "<%=basePath%>";
 	            	<option value="">请选择</option>
 	             	<option value="0" <s:if test="#request.vcAudit==0">selected</s:if> >未审核</option>
                   	<option value="1" <s:if test="#request.vcAudit==1">selected</s:if> >已审核</option>
+	             </select>
+	         </div>
+	         <div class="clear"></div>
+	         <div>
+	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:60px;">项目性质</label>
+	            <select name="projectType" id="projectType" style="width:170px;">
+	            	<option value="">请选择</option>
+	             	<option value="酒店样版间" <s:if test="#request.projectType=='酒店样版间'">selected</s:if> >酒店样版间</option>
+	             	<option value="酒店大货" <s:if test="#request.projectType=='酒店大货'">selected</s:if> >酒店大货</option>
+	             	<option value="精装房样板间" <s:if test="#request.projectType=='精装房样板间'">selected</s:if> >精装房样板间</option>
+	             	<option value="示范单位" <s:if test="#request.projectType=='示范单位'">selected</s:if> >示范单位</option>
+	             	<option value="私宅" <s:if test="#request.projectType=='私宅'">selected</s:if> >私宅</option>
+	             	<option value="会所" <s:if test="#request.projectType=='会所'">selected</s:if> >会所</option>
+	             	<option value="商业机构" <s:if test="#request.projectType=='商业机构'">selected</s:if> >商业机构</option>
 	             </select>
 	         </div>
 	         <div class="clear"></div>

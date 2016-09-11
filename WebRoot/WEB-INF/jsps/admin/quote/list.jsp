@@ -10,6 +10,7 @@
                   <th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox" /></th>
                   <th>报价单号</th>
                   <th>项目名称</th>
+                  <th>项目性质</th>
                   <th>销售姓名</th>
                   <th>询价方</th>
                    <th>设计方</th>
@@ -29,6 +30,7 @@
                   <td><input type="checkbox" name="ids" value='<s:property value="id"/>'/></td>
                    <td><a class="tip-bottom" title="点击查看详细信息" href='<%=request.getContextPath()%>/admin/quote_input.Q?isView=1&id=<s:property value="id"/>' target="_blank"><s:property value="projectNum"/></a></td>
                   <td><s:property value="projectName"/></td>
+                  <td><s:property value="projectType"/></td>
                   <td><s:property value="vcSalesman"/></td>
                   <td><s:property value="vcAttn"/></td>
                   <td><s:property value="projectDesignComp"/></td>
@@ -92,7 +94,7 @@
                </s:if>
                 <s:else>
 					<tr>
-						<td colspan="15">
+						<td colspan="16">
 							 <div class="alert alert-block"> 
 				               <h4 align="center" class="alert-heading">暂时没有符合条件的记录！</h4>
 				             </div>
