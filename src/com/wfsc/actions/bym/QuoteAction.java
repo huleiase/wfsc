@@ -1944,7 +1944,7 @@ public class QuoteAction extends DispatchPagerAction {
 			deo.setVcSalesman(saleMan);
 			//报价材料合计=材料明细表里同一合同号的所有型号的产品报价的合计总和
 			float bjClTotel = 0F;
-			//不包含运费和特殊费用的总价(面价*数量)
+			//成本表===>产品报价===>材料合计=材料明细里面同一合同号中的所有型号的“产品材料报价合计”总和
 			float bjOldPriceTatol = 0F;
 			//加工费。读取报价页面
 			if(StringUtils.isNotBlank(q.getVcProcessFre())){
@@ -1971,6 +1971,7 @@ public class QuoteAction extends DispatchPagerAction {
 			deo.setTaxationFee(q.getSumMoney()*(q.getContainTax()-1));
 			//保存最新的
 			this.designerOrderService.saveOrUpdateEntity(deo);
+			float rmb2hk = this.getExchangeRate("2", "RMB");
 			for(QuoteFabric qf :qfs){
 				//保存最新的
 				QuoteFabricReport qfr = new QuoteFabricReport();
@@ -1999,12 +2000,14 @@ public class QuoteAction extends DispatchPagerAction {
 				if("1".equals(qf.getQuoteFormate())||"3".equals(qf.getQuoteFormate())){
 					qfr.setVcFre(qf.getVcProFre());
 				}else{
-					qfr.setVcFre(qf.getVcRetFre()*this.getExchangeRate("2", "RMB"));
+					qfr.setVcFre(qf.getVcRetFre()*rmb2hk);
 				}
 				qfr.setVcSpecialExp(qf.getVcSpecialExp());
-				qfr.setVcOldPrice(qf.getVcOldPrice());
+				//材料明细表中的报价的单价
+				float bjPrice = getVcPrice(q,qf,false,rmb2hk);
+				qfr.setBjPrice(bjPrice);
 				qfr.setPriceAdjust(qf.getPriceAdjust());
-				qfr.setVcOldPriceTotal((qfr.getVcOldPrice()*qf.getVcDiscount()+qfr.getPriceAdjust())*qf.getVcQuantity());
+				qfr.setVcOldPriceTotal(qfr.getBjPrice()*qf.getVcQuantity());
 				if("1".equals(qf.getIsReplaced())){
 					String str = qf.getReplaceRemark();
 					if(str!=null&&str.length()>3){
@@ -2023,20 +2026,152 @@ public class QuoteAction extends DispatchPagerAction {
 					bjClTotel+=qf.getVcTotal();
 					bjOldPriceTatol+=qfr.getVcOldPriceTotal();
 				}
+				qfr.setVcOldPrice(qf.getVcOldPrice()*qf.getVcDiscount());
 				qfr.setVcPrice(qf.getVcPrice());
 				qfr.setVcPriceUnit(qf.getVcPriceUnit());
+				qfr.setCbPriceUnit(qf.getVcOldPriceUnit());
 				qfr.setVcQuantity(qf.getVcQuantity());
 				qfr.setTaxes(q.getTaxes());
 				qfr.setVcMoney(qf.getVcMoney());
 				qfr.setBjTotal(qf.getVcTotal());
 				qfr.setVcFactoryNum(qf.getVcFactoryNum());
+				qfr.setVcWidth(qf.getVcWidth());
 				quoteFabricReportService.saveOrUpdateEntity(qfr);
 			}
 			deo.setBjClTotel(bjClTotel);
+			//成本表===>产品报价===>材料合计=材料明细里面同一合同号中的所有型号的“产品材料报价合计”总和
 			deo.setBjOldPriceTatol(bjOldPriceTatol);
 			this.designerOrderService.saveOrUpdateEntity(deo);
 		 }
 		 return "ok";
+	 }
+	 //(qf.getVcOldPrice()*qf.getVcDiscount()+qf.getPriceAdjust())/10.764*q.getContainTax()
+	 private float getVcPrice(Quote q,QuoteFabric qf,boolean flg,float rmb2hkd){
+			    //所含税率
+			    float ctax = q.getContainTax();
+			    // 报价折扣
+			    float vcdiscount = qf.getVcDiscount();
+			    //特殊费用
+			    float vcSpecialExp = 0F;
+			     if(flg){
+			    	vcSpecialExp = qf.getVcSpecialExp();
+			    }
+			    
+			     //单价调整
+			     float priceAdjust = qf.getPriceAdjust();
+			    
+			    //面价
+			     float oldPrice = qf.getVcOldPrice();
+			    //幅宽
+			     float width = qf.getVcWidth();
+			    //面价单位
+			    String oldPriceUnit = qf.getVcOldPriceUnit();
+			    //最终单价单位
+			    String vcPriceUnit = qf.getVcPriceUnit();
+			 //是否包含运费
+			 	String isFre = q.getIsFreight();
+			 	//工程运费
+			 	 float proFre = 0F;
+			 	//大货价大陆运费
+				float dhjInlandTransCost =0F;
+				//大货价香港运费
+			    float dhjHKTransCost = 0F;
+				//零售运费
+			    float retFre = 0F;
+			    if(flg&&"1".endsWith(isFre)){
+			    	proFre = qf.getVcProFre();
+			    	dhjInlandTransCost = qf.getDhjInlandTransCost();
+			    	retFre = qf.getVcRetFre()*rmb2hkd;
+			    	dhjHKTransCost = qf.getDhjHKTransCost();
+			    }
+				//工程报价或零售报价
+			   String quoteFormate = q.getQuoteFormate();
+			   
+				String isCgbj =qf.getIsCgbj();
+			   
+			   //初始化最终单价为0
+			   float price = 0;
+			   if("1".equalsIgnoreCase(quoteFormate) || "3".equalsIgnoreCase(quoteFormate) || "5".equalsIgnoreCase(quoteFormate)){
+			   		float transCost = ("3".equalsIgnoreCase(quoteFormate) || isCgbj.equalsIgnoreCase("0")) ? dhjInlandTransCost : proFre;
+			   		if(oldPriceUnit.equalsIgnoreCase("㎡") && vcPriceUnit.equalsIgnoreCase("sf")){
+			   			price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))/10.764*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("sf") && vcPriceUnit.equalsIgnoreCase("㎡") ){
+			   			price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*10.764*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("yd") && vcPriceUnit.equalsIgnoreCase("㎡") ){
+			   			price = PriceUtil.getTwoDecimalFloat(((oldPrice)/0.914*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))/width*100*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("m") && vcPriceUnit.equalsIgnoreCase("㎡") ){
+			   			price = ((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))/width*100*(ctax);
+			   		}else if(oldPriceUnit.equalsIgnoreCase("yd") && vcPriceUnit.equalsIgnoreCase("m") ){
+			   			price = PriceUtil.getTwoDecimalFloat(((oldPrice)/0.914*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("m") && vcPriceUnit.equalsIgnoreCase("yd") ){
+			   				if("1".equalsIgnoreCase(quoteFormate)){
+			   					price = PriceUtil.getTwoDecimalFloat(((oldPrice)*0.914*(vcdiscount)+(transCost)*0.914+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   				}else{
+			   					price = PriceUtil.getTwoDecimalFloat(((oldPrice)*0.914*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   				}
+			   		}else if(oldPriceUnit.equalsIgnoreCase("roll" ) && vcPriceUnit.equalsIgnoreCase("roll") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("m" ) && vcPriceUnit.equalsIgnoreCase("m") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("sf" ) && vcPriceUnit.equalsIgnoreCase("sf") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("㎡") && vcPriceUnit.equalsIgnoreCase("㎡") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("yd") && vcPriceUnit.equalsIgnoreCase("yd") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)*0.914+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("㎡") && vcPriceUnit.equalsIgnoreCase("m") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(width)/100*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("pc" ) && vcPriceUnit.equalsIgnoreCase("pc") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("set" ) && vcPriceUnit.equalsIgnoreCase("set") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("unit" ) && vcPriceUnit.equalsIgnoreCase("unit") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("pair" ) && vcPriceUnit.equalsIgnoreCase("pair") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}
+			   }else{
+			   		float transCost = ("4".equalsIgnoreCase(quoteFormate) || isCgbj.equalsIgnoreCase("0")) ? dhjHKTransCost : retFre;
+			   		if(oldPriceUnit.equalsIgnoreCase("㎡") && vcPriceUnit.equalsIgnoreCase("sf") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))/10.764*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("sf") && vcPriceUnit.equalsIgnoreCase("㎡") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*10.764*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("yd") && vcPriceUnit.equalsIgnoreCase("㎡") ){
+			   					price = PriceUtil.getTwoDecimalFloat(((oldPrice)/0.914*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))/width*100*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("m") && vcPriceUnit.equalsIgnoreCase("㎡") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))/width*100*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("yd") && vcPriceUnit.equalsIgnoreCase("m") ){
+				   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)/0.914*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("m") && vcPriceUnit.equalsIgnoreCase("yd") ){
+			   				if("2".equalsIgnoreCase(quoteFormate)){
+			   					price = PriceUtil.getTwoDecimalFloat(((oldPrice)*0.914*(vcdiscount)+(transCost)*0.914+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   				}else{
+			   					price = PriceUtil.getTwoDecimalFloat(((oldPrice)*0.914*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   				}
+			   				
+			   		}else if(oldPriceUnit.equalsIgnoreCase("m") && vcPriceUnit.equalsIgnoreCase("m") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("roll") && vcPriceUnit.equalsIgnoreCase("roll") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("sf") && vcPriceUnit.equalsIgnoreCase("sf") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("㎡") && vcPriceUnit.equalsIgnoreCase("㎡") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("yd") && vcPriceUnit.equalsIgnoreCase("yd") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)*0.914+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("㎡") && vcPriceUnit.equalsIgnoreCase("m") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(width)/100*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("pc")  && vcPriceUnit.equalsIgnoreCase("pc") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("set") && vcPriceUnit.equalsIgnoreCase("set") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("unit") && vcPriceUnit.equalsIgnoreCase("unit") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}else if(oldPriceUnit.equalsIgnoreCase("pair")&& vcPriceUnit.equalsIgnoreCase("pair") ){
+			   				price = PriceUtil.getTwoDecimalFloat(((oldPrice)*(vcdiscount)+(transCost)+(vcSpecialExp)+(priceAdjust))*(ctax));
+			   		}
+			   	}
+			   	return price;
 	 }
 	 
 	 private void savePurchase(Quote q){

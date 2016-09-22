@@ -248,6 +248,39 @@ ALTER TABLE bym_quote ADD COLUMN projectType VARCHAR(100);
 ALTER TABLE bym_quote_fabric ADD COLUMN priceAdjust DECIMAL(10,2) DEFAULT 0;
 ALTER TABLE bym_qf_report ADD COLUMN priceAdjust DECIMAL(10,2) DEFAULT 0;
 
+--20160922
+ALTER TABLE bym_qf_report ADD COLUMN bjPrice DECIMAL(10,3) DEFAULT 0;
+ALTER TABLE bym_qf_report ADD COLUMN vcWidth DECIMAL(10,3) DEFAULT 1;
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.vcOldPrice=qf.vcOldPrice*qf.vcDiscount WHERE qfr.qfId=qf.id;
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.vcWidth=qf.vcWidth WHERE qfr.qfId=qf.id;
+UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.cbPriceUnit=qf.vcOldPriceUnit WHERE qfr.qfId=qf.id;
+
+
+UPDATE bym_qf_report SET bjPrice=vcPrice/taxation-vcFre-vcSpecialExp WHERE cbPriceUnit=vcPriceUnit;
+
+UPDATE bym_qf_report SET bjPrice=(vcOldPrice+priceAdjust)/10.764*taxation WHERE cbPriceUnit='㎡' AND vcPriceUnit='sf';
+UPDATE bym_qf_report SET bjPrice=(vcOldPrice+priceAdjust)*10.764*taxation WHERE cbPriceUnit='sf' AND vcPriceUnit='㎡';
+UPDATE bym_qf_report SET bjPrice=(vcOldPrice/0.914+priceAdjust)/vcWidth*100*taxation WHERE cbPriceUnit='yd' AND vcPriceUnit='㎡';
+UPDATE bym_qf_report SET bjPrice=(vcOldPrice+priceAdjust)/vcWidth*100*taxation WHERE cbPriceUnit='m' AND vcPriceUnit='㎡';
+UPDATE bym_qf_report SET bjPrice=(vcOldPrice+priceAdjust)*vcWidth/100*taxation WHERE cbPriceUnit='㎡' AND vcPriceUnit='m';
+UPDATE bym_qf_report SET bjPrice=(vcOldPrice/0.914+priceAdjust)*taxation WHERE cbPriceUnit='yd' AND vcPriceUnit='m';
+UPDATE bym_qf_report SET bjPrice=(vcOldPrice*0.914+priceAdjust)*taxation WHERE cbPriceUnit='m' AND vcPriceUnit='yd';
+
+
+UPDATE bym_qf_report SET vcOldPriceTotal=bjPrice*vcQuantity;
+UPDATE bym_qf_report SET sellProfit=vcOldPriceTotal-amountrmb;
+UPDATE bym_qf_report SET sellProfitRate=sellProfit/vcOldPriceTotal;
+
+CREATE TABLE temp (id bigint(20) NOT NULL AUTO_INCREMENT,quoteId BIGINT(20),vcOldPriceTotal DECIMAL(10,3) DEFAULT 0,amountrmb DECIMAL(10,3) DEFAULT 0 ,PRIMARY KEY (id));
+INSERT INTO temp(quoteId,vcOldPriceTotal,amountrmb)
+SELECT quoteId,SUM(vcOldPriceTotal),SUM(amountrmb) FROM bym_qf_report GROUP BY quoteId;
+UPDATE bym_designerorder deo,temp t SET deo.bjOldPriceTatol=t.vcOldPriceTotal,deo.cbClTotel=t.amountrmb WHERE deo.quoteId=t.quoteId;
+DROP TABLE temp;
+
+UPDATE bym_designerorder SET profit=BjTotel-CbClTotel-CbTotel;
+UPDATE bym_designerorder SET ProfitRate=profit/BjTotel;
+UPDATE bym_designerorder SET ProfitRate=0 WHERE ProfitRate IS NULL;
+UPDATE bym_qf_report SET sellProfitRate=0 WHERE sellProfitRate IS NULL;
 
 
 

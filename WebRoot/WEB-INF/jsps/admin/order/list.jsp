@@ -26,6 +26,7 @@
                   <th>审核人</th>
                    <c:if test="${!isLess}">
                   <th>总金额</th>
+                   <th>折算人民币</th>
                   </c:if>
                   <th>最后修改时间</th>
                   <th>修改人</th>
@@ -72,6 +73,7 @@
                   <td><s:property value="auditor"/></td>
                    <c:if test="${!isLess}">
                    <td><s:property value="sumMoney"/> <s:property value="hbUnit"/></td>
+                   <td><s:property value="amountRmb"/> RMB</td>
                    </c:if>
                    <td> <s:date name="modifyDate" format="yyyy-MM-dd HH:mm" /></td>
                    <td><s:property value="modifyUser"/></td>

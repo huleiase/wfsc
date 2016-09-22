@@ -738,10 +738,10 @@ public class PurchaseAction extends DispatchPagerAction {
 				sNumAndCodeMap.put(qf.getVcFactoryNum(), qf.getVcFactoryCode());
 				qf.setOrderNo(orderNo);
 				sNumAndQFmap.put(qf.getVcFactoryNum(),qf);
-				quoteFabricService.saveOrUpdateEntity(qf);
+				
 			
 		}
-		
+		//成本表中的===>销售成本===>材料合计=材料明细里面同一合同号中的所有型号“销售材料成本合计”的总和
 		float cbClTotel = 0F;
 		for(String fnum : sNumAndQFmap.keySet()){
 			Order order = sNumAndOrderDbMap.get(fnum);
@@ -787,6 +787,7 @@ public class PurchaseAction extends DispatchPagerAction {
 			this.orderService.saveOrUpdateEntity(order);
 			List<QuoteFabricReport>  qfrs = this.quoteFabricReportService.getQuoteFabricReportByQuoteId(purchase.getQuote().getId());
 	        if(qfrs!=null &&qfrs.size()>0){
+	        	//成本表中的===>销售成本===>材料合计=材料明细里面同一合同号中的所有型号“销售材料成本合计”的总和
 	            cbClTotel += updateQfr(purchase.getQuote().getId(), order, qfSet,qfrs);
 	           }
 			
@@ -815,6 +816,18 @@ public class PurchaseAction extends DispatchPagerAction {
                deo.setProcessFee(purchase.getProcessFee());
                deo.setInstallFee(purchase.getInstallFee());
                deo.setOtherFre(purchase.getOtherFre());
+               
+             //销售费用合计(加工费+安装费+运费+差旅费+设计费+其他)
+       		float cbTotel = deo.getProcessFee()+deo.getInstallFee()+deo.getCbFreight()+deo.getTravelExpenses()+deo.getDesignFre()+deo.getOtherFre();
+       		deo.setCbTotel(cbTotel);
+       		//毛利(报价合计-销售成本材料合计-销售费用合计)
+       		float profit = Math.abs(deo.getBjTotel())-Math.abs(deo.getCbClTotel())-Math.abs(deo.getCbTotel());
+       		deo.setProfit(profit);
+       		//毛利率(毛利/报价合计)
+       		if(deo.getBjTotel()!=0){
+       			deo.setProfitRate(deo.getProfit()/deo.getBjTotel());
+       		}
+               
                if("offset".equals(deo.getOperation())){
          			deo.setBjTotel(-Math.abs(deo.getBjTotel()));
          			deo.setCbClTotel(-Math.abs(deo.getCbClTotel()));
@@ -850,11 +863,10 @@ public class PurchaseAction extends DispatchPagerAction {
 						float amountrmb = qf.getAmountrmb() == 0 ? PriceUtil.getTwoDecimalFloat(vcQuoteNum * shijia * qf.getExchangeRate()) : qf.getAmountrmb();
 						qf.setAmountrmb(amountrmb);
 						qf.setRealMonny(qf.getRealMonny() == 0 ? PriceUtil.getTwoDecimalFloat(vcQuoteNum * shijia) : qf.getRealMonny());
-						
+						quoteFabricService.saveOrUpdateEntity(qf);
 						
 						qfr.setReplaceNO(qf.getReplaceId());
 						qfr.setCbPrice(qf.getShijia());
-						qfr.setCbPriceUnit(qf.getVcOldPriceUnit());
 						qfr.setCbQuantity(qf.getVcQuoteNum());
 						qfr.setSingleMoney(sigMoney);
 						qfr.setOrderNum(qf.getOrderQuantity());
@@ -887,6 +899,7 @@ public class PurchaseAction extends DispatchPagerAction {
 					qfr.setBjTotal(qfr.getVcPrice()*qfr.getVcQuantity());
 				}
 				qfr.setCbTotal(qfr.getCbPrice()*qfr.getCbQuantity());
+				//材料明细表===>销售材料成本合计=实订量*实价*汇率
 				qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				if("add".equals(qfr.getOperation())){
 					cbClTotel+=qfr.getAmountrmb();

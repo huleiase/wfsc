@@ -129,23 +129,22 @@ public class OrderAction extends DispatchPagerAction {
 		request.setAttribute("isMoreLess", isMoreLess);
 		request.setAttribute("isLess", isLess);
 		request.setAttribute("canToQuote", canToQuote);
-	//	request.setAttribute("isAdmin", isAdmin);
-	//	request.setAttribute("purManager", purManager);
-	//	request.setAttribute("purMan", purMan);
 		Page<Order> page = new Page<Order>();
 		this.setPageParams(page);
 		page.setPaginationSize(7);
 		Map<String,Object> paramap = handleRequestParameter();
 		if(!isAdmin&&!isPurManager&&!isPurMan){
-			//if(!(isCaiwu&&"GZ".equalsIgnoreCase(admin.getArea()))){
 				paramap.put("area", admin.getArea());
-			//}
 			if(isSale&&!isSaleManager){
 				paramap.put("saleName", admin.getUsername());
 			}
 		}
 		
 		page = orderService.findForPage(page, paramap);
+		for(Order o : page.getData()){
+			float huilv = this.getExchangeRate("1", o.getHbUnit());
+			o.setAmountRmb(PriceUtil.getTwoDecimalFloat(huilv*o.getSumMoney()));
+		}
 		List<Integer> li = page.getPageNos();
 		String listUrl = "/wfsc/admin/order_list.Q";
 		request.setAttribute("listUrl", listUrl);

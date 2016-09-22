@@ -339,6 +339,7 @@ table#quoteFabricTable .label, .badge {
 	             	<option value="私宅" <s:if test="#request.quote.projectType=='私宅'">selected</s:if> >私宅</option>
 	             	<option value="会所" <s:if test="#request.quote.projectType=='会所'">selected</s:if> >会所</option>
 	             	<option value="商业机构" <s:if test="#request.quote.projectType=='商业机构'">selected</s:if> >商业机构</option>
+	             	<option value="其他" <s:if test="#request.quote.projectType=='其他'">selected</s:if> >其他</option>
 	             </select>
 	          </div>
 	         <div class="clear"></div>

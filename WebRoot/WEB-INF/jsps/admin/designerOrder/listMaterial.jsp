@@ -56,7 +56,7 @@
                      <td><s:property value="vcModelNum"/></td> 
                       <td><s:property value="bjColor"/></td> 
                       <td><s:property value="vcQuantity"/><s:property value="vcPriceUnit"/></td> 
-                       <td><s:property value="vcOldPrice"/><s:property value="vcMoney"/></td> 
+                       <td><s:property value="bjPrice"/><s:property value="vcMoney"/></td> 
                          <td><s:property value="vcOldPriceTotal"/><s:property value="vcMoney"/></td>  
                          <td><s:property value="vcFre"/></td> 
                          <td><s:property value="vcSpecialExp"/></td> 

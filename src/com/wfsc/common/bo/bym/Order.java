@@ -239,6 +239,7 @@ public class Order implements java.io.Serializable {
 	//QC异常
 	private String qcException;
 	private String modifyUser;
+	private float amountRmb;
 	
 	/**
 	 * @return
@@ -1080,6 +1081,14 @@ public class Order implements java.io.Serializable {
 
 	public void setModifyUser(String modifyUser) {
 		this.modifyUser = modifyUser;
+	}
+
+	public float getAmountRmb() {
+		return amountRmb;
+	}
+
+	public void setAmountRmb(float amountRmb) {
+		this.amountRmb = amountRmb;
 	}
 
 
