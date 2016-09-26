@@ -1993,6 +1993,7 @@ public class QuoteAction extends DispatchPagerAction {
 				qfr.setProjectName(q.getProjectName());
 				qfr.setSumMoney(q.getSumMoney());
 				qfr.setCreateDate(new Date());
+				qfr.setYearMonth(DateUtil.getOnlyYearMonth());
 				qfr.setQuoteLocal(q.getVcQuoteLocal());
 				qfr.setCbModelNum(qf.getVcFactoryCode()+" "+qf.getVcModelNum());
 				qfr.setPriceCur(qf.getPriceCur());

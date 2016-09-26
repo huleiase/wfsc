@@ -31,6 +31,8 @@ public class DateUtil {
 	private static SimpleDateFormat SHORT_CN_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	
 	private static SimpleDateFormat FMT_YM = new SimpleDateFormat("yyyyMM");
+	
+	private static SimpleDateFormat ONLY_YM = new SimpleDateFormat("yyyyMM");
 
 	/**
 	 * 3天的毫秒数
@@ -59,6 +61,10 @@ public class DateUtil {
 	
 	public static String getYearMonthStr() {
 		return new String(FMT_YM.format(new Date()));
+	}
+	
+	public static String getOnlyYearMonth() {
+		return new String(ONLY_YM.format(new Date()));
 	}
 	
 	public static Date getDate(String date) throws ParseException{

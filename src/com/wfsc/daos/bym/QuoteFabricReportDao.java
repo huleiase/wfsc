@@ -150,4 +150,24 @@ public class QuoteFabricReportDao extends EnhancedHibernateDaoSupport<QuoteFabri
 			
 		return list;
 	}
+	
+	public List<Map<String, Object>> getReportDatas(Map<String, Object> paramMap){
+		StringBuffer sql = new StringBuffer("select new map(qfr.yearMonth as ym,sum(vcOldPriceTotal) as sr) from QuoteFabricReport as qfr where qfr.operation='add' ");
+		for (String key : paramMap.keySet()) {
+			if ("sDate".equals(key)) {
+				sql.append(" and qfr.yearMonth >='").append(paramMap.get(key).toString()).append("'");
+				continue;
+			}
+			if ("eDate".equals(key)) {
+				sql.append(" and qfr.yearMonth <='").append(paramMap.get(key).toString()).append("'");
+				continue;
+			}
+			if("displayName".endsWith(key)){
+				sql.append(" and qfr.vcModelNum ='").append(paramMap.get(key).toString()).append("'");
+				continue;
+			}
+		}
+		sql.append(" group by qfr.yearMonth order by qfr.yearMonth");
+		return this.getHibernateTemplate().find(sql.toString());
+	}
 }

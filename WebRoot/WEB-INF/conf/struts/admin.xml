@@ -262,6 +262,14 @@
 			<result name="managerDora">/WEB-INF/jsps/admin/designerOrder/managerDora.jsp</result>
 			<result name="listDora">/WEB-INF/jsps/admin/designerOrder/listDora.jsp</result>
 		</action>	
+		
+		
+		<!-- 图形报表 -->
+		<action name="report_*" class="ReportAction" method="{1}">
+			<interceptor-ref name="adminStack"></interceptor-ref>
+			<result name="test">/WEB-INF/jsps/admin/report/echartsTest.jsp</result>
+		</action>
+		
 	</package>
 	
 </struts>

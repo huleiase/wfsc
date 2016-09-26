@@ -164,6 +164,9 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	//幅宽
 	private float vcWidth;
 	
+	//报表用
+	private String yearMonth;
+	
 	public Object clone() {   
         try {   
             return super.clone();   
@@ -694,6 +697,16 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 
 	public void setVcWidth(float vcWidth) {
 		this.vcWidth = vcWidth;
+	}
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getYearMonth() {
+		return yearMonth;
+	}
+
+	public void setYearMonth(String yearMonth) {
+		this.yearMonth = yearMonth;
 	}
 	
 	

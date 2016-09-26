@@ -462,7 +462,7 @@ width: 95px;
 	           	<select name="order.transportMode" id="transportMode" style="width:202px;float: left;" class="span3">
 					<option value="1" <c:if test="${order.transportMode=='1'}">selected</c:if>>顺丰</option>
 					<option value="2" <c:if test="${order.transportMode=='2'}">selected</c:if>>顺丰四日件</option>
-					<option value="3" <c:if test="${order.transportMode=='3'}">selected</c:if>>德邦精准卡航:广州芳村西朗站点</option>
+					<option value="3" <c:if test="${order.transportMode=='3'}">selected</c:if>>德邦标准卡航:瑞南花园站点</option>
 					<option value="4" <c:if test="${order.transportMode=='4'}">selected</c:if>>德邦精准卡航:北京朝阳区百子湾站点</option>
 					<option value="9" <c:if test="${order.transportMode=='9'}">selected</c:if>>德邦精准卡航:送货上门</option>
 					<option value="5" <c:if test="${order.transportMode=='5'}">selected</c:if>>和记(汽运-专线)</option>
