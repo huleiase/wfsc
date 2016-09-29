@@ -878,7 +878,7 @@ public class OrderAction extends DispatchPagerAction {
 					} else if ("2".equals(noteThing2)) {
 						note = "顺丰四日件";
 					} else if ("3".equals(noteThing2)) {
-						note = "德邦精准卡航:瑞南花园站点";
+						note = "德邦精准卡航:江南大道营业部";
 					} else if ("4".equals(noteThing2)) {
 						note = "德邦精准卡航:北京朝阳区百子湾站点";
 					} else if ("5".equals(noteThing2)) {

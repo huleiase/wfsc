@@ -32,7 +32,7 @@ public class DateUtil {
 	
 	private static SimpleDateFormat FMT_YM = new SimpleDateFormat("yyyyMM");
 	
-	private static SimpleDateFormat ONLY_YM = new SimpleDateFormat("yyyyMM");
+	private static SimpleDateFormat ONLY_YM = new SimpleDateFormat("yyyy-MM");
 
 	/**
 	 * 3天的毫秒数

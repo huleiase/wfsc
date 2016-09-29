@@ -215,7 +215,10 @@ public class QuoteAction extends DispatchPagerAction {
 				if(StringUtils.isBlank(qf.getVcProject())){
 					qf.setVcProject(qf.getOrderId()+"");
 				}
-				Attachment attr = commonService.getOnlyAttachmentByKey(qf.getVcFactoryCode()+"_"+qf.getVcModelNum());
+				Attachment attr = commonService.getOnlyAttachmentByKey(qf.getVcModelNumDisplay()+"_"+quote.getProjectNum()+"_"+qf.getOrderId());
+				/*if(attr==null){
+					attr = commonService.getOnlyAttachmentByKey(qf.getVcFactoryCode()+"_"+qf.getVcModelNum());
+				}*/
 				if(attr!=null){
 					qf.setFilePath(attr.getAttachPath());
 				}
@@ -633,11 +636,14 @@ public class QuoteAction extends DispatchPagerAction {
 	
 	public String toImport(){
 		String quoteId = request.getParameter("quoteId");
-		String befModel = request.getParameter("befModel");
-		String factoryCode = request.getParameter("factoryCode");
+		String vcModelNumDisplay = request.getParameter("vcModelNumDisplay");
+		String vcCount = request.getParameter("vcCount");
+		String projectNum = request.getParameter("projectNum");
 		request.setAttribute("quoteId", quoteId);
-		request.setAttribute("befModel", befModel);
-		request.setAttribute("factoryCode", factoryCode);
+		request.setAttribute("vcModelNumDisplay", vcModelNumDisplay);
+		request.setAttribute("vcCount", vcCount);
+		request.setAttribute("projectNum", projectNum);
+		
 		return "toImport";
 	}
 	
@@ -1562,17 +1568,25 @@ public class QuoteAction extends DispatchPagerAction {
 	
 	 public String importFile(){
 		 String quoteId = request.getParameter("quoteId");
-		 String factoryCode = request.getParameter("factoryCode");
-		 String befModle = request.getParameter("befModel");
+		 String vcModelNumDisplay = request.getParameter("vcModelNumDisplay");
+		String vcCount = request.getParameter("vcCount");
+		 String projectNum = request.getParameter("projectNum");
 		 request.setAttribute("quoteId", quoteId);
-		 request.setAttribute("factoryCode", factoryCode);
-		 request.setAttribute("quoteId", befModle);
+		 request.setAttribute("vcModelNumDisplay", vcModelNumDisplay);
+		 request.setAttribute("vcCount", vcCount);
+		 request.setAttribute("projectNum", projectNum);
 		 String linkCode = "";
 		 if(StringUtils.isNotBlank(quoteId)){
 			 linkCode = "quoteId_"+quoteId;
 		 }
-		 if(StringUtils.isNotBlank(factoryCode)&&StringUtils.isNotBlank(befModle)){
-			linkCode = factoryCode+"_"+befModle;
+		 if(StringUtils.isNotBlank(vcModelNumDisplay)){
+			linkCode = vcModelNumDisplay;
+			if(StringUtils.isNotBlank(projectNum)){
+				linkCode+="_"+projectNum;
+			}
+			if(StringUtils.isNotBlank(vcCount)){
+				linkCode+="_"+vcCount;
+			}
 		}
 		 return super.importFile(linkCode);
 	 }
@@ -2556,7 +2570,10 @@ public class QuoteAction extends DispatchPagerAction {
 				if(StringUtils.isBlank(qf.getVcProject())){
 					qf.setVcProject(qf.getOrderId()+"");
 				}
-				Attachment attr = commonService.getOnlyAttachmentByKey(qf.getVcFactoryCode()+"_"+qf.getVcModelNum());
+				Attachment attr = commonService.getOnlyAttachmentByKey(qf.getVcModelNumDisplay()+"_"+quote.getProjectNum()+"_"+qf.getOrderId());
+				/*if(attr==null){
+					attr = commonService.getOnlyAttachmentByKey(qf.getVcFactoryCode()+"_"+qf.getVcModelNum());
+				}*/
 				if(attr!=null){
 					qf.setFilePath(attr.getAttachPath());
 				}

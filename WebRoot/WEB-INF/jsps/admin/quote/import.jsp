@@ -48,8 +48,9 @@ body {
 											<td width="925" height="25" align="left" class="">
 													<form action="admin/quote_importFile.Q" method="post" enctype="multipart/form-data" id="importForm">
 													<input type="hidden" name="quoteId" value="${quoteId }">
-													<input type="hidden" name="befModel" value="${befModel }">
-													<input type="hidden" name="factoryCode" value="${factoryCode }">
+													<input type="hidden" name="vcModelNumDisplay" value="${vcModelNumDisplay }">
+													<input type="hidden" name="projectNum" value="${projectNum }">
+													<input type="hidden" name="vcCount" value="${vcCount }">
 													<center>
 									                      <div style="text-align: center;" class="add_work_od">
 									                        <div id="div1">

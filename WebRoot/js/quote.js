@@ -964,9 +964,16 @@ function setUrgentCost(){
 				$("#customer").val(customer);
 			}
 			function uploadIMGt(vcCount){
-				var factoryCode = $("#vcFactoryCode"+vcCount).val();
-				var befModel = $("#vcModelNum"+vcCount).val();
-				var url = basePath+"admin/quote_toImport.Q?factoryCode="+factoryCode+"&befModel="+befModel;
+				var vcModelNumDisplay = $("#vcModelNumDisplay"+vcCount).val();
+				var projectNum = $("#projectNum").val();
+				var orderId = $("#orderId"+vcCount).val();
+				var url = basePath+"admin/quote_toImport.Q?vcCount="+orderId;
+				if(vcModelNumDisplay){
+					url+="&vcModelNumDisplay="+vcModelNumDisplay;
+				}
+				if(projectNum){
+					url+="&projectNum="+projectNum;
+				}
 				art.dialog.open(url, {title: '上传附图片', lock: true, drag:true, width: getClientWidth()*0.8, height: getClientHeight()*0.4});
 			}
 			
