@@ -468,6 +468,12 @@ width: 95px;
 					<option value="5" <c:if test="${order.transportMode=='5'}">selected</c:if>>和记(汽运-专线)</option>
 					<option value="6" <c:if test="${order.transportMode=='6'}">selected</c:if>>海运快递(先垫付运费)</option>
 					<option value="7" <c:if test="${order.transportMode=='7'}">selected</c:if>>普通海运(先垫付运费)</option>
+					<option value="10" <c:if test="${order.transportMode=='10'}">selected</c:if>>德邦快递</option>
+					<option value="11" <c:if test="${order.transportMode=='11'}">selected</c:if>>顺丰即日</option>
+					<option value="12" <c:if test="${order.transportMode=='12'}">selected</c:if>>顺丰次晨</option>
+					<option value="13" <c:if test="${order.transportMode=='13'}">selected</c:if>>顺丰次日</option>
+					<option value="14" <c:if test="${order.transportMode=='14'}">selected</c:if>>顺丰隔日</option>
+					<option value="15" <c:if test="${order.transportMode=='15'}">selected</c:if>>重货快运</option>
 					<option value="8" <c:if test="${order.transportMode=='8'}">selected</c:if>>待确认</option>
 	             </select>
 	            </div>

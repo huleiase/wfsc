@@ -891,6 +891,18 @@ public class OrderAction extends DispatchPagerAction {
 						note = "待确认";
 					}else if ("9".equals(noteThing2)) {
 						note = "德邦精准卡航:送货上门";
+					}else if ("10".equals(noteThing2)) {
+						note = "德邦快递";
+					}else if ("11".equals(noteThing2)) {
+						note = "顺丰即日";
+					}else if ("12".equals(noteThing2)) {
+						note = "顺丰次晨";
+					}else if ("13".equals(noteThing2)) {
+						note = "顺丰次日";
+					}else if ("14".equals(noteThing2)) {
+						note = "顺丰隔日";
+					}else if ("15".equals(noteThing2)) {
+						note = "重货快运";
 					}
 					cell4.setCellValue(note);
 				}

@@ -354,7 +354,7 @@ public class DesignerOrderAction extends DispatchPagerAction {
 								de.getRemark()};
 					}else if("4".equals(flg)){//销售成本表,title有跨行.TO DO
 						values = new Object[]{de.getCreateDate(),de.getOrderNo(),de.getContractNo(),de.getCustomerName(),de.getProjectName(),de.getSumMoney()
-								,de.getBjClTotel(),de.getVcProcessFre(),de.getLcFre(),de.getVcInstallFre(),de.getBjFreight(),de.getTaxes(),
+								,de.getBjOldPriceTatol(),de.getVcProcessFre(),de.getLcFre(),de.getVcInstallFre(),de.getBjFreight(),de.getTaxationFee(),
 								de.getBjTotel(),de.getCbClTotel(),de.getProcessFee(),de.getInstallFee(),de.getCbFreight(),de.getTravelExpenses(),
 								de.getDesignFre(),de.getOtherFre(),de.getCbTotel(),de.getProfit(),de.getProfitRate()};
 					}else if("5".equals(flg)){//销售收入表dora
@@ -409,10 +409,10 @@ public class DesignerOrderAction extends DispatchPagerAction {
 			HSSFSheet sheet = wb.createSheet("DesignerQFR");
 			String[] titleStr = null;
 			if(quoteLocal!=null){
-				titleStr = new String[]{"时间","PO号","合同号","客户名称","项目","合同金额","型号","色号","数量","单价","合计","型号"
+				titleStr = new String[]{"时间","PO号","合同号","客户名称","项目","合同金额","型号","色号","数量","单价","合计","运费","工地运费","单价调整","型号"
 						,"色号","订货量","实订量","单价","实价","币种合计","合计","毛利","毛利率"};
 			}else{
-				titleStr = new String[]{"时间","PO号","合同号","供应商","客户名称","项目","合同金额","型号","色号","数量","单价","合计","型号"
+				titleStr = new String[]{"时间","PO号","合同号","供应商","客户名称","项目","合同金额","型号","色号","数量","单价","合计","运费","工地运费","单价调整","型号"
 						,"色号","订货量","实订量","单价","实价","币种合计","合计","毛利","毛利率"};
 			}
 			HSSFRow thRow = sheet.createRow(0);//表头行
@@ -431,17 +431,17 @@ public class DesignerOrderAction extends DispatchPagerAction {
 					QuoteFabricReport de = list.get(m-1);
 					sumMoney+=de.getSumMoney();
 					Object[] values = null;
-					if(quoteLocal!=null){
+					if(quoteLocal!=null){//vcFre,vcSpecialExp,priceAdjust
 						values = new Object[]{de.getCreateDate(),de.getOrderNo(),de.getContractNo(),de.getCustomerName(),de.getProjectName(),de.getSumMoney()
-								,de.getVcModelNum(),de.getBjColor(),de.getVcQuantity()+" "+de.getVcPriceUnit(),de.getVcPrice()+" "+de.getVcMoney()
-								,de.getBjTotal()+" "+de.getVcMoney(),
+								,de.getVcModelNum(),de.getBjColor(),de.getVcQuantity()+" "+de.getVcPriceUnit(),de.getBjPrice()+" "+de.getVcMoney()
+								,de.getVcOldPriceTotal()+" "+de.getVcMoney(),de.getVcFre(),de.getVcSpecialExp(),de.getPriceAdjust(),
 								de.getCbModelNum(),de.getCbColor(),de.getOrderNum()+" "+de.getCbPriceUnit(),de.getCbQuantity()+" "+de.getCbPriceUnit()
 								,de.getSingleMoney()+" "+de.getPriceCur(),de.getCbPrice()+" "+de.getPriceCur(),de.getCbTotal()+" "+de.getPriceCur(),
 								de.getAmountrmb()+" "+de.getVcMoney(),de.getSellProfit(),de.getSellProfitRate()};
 					}else{
 						values = new Object[]{de.getCreateDate(),de.getOrderNo(),de.getContractNo(),de.getSupplier(),de.getCustomerName(),de.getProjectName(),de.getSumMoney()
-								,de.getVcModelNum(),de.getBjColor(),de.getVcQuantity()+" "+de.getVcPriceUnit(),de.getVcPrice()+" "+de.getVcMoney()
-								,de.getBjTotal()+" "+de.getVcMoney(),
+								,de.getVcModelNum(),de.getBjColor(),de.getVcQuantity()+" "+de.getVcPriceUnit(),de.getBjPrice()+" "+de.getVcMoney()
+								,de.getVcOldPriceTotal()+" "+de.getVcMoney(),de.getVcFre(),de.getVcSpecialExp(),de.getPriceAdjust(),
 								de.getCbModelNum(),de.getCbColor(),de.getOrderNum()+" "+de.getCbPriceUnit(),de.getCbQuantity()+" "+de.getCbPriceUnit()
 								,de.getSingleMoney()+" "+de.getPriceCur(),de.getCbPrice()+" "+de.getPriceCur(),de.getCbTotal()+" "+de.getPriceCur(),
 								de.getAmountrmb()+" "+de.getVcMoney(),de.getSellProfit(),de.getSellProfitRate()};
