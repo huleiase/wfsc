@@ -435,7 +435,7 @@ width: 95px;
 					<option value="北京市朝阳区东柏街9号天之骄子5号楼2单元202;电话:010-58614133/58614183" <c:if test="${order.shipAddress=='北京市朝阳区东柏街9号天之骄子5号楼2单元202;电话:010-58614133/58614183'}">selected</c:if>>北京市朝阳区东柏街9号天之骄子5号楼2单元202;电话:010-58614133/58614183</option>
 					<option value="香港北角英皇道338號華懋交易廣場二期1909室;电话:852-37412235" <c:if test="${order.shipAddress=='香港北角英皇道338號華懋交易廣場二期1909室;电话:852-37412235'}">selected</c:if>>香港北角英皇道338號華懋交易廣場二期1909室;电话:852-37412235</option>
 					<option value="广州市越秀区东风中路268号广州交易广场1501-1502室;电话:020-83309415" <c:if test="${order.shipAddress=='广州市越秀区东风中路268号广州交易广场1501-1502室;电话:020-83309415'}">selected</c:if>>广州市越秀区东风中路268号广州交易广场1501-1502室;电话:020-83309415</option>
-					<option value="广州市海珠区南泰路608号(润南花园旁)" <c:if test="${order.shipAddress=='广州市海珠区南泰路608号(润南花园旁)'}">selected</c:if>>广州市海珠区南泰路608号(润南花园旁)</option>
+					<option value="广州市荔湾区芳村西朗留香市场停车场内(开车导航微八连锁酒店)" <c:if test="${order.shipAddress=='广州市荔湾区芳村西朗留香市场停车场内(开车导航微八连锁酒店)'}">selected</c:if>>广州市荔湾区芳村西朗留香市场停车场内(开车导航微八连锁酒店)</option>
 					<option value="其他地址">其他地址</option>
 	             </select>
 	              <input name="order.otherShipAddress" id="otherShipAddress" type="text" class="span3"  value="${order.otherShipAddress }">
@@ -462,7 +462,7 @@ width: 95px;
 	           	<select name="order.transportMode" id="transportMode" style="width:202px;float: left;" class="span3">
 					<option value="1" <c:if test="${order.transportMode=='1'}">selected</c:if>>顺丰</option>
 					<option value="2" <c:if test="${order.transportMode=='2'}">selected</c:if>>顺丰四日件</option>
-					<option value="3" <c:if test="${order.transportMode=='3'}">selected</c:if>>德邦标准卡航:江南大道营业部</option>
+					<option value="3" <c:if test="${order.transportMode=='3'}">selected</c:if>>德邦精准卡航:广州芳村西朗站点</option>
 					<option value="4" <c:if test="${order.transportMode=='4'}">selected</c:if>>德邦精准卡航:北京朝阳区百子湾站点</option>
 					<option value="9" <c:if test="${order.transportMode=='9'}">selected</c:if>>德邦精准卡航:送货上门</option>
 					<option value="5" <c:if test="${order.transportMode=='5'}">selected</c:if>>和记(汽运-专线)</option>
