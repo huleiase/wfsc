@@ -37,6 +37,19 @@
 			art.dialog({title:"温馨提示",content:"幅宽必须为数字",ok:true});
 			return;
 		}
+		
+		var vcFactoryNums = [];
+		$(document).find("input[id^='vcFactoryNum']").each(function(i){
+			var checkVcFactoryNum = $(this).val();
+			if(!checkVcFactoryNum){
+				vcFactoryNums.push(checkVcFactoryNum);
+			}
+		})
+		if(vcFactoryNums.length>0){
+			art.dialog({title:"温馨提示",content:"请联系采购经理设置供应商的产地编号",ok:true});
+			return;
+		}
+		
 		var quoteId = $("#quoteId").val();
 		if(!quoteId){
 			$.ajax({

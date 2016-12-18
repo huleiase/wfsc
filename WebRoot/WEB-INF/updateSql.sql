@@ -282,6 +282,15 @@ UPDATE bym_designerorder SET ProfitRate=profit/BjTotel;
 UPDATE bym_designerorder SET ProfitRate=0 WHERE ProfitRate IS NULL;
 UPDATE bym_qf_report SET sellProfitRate=0 WHERE sellProfitRate IS NULL;
 
-
-
+-- 20161218
+DELETE FROM bym_qf_report WHERE id=24523;
+UPDATE bym_quote_fabric SET vcFactoryNum='HTCM-P29' WHERE id=52784;
+UPDATE bym_order SET factoryNum='HTCM-P29',supplier='订做大货价' WHERE id=4389;
+CREATE TABLE temp (id bigint(20) NOT NULL AUTO_INCREMENT,doId BIGINT(20),cbClTotel DECIMAL(10,3) DEFAULT 0 ,PRIMARY KEY (id));
+INSERT INTO temp(doId,cbClTotel) SELECT doId,SUM(amountrmb) from bym_qf_report WHERE isReplaced='0' AND operation='add' GROUP BY doId;
+UPDATE bym_designerorder bd ,temp t SET bd.cbClTotel=t.cbClTotel WHERE bd.id=t.doId AND bd.operation='add';
+DROP TABLE temp;
+UPDATE bym_designerorder SET profit=BjTotel-CbClTotel-CbTotel WHERE operation='add';
+UPDATE bym_designerorder SET ProfitRate=profit/BjTotel WHERE operation='add';
+UPDATE bym_designerorder SET ProfitRate=0 WHERE ProfitRate IS NULL;
 

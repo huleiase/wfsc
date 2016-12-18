@@ -72,6 +72,10 @@ public class PurchaseDao extends EnhancedHibernateDaoSupport<Purchase> {
 					hql.append(" and obj.area = '"+paramap.get("area")+"'");
 					continue;
 				}
+				if ("deliveryRequirements".equals(key)) {
+					hql.append(" and obj.deliveryRequirements = '"+paramap.get("deliveryRequirements")+"'");
+					continue;
+				}
 				if ("orderStatus".equals(key)) {
 					if("1".equals(purchaseType)&&"2".equals(orderStatus)){
 						hql.append(" and obj.orderStatus >= 2 ");
@@ -100,13 +104,6 @@ public class PurchaseDao extends EnhancedHibernateDaoSupport<Purchase> {
 		Date sdate = null;
 		Date edate = null;
 		try {
-			/*String purchaseType = paramap.get("purchaseType")==null?"":paramap.get("purchaseType").toString();
-			String status = paramap.get("orderStatus")==null?"":paramap.get("orderStatus").toString();
-			if("3".equals(status)){
-				hql.append(" and obj.orderStatus = 3");
-			}else{
-				hql.append(" and obj.orderStatus != 3");
-			}*/
 			for (String key : paramap.keySet()) {
 				if ("startTime".equals(key)) {
 					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -132,19 +129,16 @@ public class PurchaseDao extends EnhancedHibernateDaoSupport<Purchase> {
 					hql.append(" and obj.area = '"+paramap.get("area")+"'");
 					continue;
 				}
+				if ("deliveryRequirements".equals(key)) {
+					hql.append(" and obj.deliveryRequirements = '"+paramap.get("deliveryRequirements")+"'");
+					continue;
+				}
+				
 				if ("orderStatus".equals(key)) {
 					hql.append(" and obj.orderStatus = '"+paramap.get("orderStatus")+"'");
 					continue;
 				}
 			}
-			//采购单类型 1待采购单，2采购单
-			//0未提交,1提交,2待采购审核通过,3采购审核通过
-			/*String purchaseType = paramap.get("purchaseType").toString();
-			if("1".equals(purchaseType)){
-				hql.append(" and obj.orderStatus < 3 ");
-			}else if("2".equals(purchaseType)){
-				hql.append(" and obj.orderStatus > 1 ");
-			}*/
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

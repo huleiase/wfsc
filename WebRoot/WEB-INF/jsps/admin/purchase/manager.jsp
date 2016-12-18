@@ -16,6 +16,8 @@ var basePath = "<%=basePath%>";
 		$("#contractNo").val("");
 		$("#orderStatus").val("");
 		$("#orderNo").val("");
+		$("#deliveryRequirements").val("");
+		
 		
 	}
 	function operPurchase(id,oper){
@@ -114,9 +116,19 @@ var basePath = "<%=basePath%>";
 	         </div>
 	         <div class="clear"></div>
 	         <div class="controls">
-	            <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">单号</label>
+	          <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">单号</label>
 	            <input name="orderNo" id="orderNo" type="text" class="span2"  value="${orderNo }">
+	         <label class="span1" for="inputSuccess" style="margin-top:5px;width:66px;">货期要求</label>
+	            <select name="deliveryRequirements" id="deliveryRequirements" style="width:170px;">
+	            	<option value="">请选择</option>
+                  	<option value="正常" <c:if test="${deliveryRequirements=='正常'}">selected</c:if> >正常</option>
+                  	<option value="铁期" <c:if test="${deliveryRequirements=='铁期'}">selected</c:if> >铁期</option>
+                  	<option value="特急" <c:if test="${deliveryRequirements=='特急'}">selected</c:if> >特急</option>
+                  	<option value="急" <c:if test="${deliveryRequirements=='急'}">selected</c:if> >急</option>
+	             </select>
+	           
 	         </div>
+	         
 	         <div class="clear"></div>
 	          <div class="controls">
 	            <button type="submit" class="btn btn-success" style="margin-left:355px;">查询</button>&nbsp;&nbsp;&nbsp;

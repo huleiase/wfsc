@@ -488,8 +488,9 @@ public class OrderAction extends DispatchPagerAction {
 			this.saveProStroage(order, qfdbList);
 		}
 		updateOrderFreight(order);
-		updateDe(order.getOrderNo(), q.getId());
 		updateQfr(q.getId(), order, qfdbList);
+		updateDe(order.getOrderNo(), q.getId());
+		
 		
 		return "ok";
 	}
@@ -504,6 +505,17 @@ public class OrderAction extends DispatchPagerAction {
         	}
         	
             for(DesignerOrder deo : deos){
+            	if(!"add".equals(deo.getOperation())){
+            		continue;
+            	}
+            	float cbclTotel = 0F;
+            	List<QuoteFabricReport> qfrs = quoteFabricReportService.getQuoteFabricReportByDoId(deo.getId());
+            	for(QuoteFabricReport qfr :qfrs){
+            		if("add".equals(qfr.getOperation())){
+            			cbclTotel+=qfr.getAmountrmb();
+            		}
+            	}
+            	deo.setCbClTotel(cbclTotel);
             	deo.setOrderNo(orderNo);
         		deo.setCbFreight(freight);
         		//销售费用合计(加工费+安装费+运费+差旅费+设计费+其他)
@@ -515,14 +527,8 @@ public class OrderAction extends DispatchPagerAction {
         		//毛利率(毛利/报价合计)
         		if(deo.getBjTotel()!=0){
         			deo.setProfitRate(deo.getProfit()/deo.getBjTotel());
-        		}
-        		if("offset".equals(deo.getOperation())){
-        			deo.setBjTotel(-Math.abs(deo.getBjTotel()));
-        			deo.setCbClTotel(-Math.abs(deo.getCbClTotel()));
-        			deo.setCbTotel(-Math.abs(deo.getCbTotel()));
-        			deo.setProfit(-Math.abs(deo.getProfit()));
-        			deo.setProfitRate(-Math.abs(deo.getProfitRate()));
-        			deo.setBjOldPriceTatol(-Math.abs(deo.getBjOldPriceTatol()));
+        		}else{
+        			deo.setProfitRate(0F);
         		}
                 designerOrderService.saveOrUpdateEntity(deo);
             }
@@ -582,18 +588,12 @@ public class OrderAction extends DispatchPagerAction {
 				qfr.setSellProfit(Math.abs(qfr.getVcOldPriceTotal())-Math.abs(qfr.getAmountrmb()));
 				if(qfr.getVcOldPriceTotal()!=0){
 					qfr.setSellProfitRate(qfr.getSellProfit()/qfr.getVcOldPriceTotal());
+				}else{
+					qfr.setSellProfitRate(0F);
 				}
 				qfr.setOrderNo(o.getOrderNo());
 				qfr.setSupplier(o.getSupplier());
 				qfr.setBymOrderId(o.getId());
-				if("offset".equals(qfr.getOperation())){
-					qfr.setBjTotal(-Math.abs(qfr.getBjTotal()));
-					qfr.setCbTotal(-Math.abs(qfr.getCbTotal()));
-					qfr.setAmountrmb(-Math.abs(qfr.getAmountrmb()));
-					qfr.setSellProfit(-Math.abs(qfr.getSellProfit()));
-					qfr.setSellProfitRate(-Math.abs(qfr.getSellProfitRate()));
-					qfr.setVcOldPriceTotal(-Math.abs(qfr.getVcOldPriceTotal()));
-				}
 				quoteFabricReportService.saveOrUpdateEntity(qfr);
 			}
 		}

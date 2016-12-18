@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -28,6 +29,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
+import com.base.log.LogUtil;
 import com.base.util.Page;
 import com.constants.LogModule;
 import com.wfsc.common.bo.bym.DesignerOrder;
@@ -65,6 +67,8 @@ import com.wfsc.util.QuoteFabricUtil;
 public class PurchaseAction extends DispatchPagerAction {
 
 	private static final long serialVersionUID = 684081059299260353L;
+	
+	protected Logger log = LogUtil.getLogger(LogUtil.SERVER);
 	
 	@Resource(name = "securityService")
 	private ISecurityService securityService;
@@ -789,7 +793,8 @@ public class PurchaseAction extends DispatchPagerAction {
 	        if(qfrs!=null &&qfrs.size()>0){
 	        	//成本表中的===>销售成本===>材料合计=材料明细里面同一合同号中的所有型号“销售材料成本合计”的总和
 	            cbClTotel += updateQfr(purchase.getQuote().getId(), order, qfSet,qfrs);
-	           }
+	            log.info("qfrs.size()_orderNo_cbClTotel_orderId==>"+qfrs.size()+"_"+order.getOrderNo()+"_"+cbClTotel+order.getId());
+	         }
 			
 			Email e = new Email();
 			e.setAction("order");
@@ -810,8 +815,18 @@ public class PurchaseAction extends DispatchPagerAction {
 		List<DesignerOrder> deos = this.designerOrderService.getDesignerOrderByQuoteId(purchase.getQuote().getId());
         if(deos!=null){
              for(DesignerOrder deo : deos){
+            	if(!"add".equals(deo.getOperation())){
+             		continue;
+             	}
+             	float cbclTotel = 0F;
+             	List<QuoteFabricReport> qfrs = quoteFabricReportService.getQuoteFabricReportByDoId(deo.getId());
+             	for(QuoteFabricReport qfr :qfrs){
+             		if("add".equals(qfr.getOperation())){
+             			cbclTotel+=qfr.getAmountrmb();
+             		}
+             	}
                deo.setOrderNo(orderNo);
-               deo.setCbClTotel(cbClTotel);
+               deo.setCbClTotel(cbclTotel);
                deo.setTravelExpenses(purchase.getTravelExpenses());
                deo.setProcessFee(purchase.getProcessFee());
                deo.setInstallFee(purchase.getInstallFee());
@@ -826,16 +841,10 @@ public class PurchaseAction extends DispatchPagerAction {
        		//毛利率(毛利/报价合计)
        		if(deo.getBjTotel()!=0){
        			deo.setProfitRate(deo.getProfit()/deo.getBjTotel());
+       		}else{
+       			deo.setProfitRate(0F);
        		}
-               
-               if("offset".equals(deo.getOperation())){
-         			deo.setBjTotel(-Math.abs(deo.getBjTotel()));
-         			deo.setCbClTotel(-Math.abs(deo.getCbClTotel()));
-         			deo.setCbTotel(-Math.abs(deo.getCbTotel()));
-         			deo.setProfit(-Math.abs(deo.getProfit()));
-         			deo.setProfitRate(-Math.abs(deo.getProfitRate()));
-         			deo.setBjOldPriceTatol(-Math.abs(deo.getBjOldPriceTatol()));
-         		}
+            
                 designerOrderService.saveOrUpdateEntity(deo);
              }
          }
@@ -902,6 +911,7 @@ public class PurchaseAction extends DispatchPagerAction {
 				//材料明细表===>销售材料成本合计=实订量*实价*汇率
 				qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				if("add".equals(qfr.getOperation())){
+					log.info(o.getId()+"_"+o.getOrderNo()+"_"+qfr.getId()+"_"+qfr.getOrderNo()+"的qfr.getCbPrice()*qfr.getCbQuantity()*huilv===>"+qfr.getCbPrice()+"*"+qfr.getCbQuantity()+"*"+huilv);
 					cbClTotel+=qfr.getAmountrmb();
 				}
 				qfr.setSellProfit(Math.abs(qfr.getVcOldPriceTotal())-Math.abs(qfr.getAmountrmb()));
@@ -966,7 +976,12 @@ public class PurchaseAction extends DispatchPagerAction {
 		String contractNo = request.getParameter("contractNo");
 		String orderStatus = request.getParameter("orderStatus");
 		String orderNo = request.getParameter("orderNo");
+		String deliveryRequirements = request.getParameter("deliveryRequirements");
 		
+		if(StringUtils.isNotEmpty(deliveryRequirements)){
+			paramap.put("deliveryRequirements", deliveryRequirements);
+			request.setAttribute("deliveryRequirements", deliveryRequirements);
+		}
 		if(StringUtils.isNotEmpty(startTime)){
 			paramap.put("startTime", startTime);
 			request.setAttribute("startTime", startTime);

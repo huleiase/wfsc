@@ -1936,6 +1936,22 @@ public class QuoteAction extends DispatchPagerAction {
 					qfrMap.put(q.getId().toString()+color+oldQfr.getQfId().toString(), oldQfr);
 				}
 			}
+			Set<String> qfIds = new HashSet<String>();
+			for(QuoteFabric qf :qfs){
+				String color = qf.getVcColorNum()==null?"":qf.getVcColorNum();
+				qfIds.add(q.getId().toString()+color+qf.getId().toString());
+			}
+			List<Long> delQfrIds = new ArrayList<Long>();
+			for(String qfrId : qfrMap.keySet()){
+				if(!qfIds.contains(qfrId)){
+					qfrMap.remove(qfrId);
+					delQfrIds.add(qfrMap.get(qfIds).getId());
+				}
+			}
+			if(delQfrIds.size()>0){
+				quoteFabricReportService.deleteByIds(delQfrIds);
+			}
+			
 			for(QuoteFabric qf :qfs){
 				//保存最新的
 				String color = qf.getVcColorNum()==null?"":qf.getVcColorNum();
