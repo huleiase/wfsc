@@ -123,7 +123,8 @@
      <w:permission permissionId="<%=PermissionId.REPORT_MENU%>">
 	    <li id="m5" class="submenu"> <a href="javascript:void(0);"><i class="icon icon-bar-chart"></i> <span>图形报表</span> <span class="label label-important">1</span> </a>
 	      <ul style="display: none" id="echartReprotUL">
-	        <li id="msub65"><a href="<%=request.getContextPath()%>/admin/report_test.Q?topmenu=echartReprotUL&submenu=msub65"><i class="icon icon-pencil"></i> <span>某型号销量</span></a></li>
+	       <!-- <li id="msub65"><a href="<%=request.getContextPath()%>/admin/report_test.Q?topmenu=echartReprotUL&submenu=msub65"><i class="icon icon-pencil"></i> <span>某型号销量</span></a></li>-->
+	        <li id="msub66"><a href="<%=request.getContextPath()%>/admin/report_managerMostSell.Q?topmenu=echartReprotUL&submenu=msub66"><i class="icon icon-pencil"></i> <span>型号销量排行</span></a></li>
 	      </ul>
 	    </li>
     </w:permission>

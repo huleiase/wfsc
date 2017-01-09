@@ -2021,6 +2021,7 @@ public class QuoteAction extends DispatchPagerAction {
 				qfr.setBjTotal(qf.getVcTotal());
 				qfr.setVcFactoryNum(qf.getVcFactoryNum());
 				qfr.setVcWidth(qf.getVcWidth());
+				qfr.setIsCgbj(qf.getIsCgbj());
 				quoteFabricReportService.saveOrUpdateEntity(qfr);
 			}
 			oldDeo.setBjClTotel(bjClTotel);

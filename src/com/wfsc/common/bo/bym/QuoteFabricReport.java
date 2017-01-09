@@ -167,6 +167,8 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 	//报表用
 	private String yearMonth;
 	
+	private String isCgbj;
+	
 	public Object clone() {   
         try {   
             return super.clone();   
@@ -709,6 +711,15 @@ public class QuoteFabricReport implements java.io.Serializable, Cloneable{
 		this.yearMonth = yearMonth;
 	}
 	
-	
+	/**
+	 * @hibernate.property type="string"
+	 */
+	public String getIsCgbj() {
+		return isCgbj;
+	}
+
+	public void setIsCgbj(String isCgbj) {
+		this.isCgbj = isCgbj;
+	}
 	
 }

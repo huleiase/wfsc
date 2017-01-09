@@ -1,12 +1,12 @@
 package com.wfsc.daos.bym;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Session;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.base.EnhancedHibernateDaoSupport;
@@ -151,23 +151,38 @@ public class QuoteFabricReportDao extends EnhancedHibernateDaoSupport<QuoteFabri
 		return list;
 	}
 	
-	public List<Map<String, Object>> getReportDatas(Map<String, Object> paramMap){
+	public List<Map<String, Object>> getReportDatas(Map<String, String> paramMap){
 		StringBuffer sql = new StringBuffer("select new map(qfr.yearMonth as ym,sum(vcOldPriceTotal) as sr) from QuoteFabricReport as qfr where qfr.operation='add' ");
 		for (String key : paramMap.keySet()) {
 			if ("sDate".equals(key)) {
-				sql.append(" and qfr.yearMonth >='").append(paramMap.get(key).toString()).append("'");
+				sql.append(" and qfr.yearMonth >='").append(paramMap.get(key)).append("'");
 				continue;
 			}
 			if ("eDate".equals(key)) {
-				sql.append(" and qfr.yearMonth <='").append(paramMap.get(key).toString()).append("'");
+				sql.append(" and qfr.yearMonth <='").append(paramMap.get(key)).append("'");
 				continue;
 			}
-			if("displayName".endsWith(key)){
-				sql.append(" and qfr.vcModelNum ='").append(paramMap.get(key).toString()).append("'");
+			if("displayName".equals(key)){
+				sql.append(" and qfr.vcModelNum ='").append(paramMap.get(key)).append("'");
 				continue;
 			}
 		}
 		sql.append(" group by qfr.yearMonth order by qfr.yearMonth");
 		return this.getHibernateTemplate().find(sql.toString());
 	}
+	
+	public List<Map<String, Object>> getQFRByAreaAndMounth(String mouth,String local,int limit,String vcModelNum){
+		StringBuffer sql = new StringBuffer("select new map(qfr.vcModelNum as vm,sum(qfr.vcQuantity) as vq,avg(qfr.bjPrice) as bjPrice,qfr.vcMoney as vcMoney,sum(qfr.cbQuantity) as cbQuantity,avg(qfr.cbPrice) as cbPrice,sum(qfr.vcOldPriceTotal) as vcOldPriceTotal) from QuoteFabricReport as qfr where qfr.operation='add' and qfr.isCgbj='1' and qfr.isHidden='0' ");
+		sql.append(" and qfr.yearMonth = '").append(mouth).append("'");
+		sql.append(" and qfr.quoteLocal ='").append(local).append("'");
+		if(StringUtils.isNotBlank(vcModelNum)){
+			sql.append(" and qfr.vcModelNum='").append(vcModelNum).append("'");
+			sql.append(" group by qfr.vcModelNum");
+		}else{
+			sql.append(" group by qfr.vcModelNum order by sum(qfr.vcQuantity) desc ");
+		}
+		HibernateTemplate hb = this.getHibernateTemplate();
+		hb.setMaxResults(limit);
+		return hb.find(sql.toString());
+	} 
 }

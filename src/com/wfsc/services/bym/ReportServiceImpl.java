@@ -14,8 +14,14 @@ public class ReportServiceImpl implements IReportService {
 	@Resource
 	private QuoteFabricReportDao quoteFabricReportDao;
 	@Override
-	public List<Map<String, Object>> getReportDatas(Map<String, Object> paramMap) {
+	public List<Map<String, Object>> getReportDatas(Map<String, String> paramMap) {
 		return quoteFabricReportDao.getReportDatas(paramMap);
 	}
+	@Override
+	public List<Map<String, Object>> getQFRByAreaAndMounth(String mouth,String local,int limit,String vcModelNum) {
+		return quoteFabricReportDao.getQFRByAreaAndMounth(mouth, local, limit, vcModelNum);
+	}
+	
+	
 
 }
