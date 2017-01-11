@@ -911,7 +911,7 @@ public class PurchaseAction extends DispatchPagerAction {
 				//材料明细表===>销售材料成本合计=实订量*实价*汇率
 				qfr.setAmountrmb(qfr.getCbTotal()*huilv);
 				if("add".equals(qfr.getOperation())){
-					log.info(o.getId()+"_"+o.getOrderNo()+"_"+qfr.getId()+"_"+qfr.getOrderNo()+"的qfr.getCbPrice()*qfr.getCbQuantity()*huilv===>"+qfr.getCbPrice()+"*"+qfr.getCbQuantity()+"*"+huilv);
+					log.info(o.getId()+"_"+o.getOrderNo()+"_"+qfr.getId()+"的qfr.getCbPrice()*qfr.getCbQuantity()*huilv===>"+qfr.getCbPrice()+"*"+qfr.getCbQuantity()+"*"+huilv);
 					cbClTotel+=qfr.getAmountrmb();
 				}
 				qfr.setSellProfit(Math.abs(qfr.getVcOldPriceTotal())-Math.abs(qfr.getAmountrmb()));

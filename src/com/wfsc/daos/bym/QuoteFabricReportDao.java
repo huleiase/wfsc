@@ -185,4 +185,69 @@ public class QuoteFabricReportDao extends EnhancedHibernateDaoSupport<QuoteFabri
 		hb.setMaxResults(limit);
 		return hb.find(sql.toString());
 	} 
+	
+	public Page<QuoteFabricReport> findSumForPage(Page<QuoteFabricReport> page, Map<String,Object> paramap){
+		Map<String,Object> dataMap = new HashMap<String,Object>();
+	//	Date sdate = null;
+	//	Date edate = null;
+		Session s = null;
+		StringBuffer hql = new StringBuffer("select distinct obj from QuoteFabricReport as obj where obj.operation='add' ");
+		StringBuffer countSql = new StringBuffer("SELECT count(*) AS countId from bym_qf_report de where de.operation='add' ");
+		try {
+			for (String key : paramap.keySet()) {
+				if ("beginDate".equals(key)) {
+					hql.append(" and obj.createDate >='").append(paramap.get(key).toString()).append("'");
+					countSql.append(" and DATE_FORMAT(de.createDate,'%Y-%m-%d')>='").append(paramap.get(key).toString()+"'");
+					continue;
+				}
+				if ("endDate".equals(key)) {
+					hql.append(" and obj.createDate <='").append(paramap.get(key).toString()).append(" 23:59:59'");
+					countSql.append(" and DATE_FORMAT(de.createDate,'%Y-%m-%d')<='").append(paramap.get(key).toString()+"'");
+					continue;
+				}
+				if ("contractNo".equals(key)) {
+					hql.append(" and obj.contractNo like :contractNo");
+					dataMap.put("contractNo", paramap.get(key));
+					countSql.append(" and de.contractNo like '%").append(paramap.get(key).toString()+"%'");
+					continue;
+				}
+				if ("orderNo".equals(key)) {
+					hql.append(" and obj.orderNo like :orderNo");
+					dataMap.put("orderNo", paramap.get(key));
+					countSql.append(" and de.orderNo like '%").append(paramap.get(key).toString()+"%'");
+					continue;
+				}
+				if ("quoteLocal".equals(key)) {
+					hql.append(" and obj.quoteLocal='"+paramap.get(key)+"'");
+					countSql.append(" and de.quoteLocal = '").append(paramap.get(key).toString()+"'");
+					continue;
+				}
+				
+				if ("supplier".equals(key)) {
+					hql.append(" and obj.supplier like :supplier");
+					dataMap.put("supplier", paramap.get(key));
+					countSql.append(" and de.supplier like '%").append(paramap.get(key).toString()+"%'");
+					continue;
+				}
+			}
+			hql.append(" and obj.isReplaced='0' ");
+			countSql.append(" and de.isReplaced='0' ");
+			hql.append(" order by obj.createDate desc ,obj.id desc");
+			List<QuoteFabricReport> list = this.findList4PageWithParama(hql.toString(), page
+					.getFirst() - 1, page.getPageSize(),dataMap);
+			page.setData(list);
+			s = this.getSession();
+			String totalCount = s.createSQLQuery(countSql.toString()).list().get(0).toString();
+			page.setTotalCount(Integer.valueOf(totalCount));
+	//		System.out.println("hql=="+hql.toString());
+	//		System.out.println("countSql=="+countSql.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			if(s!=null){
+				s.close();
+			}
+		}
+		return page;
+	}
 }

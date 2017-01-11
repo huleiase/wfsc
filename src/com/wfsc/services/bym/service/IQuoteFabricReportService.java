@@ -25,4 +25,6 @@ public interface IQuoteFabricReportService {
 	
 	public List<QuoteFabricReport> getQuoteFabricReportByPara(Map<String,Object> paramap);
 	public List<QuoteFabricReport> getQuoteFabricReportByQuoteId(Long quoteId);
+	
+	public Page<QuoteFabricReport> findSumForPage(Page<QuoteFabricReport> page, Map<String,Object> paramap);
 }

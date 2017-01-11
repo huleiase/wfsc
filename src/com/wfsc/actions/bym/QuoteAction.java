@@ -1924,7 +1924,7 @@ public class QuoteAction extends DispatchPagerAction {
 			//抬头 读取报价单第三行的from
 			oldDeo.setVcFrom(q.getVcFrom());
 			//税费
-			oldDeo.setTaxationFee(q.getSumMoney()*(q.getContainTax()-1));
+			oldDeo.setTaxationFee(q.getTaxes()+q.getSumMoney()*(q.getContainTax()-1));
 			//保存最新的
 			this.designerOrderService.saveOrUpdateEntity(oldDeo);
 			float rmb2hk = this.getExchangeRate("2", "RMB");
@@ -1944,8 +1944,11 @@ public class QuoteAction extends DispatchPagerAction {
 			List<Long> delQfrIds = new ArrayList<Long>();
 			for(String qfrId : qfrMap.keySet()){
 				if(!qfIds.contains(qfrId)){
-					qfrMap.remove(qfrId);
+					if(qfrMap.get(qfIds)==null){
+						continue;
+					}
 					delQfrIds.add(qfrMap.get(qfIds).getId());
+					qfrMap.remove(qfrId);
 				}
 			}
 			if(delQfrIds.size()>0){

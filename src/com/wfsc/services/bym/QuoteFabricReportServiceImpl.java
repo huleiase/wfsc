@@ -65,5 +65,10 @@ public class QuoteFabricReportServiceImpl implements IQuoteFabricReportService {
 		String hql = "from QuoteFabricReport where quoteId="+quoteId+" order by id desc";
 		return quoteFabricReportDao.getEntityByHql(hql);
 	}
+	@Override
+	public Page<QuoteFabricReport> findSumForPage(Page<QuoteFabricReport> page,
+			Map<String, Object> paramap) {
+		return quoteFabricReportDao.findSumForPage(page, paramap);
+	}
 
 }
