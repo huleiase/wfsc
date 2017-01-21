@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.base.util.Page;
+import com.wfsc.common.bo.bym.MaterialTotal;
 import com.wfsc.common.bo.bym.QuoteFabricReport;
 
 
@@ -26,5 +27,6 @@ public interface IQuoteFabricReportService {
 	public List<QuoteFabricReport> getQuoteFabricReportByPara(Map<String,Object> paramap);
 	public List<QuoteFabricReport> getQuoteFabricReportByQuoteId(Long quoteId);
 	
-	public Page<QuoteFabricReport> findSumForPage(Page<QuoteFabricReport> page, Map<String,Object> paramap);
+	public Page<MaterialTotal> findSumForPage(Page<MaterialTotal> page, Map<String,Object> paramap);
+	public void cp();
 }

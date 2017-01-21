@@ -261,6 +261,8 @@
 			<result name="listMaterial">/WEB-INF/jsps/admin/designerOrder/listMaterial.jsp</result>
 			<result name="managerDora">/WEB-INF/jsps/admin/designerOrder/managerDora.jsp</result>
 			<result name="listDora">/WEB-INF/jsps/admin/designerOrder/listDora.jsp</result>
+			<result name="managerMaterialTotal">/WEB-INF/jsps/admin/designerOrder/managerMaterialTotal.jsp</result>
+			<result name="listMaterialTotal">/WEB-INF/jsps/admin/designerOrder/listMaterialTotal.jsp</result>
 		</action>	
 		
 		

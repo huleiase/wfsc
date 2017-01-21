@@ -115,6 +115,7 @@
 	        </w:permission>
 	        <w:permission permissionId="<%=PermissionId.REPORT_MATERIAL_DETAIL%>">
 	         <li id="msub56"><a href="<%=request.getContextPath()%>/admin/designerOrder_managerMaterial.Q?topmenu=reprotUL&submenu=msub56"><i class="icon icon-pencil"></i> <span>材料明细</span></a></li>
+	         <li id="msub57"><a href="<%=request.getContextPath()%>/admin/designerOrder_managerMaterialTotal.Q?topmenu=reprotUL&submenu=msub57"><i class="icon icon-pencil"></i> <span>材料汇总</span></a></li>
 	        </w:permission>
 	      </ul>
 	    </li>

@@ -2037,7 +2037,8 @@ public class QuoteAction extends DispatchPagerAction {
 	 //(qf.getVcOldPrice()*qf.getVcDiscount()+qf.getPriceAdjust())/10.764*q.getContainTax()
 	 private float getVcPrice(Quote q,QuoteFabric qf,boolean flg,float rmb2hkd){
 			    //所含税率
-			    float ctax = q.getContainTax();
+		//	    float ctax = q.getContainTax();
+		 float ctax =1;
 			    // 报价折扣
 			    float vcdiscount = qf.getVcDiscount();
 			    //特殊费用

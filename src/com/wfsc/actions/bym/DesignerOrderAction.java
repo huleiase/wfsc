@@ -1,18 +1,12 @@
 package com.wfsc.actions.bym;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -21,19 +15,13 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CreationHelper;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.base.action.DispatchPagerAction;
 import com.base.util.Page;
-import com.wfsc.common.bo.bym.DesignerExpense;
 import com.wfsc.common.bo.bym.DesignerOrder;
-import com.wfsc.common.bo.bym.Order;
-import com.wfsc.common.bo.bym.Purchase;
-import com.wfsc.common.bo.bym.Quote;
-import com.wfsc.common.bo.bym.QuoteFabric;
+import com.wfsc.common.bo.bym.MaterialTotal;
 import com.wfsc.common.bo.bym.QuoteFabricReport;
 import com.wfsc.common.bo.user.Admin;
 import com.wfsc.services.bym.service.ICurrencyConversionService;
@@ -43,7 +31,6 @@ import com.wfsc.services.bym.service.IOrderService;
 import com.wfsc.services.bym.service.IQuoteFabricReportService;
 import com.wfsc.services.bym.service.IQuoteFabricService;
 import com.wfsc.services.security.ISecurityService;
-import com.wfsc.util.ProPrice;
 
 /**
  * 
@@ -164,6 +151,11 @@ public class DesignerOrderAction extends DispatchPagerAction {
 		return "listSellCost";
 	}
 	
+	public String cp(){
+		quoteFabricReportService.cp();
+		return managerMaterial();
+	}
+	
 	public String managerMaterial(){
 		this.setTopMenu();
 		listMaterial();
@@ -193,6 +185,33 @@ public class DesignerOrderAction extends DispatchPagerAction {
 		request.setAttribute("page", page);
 		request.setAttribute("li", li);
 		return "listMaterial";
+	}
+	
+	public String managerMaterialTotal(){
+		this.setTopMenu();
+		listMaterialTotal();
+		return "managerMaterialTotal";
+	}
+	public String listMaterialTotal(){
+		Page<MaterialTotal> page = new Page<MaterialTotal>();
+		this.setPageParams(page);
+		page.setPaginationSize(7);
+		Map<String,Object> paramap = handleRequestParameter();
+		page = quoteFabricReportService.findSumForPage(page, paramap);
+		/*List<QuoteFabricReport> qfrsDb = page.getData();
+		List<QuoteFabricReport> qfrs = new ArrayList<QuoteFabricReport>();
+		for(QuoteFabricReport qfr : qfrsDb){
+			if(!"1".equals(qfr.getIsHidden())){
+				qfrs.add(qfr);
+			}
+		}
+		page.setData(qfrs);*/
+		List<Integer> li = page.getPageNos();
+		String listUrl = "/wfsc/admin/designerOrder_listMaterialTotal.Q";
+		request.setAttribute("listUrl", listUrl);
+		request.setAttribute("page", page);
+		request.setAttribute("li", li);
+		return "listMaterialTotal";
 	}
 	
 	public String managerDora(){

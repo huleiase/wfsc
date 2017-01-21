@@ -15,7 +15,6 @@
 		$("#orderNo").val("");
 		$("#beginDate").val("");
 		$("#endDate").val("");
-		$("#supplier").val("");
 	}
 	function submitForm(){
 			$("#queryForm").submit();
@@ -49,10 +48,6 @@
 			window.location.href = url;
 			
 	}
-	function cpQfr(){
-	var url = "<%=basePath%>admin/designerOrder_cp.Q"
-	window.location.href = url;
-	}
 </script>
 </head>
 <body>
@@ -60,7 +55,7 @@
 <div class="container-fluid">
       <div class="widget-box">
         <div class="widget-content">
-          <form action="admin/designerOrder_managerMaterial.Q" method="post" id="queryForm">
+          <form action="admin/designerOrder_managerMaterialTotal.Q" method="post" id="queryForm">
           <input name="isSell" type="hidden" value="1">
             <div class="controls">
             	
@@ -70,8 +65,6 @@
 	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">订单号</label>
 	            <input name="orderNo" id="orderNo" type="text" class="span2"  value="${orderNo }">
 	            
-	             <label class="span1" for="inputSuccess" style="margin-top:5px;width:75px;">供应商</label>
-	            <input name="supplier" id="supplier" type="text" class="span2"  value="${supplier }">
 	         </div>
 	         <div class="clear"></div>
 	         <div class="controls">
@@ -88,11 +81,10 @@
           </form>
         </div>
         <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
-            <h5>材料明细</h5>
-            <button class="label label-info btn btn-primary btn-mini" onclick="downloadSell();">按条件导出</button>
+            <h5>材料汇总</h5>
          </div>
          <div class="widget-content nopadding" id="listTableDiv" style="overflow: scroll">
-            <%@include file="listMaterial.jsp"%>
+            <%@include file="listMaterialTotal.jsp"%>
       </div>
 </div>
 </div>

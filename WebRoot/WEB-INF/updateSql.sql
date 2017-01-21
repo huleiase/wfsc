@@ -295,5 +295,5 @@ UPDATE bym_designerorder SET ProfitRate=profit/BjTotel WHERE operation='add';
 UPDATE bym_designerorder SET ProfitRate=0 WHERE ProfitRate IS NULL;
 
 -- 20170111
-UPDATE bym_qf_report qfr,bym_quote_fabric qf SET qfr.vcModelNum=qf.vcModelNumDisplay 
+UPDATE bym_qf_report SET bjPrice=bjPrice/taxation WHERE taxation!=0;
 

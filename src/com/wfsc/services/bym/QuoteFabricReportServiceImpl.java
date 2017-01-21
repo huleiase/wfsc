@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.base.log.LogUtil;
 import com.base.util.Page;
+import com.wfsc.common.bo.bym.MaterialTotal;
 import com.wfsc.common.bo.bym.QuoteFabricReport;
 import com.wfsc.daos.bym.QuoteFabricReportDao;
 import com.wfsc.services.bym.service.IQuoteFabricReportService;
@@ -66,9 +67,13 @@ public class QuoteFabricReportServiceImpl implements IQuoteFabricReportService {
 		return quoteFabricReportDao.getEntityByHql(hql);
 	}
 	@Override
-	public Page<QuoteFabricReport> findSumForPage(Page<QuoteFabricReport> page,
+	public Page<MaterialTotal> findSumForPage(Page<MaterialTotal> page,
 			Map<String, Object> paramap) {
 		return quoteFabricReportDao.findSumForPage(page, paramap);
+	}
+	@Override
+	public void cp(){
+		quoteFabricReportDao.copyQfToQfr();
 	}
 
 }

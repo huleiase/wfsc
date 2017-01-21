@@ -80,12 +80,52 @@ public class CreateTableTool {
         return sb.toString();     
     }   
     
+    public static String insertSelect(String targertTable,String sourceTable,Class ct,List<String> sCol,String where){
+    	//INSERT INTO temp(doId,vcOldPriceTotal,cbTotal) SELECT doId,SUM(vcOldPriceTotal),SUM(amountrmb) from bym_qf_report WHERE isReplaced='0' GROUP BY doId;
+    	StringBuffer sb = new StringBuffer("INSERT INTO ");
+    	sb.append(targertTable).append(" (");
+        Field[] fieldT = ct.getDeclaredFields();  
+        for (int i=0;i<fieldT.length;i++) { 
+        	Field f = fieldT[i];
+        	if("id".equals(f.getName()) || Modifier.isStatic(f.getModifiers())|| Modifier.isFinal(f.getModifiers())){  
+                continue;
+             }else{
+            	 if(i%5==0){
+            		 sb.append("\n");
+            	 }
+            	 if(i==fieldT.length-1){
+            		 sb.append(f.getName()).append(")");
+            	 }else{
+            		 sb.append(f.getName()).append(",");
+            	 }
+             	
+             }
+        }
+        sb.append("\n");
+        sb.append(" select");
+        for (int i=0;i<sCol.size();i++) { 
+        	String f = sCol.get(i);
+        	if("id".equals(f)){  
+                continue;
+             }else{
+            	 if(i==sCol.size()-1){
+            		 sb.append(f);
+            	 }else{
+            		 sb.append(f).append(",");
+            	 }
+             	
+             }
+        }
+        sb.append(" from ").append(sourceTable).append("\n").append(where);
+    	return sb.toString();
+    }
+    
     /**
      * 在控制台打印建表语句
      * @param args
      */
     public static void main(String[] args){
-    	//不需要存储的字段，默认已排除使用 final 和 static修饰的 字段
+    	/*//不需要存储的字段，默认已排除使用 final 和 static修饰的 字段
     	List<String> noCol = new ArrayList<String>();
     	//需要为该实体对象生成建表语句
     	QuoteFabricReport obj = new QuoteFabricReport();
@@ -93,7 +133,12 @@ public class CreateTableTool {
     	//表名默认为wf_类名的小写
     	String className = obj.getClass().getName().toLowerCase();
     	String tableName = "bym_"+className.substring(className.lastIndexOf(".")+1);
-    	String str = createTable(tableName,obj,noCol);
+    	String str = createTable(tableName,obj,noCol);*/
+    	
+    	
+    	//QuoteFabric,QuoteFabricReport
+    	String str = insertSelect("bym_qf_report","quote_fabric",QuoteFabricReport.class,new ArrayList(),"");
+    	
     	System.out.println(str);
     	
     }
