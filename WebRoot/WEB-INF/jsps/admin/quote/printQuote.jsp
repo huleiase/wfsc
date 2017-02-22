@@ -93,7 +93,7 @@ var basePath = "<%=basePath%>";
     	</p>
 	</center>
 	<div id="myPrintArea">
-		<table width="713" border="0" align="center">
+		<table width="750" border="0" align="center">
   			<tr>
     			<td colspan="2"><img src="images/title3.jpg" width="713" height="125" onclick="setImg(this);" id="img"/></td>
   			</tr>
@@ -158,7 +158,7 @@ var basePath = "<%=basePath%>";
           							<tr height="30">
             							<td width="80"><div align="right">项目：</div></td>
             							<td width="189"><div align="center">${quote.projectName}&nbsp;</div></td>
-            							<td width="80"><div align="right">项目地负责人：</div></td>
+            							<td width="90"><div align="right">项目地负责人：</div></td>
             							<td width="120"><div align="center">${quote.projectLocalPreson}&nbsp;</div></td>
 							            <c:if test="${local=='hk'}">
 							            	<td width="100"><div align="center">Trade terms:&nbsp;</div></td>
@@ -181,7 +181,7 @@ var basePath = "<%=basePath%>";
   			</tr>
   			<tr bordercolor="#000000">
     			<td colspan="2">
-    				<table width="713" border="1" class="reportTable" cellspacing="0" bordercolor="#000000">
+    				<table width="750" border="1" class="reportTable" cellspacing="0" bordercolor="#000000">
     					<caption style="margin:10 10 5 10;">
     						<font style="font-size:16;font-weight:bold;">
     						<c:if test="${quote.fabricTitle == 0}">Quotation 报价表</c:if>
@@ -190,15 +190,15 @@ var basePath = "<%=basePath%>";
     						</font>
     					</caption>
       					<tr>
-        					<th width="79">项目<br>Items</th>
-        					<th width="77">描述<br>Description</th>
-        					<th>图片<br>Picture</th>
-        					<th width="137">型号<br>Model number</th>
-        					<th width="90">色号<br>Colour</th>
-        					<th width="113">幅宽<br>width</th>
-        					<th width="98">单价<br>Unit price</th>
-        					<th width="89">数量<br>Quantity</th>
-        					<th width="90">金额<br>Total</th>
+        					<th width="60">项目</th>
+        					<th width="150">描述</th>
+        					<th width="120">图片</th>
+        					<th width="130">型号</th>
+        					<th width="60">色号</th>
+        					<th width="60">幅宽</th>
+        					<th width="60">单价</th>
+        					<th width="50">数量</th>
+        					<th width="60">金额</th>
       					</tr>
       					<s:iterator value="%{#request.listQF}" status="column" var="qf">
       					<s:if test="addRmk!=''&&addRmk!=null">

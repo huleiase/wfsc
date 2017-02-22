@@ -1944,11 +1944,11 @@ public class QuoteAction extends DispatchPagerAction {
 			List<Long> delQfrIds = new ArrayList<Long>();
 			for(String qfrId : qfrMap.keySet()){
 				if(!qfIds.contains(qfrId)){
-					if(qfrMap.get(qfIds)==null){
+					if(qfrMap.get(qfrId)==null){
 						continue;
 					}
-					delQfrIds.add(qfrMap.get(qfIds).getId());
-					qfrMap.remove(qfrId);
+					delQfrIds.add(qfrMap.get(qfrId).getId());
+					
 				}
 			}
 			if(delQfrIds.size()>0){
